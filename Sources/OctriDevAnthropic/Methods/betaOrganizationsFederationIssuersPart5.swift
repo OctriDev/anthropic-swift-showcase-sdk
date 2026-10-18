@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsFederationIssuersMethods {
-    struct UpdateBetaOrganizationsFederationIssuersOptions: Codable {
+extension BetaOrganizationsFederationIssuersMethods {
+    public struct UpdateBetaOrganizationsFederationIssuersOptions: Codable {
         public var federationIssuerId: String
         public var anthropicBeta: [AnthropicBeta]?
         public var anthropicVersion: String?
@@ -23,11 +23,7 @@ public extension BetaOrganizationsFederationIssuersMethods {
         }
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Partially
-    /// update a federation issuer. Setting `jwks` replaces the full JWKS shape at once. Archived issuers cannot be
-    /// updated; this returns 400. Create a new issuer instead. Updating an issuer that backs a rule with a scope
-    /// outside `workspace:developer` or `workspace:inference` requires a Console session.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Partially update a federation issuer. Setting `jwks` replaces the full JWKS shape at once. Archived issuers cannot be updated; this returns 400. Create a new issuer instead. Updating an issuer that backs a rule with a scope outside `workspace:developer` or `workspace:inference` requires a Console session.
     ///
     /// - Parameters:
     /// - federationIssuerId: ID of the federation issuer to update.
@@ -56,47 +52,12 @@ public extension BetaOrganizationsFederationIssuersMethods {
     ///   `iat` and `exp`; a missing `iat` is rejected.
     /// - name: Replaces the slug identifier (lowercase, digits, hyphens). Unique
     ///   within the organization; a duplicate name returns 409.
-    static func updateBetaOrganizationsFederationIssuers(
-        config: ClientConfig,
-        options: UpdateBetaOrganizationsFederationIssuersOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaFederationIssuer {
+    public static func updateBetaOrganizationsFederationIssuers(config: ClientConfig, options: UpdateBetaOrganizationsFederationIssuersOptions, requestOptions: RequestOptions? = nil) async throws -> BetaFederationIssuer {
         let requestBody = UpdateBetaOrganizationsFederationIssuersRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            [
-                "/v1/organizations/federation_issuers/",
-                sdkEncodePathSegment(sdkWireString(options.federationIssuerId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaOrganizationsFederationIssuers",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/federation_issuers/", sdkEncodePathSegment(sdkWireString(options.federationIssuerId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaOrganizationsFederationIssuers", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

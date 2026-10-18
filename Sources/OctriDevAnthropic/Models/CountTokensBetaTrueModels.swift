@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// CountTokensBetaTrue domain models
+// CountTokensBetaTrue domain models
 public indirect enum BetaCountMessageTokensParamsToolsItem {
     case betaTool(BetaTool)
     case betaBashTool20241022(BetaBashTool20241022)
@@ -36,47 +36,25 @@ public indirect enum BetaCountMessageTokensParamsToolsItem {
 }
 
 extension BetaCountMessageTokensParamsToolsItem: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) {
-                self = value; return
-            }
-            if let value = Self.decodeLossless2(from: container, raw) {
-                self = value; return
-            }
-            if let value = Self.decodeLossless3(from: container, raw) {
-                self = value; return
-            }
-            if let value = Self.decodeLossless4(from: container, raw) {
-                self = value; return
-            }
+            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless2(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless3(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless4(from: container, raw) { self = value; return }
         }
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        if let value = Self.decodeGroup2(from: container) {
-            self = value; return
-        }
-        if let value = Self.decodeGroup3(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaCountMessageTokensParamsToolsItem"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        if let value = Self.decodeGroup2(from: container) { self = value; return }
+        if let value = Self.decodeGroup3(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCountMessageTokensParamsToolsItem")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
-        if try encodeGroup2(to: encoder) {
-            return
-        }
-        if try encodeGroup3(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup3(to: encoder) { return }
     }
 }
 
@@ -190,116 +168,46 @@ extension BetaCountMessageTokensParamsToolsItem {
 
 extension BetaCountMessageTokensParamsToolsItem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(BetaTool.self) {
-            return .betaTool(value)
-        }
-        if let value = try? container.decode(BetaBashTool20241022.self) {
-            return .betaBashTool20241022(value)
-        }
-        if let value = try? container.decode(BetaBashTool20250124.self) {
-            return .betaBashTool20250124(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20250522.self) {
-            return .betaCodeExecutionTool20250522(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20250825.self) {
-            return .betaCodeExecutionTool20250825(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20260120.self) {
-            return .betaCodeExecutionTool20260120(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20260521.self) {
-            return .betaCodeExecutionTool20260521(value)
-        }
-        if let value = try? container
-            .decode(BetaBrowserToolset20260801.self) {
-            return .betaBrowserToolset20260801(value)
-        }
-        if let value = try? container
-            .decode(BetaComputerUseTool20241022.self) {
-            return .betaComputerUseTool20241022(value)
-        }
-        if let value = try? container.decode(BetaMemoryTool20250818.self) {
-            return .betaMemoryTool20250818(value)
-        }
-        if let value = try? container
-            .decode(BetaComputerUseTool20250124.self) {
-            return .betaComputerUseTool20250124(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20241022.self) {
-            return .betaTextEditor20241022(value)
-        }
+        if let value = try? container.decode(BetaTool.self) { return .betaTool(value) }
+        if let value = try? container.decode(BetaBashTool20241022.self) { return .betaBashTool20241022(value) }
+        if let value = try? container.decode(BetaBashTool20250124.self) { return .betaBashTool20250124(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20250522.self) { return .betaCodeExecutionTool20250522(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20250825.self) { return .betaCodeExecutionTool20250825(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20260120.self) { return .betaCodeExecutionTool20260120(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20260521.self) { return .betaCodeExecutionTool20260521(value) }
+        if let value = try? container.decode(BetaBrowserToolset20260801.self) { return .betaBrowserToolset20260801(value) }
+        if let value = try? container.decode(BetaComputerUseTool20241022.self) { return .betaComputerUseTool20241022(value) }
+        if let value = try? container.decode(BetaMemoryTool20250818.self) { return .betaMemoryTool20250818(value) }
+        if let value = try? container.decode(BetaComputerUseTool20250124.self) { return .betaComputerUseTool20250124(value) }
+        if let value = try? container.decode(BetaTextEditor20241022.self) { return .betaTextEditor20241022(value) }
         return nil
     }
 }
 
 extension BetaCountMessageTokensParamsToolsItem {
     static func decodeGroup2(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container
-            .decode(BetaComputerUseTool20251124.self) {
-            return .betaComputerUseTool20251124(value)
-        }
-        if let value = try? container
-            .decode(BetaComputerToolset20260801.self) {
-            return .betaComputerToolset20260801(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20250124.self) {
-            return .betaTextEditor20250124(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20250429.self) {
-            return .betaTextEditor20250429(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20250728.self) {
-            return .betaTextEditor20250728(value)
-        }
-        if let value = try? container
-            .decode(BetaWebSearchTool20250305.self) {
-            return .betaWebSearchTool20250305(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20250910.self) {
-            return .betaWebFetchTool20250910(value)
-        }
-        if let value = try? container
-            .decode(BetaWebSearchTool20260209.self) {
-            return .betaWebSearchTool20260209(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20260209.self) {
-            return .betaWebFetchTool20260209(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20260309.self) {
-            return .betaWebFetchTool20260309(value)
-        }
-        if let value = try? container
-            .decode(BetaWebSearchTool20260318.self) {
-            return .betaWebSearchTool20260318(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20260318.self) {
-            return .betaWebFetchTool20260318(value)
-        }
+        if let value = try? container.decode(BetaComputerUseTool20251124.self) { return .betaComputerUseTool20251124(value) }
+        if let value = try? container.decode(BetaComputerToolset20260801.self) { return .betaComputerToolset20260801(value) }
+        if let value = try? container.decode(BetaTextEditor20250124.self) { return .betaTextEditor20250124(value) }
+        if let value = try? container.decode(BetaTextEditor20250429.self) { return .betaTextEditor20250429(value) }
+        if let value = try? container.decode(BetaTextEditor20250728.self) { return .betaTextEditor20250728(value) }
+        if let value = try? container.decode(BetaWebSearchTool20250305.self) { return .betaWebSearchTool20250305(value) }
+        if let value = try? container.decode(BetaWebFetchTool20250910.self) { return .betaWebFetchTool20250910(value) }
+        if let value = try? container.decode(BetaWebSearchTool20260209.self) { return .betaWebSearchTool20260209(value) }
+        if let value = try? container.decode(BetaWebFetchTool20260209.self) { return .betaWebFetchTool20260209(value) }
+        if let value = try? container.decode(BetaWebFetchTool20260309.self) { return .betaWebFetchTool20260309(value) }
+        if let value = try? container.decode(BetaWebSearchTool20260318.self) { return .betaWebSearchTool20260318(value) }
+        if let value = try? container.decode(BetaWebFetchTool20260318.self) { return .betaWebFetchTool20260318(value) }
         return nil
     }
 }
 
 extension BetaCountMessageTokensParamsToolsItem {
     static func decodeGroup3(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(BetaAdvisorTool20260301.self) {
-            return .betaAdvisorTool20260301(value)
-        }
-        if let value = try? container
-            .decode(BetaToolSearchToolBM2520251119.self) {
-            return .betaToolSearchToolBm2520251119(value)
-        }
-        if let value = try? container
-            .decode(BetaToolSearchToolRegex20251119.self) {
-            return .betaToolSearchToolRegex20251119(value)
-        }
-        if let value = try? container.decode(BetaMCPToolset.self) {
-            return .betaMcpToolset(value)
-        }
+        if let value = try? container.decode(BetaAdvisorTool20260301.self) { return .betaAdvisorTool20260301(value) }
+        if let value = try? container.decode(BetaToolSearchToolBM2520251119.self) { return .betaToolSearchToolBm2520251119(value) }
+        if let value = try? container.decode(BetaToolSearchToolRegex20251119.self) { return .betaToolSearchToolRegex20251119(value) }
+        if let value = try? container.decode(BetaMCPToolset.self) { return .betaMcpToolset(value) }
         return nil
     }
 }
@@ -368,27 +276,21 @@ public struct BetaContextManagementResponse: Codable {
         case originalInputTokens = "original_input_tokens"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaContextManagementResponse {
-    init(from decoder: Decoder) throws {
+extension BetaContextManagementResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.originalInputTokens) else {
-            throw SdkValidationError(
-                field: "original_input_tokens",
-                code: "required",
-                message: "Validation failed for 'original_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "original_input_tokens", code: "required", message: "Validation failed for 'original_input_tokens': value is required")
         }
-        originalInputTokens = try container.sdkDecodeRequired(.originalInputTokens)
+        self.originalInputTokens = try container.sdkDecodeRequired(.originalInputTokens)
     }
 }
 
-public extension BetaContextManagementResponse {
-    init(originalInputTokens: Int) {
+extension BetaContextManagementResponse {
+    public init(originalInputTokens: Int) {
         self.originalInputTokens = originalInputTokens
     }
 }
@@ -400,6 +302,7 @@ public indirect enum BetaCountMessageTokensParamsCacheControl {
 }
 
 extension BetaCountMessageTokensParamsCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -407,16 +310,12 @@ extension BetaCountMessageTokensParamsCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -427,8 +326,8 @@ extension BetaCountMessageTokensParamsCacheControl: Codable {
 extension BetaCountMessageTokensParamsCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -449,32 +348,22 @@ public indirect enum BetaCountMessageTokensParamsSystem {
 }
 
 extension BetaCountMessageTokensParamsSystem: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaCountMessageTokensParamsSystem"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCountMessageTokensParamsSystem")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension BetaCountMessageTokensParamsSystem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container.decode([BetaRequestTextBlock].self) {
-            return .betaRequestTextBlockList(value)
-        }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode([BetaRequestTextBlock].self) { return .betaRequestTextBlockList(value) }
         return nil
     }
 }
@@ -546,41 +435,31 @@ public struct BetaCountMessageTokensParams: Codable {
         case tools
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCountMessageTokensParams {
-    init(from decoder: Decoder) throws {
+extension BetaCountMessageTokensParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.messages) else {
-            throw SdkValidationError(
-                field: "messages",
-                code: "required",
-                message: "Validation failed for 'messages': value is required"
-            )
+            throw SdkValidationError(field: "messages", code: "required", message: "Validation failed for 'messages': value is required")
         }
         guard container.contains(.model) else {
-            throw SdkValidationError(
-                field: "model",
-                code: "required",
-                message: "Validation failed for 'model': value is required"
-            )
+            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
         }
-        messages = try container.sdkDecodeRequired(.messages)
-        model = try container.sdkDecodeRequired(.model)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        contextManagement = try container.sdkDecodeIfPresent(.contextManagement)
-        mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
-        outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
-        outputFormat = try container.sdkDecodeIfPresent(.outputFormat)
-        speed = try container.sdkDecodeIfPresent(.speed)
-        system = try container.sdkDecodeIfPresent(.system)
-        thinking = try container.sdkDecodeIfPresent(.thinking)
-        toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
-        tools = try container.sdkDecodeIfPresent(.tools)
-        if let value = mcpServers {
+        self.messages = try container.sdkDecodeRequired(.messages)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.contextManagement = try container.sdkDecodeIfPresent(.contextManagement)
+        self.mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
+        self.outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
+        self.outputFormat = try container.sdkDecodeIfPresent(.outputFormat)
+        self.speed = try container.sdkDecodeIfPresent(.speed)
+        self.system = try container.sdkDecodeIfPresent(.system)
+        self.thinking = try container.sdkDecodeIfPresent(.thinking)
+        self.toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
+        self.tools = try container.sdkDecodeIfPresent(.tools)
+        if let value = self.mcpServers {
             try validateItems("mcp_servers", value, min: nil, max: 20)
         }
     }

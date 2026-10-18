@@ -3,22 +3,17 @@
 
 import Foundation
 
-/// Credentials domain models
+// Credentials domain models
 /// Required enumerated value serialized in the `type` wire field.
-public struct BetaManagedAgentsDeletedCredentialType: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaManagedAgentsDeletedCredentialType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let vaultCredentialDeleted =
-        BetaManagedAgentsDeletedCredentialType(rawValue: "vault_credential_deleted")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let vaultCredentialDeleted = BetaManagedAgentsDeletedCredentialType(rawValue: "vault_credential_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

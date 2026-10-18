@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaResponseMcptool domain models
+// SharedBetaResponseMcptool domain models
 /// Typed representation of the `BetaResponseMCPToolResultBlock` API schema.
 public struct BetaResponseMCPToolResultBlock: Codable {
     /// Required API value serialized in the `content` wire field.
@@ -22,62 +22,39 @@ public struct BetaResponseMCPToolResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseMCPToolResultBlock {
-    init(from decoder: Decoder) throws {
+extension BetaResponseMCPToolResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.isError) else {
-            throw SdkValidationError(
-                field: "is_error",
-                code: "required",
-                message: "Validation failed for 'is_error': value is required"
-            )
+            throw SdkValidationError(field: "is_error", code: "required", message: "Validation failed for 'is_error': value is required")
         }
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        isError = try container.sdkDecodeRequired(.isError)
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidatePattern("tool_use_id", toolUseId, sdkPatterna828669d9fe5)
-        try sdkValidateRawEnum("type", type, BetaResponseMCPToolResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.isError = try container.sdkDecodeRequired(.isError)
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
+            try sdkValidateRawEnum("type", self.type, BetaResponseMCPToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseMCPToolResultBlock {
-    init(
-        content: BetaResponseMCPToolResultBlockContent,
-        isError: Bool,
-        toolUseId: String,
-        type: BetaResponseMCPToolResultBlockType
-    ) throws {
+extension BetaResponseMCPToolResultBlock {
+    public init(content: BetaResponseMCPToolResultBlockContent, isError: Bool, toolUseId: String, type: BetaResponseMCPToolResultBlockType) throws {
         (self.content, self.isError) = (content, isError)
         (self.toolUseId, self.type) = (toolUseId, type)
-        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
-        try sdkValidateRawEnum("type", self.type, BetaResponseMCPToolResultBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
+            try sdkValidateRawEnum("type", self.type, BetaResponseMCPToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -102,72 +79,44 @@ public struct BetaResponseMCPToolUseBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseMCPToolUseBlock {
-    init(from decoder: Decoder) throws {
+extension BetaResponseMCPToolUseBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.input) else {
-            throw SdkValidationError(
-                field: "input",
-                code: "required",
-                message: "Validation failed for 'input': value is required"
-            )
+            throw SdkValidationError(field: "input", code: "required", message: "Validation failed for 'input': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.serverName) else {
-            throw SdkValidationError(
-                field: "server_name",
-                code: "required",
-                message: "Validation failed for 'server_name': value is required"
-            )
+            throw SdkValidationError(field: "server_name", code: "required", message: "Validation failed for 'server_name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        input = try container.sdkDecodeRequired(.input)
-        name = try container.sdkDecodeRequired(.name)
-        serverName = try container.sdkDecodeRequired(.serverName)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidatePattern("id", id, sdkPatterna828669d9fe5)
-        try sdkValidateRawEnum("type", type, BetaResponseMCPToolUseBlockType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.input = try container.sdkDecodeRequired(.input)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.serverName = try container.sdkDecodeRequired(.serverName)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+            try sdkValidateRawEnum("type", self.type, BetaResponseMCPToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseMCPToolUseBlock {
-    init(
-        id: String,
-        input: [String: JSONValue],
-        name: String,
-        serverName: String,
-        type: BetaResponseMCPToolUseBlockType
-    ) throws {
+extension BetaResponseMCPToolUseBlock {
+    public init(id: String, input: [String: JSONValue], name: String, serverName: String, type: BetaResponseMCPToolUseBlockType) throws {
         (self.id, self.input) = (id, input)
         (self.name, self.serverName) = (name, serverName)
         self.type = type
-        try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-        try sdkValidateRawEnum("type", self.type, BetaResponseMCPToolUseBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+            try sdkValidateRawEnum("type", self.type, BetaResponseMCPToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -177,32 +126,22 @@ public indirect enum BetaResponseMCPToolResultBlockContent {
 }
 
 extension BetaResponseMCPToolResultBlockContent: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaResponseMCPToolResultBlockContent"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaResponseMCPToolResultBlockContent")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension BetaResponseMCPToolResultBlockContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container.decode([BetaResponseTextBlock].self) {
-            return .betaResponseTextBlockList(value)
-        }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode([BetaResponseTextBlock].self) { return .betaResponseTextBlockList(value) }
         return nil
     }
 }

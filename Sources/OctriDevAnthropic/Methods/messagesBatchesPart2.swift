@@ -6,11 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension MessagesBatchesMethods {
-    /// Send a batch of Message creation requests. The Message Batches API can be used to process multiple Messages API
-    /// requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24
-    /// hours to complete. Learn more about the Message Batches API in our [user
-    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+extension MessagesBatchesMethods {
+    /// Send a batch of Message creation requests. The Message Batches API can be used to process multiple Messages API requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24 hours to complete. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
     ///
     /// - Parameters:
     /// - requests: List of requests for prompt completion. Each is an individual
@@ -28,49 +25,15 @@ public extension MessagesBatchesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func createMessagesBatches(
-        config: ClientConfig,
-        requests: [MessageBatchIndividualRequestParams],
-        anthropicVersion: String? = nil,
-        anthropicUserProfileId: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> MessageBatch {
-        try validateItems("requests", requests, min: 1, max: 100_000)
+    public static func createMessagesBatches(config: ClientConfig, requests: [MessageBatchIndividualRequestParams], anthropicVersion: String? = nil, anthropicUserProfileId: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> MessageBatch {
+        try validateItems("requests", requests, min: 1, max: 100000)
 
         let requestBody = CreateMessagesBatchesRequestBody(requests: requests)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/messages/batches",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createMessagesBatches",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-user-profile-id", sdkHeaderValue(anthropicUserProfileId)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": ErrorResponse.self,
-                "401": ErrorResponse.self,
-                "403": ErrorResponse.self,
-                "404": ErrorResponse.self,
-                "408": ErrorResponse.self,
-                "409": ErrorResponse.self,
-                "412": ErrorResponse.self,
-                "413": ErrorResponse.self,
-                "429": ErrorResponse.self,
-                "431": ErrorResponse.self,
-                "499": ErrorResponse.self,
-                "500": ErrorResponse.self,
-                "501": ErrorResponse.self,
-                "503": ErrorResponse.self,
-                "504": ErrorResponse.self,
-                "529": ErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/messages/batches", config: config, body: requestBody, decoder: .json, operationId: "createMessagesBatches", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-user-profile-id", sdkHeaderValue(anthropicUserProfileId)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
     }
 }

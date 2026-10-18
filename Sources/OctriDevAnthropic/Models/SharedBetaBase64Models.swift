@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaBase64 domain models
+// SharedBetaBase64 domain models
 /// Typed representation of the `BetaBase64ImageSource` API schema.
 public struct BetaBase64ImageSource: Codable {
     /// Required `byte`-formatted value serialized in the `data` wire field.
@@ -19,49 +19,39 @@ public struct BetaBase64ImageSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBase64ImageSource {
-    init(from decoder: Decoder) throws {
+extension BetaBase64ImageSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.mediaType) else {
-            throw SdkValidationError(
-                field: "media_type",
-                code: "required",
-                message: "Validation failed for 'media_type': value is required"
-            )
+            throw SdkValidationError(field: "media_type", code: "required", message: "Validation failed for 'media_type': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        mediaType = try container.sdkDecodeRequired(.mediaType)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaBase64ImageSourceType.allCases.map(\.rawValue))
+        self.data = try container.sdkDecodeRequired(.data)
+        self.mediaType = try container.sdkDecodeRequired(.mediaType)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaBase64ImageSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBase64ImageSource {
-    init(data: Data, mediaType: BetaBase64ImageSourceMediaType, type: BetaBase64ImageSourceType) throws {
+extension BetaBase64ImageSource {
+    public init(data: Data, mediaType: BetaBase64ImageSourceMediaType, type: BetaBase64ImageSourceType) throws {
         (self.data, self.mediaType) = (data, mediaType)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaBase64ImageSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBase64ImageSourceType.allCases.map(\.rawValue))
     }
 }
+
+
+
+
 
 /// Typed representation of the `BetaBase64PDFSource` API schema.
 public struct BetaBase64PDFSource: Codable {
@@ -78,49 +68,35 @@ public struct BetaBase64PDFSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBase64PDFSource {
-    init(from decoder: Decoder) throws {
+extension BetaBase64PDFSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.mediaType) else {
-            throw SdkValidationError(
-                field: "media_type",
-                code: "required",
-                message: "Validation failed for 'media_type': value is required"
-            )
+            throw SdkValidationError(field: "media_type", code: "required", message: "Validation failed for 'media_type': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        mediaType = try container.sdkDecodeRequired(.mediaType)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("media_type", mediaType, BetaBase64PDFSourceMediaType.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaBase64PDFSourceType.allCases.map(\.rawValue))
+        self.data = try container.sdkDecodeRequired(.data)
+        self.mediaType = try container.sdkDecodeRequired(.mediaType)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("media_type", self.mediaType, BetaBase64PDFSourceMediaType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBase64PDFSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBase64PDFSource {
-    init(data: Data, mediaType: BetaBase64PDFSourceMediaType, type: BetaBase64PDFSourceType) throws {
+extension BetaBase64PDFSource {
+    public init(data: Data, mediaType: BetaBase64PDFSourceMediaType, type: BetaBase64PDFSourceType) throws {
         (self.data, self.mediaType) = (data, mediaType)
         self.type = type
-        try sdkValidateRawEnum("media_type", self.mediaType, BetaBase64PDFSourceMediaType.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaBase64PDFSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("media_type", self.mediaType, BetaBase64PDFSourceMediaType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBase64PDFSourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -182,10 +158,7 @@ public enum BetaBase64ImageSourceType: String, CaseIterable, Codable {
 public struct BetaBase64ImageSourceMediaType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let imageJpeg = BetaBase64ImageSourceMediaType(rawValue: "image/jpeg")
     public static let imagePng = BetaBase64ImageSourceMediaType(rawValue: "image/png")
     public static let imageGif = BetaBase64ImageSourceMediaType(rawValue: "image/gif")
@@ -193,7 +166,7 @@ public struct BetaBase64ImageSourceMediaType: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

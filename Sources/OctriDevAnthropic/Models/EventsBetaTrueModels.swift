@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// EventsBetaTrue domain models
+// EventsBetaTrue domain models
 public indirect enum BetaManagedAgentsEventParams {
     case betaManagedAgentsUserMessageEventParams(BetaManagedAgentsUserMessageEventParams)
     case betaManagedAgentsUserInterruptEventParams(BetaManagedAgentsUserInterruptEventParams)
@@ -17,6 +17,7 @@ public indirect enum BetaManagedAgentsEventParams {
 }
 
 extension BetaManagedAgentsEventParams: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -24,16 +25,12 @@ extension BetaManagedAgentsEventParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -44,28 +41,20 @@ extension BetaManagedAgentsEventParams: Codable {
 extension BetaManagedAgentsEventParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": try .betaManagedAgentsUserMessageEventParams(
-                BetaManagedAgentsUserMessageEventParams(from: decoder)
-            )
+        case "user.message": return .betaManagedAgentsUserMessageEventParams(try BetaManagedAgentsUserMessageEventParams(from: decoder))
         case "user.interrupt":
-            try .betaManagedAgentsUserInterruptEventParams(BetaManagedAgentsUserInterruptEventParams(from: decoder))
+        return .betaManagedAgentsUserInterruptEventParams(try BetaManagedAgentsUserInterruptEventParams(from: decoder))
         case "user.tool_confirmation":
-            try .betaManagedAgentsUserToolConfirmationEventParams(
-                BetaManagedAgentsUserToolConfirmationEventParams(from: decoder)
-            )
+        return .betaManagedAgentsUserToolConfirmationEventParams(try BetaManagedAgentsUserToolConfirmationEventParams(from: decoder))
         case "user.custom_tool_result":
-            try .betaManagedAgentsUserCustomToolResultEventParams(
-                BetaManagedAgentsUserCustomToolResultEventParams(from: decoder)
-            )
+        return .betaManagedAgentsUserCustomToolResultEventParams(try BetaManagedAgentsUserCustomToolResultEventParams(from: decoder))
         case "user.define_outcome":
-            try .betaManagedAgentsUserDefineOutcomeEventParams(
-                BetaManagedAgentsUserDefineOutcomeEventParams(from: decoder)
-            )
+        return .betaManagedAgentsUserDefineOutcomeEventParams(try BetaManagedAgentsUserDefineOutcomeEventParams(from: decoder))
         case "user.tool_result":
-            try .betaManagedAgentsUserToolResultEventParams(BetaManagedAgentsUserToolResultEventParams(from: decoder))
+        return .betaManagedAgentsUserToolResultEventParams(try BetaManagedAgentsUserToolResultEventParams(from: decoder))
         case "system.message":
-            try .betaManagedAgentsSystemMessageEventParams(BetaManagedAgentsSystemMessageEventParams(from: decoder))
-        default: nil
+        return .betaManagedAgentsSystemMessageEventParams(try BetaManagedAgentsSystemMessageEventParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -99,6 +88,7 @@ public indirect enum BetaManagedAgentsInputEvent {
 }
 
 extension BetaManagedAgentsInputEvent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -106,16 +96,12 @@ extension BetaManagedAgentsInputEvent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -126,23 +112,17 @@ extension BetaManagedAgentsInputEvent: Codable {
 extension BetaManagedAgentsInputEvent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": try .betaManagedAgentsUserMessageEvent(BetaManagedAgentsUserMessageEvent(from: decoder))
-        case "user.interrupt": try .betaManagedAgentsUserInterruptEvent(
-                BetaManagedAgentsUserInterruptEvent(from: decoder)
-            )
+        case "user.message": return .betaManagedAgentsUserMessageEvent(try BetaManagedAgentsUserMessageEvent(from: decoder))
+        case "user.interrupt": return .betaManagedAgentsUserInterruptEvent(try BetaManagedAgentsUserInterruptEvent(from: decoder))
         case "user.tool_confirmation":
-            try .betaManagedAgentsUserToolConfirmationEvent(BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
+        return .betaManagedAgentsUserToolConfirmationEvent(try BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
         case "user.custom_tool_result":
-            try .betaManagedAgentsUserCustomToolResultEvent(BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
+        return .betaManagedAgentsUserCustomToolResultEvent(try BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
         case "user.define_outcome":
-            try .betaManagedAgentsUserDefineOutcomeEvent(BetaManagedAgentsUserDefineOutcomeEvent(from: decoder))
-        case "user.tool_result": try .betaManagedAgentsUserToolResultEvent(
-                BetaManagedAgentsUserToolResultEvent(from: decoder)
-            )
-        case "system.message": try .betaManagedAgentsSystemMessageEvent(
-                BetaManagedAgentsSystemMessageEvent(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsUserDefineOutcomeEvent(try BetaManagedAgentsUserDefineOutcomeEvent(from: decoder))
+        case "user.tool_result": return .betaManagedAgentsUserToolResultEvent(try BetaManagedAgentsUserToolResultEvent(from: decoder))
+        case "system.message": return .betaManagedAgentsSystemMessageEvent(try BetaManagedAgentsSystemMessageEvent(from: decoder))
+        default: return nil
         }
     }
 }
@@ -204,6 +184,7 @@ public indirect enum BetaManagedAgentsSessionEvent {
 }
 
 extension BetaManagedAgentsSessionEvent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -211,25 +192,15 @@ extension BetaManagedAgentsSessionEvent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
-        if let value = try Self.decodeGroup2(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup2(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
-        if try encodeGroup2(to: encoder) {
-            return
-        }
-        if try encodeGroup3(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup3(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -240,59 +211,39 @@ extension BetaManagedAgentsSessionEvent: Codable {
 extension BetaManagedAgentsSessionEvent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": try .betaManagedAgentsUserMessageEvent(BetaManagedAgentsUserMessageEvent(from: decoder))
-        case "user.interrupt": try .betaManagedAgentsUserInterruptEvent(
-                BetaManagedAgentsUserInterruptEvent(from: decoder)
-            )
+        case "user.message": return .betaManagedAgentsUserMessageEvent(try BetaManagedAgentsUserMessageEvent(from: decoder))
+        case "user.interrupt": return .betaManagedAgentsUserInterruptEvent(try BetaManagedAgentsUserInterruptEvent(from: decoder))
         case "user.tool_confirmation":
-            try .betaManagedAgentsUserToolConfirmationEvent(BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
+        return .betaManagedAgentsUserToolConfirmationEvent(try BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
         case "user.custom_tool_result":
-            try .betaManagedAgentsUserCustomToolResultEvent(BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
+        return .betaManagedAgentsUserCustomToolResultEvent(try BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
         case "agent.custom_tool_use":
-            try .betaManagedAgentsAgentCustomToolUseEvent(BetaManagedAgentsAgentCustomToolUseEvent(from: decoder))
-        case "agent.message": try .betaManagedAgentsAgentMessageEvent(BetaManagedAgentsAgentMessageEvent(from: decoder))
-        case "agent.thinking": try .betaManagedAgentsAgentThinkingEvent(
-                BetaManagedAgentsAgentThinkingEvent(from: decoder)
-            )
-        case "agent.mcp_tool_use": try .betaManagedAgentsAgentMcpToolUseEvent(
-                BetaManagedAgentsAgentMcpToolUseEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentCustomToolUseEvent(try BetaManagedAgentsAgentCustomToolUseEvent(from: decoder))
+        case "agent.message": return .betaManagedAgentsAgentMessageEvent(try BetaManagedAgentsAgentMessageEvent(from: decoder))
+        case "agent.thinking": return .betaManagedAgentsAgentThinkingEvent(try BetaManagedAgentsAgentThinkingEvent(from: decoder))
+        case "agent.mcp_tool_use": return .betaManagedAgentsAgentMcpToolUseEvent(try BetaManagedAgentsAgentMcpToolUseEvent(from: decoder))
         case "agent.mcp_tool_result":
-            try .betaManagedAgentsAgentMcpToolResultEvent(BetaManagedAgentsAgentMcpToolResultEvent(from: decoder))
-        case "agent.tool_use": try .betaManagedAgentsAgentToolUseEvent(
-                BetaManagedAgentsAgentToolUseEvent(from: decoder)
-            )
-        case "agent.tool_result": try .betaManagedAgentsAgentToolResultEvent(
-                BetaManagedAgentsAgentToolResultEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentMcpToolResultEvent(try BetaManagedAgentsAgentMcpToolResultEvent(from: decoder))
+        case "agent.tool_use": return .betaManagedAgentsAgentToolUseEvent(try BetaManagedAgentsAgentToolUseEvent(from: decoder))
+        case "agent.tool_result": return .betaManagedAgentsAgentToolResultEvent(try BetaManagedAgentsAgentToolResultEvent(from: decoder))
         case "agent.thread_message_received":
-            try .betaManagedAgentsAgentThreadMessageReceivedEvent(
-                BetaManagedAgentsAgentThreadMessageReceivedEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentThreadMessageReceivedEvent(try BetaManagedAgentsAgentThreadMessageReceivedEvent(from: decoder))
         case "agent.thread_message_sent":
-            try .betaManagedAgentsAgentThreadMessageSentEvent(
-                BetaManagedAgentsAgentThreadMessageSentEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentThreadMessageSentEvent(try BetaManagedAgentsAgentThreadMessageSentEvent(from: decoder))
         case "agent.thread_context_compacted":
-            try .betaManagedAgentsAgentThreadContextCompactedEvent(
-                BetaManagedAgentsAgentThreadContextCompactedEvent(from: decoder)
-            )
-        case "session.error": try .betaManagedAgentsSessionErrorEvent(BetaManagedAgentsSessionErrorEvent(from: decoder))
+        return .betaManagedAgentsAgentThreadContextCompactedEvent(try BetaManagedAgentsAgentThreadContextCompactedEvent(from: decoder))
+        case "session.error": return .betaManagedAgentsSessionErrorEvent(try BetaManagedAgentsSessionErrorEvent(from: decoder))
         case "session.status_rescheduled":
-            try .betaManagedAgentsSessionStatusRescheduledEvent(
-                BetaManagedAgentsSessionStatusRescheduledEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionStatusRescheduledEvent(try BetaManagedAgentsSessionStatusRescheduledEvent(from: decoder))
         case "session.status_running":
-            try .betaManagedAgentsSessionStatusRunningEvent(BetaManagedAgentsSessionStatusRunningEvent(from: decoder))
+        return .betaManagedAgentsSessionStatusRunningEvent(try BetaManagedAgentsSessionStatusRunningEvent(from: decoder))
         case "session.status_idle":
-            try .betaManagedAgentsSessionStatusIdleEvent(BetaManagedAgentsSessionStatusIdleEvent(from: decoder))
+        return .betaManagedAgentsSessionStatusIdleEvent(try BetaManagedAgentsSessionStatusIdleEvent(from: decoder))
         case "session.status_terminated":
-            try .betaManagedAgentsSessionStatusTerminatedEvent(
-                BetaManagedAgentsSessionStatusTerminatedEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionStatusTerminatedEvent(try BetaManagedAgentsSessionStatusTerminatedEvent(from: decoder))
         case "session.thread_created":
-            try .betaManagedAgentsSessionThreadCreatedEvent(BetaManagedAgentsSessionThreadCreatedEvent(from: decoder))
-        default: nil
+        return .betaManagedAgentsSessionThreadCreatedEvent(try BetaManagedAgentsSessionThreadCreatedEvent(from: decoder))
+        default: return nil
         }
     }
 }
@@ -301,53 +252,33 @@ extension BetaManagedAgentsSessionEvent {
     static func decodeGroup2(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "span.outcome_evaluation_start":
-            try .betaManagedAgentsSpanOutcomeEvaluationStartEvent(
-                BetaManagedAgentsSpanOutcomeEvaluationStartEvent(from: decoder)
-            )
+        return .betaManagedAgentsSpanOutcomeEvaluationStartEvent(try BetaManagedAgentsSpanOutcomeEvaluationStartEvent(from: decoder))
         case "span.outcome_evaluation_end":
-            try .betaManagedAgentsSpanOutcomeEvaluationEndEvent(
-                BetaManagedAgentsSpanOutcomeEvaluationEndEvent(from: decoder)
-            )
+        return .betaManagedAgentsSpanOutcomeEvaluationEndEvent(try BetaManagedAgentsSpanOutcomeEvaluationEndEvent(from: decoder))
         case "span.model_request_start":
-            try .betaManagedAgentsSpanModelRequestStartEvent(BetaManagedAgentsSpanModelRequestStartEvent(from: decoder))
+        return .betaManagedAgentsSpanModelRequestStartEvent(try BetaManagedAgentsSpanModelRequestStartEvent(from: decoder))
         case "span.model_request_end":
-            try .betaManagedAgentsSpanModelRequestEndEvent(BetaManagedAgentsSpanModelRequestEndEvent(from: decoder))
+        return .betaManagedAgentsSpanModelRequestEndEvent(try BetaManagedAgentsSpanModelRequestEndEvent(from: decoder))
         case "span.outcome_evaluation_ongoing":
-            try .betaManagedAgentsSpanOutcomeEvaluationOngoingEvent(
-                BetaManagedAgentsSpanOutcomeEvaluationOngoingEvent(from: decoder)
-            )
+        return .betaManagedAgentsSpanOutcomeEvaluationOngoingEvent(try BetaManagedAgentsSpanOutcomeEvaluationOngoingEvent(from: decoder))
         case "user.define_outcome":
-            try .betaManagedAgentsUserDefineOutcomeEvent(BetaManagedAgentsUserDefineOutcomeEvent(from: decoder))
-        case "session.deleted": try .betaManagedAgentsSessionDeletedEvent(
-                BetaManagedAgentsSessionDeletedEvent(from: decoder)
-            )
+        return .betaManagedAgentsUserDefineOutcomeEvent(try BetaManagedAgentsUserDefineOutcomeEvent(from: decoder))
+        case "session.deleted": return .betaManagedAgentsSessionDeletedEvent(try BetaManagedAgentsSessionDeletedEvent(from: decoder))
         case "session.thread_status_running":
-            try .betaManagedAgentsSessionThreadStatusRunningEvent(
-                BetaManagedAgentsSessionThreadStatusRunningEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionThreadStatusRunningEvent(try BetaManagedAgentsSessionThreadStatusRunningEvent(from: decoder))
         case "session.thread_status_idle":
-            try .betaManagedAgentsSessionThreadStatusIdleEvent(
-                BetaManagedAgentsSessionThreadStatusIdleEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionThreadStatusIdleEvent(try BetaManagedAgentsSessionThreadStatusIdleEvent(from: decoder))
         case "session.thread_status_terminated":
-            try .betaManagedAgentsSessionThreadStatusTerminatedEvent(
-                BetaManagedAgentsSessionThreadStatusTerminatedEvent(from: decoder)
-            )
-        case "user.tool_result": try .betaManagedAgentsUserToolResultEvent(
-                BetaManagedAgentsUserToolResultEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionThreadStatusTerminatedEvent(try BetaManagedAgentsSessionThreadStatusTerminatedEvent(from: decoder))
+        case "user.tool_result": return .betaManagedAgentsUserToolResultEvent(try BetaManagedAgentsUserToolResultEvent(from: decoder))
         case "session.thread_status_rescheduled":
-            try .betaManagedAgentsSessionThreadStatusRescheduledEvent(
-                BetaManagedAgentsSessionThreadStatusRescheduledEvent(from: decoder)
-            )
-        case "session.updated": try .betaManagedAgentsSessionUpdatedEvent(
-                BetaManagedAgentsSessionUpdatedEvent(from: decoder)
-            )
-        case "system.message": try .betaManagedAgentsSystemMessageEvent(
-                BetaManagedAgentsSystemMessageEvent(from: decoder)
-            )
-        case "session.usage": try .betaManagedAgentsSessionUsageEvent(BetaManagedAgentsSessionUsageEvent(from: decoder))
-        default: nil
+        return .betaManagedAgentsSessionThreadStatusRescheduledEvent(
+            try BetaManagedAgentsSessionThreadStatusRescheduledEvent(from: decoder)
+        )
+        case "session.updated": return .betaManagedAgentsSessionUpdatedEvent(try BetaManagedAgentsSessionUpdatedEvent(from: decoder))
+        case "system.message": return .betaManagedAgentsSystemMessageEvent(try BetaManagedAgentsSystemMessageEvent(from: decoder))
+        case "session.usage": return .betaManagedAgentsSessionUsageEvent(try BetaManagedAgentsSessionUsageEvent(from: decoder))
+        default: return nil
         }
     }
 }
@@ -433,63 +364,36 @@ public struct BetaManagedAgentsUserToolConfirmationEventParams: Codable {
         case denyMessage = "deny_message"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsUserToolConfirmationEventParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUserToolConfirmationEventParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
         guard container.contains(.result) else {
-            throw SdkValidationError(
-                field: "result",
-                code: "required",
-                message: "Validation failed for 'result': value is required"
-            )
+            throw SdkValidationError(field: "result", code: "required", message: "Validation failed for 'result': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        result = try container.sdkDecodeRequired(.result)
-        denyMessage = try container.sdkDecodeIfPresent(.denyMessage)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsUserToolConfirmationEventParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("tool_use_id", toolUseId, min: 1, max: 128)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.result = try container.sdkDecodeRequired(.result)
+        self.denyMessage = try container.sdkDecodeIfPresent(.denyMessage)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserToolConfirmationEventParamsType.allCases.map(\.rawValue))
+            try validateLength("tool_use_id", self.toolUseId, min: 1, max: 128)
     }
 }
 
-public extension BetaManagedAgentsUserToolConfirmationEventParams {
-    init(
-        type: BetaManagedAgentsUserToolConfirmationEventParamsType,
-        toolUseId: String,
-        result: BetaManagedAgentsUserToolConfirmationResult,
-        denyMessage: String? = nil
-    ) throws {
+extension BetaManagedAgentsUserToolConfirmationEventParams {
+    public init(type: BetaManagedAgentsUserToolConfirmationEventParamsType, toolUseId: String, result: BetaManagedAgentsUserToolConfirmationResult, denyMessage: String? = nil) throws {
         (self.type, self.toolUseId) = (type, toolUseId)
         (self.result, self.denyMessage) = (result, denyMessage)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsUserToolConfirmationEventParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("tool_use_id", self.toolUseId, min: 1, max: 128)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserToolConfirmationEventParamsType.allCases.map(\.rawValue))
+            try validateLength("tool_use_id", self.toolUseId, min: 1, max: 128)
     }
 }
 
@@ -513,33 +417,23 @@ public struct BetaManagedAgentsUserToolResultEventParams: Codable {
         case isError = "is_error"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsUserToolResultEventParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUserToolResultEventParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        content = try container.sdkDecodeIfPresent(.content)
-        isError = try container.sdkDecodeIfPresent(.isError)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsUserToolResultEventParamsType.allCases.map(\.rawValue))
-        try validateLength("tool_use_id", toolUseId, min: 1, max: 128)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.content = try container.sdkDecodeIfPresent(.content)
+        self.isError = try container.sdkDecodeIfPresent(.isError)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserToolResultEventParamsType.allCases.map(\.rawValue))
+            try validateLength("tool_use_id", self.toolUseId, min: 1, max: 128)
     }
 }

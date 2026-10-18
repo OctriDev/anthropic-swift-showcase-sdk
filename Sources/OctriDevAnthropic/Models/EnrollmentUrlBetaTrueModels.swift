@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// EnrollmentUrlBetaTrue domain models
+// EnrollmentUrlBetaTrue domain models
 /// Typed representation of the `BetaEnrollmentUrl` API schema.
 public struct BetaEnrollmentUrl: Codable {
     /// Enrollment URL to send to the end user. Valid until `expires_at`.
@@ -19,43 +19,29 @@ public struct BetaEnrollmentUrl: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaEnrollmentUrl {
-    init(from decoder: Decoder) throws {
+extension BetaEnrollmentUrl {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
         guard container.contains(.expiresAt) else {
-            throw SdkValidationError(
-                field: "expires_at",
-                code: "required",
-                message: "Validation failed for 'expires_at': value is required"
-            )
+            throw SdkValidationError(field: "expires_at", code: "required", message: "Validation failed for 'expires_at': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        url = try container.sdkDecodeRequired(.url)
-        expiresAt = try container.sdkDecodeRequired(.expiresAt)
-        type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.expiresAt = try container.sdkDecodeRequired(.expiresAt)
+        self.type = try container.sdkDecodeRequired(.type)
     }
 }
 
-public extension BetaEnrollmentUrl {
-    init(url: String, expiresAt: BetaTimestamp, type: BetaEnrollmentUrlType) {
+extension BetaEnrollmentUrl {
+    public init(url: String, expiresAt: BetaTimestamp, type: BetaEnrollmentUrlType) {
         (self.url, self.expiresAt) = (url, expiresAt)
         self.type = type
     }
@@ -65,15 +51,12 @@ public extension BetaEnrollmentUrl {
 public struct BetaEnrollmentUrlType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let enrollmentUrl = BetaEnrollmentUrlType(rawValue: "enrollment_url")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

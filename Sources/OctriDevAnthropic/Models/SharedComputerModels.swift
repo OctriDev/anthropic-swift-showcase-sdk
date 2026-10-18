@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedComputer domain models
+// SharedComputer domain models
 /// ``scroll``'s config overrides.
 public struct ComputerScrollConfig: Codable {
     /// Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
@@ -18,20 +18,20 @@ public struct ComputerScrollConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerScrollConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerScrollConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerScrollConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerScrollConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -51,20 +51,20 @@ public struct ComputerLeftMouseUpConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerLeftMouseUpConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerLeftMouseUpConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerLeftMouseUpConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerLeftMouseUpConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -84,20 +84,20 @@ public struct ComputerZoomConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerZoomConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerZoomConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerZoomConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerZoomConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -123,37 +123,27 @@ public struct ComputerToolset20260801: Codable {
         case configs
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ComputerToolset20260801 {
-    init(from decoder: Decoder) throws {
+extension ComputerToolset20260801 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        configs = try container.sdkDecodeIfPresent(.configs)
-        try sdkValidateRawEnum("type", type, ComputerToolset20260801Type.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.configs = try container.sdkDecodeIfPresent(.configs)
+            try sdkValidateRawEnum("type", self.type, ComputerToolset20260801Type.allCases.map(\.rawValue))
     }
 }
 
-public extension ComputerToolset20260801 {
-    init(
-        type: ComputerToolset20260801Type,
-        cacheControl: ComputerToolset20260801CacheControl? = nil,
-        configs: ComputerToolsetConfigs? = nil
-    ) throws {
+extension ComputerToolset20260801 {
+    public init(type: ComputerToolset20260801Type, cacheControl: ComputerToolset20260801CacheControl? = nil, configs: ComputerToolsetConfigs? = nil) throws {
         (self.type, self.cacheControl) = (type, cacheControl)
         self.configs = configs
-        try sdkValidateRawEnum("type", self.type, ComputerToolset20260801Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ComputerToolset20260801Type.allCases.map(\.rawValue))
     }
 }
 
@@ -171,20 +161,20 @@ public struct ComputerLeftClickDragConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerLeftClickDragConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerLeftClickDragConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerLeftClickDragConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerLeftClickDragConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -204,20 +194,20 @@ public struct ComputerCursorPositionConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerCursorPositionConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerCursorPositionConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerCursorPositionConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerCursorPositionConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -237,20 +227,20 @@ public struct ComputerKeyConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerKeyConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerKeyConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerKeyConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerKeyConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -270,20 +260,20 @@ public struct ComputerMouseMoveConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerMouseMoveConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerMouseMoveConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerMouseMoveConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerMouseMoveConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -303,20 +293,20 @@ public struct ComputerScreenshotConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerScreenshotConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerScreenshotConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerScreenshotConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerScreenshotConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -336,20 +326,20 @@ public struct ComputerLeftMouseDownConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerLeftMouseDownConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerLeftMouseDownConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerLeftMouseDownConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerLeftMouseDownConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -369,20 +359,20 @@ public struct ComputerTripleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerTripleClickConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerTripleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerTripleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerTripleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -402,20 +392,20 @@ public struct ComputerMiddleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerMiddleClickConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerMiddleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerMiddleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerMiddleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -482,56 +472,38 @@ public struct ComputerToolsetConfigs: Codable {
     }
 
     init() {
-        (cursorPosition, doubleClick, holdKey, key, leftClick) = (nil, nil, nil, nil, nil)
-        (leftClickDrag, leftMouseDown, leftMouseUp, middleClick, mouseMove) = (nil, nil, nil, nil, nil)
-        (rightClick, screenshot, scroll, tripleClick, type) = (nil, nil, nil, nil, nil)
-        (wait, zoom) = (nil, nil)
+        (self.cursorPosition, self.doubleClick, self.holdKey, self.key, self.leftClick) = (nil, nil, nil, nil, nil)
+        (self.leftClickDrag, self.leftMouseDown, self.leftMouseUp, self.middleClick, self.mouseMove) = (nil, nil, nil, nil, nil)
+        (self.rightClick, self.screenshot, self.scroll, self.tripleClick, self.type) = (nil, nil, nil, nil, nil)
+        (self.wait, self.zoom) = (nil, nil)
     }
 }
 
-public extension ComputerToolsetConfigs {
-    init(from decoder: Decoder) throws {
+extension ComputerToolsetConfigs {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        cursorPosition = try container.sdkDecodeIfPresent(.cursorPosition)
-        doubleClick = try container.sdkDecodeIfPresent(.doubleClick)
-        holdKey = try container.sdkDecodeIfPresent(.holdKey)
-        key = try container.sdkDecodeIfPresent(.key)
-        leftClick = try container.sdkDecodeIfPresent(.leftClick)
-        leftClickDrag = try container.sdkDecodeIfPresent(.leftClickDrag)
-        leftMouseDown = try container.sdkDecodeIfPresent(.leftMouseDown)
-        leftMouseUp = try container.sdkDecodeIfPresent(.leftMouseUp)
-        middleClick = try container.sdkDecodeIfPresent(.middleClick)
-        mouseMove = try container.sdkDecodeIfPresent(.mouseMove)
-        rightClick = try container.sdkDecodeIfPresent(.rightClick)
-        screenshot = try container.sdkDecodeIfPresent(.screenshot)
-        scroll = try container.sdkDecodeIfPresent(.scroll)
-        tripleClick = try container.sdkDecodeIfPresent(.tripleClick)
-        type = try container.sdkDecodeIfPresent(.type)
-        wait = try container.sdkDecodeIfPresent(.wait)
-        zoom = try container.sdkDecodeIfPresent(.zoom)
+        self.cursorPosition = try container.sdkDecodeIfPresent(.cursorPosition)
+        self.doubleClick = try container.sdkDecodeIfPresent(.doubleClick)
+        self.holdKey = try container.sdkDecodeIfPresent(.holdKey)
+        self.key = try container.sdkDecodeIfPresent(.key)
+        self.leftClick = try container.sdkDecodeIfPresent(.leftClick)
+        self.leftClickDrag = try container.sdkDecodeIfPresent(.leftClickDrag)
+        self.leftMouseDown = try container.sdkDecodeIfPresent(.leftMouseDown)
+        self.leftMouseUp = try container.sdkDecodeIfPresent(.leftMouseUp)
+        self.middleClick = try container.sdkDecodeIfPresent(.middleClick)
+        self.mouseMove = try container.sdkDecodeIfPresent(.mouseMove)
+        self.rightClick = try container.sdkDecodeIfPresent(.rightClick)
+        self.screenshot = try container.sdkDecodeIfPresent(.screenshot)
+        self.scroll = try container.sdkDecodeIfPresent(.scroll)
+        self.tripleClick = try container.sdkDecodeIfPresent(.tripleClick)
+        self.type = try container.sdkDecodeIfPresent(.type)
+        self.wait = try container.sdkDecodeIfPresent(.wait)
+        self.zoom = try container.sdkDecodeIfPresent(.zoom)
     }
 }
 
-public extension ComputerToolsetConfigs {
-    init(
-        cursorPosition: ComputerCursorPositionConfig? = nil,
-        doubleClick: ComputerDoubleClickConfig? = nil,
-        holdKey: ComputerHoldKeyConfig? = nil,
-        key: ComputerKeyConfig? = nil,
-        leftClick: ComputerLeftClickConfig? = nil,
-        leftClickDrag: ComputerLeftClickDragConfig? = nil,
-        leftMouseDown: ComputerLeftMouseDownConfig? = nil,
-        leftMouseUp: ComputerLeftMouseUpConfig? = nil,
-        middleClick: ComputerMiddleClickConfig? = nil,
-        mouseMove: ComputerMouseMoveConfig? = nil,
-        rightClick: ComputerRightClickConfig? = nil,
-        screenshot: ComputerScreenshotConfig? = nil,
-        scroll: ComputerScrollConfig? = nil,
-        tripleClick: ComputerTripleClickConfig? = nil,
-        type: ComputerTypeConfig? = nil,
-        wait: ComputerWaitConfig? = nil,
-        zoom: ComputerZoomConfig? = nil
-    ) {
+extension ComputerToolsetConfigs {
+    public init(cursorPosition: ComputerCursorPositionConfig? = nil, doubleClick: ComputerDoubleClickConfig? = nil, holdKey: ComputerHoldKeyConfig? = nil, key: ComputerKeyConfig? = nil, leftClick: ComputerLeftClickConfig? = nil, leftClickDrag: ComputerLeftClickDragConfig? = nil, leftMouseDown: ComputerLeftMouseDownConfig? = nil, leftMouseUp: ComputerLeftMouseUpConfig? = nil, middleClick: ComputerMiddleClickConfig? = nil, mouseMove: ComputerMouseMoveConfig? = nil, rightClick: ComputerRightClickConfig? = nil, screenshot: ComputerScreenshotConfig? = nil, scroll: ComputerScrollConfig? = nil, tripleClick: ComputerTripleClickConfig? = nil, type: ComputerTypeConfig? = nil, wait: ComputerWaitConfig? = nil, zoom: ComputerZoomConfig? = nil) {
         self.init()
         (self.cursorPosition, self.doubleClick) = (cursorPosition, doubleClick)
         (self.holdKey, self.key) = (holdKey, key)
@@ -559,20 +531,20 @@ public struct ComputerTypeConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerTypeConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerTypeConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerTypeConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerTypeConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -592,20 +564,20 @@ public struct ComputerDoubleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerDoubleClickConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerDoubleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerDoubleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerDoubleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }

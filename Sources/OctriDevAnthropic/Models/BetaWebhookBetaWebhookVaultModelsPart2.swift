@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// BetaWebhookBetaWebhookVault domain models
+// BetaWebhookBetaWebhookVault domain models
 /// Required `string` value serialized in the `type` wire field.
 public enum BetaWebhookVaultArchivedEventDataType: String, CaseIterable, Codable {
     case vaultArchived = "vault.archived"

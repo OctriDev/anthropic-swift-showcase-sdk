@@ -3,16 +3,16 @@
 
 import Foundation
 
-/// SharedBetaJson domain models
+// SharedBetaJson domain models
 /// Typed representation of the `BetaJsonValue` API schema.
 public struct BetaJsonValue: Codable {
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaJsonValue {
-    init() {}
+extension BetaJsonValue {
+    public init() {
+    }
 }
 
 /// Typed representation of the `BetaJsonOutputFormat` API schema.
@@ -27,38 +27,28 @@ public struct BetaJsonOutputFormat: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaJsonOutputFormat {
-    init(from decoder: Decoder) throws {
+extension BetaJsonOutputFormat {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.schema) else {
-            throw SdkValidationError(
-                field: "schema",
-                code: "required",
-                message: "Validation failed for 'schema': value is required"
-            )
+            throw SdkValidationError(field: "schema", code: "required", message: "Validation failed for 'schema': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        schema = try container.sdkDecodeRequired(.schema)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaJsonOutputFormatType.allCases.map(\.rawValue))
+        self.schema = try container.sdkDecodeRequired(.schema)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaJsonOutputFormatType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaJsonOutputFormat {
-    init(schema: [String: JSONValue], type: BetaJsonOutputFormatType) throws {
+extension BetaJsonOutputFormat {
+    public init(schema: [String: JSONValue], type: BetaJsonOutputFormatType) throws {
         (self.schema, self.type) = (schema, type)
-        try sdkValidateRawEnum("type", self.type, BetaJsonOutputFormatType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaJsonOutputFormatType.allCases.map(\.rawValue))
     }
 }
 

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsAnalyticsUsersMethods {
-    struct ListBetaOrganizationsAnalyticsUsersOptions: Codable {
+extension BetaOrganizationsAnalyticsUsersMethods {
+    public struct ListBetaOrganizationsAnalyticsUsersOptions: Codable {
         public var date: String?
         public var startingDate: String?
         public var endingDate: String?
@@ -21,10 +21,7 @@ public extension BetaOrganizationsAnalyticsUsersMethods {
         public init() {}
     }
 
-    /// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in
-    /// the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to
-    /// scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise
-    /// plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get user activity for.
@@ -79,11 +76,7 @@ public extension BetaOrganizationsAnalyticsUsersMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    static func listBetaOrganizationsAnalyticsUsers(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsUsersOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsUsersResponse {
+    public static func listBetaOrganizationsAnalyticsUsers(config: ClientConfig, options: ListBetaOrganizationsAnalyticsUsersOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsUsersResponse {
         if let groupBy = options.groupBy {
             try validateItems("group_by[]", groupBy, max: 100)
         }
@@ -92,49 +85,20 @@ public extension BetaOrganizationsAnalyticsUsersMethods {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/analytics/users?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("date", value: options.date),
-                SdkQueryParameter("starting_date", value: options.startingDate),
-                SdkQueryParameter("ending_date", value: options.endingDate),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-                SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
-                SdkQueryParameter("order_by", value: options.orderBy),
-                SdkQueryParameter("order", value: options.order),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsAnalyticsUsers",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/analytics/users?beta=true", config: config, query: [
+            SdkQueryParameter("date", value: options.date),
+            SdkQueryParameter("starting_date", value: options.startingDate),
+            SdkQueryParameter("ending_date", value: options.endingDate),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+            SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
+            SdkQueryParameter("order_by", value: options.orderBy),
+            SdkQueryParameter("order", value: options.order),
+        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsUsers", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in
-    /// the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to
-    /// scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise
-    /// plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get user activity for.
@@ -189,37 +153,20 @@ public extension BetaOrganizationsAnalyticsUsersMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    static func listBetaOrganizationsAnalyticsUsersPaginated(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsUsersOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error> {
+    public static func listBetaOrganizationsAnalyticsUsersPaginated(config: ClientConfig, options: ListBetaOrganizationsAnalyticsUsersOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaAnalyticsUserActivity,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsUsers(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsUsers(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -232,52 +179,28 @@ public extension BetaOrganizationsAnalyticsUsersMethods {
         }
     }
 
-    struct ListBetaOrganizationsAnalyticsUsersPage {
+    public struct ListBetaOrganizationsAnalyticsUsersPage {
         public let data: BetaAnalyticsUsersResponse
         public let items: [BetaAnalyticsUserActivity]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsAnalyticsUsersPages(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsUsersOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsUsersPage, Swift.Error> {
+    public static func listBetaOrganizationsAnalyticsUsersPages(config: ClientConfig, options: ListBetaOrganizationsAnalyticsUsersOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsUsersPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsUsersPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsUsersPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<ListBetaOrganizationsAnalyticsUsersPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsAnalyticsUsersPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsUsers(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsUsers(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsAnalyticsUsersPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsAnalyticsUsersPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

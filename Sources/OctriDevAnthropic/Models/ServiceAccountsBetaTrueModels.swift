@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ServiceAccountsBetaTrue domain models
+// ServiceAccountsBetaTrue domain models
 /// Typed representation of the `BetaServiceAccountWorkspaceMemberCreateParams` API schema.
 public struct BetaServiceAccountWorkspaceMemberCreateParams: Codable {
     /// Tagged service account ID to add.
@@ -16,35 +16,25 @@ public struct BetaServiceAccountWorkspaceMemberCreateParams: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServiceAccountWorkspaceMemberCreateParams {
-    init(from decoder: Decoder) throws {
+extension BetaServiceAccountWorkspaceMemberCreateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.serviceAccountId) else {
-            throw SdkValidationError(
-                field: "service_account_id",
-                code: "required",
-                message: "Validation failed for 'service_account_id': value is required"
-            )
+            throw SdkValidationError(field: "service_account_id", code: "required", message: "Validation failed for 'service_account_id': value is required")
         }
         guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(
-                field: "workspace_role",
-                code: "required",
-                message: "Validation failed for 'workspace_role': value is required"
-            )
+            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
         }
-        serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
-        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+        self.serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
+        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
     }
 }
 
-public extension BetaServiceAccountWorkspaceMemberCreateParams {
-    init(serviceAccountId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
+extension BetaServiceAccountWorkspaceMemberCreateParams {
+    public init(serviceAccountId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
         (self.serviceAccountId, self.workspaceRole) = (serviceAccountId, workspaceRole)
     }
 }
@@ -64,37 +54,27 @@ public struct BetaServiceAccountCreateParams: Codable {
         case organizationRole = "organization_role"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServiceAccountCreateParams {
-    init(from decoder: Decoder) throws {
+extension BetaServiceAccountCreateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        description = try container.sdkDecodeIfPresent(.description)
-        organizationRole = try container.sdkDecodeIfPresent(.organizationRole)
-        try validateLength("name", name, min: 1, max: 255)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.organizationRole = try container.sdkDecodeIfPresent(.organizationRole)
+            try validateLength("name", self.name, min: 1, max: 255)
     }
 }
 
-public extension BetaServiceAccountCreateParams {
-    init(
-        name: String,
-        description: String? = nil,
-        organizationRole: BetaServiceAccountCreateParamsOrganizationRole? = nil
-    ) throws {
+extension BetaServiceAccountCreateParams {
+    public init(name: String, description: String? = nil, organizationRole: BetaServiceAccountCreateParamsOrganizationRole? = nil) throws {
         (self.name, self.description) = (name, description)
         self.organizationRole = organizationRole
-        try validateLength("name", self.name, min: 1, max: 255)
+            try validateLength("name", self.name, min: 1, max: 255)
     }
 }
 
@@ -110,54 +90,40 @@ public struct BetaServiceAccountListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServiceAccountListResponse {
-    init(from decoder: Decoder) throws {
+extension BetaServiceAccountListResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaServiceAccountListResponse {
-    init(data: [BetaServiceAccount], nextPage: String?) {
+extension BetaServiceAccountListResponse {
+    public init(data: [BetaServiceAccount], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
 
 /// Org-level role. Defaults to `developer`.
-public struct BetaServiceAccountCreateParamsOrganizationRole: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaServiceAccountCreateParamsOrganizationRole: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let admin = BetaServiceAccountCreateParamsOrganizationRole(rawValue: "admin")
     public static let developer = BetaServiceAccountCreateParamsOrganizationRole(rawValue: "developer")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

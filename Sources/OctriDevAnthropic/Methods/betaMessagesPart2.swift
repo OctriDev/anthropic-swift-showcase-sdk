@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaMessagesMethods {
-    struct CreateBetaMessagesOptions: Codable {
+extension BetaMessagesMethods {
+    public struct CreateBetaMessagesOptions: Codable {
         public var model: Model
         public var messages: [BetaInputMessage]
         public var maxTokens: Int
@@ -45,10 +45,7 @@ public extension BetaMessagesMethods {
         }
     }
 
-    /// Send a structured list of input messages with text and/or image content, and the model will generate the next
-    /// message in the conversation. The Messages API can be used for either single queries or stateless multi-turn
-    /// conversations. Learn more about the Messages API in our [user
-    /// guide](https://platform.claude.com/docs/en/get-started)
+    /// Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation. The Messages API can be used for either single queries or stateless multi-turn conversations. Learn more about the Messages API in our [user guide](https://platform.claude.com/docs/en/get-started)
     ///
     /// - Parameters:
     /// - model: The model that will complete your prompt. See
@@ -223,11 +220,7 @@ public extension BetaMessagesMethods {
     ///   distribution over all the options for each subsequent token in decreasing
     ///   probability order and cut it off once it reaches a particular probability
     ///   specified by `top_p`. Recommended for advanced use cases only.
-    static func createBetaMessages(
-        config: ClientConfig,
-        options: CreateBetaMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaMessage {
+    public static func createBetaMessages(config: ClientConfig, options: CreateBetaMessagesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaMessage {
         try validateRange("max_tokens", Double(options.maxTokens), min: 0)
 
         if let mcpServers = options.mcpServers {
@@ -248,38 +241,11 @@ public extension BetaMessagesMethods {
 
         let requestBody = CreateBetaMessagesRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/messages?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaMessages",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/messages?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaMessages", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

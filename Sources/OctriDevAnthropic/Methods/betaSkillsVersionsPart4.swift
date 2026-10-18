@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaSkillsVersionsMethods {
-    /// Retrieves a specific version of a Skill. Use `skill_id` to select the Skill and `version` to identify the
-    /// version by its ID or the literal `latest`; with the `skills-2025-10-02` beta, use its Unix epoch timestamp
-    /// instead. The response contains the version's metadata, including its name and description.
+extension BetaSkillsVersionsMethods {
+    /// Retrieves a specific version of a Skill. Use `skill_id` to select the Skill and `version` to identify the version by its ID or the literal `latest`; with the `skills-2025-10-02` beta, use its Unix epoch timestamp instead. The response contains the version's metadata, including its name and description.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -29,51 +27,11 @@ public extension BetaSkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func retrieveBetaSkillsVersions(
-        config: ClientConfig,
-        skillId: String,
-        version: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSkillVersion {
-        try await (sdkRequest(
-            "GET",
-            [
-                "/v1/skills/",
-                sdkEncodePathSegment(sdkWireString(skillId)),
-                "/versions/",
-                sdkEncodePathSegment(sdkWireString(version)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "retrieveBetaSkillsVersions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func retrieveBetaSkillsVersions(config: ClientConfig, skillId: String, version: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkillVersion {
+        return try (await sdkRequest("GET", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions/", sdkEncodePathSegment(sdkWireString(version)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaSkillsVersions", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

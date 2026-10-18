@@ -6,14 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaEnvironmentsWorkMethods {
-    /// Updates metadata on a work item in a self-hosted environment using merge semantics. Set metadata keys to strings
-    /// to add or replace them, or to null to delete them; omit `metadata` keys you want to preserve. The SDK and CLI
-    /// environment workers call this operation automatically, so you do not need to invoke it directly.
+extension BetaEnvironmentsWorkMethods {
+    /// Updates metadata on a work item in a self-hosted environment using merge semantics. Set metadata keys to strings to add or replace them, or to null to delete them; omit `metadata` keys you want to preserve. The SDK and CLI environment workers call this operation automatically, so you do not need to invoke it directly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
-    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
-    /// not need to invoke them directly. Update work item metadata with merge semantics.
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Update work item metadata with merge semantics.
     ///
     /// - Parameters:
     /// - metadata: Metadata patch. Set a key to a string to upsert it, or to null
@@ -29,55 +25,13 @@ public extension BetaEnvironmentsWorkMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func updateBetaEnvironmentsWork(
-        config: ClientConfig,
-        environmentId: String,
-        workId: String,
-        metadata: [String: String?],
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSelfHostedWork {
+    public static func updateBetaEnvironmentsWork(config: ClientConfig, environmentId: String, workId: String, metadata: [String: String?], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
         let requestBody = UpdateBetaEnvironmentsWorkRequestBody(metadata: metadata)
 
-        return try await (sdkRequest(
-            "POST",
-            [
-                "/v1/environments/",
-                sdkEncodePathSegment(sdkWireString(environmentId)),
-                "/work/",
-                sdkEncodePathSegment(sdkWireString(workId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaEnvironmentsWork",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "/work/", sdkEncodePathSegment(sdkWireString(workId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaEnvironmentsWork", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

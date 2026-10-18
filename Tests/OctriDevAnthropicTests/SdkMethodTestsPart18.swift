@@ -17,11 +17,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.messages.batches.retrieve(
-                messageBatchId: decoded("\"message_batch-1\""),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-            )
+            messageBatchId: decoded("\"message_batch-1\""),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -69,11 +69,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.models.retrieve(
-                modelId: decoded("\"model-1\""),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-            )
+            modelId: decoded("\"model-1\""),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -89,14 +89,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX182ddf1355ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX182ddf1355ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsCostReportMethods
-            .RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")
@@ -123,14 +121,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX4983a88655ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX4983a88655ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsCostReportMethods
-            .RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")
@@ -150,8 +146,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.costReport.retrieve(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -167,14 +163,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUsageReportRetrieveBetaOrgaX235cba5774ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUsageReportRetrieveBetaOrgaX235cba5774ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUsageReportMethods
-            .RetrieveBetaOrganizationsAnalyticsUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")
@@ -201,14 +195,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUsageReportRetrieveBetaOrgaXf64a3c8928ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUsageReportRetrieveBetaOrgaXf64a3c8928ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUsageReportMethods
-            .RetrieveBetaOrganizationsAnalyticsUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")
@@ -228,8 +220,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.usageReport.retrieve(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -245,14 +237,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUserCostReportRetrieveBetaOX8d9ec3b977ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUserCostReportRetrieveBetaOX8d9ec3b977ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUserCostReportMethods
-            .RetrieveBetaOrganizationsAnalyticsUserCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUserCostReportMethods.RetrieveBetaOrganizationsAnalyticsUserCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.products = try decoded("[\"chat\"]")
         options.models = try decoded("[\"models[]\"]")
@@ -282,14 +272,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUserCostReportRetrieveBetaOXab0909fe45ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUserCostReportRetrieveBetaOXab0909fe45ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUserCostReportMethods
-            .RetrieveBetaOrganizationsAnalyticsUserCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUserCostReportMethods.RetrieveBetaOrganizationsAnalyticsUserCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.products = try decoded("[\"chat\"]")
         options.models = try decoded("[\"models[]\"]")
@@ -312,8 +300,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.userCostReport.retrieve(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -329,14 +317,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUserUsageReportRetrieveBetaXfc4a2631e2ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUserUsageReportRetrieveBetaXfc4a2631e2ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUserUsageReportMethods
-            .RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUserUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.products = try decoded("[\"chat\"]")
         options.models = try decoded("[\"models[]\"]")
@@ -366,14 +352,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUserUsageReportRetrieveBetaX3c382699dcReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUserUsageReportRetrieveBetaX3c382699dcReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUserUsageReportMethods
-            .RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUserUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.products = try decoded("[\"chat\"]")
         options.models = try decoded("[\"models[]\"]")
@@ -396,8 +380,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.userUsageReport.retrieve(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -413,8 +397,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsApiKeysRetrieveBetaOrganizationsApiKeysReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsApiKeysRetrieveBetaOrganizationsApiKeysReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -433,8 +416,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsApiKeysRetrieveBetaOrganizationsApiKeys400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsApiKeysRetrieveBetaOrganizationsApiKeys400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -445,9 +427,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.apiKeys.retrieve(
-                apiKeyId: decoded("\"api_key-1\""),
-                anthropicVersion: decoded("\"anthropic-version\"")
-            )
+            apiKeyId: decoded("\"api_key-1\""),
+            anthropicVersion: decoded("\"anthropic-version\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -463,14 +445,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsCostReportRetrieveBetaOrganizationsCostReportReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsCostReportRetrieveBetaOrganizationsCostReportReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsCostReportMethods
-            .RetrieveBetaOrganizationsCostReportOptions(startingAt: decoded("\"2024-10-30T23:58:27.427722Z\""))
+        var options = try BetaOrganizationsCostReportMethods.RetrieveBetaOrganizationsCostReportOptions(startingAt: decoded("\"2024-10-30T23:58:27.427722Z\""))
         options.limit = try decoded("7")
         options.page = try decoded("\"page_MjAyNS0wNS0xNFQwMDowMDowMFo=\"")
         options.endingAt = try decoded("\"2024-10-30T23:58:27.427722Z\"")
@@ -491,14 +471,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsCostReportRetrieveBetaOrganizationsCX92adc958ecReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsCostReportRetrieveBetaOrganizationsCX92adc958ecReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsCostReportMethods
-            .RetrieveBetaOrganizationsCostReportOptions(startingAt: decoded("\"2024-10-30T23:58:27.427722Z\""))
+        var options = try BetaOrganizationsCostReportMethods.RetrieveBetaOrganizationsCostReportOptions(startingAt: decoded("\"2024-10-30T23:58:27.427722Z\""))
         options.limit = try decoded("7")
         options.page = try decoded("\"page_MjAyNS0wNS0xNFQwMDowMDowMFo=\"")
         options.endingAt = try decoded("\"2024-10-30T23:58:27.427722Z\"")
@@ -512,8 +490,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.costReport.retrieve(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -529,8 +507,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsExternalKeysRetrieveBetaOrganizationX9105b18efaReachesMockAndDecodesResponse(
-    ) async throws {
+    func testRetrieveBetaOrganizationsExternalKeysRetrieveBetaOrganizationX9105b18efaReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }

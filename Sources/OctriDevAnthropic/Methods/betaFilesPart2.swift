@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaFilesMethods {
-    /// Uploads a file and returns its metadata. Send the file as multipart form data in the `file` field; optionally
-    /// set `expires_in_seconds` to control when the file bytes become unavailable. The uploaded filename uses only the
-    /// final path component, and a missing or empty filename is replaced with `unnamed` plus the known file extension.
+extension BetaFilesMethods {
+    /// Uploads a file and returns its metadata. Send the file as multipart form data in the `file` field; optionally set `expires_in_seconds` to control when the file bytes become unavailable. The uploaded filename uses only the final path component, and a missing or empty filename is replaced with `unnamed` plus the known file extension.
     ///
     /// - Parameters:
     /// - file: The file to upload. Only the final path component of the part's
@@ -29,58 +27,22 @@ public extension BetaFilesMethods {
     /// - expiresInSeconds: Seconds from upload until the file expires and its bytes
     ///   become permanently unavailable. Must be between 3600 (one hour) and 7776000
     ///   (ninety days).
-    static func uploadBetaFiles(
-        config: ClientConfig,
-        file: SdkUploadFile,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        expiresInSeconds: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaFileMetadataSchema {
-        if let expiresInSeconds {
-            try validateRange("expires_in_seconds", Double(expiresInSeconds), min: 3600, max: 7_776_000)
+    public static func uploadBetaFiles(config: ClientConfig, file: SdkUploadFile, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, expiresInSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFileMetadataSchema {
+        if let expiresInSeconds = expiresInSeconds {
+            try validateRange("expires_in_seconds", Double(expiresInSeconds), min: 3600, max: 7776000)
         }
 
         var multipartParts: [SdkMultipartField] = []
         multipartParts.append(.file("file", file))
-        if let expiresInSeconds {
+        if let expiresInSeconds = expiresInSeconds {
             multipartParts.append(.scalar("expires_in_seconds", expiresInSeconds))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/files?beta=true",
-            config: config,
-            rawBody: multipart.data,
-            contentType: multipart.contentType,
-            decoder: .json,
-            operationId: "uploadBetaFiles",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/files?beta=true", config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "uploadBetaFiles", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

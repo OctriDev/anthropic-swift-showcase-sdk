@@ -3,12 +3,12 @@
 
 import Foundation
 
-/// SharedRequest domain models
+// SharedRequest domain models
 extension RequestContainerUploadBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -40,47 +40,33 @@ public struct RequestThinkingBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestThinkingBlock {
-    init(from decoder: Decoder) throws {
+extension RequestThinkingBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.signature) else {
-            throw SdkValidationError(
-                field: "signature",
-                code: "required",
-                message: "Validation failed for 'signature': value is required"
-            )
+            throw SdkValidationError(field: "signature", code: "required", message: "Validation failed for 'signature': value is required")
         }
         guard container.contains(.thinking) else {
-            throw SdkValidationError(
-                field: "thinking",
-                code: "required",
-                message: "Validation failed for 'thinking': value is required"
-            )
+            throw SdkValidationError(field: "thinking", code: "required", message: "Validation failed for 'thinking': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        signature = try container.sdkDecodeRequired(.signature)
-        thinking = try container.sdkDecodeRequired(.thinking)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, RequestThinkingBlockType.allCases.map(\.rawValue))
+        self.signature = try container.sdkDecodeRequired(.signature)
+        self.thinking = try container.sdkDecodeRequired(.thinking)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, RequestThinkingBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestThinkingBlock {
-    init(signature: String, thinking: String, type: RequestThinkingBlockType) throws {
+extension RequestThinkingBlock {
+    public init(signature: String, thinking: String, type: RequestThinkingBlockType) throws {
         (self.signature, self.thinking) = (signature, thinking)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, RequestThinkingBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestThinkingBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -94,19 +80,19 @@ public struct RequestCitationsConfig: Codable {
     }
 
     init() {
-        enabled = nil
+        self.enabled = nil
     }
 }
 
-public extension RequestCitationsConfig {
-    init(from decoder: Decoder) throws {
+extension RequestCitationsConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension RequestCitationsConfig {
-    init(enabled: Bool? = nil) {
+extension RequestCitationsConfig {
+    public init(enabled: Bool? = nil) {
         self.init()
         self.enabled = enabled
     }
@@ -133,70 +119,42 @@ public struct RequestEncryptedCodeExecutionResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestEncryptedCodeExecutionResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestEncryptedCodeExecutionResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.encryptedStdout) else {
-            throw SdkValidationError(
-                field: "encrypted_stdout",
-                code: "required",
-                message: "Validation failed for 'encrypted_stdout': value is required"
-            )
+            throw SdkValidationError(field: "encrypted_stdout", code: "required", message: "Validation failed for 'encrypted_stdout': value is required")
         }
         guard container.contains(.returnCode) else {
-            throw SdkValidationError(
-                field: "return_code",
-                code: "required",
-                message: "Validation failed for 'return_code': value is required"
-            )
+            throw SdkValidationError(field: "return_code", code: "required", message: "Validation failed for 'return_code': value is required")
         }
         guard container.contains(.stderr) else {
-            throw SdkValidationError(
-                field: "stderr",
-                code: "required",
-                message: "Validation failed for 'stderr': value is required"
-            )
+            throw SdkValidationError(field: "stderr", code: "required", message: "Validation failed for 'stderr': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        encryptedStdout = try container.sdkDecodeRequired(.encryptedStdout)
-        returnCode = try container.sdkDecodeRequired(.returnCode)
-        stderr = try container.sdkDecodeRequired(.stderr)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, RequestEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.encryptedStdout = try container.sdkDecodeRequired(.encryptedStdout)
+        self.returnCode = try container.sdkDecodeRequired(.returnCode)
+        self.stderr = try container.sdkDecodeRequired(.stderr)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, RequestEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestEncryptedCodeExecutionResultBlock {
-    init(
-        content: [RequestCodeExecutionOutputBlock],
-        encryptedStdout: String,
-        returnCode: Int,
-        stderr: String,
-        type: RequestEncryptedCodeExecutionResultBlockType
-    ) throws {
+extension RequestEncryptedCodeExecutionResultBlock {
+    public init(content: [RequestCodeExecutionOutputBlock], encryptedStdout: String, returnCode: Int, stderr: String, type: RequestEncryptedCodeExecutionResultBlockType) throws {
         (self.content, self.encryptedStdout) = (content, encryptedStdout)
         (self.returnCode, self.stderr) = (returnCode, stderr)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, RequestEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
     }
 }
 

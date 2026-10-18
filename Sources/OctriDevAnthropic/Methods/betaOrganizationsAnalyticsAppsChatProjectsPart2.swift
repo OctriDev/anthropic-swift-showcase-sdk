@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
-    struct ListBetaOrganizationsAnalyticsAppsChatProjectsOptions: Codable {
+extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
+    public struct ListBetaOrganizationsAnalyticsAppsChatProjectsOptions: Codable {
         public var date: String?
         public var startingDate: String?
         public var endingDate: String?
@@ -21,10 +21,7 @@ public extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
         public init() {}
     }
 
-    /// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each
-    /// project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC
-    /// group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to
-    /// organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get project activity for.
@@ -75,11 +72,7 @@ public extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    static func listBetaOrganizationsAnalyticsAppsChatProjects(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsAppsChatProjectsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsProjectsResponse {
+    public static func listBetaOrganizationsAnalyticsAppsChatProjects(config: ClientConfig, options: ListBetaOrganizationsAnalyticsAppsChatProjectsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsProjectsResponse {
         if let groupBy = options.groupBy {
             try validateItems("group_by[]", groupBy, max: 100)
         }
@@ -88,49 +81,20 @@ public extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/analytics/apps/chat/projects?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("date", value: options.date),
-                SdkQueryParameter("starting_date", value: options.startingDate),
-                SdkQueryParameter("ending_date", value: options.endingDate),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-                SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
-                SdkQueryParameter("order_by", value: options.orderBy),
-                SdkQueryParameter("order", value: options.order),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsAnalyticsAppsChatProjects",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/analytics/apps/chat/projects?beta=true", config: config, query: [
+            SdkQueryParameter("date", value: options.date),
+            SdkQueryParameter("starting_date", value: options.startingDate),
+            SdkQueryParameter("ending_date", value: options.endingDate),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+            SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
+            SdkQueryParameter("order_by", value: options.orderBy),
+            SdkQueryParameter("order", value: options.order),
+        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsAppsChatProjects", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each
-    /// project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC
-    /// group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to
-    /// organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get project activity for.
@@ -181,37 +145,20 @@ public extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    static func listBetaOrganizationsAnalyticsAppsChatProjectsPaginated(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsAppsChatProjectsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error> {
+    public static func listBetaOrganizationsAnalyticsAppsChatProjectsPaginated(config: ClientConfig, options: ListBetaOrganizationsAnalyticsAppsChatProjectsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaAnalyticsProjectActivity,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsAppsChatProjects(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsAppsChatProjects(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -224,52 +171,28 @@ public extension BetaOrganizationsAnalyticsAppsChatProjectsMethods {
         }
     }
 
-    struct ListBetaOrganizationsAnalyticsAppsChatProjectsPage {
+    public struct ListBetaOrganizationsAnalyticsAppsChatProjectsPage {
         public let data: BetaAnalyticsProjectsResponse
         public let items: [BetaAnalyticsProjectActivity]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsAnalyticsAppsChatProjectsPages(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsAppsChatProjectsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsAppsChatProjectsPage, Swift.Error> {
+    public static func listBetaOrganizationsAnalyticsAppsChatProjectsPages(config: ClientConfig, options: ListBetaOrganizationsAnalyticsAppsChatProjectsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsAppsChatProjectsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsAppsChatProjectsPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsAppsChatProjectsPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<ListBetaOrganizationsAnalyticsAppsChatProjectsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsAnalyticsAppsChatProjectsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsAppsChatProjects(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsAppsChatProjects(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsAnalyticsAppsChatProjectsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsAnalyticsAppsChatProjectsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

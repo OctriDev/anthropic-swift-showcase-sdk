@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsSpendLimitsMethods {
-    /// Retrieves a configured spend limit by its unique identifier, including its amount, currency, scope, and reset
-    /// period. Use `spend_limit_id` to look up a specific limit and inspect its current configuration and timestamps.
+extension BetaOrganizationsSpendLimitsMethods {
+    /// Retrieves a configured spend limit by its unique identifier, including its amount, currency, scope, and reset period. Use `spend_limit_id` to look up a specific limit and inspect its current configuration and timestamps.
     ///
     /// Retrieve a spend limit by ID.
     ///
@@ -17,80 +16,17 @@ public extension BetaOrganizationsSpendLimitsMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func retrieveBetaOrganizationsSpendLimits(
-        config: ClientConfig,
-        spendLimitId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSpendLimit {
-        try await (sdkRequest(
-            "GET",
-            ["/v1/organizations/spend_limits/", sdkEncodePathSegment(sdkWireString(spendLimitId)), "?beta=true"]
-                .joined(),
-            config: config,
-            decoder: .json,
-            operationId: "retrieveBetaOrganizationsSpendLimits",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func retrieveBetaOrganizationsSpendLimits(config: ClientConfig, spendLimitId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSpendLimit {
+        return try (await sdkRequest("GET", ["/v1/organizations/spend_limits/", sdkEncodePathSegment(sdkWireString(spendLimitId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaOrganizationsSpendLimits", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Delete a per-user spend limit override. The member falls back to any inherited spend limit at that period.
-    /// Seat-tier, group, and organization-level rows cannot be deleted via this endpoint.
+    /// Delete a per-user spend limit override. The member falls back to any inherited spend limit at that period. Seat-tier, group, and organization-level rows cannot be deleted via this endpoint.
     ///
     /// - Parameters:
     /// - spendLimitId: ID of the Spend Limit.
-    static func deleteBetaOrganizationsSpendLimits(
-        config: ClientConfig,
-        spendLimitId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaDeleteSpendLimitResponse {
-        try await (sdkRequest(
-            "DELETE",
-            ["/v1/organizations/spend_limits/", sdkEncodePathSegment(sdkWireString(spendLimitId)), "?beta=true"]
-                .joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteBetaOrganizationsSpendLimits",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func deleteBetaOrganizationsSpendLimits(config: ClientConfig, spendLimitId: String, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteSpendLimitResponse {
+        return try (await sdkRequest("DELETE", ["/v1/organizations/spend_limits/", sdkEncodePathSegment(sdkWireString(spendLimitId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaOrganizationsSpendLimits", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

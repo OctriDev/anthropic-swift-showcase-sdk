@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedComputer domain models
+// SharedComputer domain models
 /// ``left_click``'s config overrides.
 public struct ComputerLeftClickConfig: Codable {
     /// Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
@@ -18,20 +18,20 @@ public struct ComputerLeftClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerLeftClickConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerLeftClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerLeftClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerLeftClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -51,20 +51,20 @@ public struct ComputerWaitConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerWaitConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerWaitConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerWaitConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerWaitConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -77,6 +77,7 @@ public indirect enum ComputerToolset20260801CacheControl {
 }
 
 extension ComputerToolset20260801CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -84,16 +85,12 @@ extension ComputerToolset20260801CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -104,8 +101,8 @@ extension ComputerToolset20260801CacheControl: Codable {
 extension ComputerToolset20260801CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -134,20 +131,20 @@ public struct ComputerRightClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerRightClickConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerRightClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerRightClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerRightClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -167,20 +164,20 @@ public struct ComputerHoldKeyConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension ComputerHoldKeyConfig {
-    init(from decoder: Decoder) throws {
+extension ComputerHoldKeyConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension ComputerHoldKeyConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension ComputerHoldKeyConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }

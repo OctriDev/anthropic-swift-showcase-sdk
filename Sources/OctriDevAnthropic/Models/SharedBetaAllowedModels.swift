@@ -3,21 +3,18 @@
 
 import Foundation
 
-/// SharedBetaAllowed domain models
+// SharedBetaAllowed domain models
 /// Typed representation of the `BetaAllowedInferenceGeo` API schema.
 public struct BetaAllowedInferenceGeo: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let global = BetaAllowedInferenceGeo(rawValue: "global")
     public static let us = BetaAllowedInferenceGeo(rawValue: "us")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -33,10 +30,7 @@ public struct BetaAllowedInferenceGeo: RawRepresentable, Hashable, Codable, Send
 public struct BetaAllowedCaller: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let direct = BetaAllowedCaller(rawValue: "direct")
     public static let codeExecution20250825 = BetaAllowedCaller(rawValue: "code_execution_20250825")
     public static let codeExecution20260120 = BetaAllowedCaller(rawValue: "code_execution_20260120")
@@ -44,7 +38,7 @@ public struct BetaAllowedCaller: RawRepresentable, Hashable, Codable, Sendable, 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

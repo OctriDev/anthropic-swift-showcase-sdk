@@ -11,7 +11,7 @@ struct UpdateBetaOrganizationsWorkspacesServiceAccountsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(workspaceRole, forKey: SdkCodingKey("workspace_role"))
+        try keyedContainer.encode(self.workspaceRole, forKey: SdkCodingKey("workspace_role"))
     }
 }
 
@@ -21,8 +21,8 @@ struct CreateBetaOrganizationsServiceAccountsWorkspacesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(workspaceId, forKey: SdkCodingKey("workspace_id"))
-        try keyedContainer.encode(workspaceRole, forKey: SdkCodingKey("workspace_role"))
+        try keyedContainer.encode(self.workspaceId, forKey: SdkCodingKey("workspace_id"))
+        try keyedContainer.encode(self.workspaceRole, forKey: SdkCodingKey("workspace_role"))
     }
 }
 
@@ -35,11 +35,11 @@ struct CreateBetaOrganizationsFederationIssuersRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(issuerUrl, forKey: SdkCodingKey("issuer_url"))
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(checkJti, forKey: SdkCodingKey("check_jti"))
-        try keyedContainer.encodeIfPresent(jwks, forKey: SdkCodingKey("jwks"))
-        try keyedContainer.encodeIfPresent(maxJwtLifetimeSeconds, forKey: SdkCodingKey("max_jwt_lifetime_seconds"))
+        try keyedContainer.encode(self.issuerUrl, forKey: SdkCodingKey("issuer_url"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.checkJti, forKey: SdkCodingKey("check_jti"))
+        try keyedContainer.encodeIfPresent(self.jwks, forKey: SdkCodingKey("jwks"))
+        try keyedContainer.encodeIfPresent(self.maxJwtLifetimeSeconds, forKey: SdkCodingKey("max_jwt_lifetime_seconds"))
     }
 }
 
@@ -53,21 +53,21 @@ struct UpdateBetaOrganizationsFederationIssuersRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(checkJti, forKey: SdkCodingKey("check_jti"))
-        try keyedContainer.encodeIfPresent(issuerUrl, forKey: SdkCodingKey("issuer_url"))
-        try keyedContainer.encodeIfPresent(jwks, forKey: SdkCodingKey("jwks"))
-        try keyedContainer.encodeIfPresent(jwksPollingDisabled, forKey: SdkCodingKey("jwks_polling_disabled"))
-        try keyedContainer.encodeIfPresent(maxJwtLifetimeSeconds, forKey: SdkCodingKey("max_jwt_lifetime_seconds"))
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.checkJti, forKey: SdkCodingKey("check_jti"))
+        try keyedContainer.encodeIfPresent(self.issuerUrl, forKey: SdkCodingKey("issuer_url"))
+        try keyedContainer.encodeIfPresent(self.jwks, forKey: SdkCodingKey("jwks"))
+        try keyedContainer.encodeIfPresent(self.jwksPollingDisabled, forKey: SdkCodingKey("jwks_polling_disabled"))
+        try keyedContainer.encodeIfPresent(self.maxJwtLifetimeSeconds, forKey: SdkCodingKey("max_jwt_lifetime_seconds"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
     }
 
     init(options: BetaOrganizationsFederationIssuersMethods.UpdateBetaOrganizationsFederationIssuersOptions) {
-        checkJti = options.checkJti
-        issuerUrl = options.issuerUrl
-        jwks = options.jwks
-        jwksPollingDisabled = options.jwksPollingDisabled
-        maxJwtLifetimeSeconds = options.maxJwtLifetimeSeconds
-        name = options.name
+        self.checkJti = options.checkJti
+        self.issuerUrl = options.issuerUrl
+        self.jwks = options.jwks
+        self.jwksPollingDisabled = options.jwksPollingDisabled
+        self.maxJwtLifetimeSeconds = options.maxJwtLifetimeSeconds
+        self.name = options.name
     }
 }
 
@@ -85,29 +85,29 @@ struct CreateBetaOrganizationsFederationRulesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(issuerId, forKey: SdkCodingKey("issuer_id"))
-        try keyedContainer.encode(match, forKey: SdkCodingKey("match"))
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(oauthScope, forKey: SdkCodingKey("oauth_scope"))
-        try keyedContainer.encode(target, forKey: SdkCodingKey("target"))
-        try keyedContainer.encodeIfPresent(appliesToAllWorkspaces, forKey: SdkCodingKey("applies_to_all_workspaces"))
-        try keyedContainer.encodeIfPresent(attributes, forKey: SdkCodingKey("attributes"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(tokenLifetimeSeconds, forKey: SdkCodingKey("token_lifetime_seconds"))
-        try keyedContainer.encodeIfPresent(workspaceId, forKey: SdkCodingKey("workspace_id"))
+        try keyedContainer.encode(self.issuerId, forKey: SdkCodingKey("issuer_id"))
+        try keyedContainer.encode(self.match, forKey: SdkCodingKey("match"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.oauthScope, forKey: SdkCodingKey("oauth_scope"))
+        try keyedContainer.encode(self.target, forKey: SdkCodingKey("target"))
+        try keyedContainer.encodeIfPresent(self.appliesToAllWorkspaces, forKey: SdkCodingKey("applies_to_all_workspaces"))
+        try keyedContainer.encodeIfPresent(self.attributes, forKey: SdkCodingKey("attributes"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.tokenLifetimeSeconds, forKey: SdkCodingKey("token_lifetime_seconds"))
+        try keyedContainer.encodeIfPresent(self.workspaceId, forKey: SdkCodingKey("workspace_id"))
     }
 
     init(options: BetaOrganizationsFederationRulesMethods.CreateBetaOrganizationsFederationRulesOptions) {
-        issuerId = options.issuerId
-        match = options.match
-        name = options.name
-        oauthScope = options.oauthScope
-        target = options.target
-        appliesToAllWorkspaces = options.appliesToAllWorkspaces
-        attributes = options.attributes
-        description = options.description
-        tokenLifetimeSeconds = options.tokenLifetimeSeconds
-        workspaceId = options.workspaceId
+        self.issuerId = options.issuerId
+        self.match = options.match
+        self.name = options.name
+        self.oauthScope = options.oauthScope
+        self.target = options.target
+        self.appliesToAllWorkspaces = options.appliesToAllWorkspaces
+        self.attributes = options.attributes
+        self.description = options.description
+        self.tokenLifetimeSeconds = options.tokenLifetimeSeconds
+        self.workspaceId = options.workspaceId
     }
 }
 
@@ -124,27 +124,27 @@ struct UpdateBetaOrganizationsFederationRulesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(appliesToAllWorkspaces, forKey: SdkCodingKey("applies_to_all_workspaces"))
-        try keyedContainer.encodeIfPresent(attributes, forKey: SdkCodingKey("attributes"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(match, forKey: SdkCodingKey("match"))
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(oauthScope, forKey: SdkCodingKey("oauth_scope"))
-        try keyedContainer.encodeIfPresent(target, forKey: SdkCodingKey("target"))
-        try keyedContainer.encodeIfPresent(tokenLifetimeSeconds, forKey: SdkCodingKey("token_lifetime_seconds"))
-        try keyedContainer.encodeIfPresent(workspaceId, forKey: SdkCodingKey("workspace_id"))
+        try keyedContainer.encodeIfPresent(self.appliesToAllWorkspaces, forKey: SdkCodingKey("applies_to_all_workspaces"))
+        try keyedContainer.encodeIfPresent(self.attributes, forKey: SdkCodingKey("attributes"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.match, forKey: SdkCodingKey("match"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.oauthScope, forKey: SdkCodingKey("oauth_scope"))
+        try keyedContainer.encodeIfPresent(self.target, forKey: SdkCodingKey("target"))
+        try keyedContainer.encodeIfPresent(self.tokenLifetimeSeconds, forKey: SdkCodingKey("token_lifetime_seconds"))
+        try keyedContainer.encodeIfPresent(self.workspaceId, forKey: SdkCodingKey("workspace_id"))
     }
 
     init(options: BetaOrganizationsFederationRulesMethods.UpdateBetaOrganizationsFederationRulesOptions) {
-        appliesToAllWorkspaces = options.appliesToAllWorkspaces
-        attributes = options.attributes
-        description = options.description
-        match = options.match
-        name = options.name
-        oauthScope = options.oauthScope
-        target = options.target
-        tokenLifetimeSeconds = options.tokenLifetimeSeconds
-        workspaceId = options.workspaceId
+        self.appliesToAllWorkspaces = options.appliesToAllWorkspaces
+        self.attributes = options.attributes
+        self.description = options.description
+        self.match = options.match
+        self.name = options.name
+        self.oauthScope = options.oauthScope
+        self.target = options.target
+        self.tokenLifetimeSeconds = options.tokenLifetimeSeconds
+        self.workspaceId = options.workspaceId
     }
 }
 
@@ -153,7 +153,7 @@ struct CreateBetaOrganizationsFederationRulesWorkspacesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(workspaceId, forKey: SdkCodingKey("workspace_id"))
+        try keyedContainer.encode(self.workspaceId, forKey: SdkCodingKey("workspace_id"))
     }
 }
 
@@ -162,7 +162,7 @@ struct DenyBetaOrganizationsSpendLimitIncreaseRequestsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(suppressNotification, forKey: SdkCodingKey("suppress_notification"))
+        try keyedContainer.encodeIfPresent(self.suppressNotification, forKey: SdkCodingKey("suppress_notification"))
     }
 }
 
@@ -173,9 +173,9 @@ struct ApproveBetaOrganizationsSpendLimitIncreaseRequestsRequestBody: Encodable 
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(amount, forKey: SdkCodingKey("amount"))
-        try keyedContainer.encodeIfPresent(period, forKey: SdkCodingKey("period"))
-        try keyedContainer.encodeIfPresent(suppressNotification, forKey: SdkCodingKey("suppress_notification"))
+        try keyedContainer.encode(self.amount, forKey: SdkCodingKey("amount"))
+        try keyedContainer.encodeIfPresent(self.period, forKey: SdkCodingKey("period"))
+        try keyedContainer.encodeIfPresent(self.suppressNotification, forKey: SdkCodingKey("suppress_notification"))
     }
 }
 
@@ -184,7 +184,7 @@ struct CreateBetaOrganizationsTunnelsCertificatesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(caCertificatePem, forKey: SdkCodingKey("ca_certificate_pem"))
+        try keyedContainer.encode(self.caCertificatePem, forKey: SdkCodingKey("ca_certificate_pem"))
     }
 }
 
@@ -193,7 +193,7 @@ struct CreateBetaOrganizationsRbacGroupsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
     }
 }
 
@@ -202,7 +202,7 @@ struct UpdateBetaOrganizationsRbacGroupsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
     }
 }
 
@@ -211,6 +211,6 @@ struct CreateBetaOrganizationsRbacGroupsMembersRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(userId, forKey: SdkCodingKey("user_id"))
+        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
     }
 }

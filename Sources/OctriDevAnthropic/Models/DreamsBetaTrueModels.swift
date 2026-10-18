@@ -3,40 +3,29 @@
 
 import Foundation
 
-/// DreamsBetaTrue domain models
+// DreamsBetaTrue domain models
 public indirect enum BetaDreamModelParams {
     case stringValue(String)
     case betaDreamModelConfigParams(BetaDreamModelConfigParams)
 }
 
 extension BetaDreamModelParams: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaDreamModelParams"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaDreamModelParams")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension BetaDreamModelParams {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container
-            .decode(BetaDreamModelConfigParams.self) {
-            return .betaDreamModelConfigParams(value)
-        }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(BetaDreamModelConfigParams.self) { return .betaDreamModelConfigParams(value) }
         return nil
     }
 }
@@ -69,42 +58,27 @@ public struct BetaCreateDreamRequest: Codable {
         case outputBehavior = "output_behavior"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCreateDreamRequest {
-    init(from decoder: Decoder) throws {
+extension BetaCreateDreamRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.inputs) else {
-            throw SdkValidationError(
-                field: "inputs",
-                code: "required",
-                message: "Validation failed for 'inputs': value is required"
-            )
+            throw SdkValidationError(field: "inputs", code: "required", message: "Validation failed for 'inputs': value is required")
         }
         guard container.contains(.model) else {
-            throw SdkValidationError(
-                field: "model",
-                code: "required",
-                message: "Validation failed for 'model': value is required"
-            )
+            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
         }
-        inputs = try container.sdkDecodeRequired(.inputs)
-        model = try container.sdkDecodeRequired(.model)
-        instructions = try container.sdkDecodeIfPresent(.instructions)
-        outputBehavior = try container.sdkDecodeIfPresent(.outputBehavior)
+        self.inputs = try container.sdkDecodeRequired(.inputs)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.instructions = try container.sdkDecodeIfPresent(.instructions)
+        self.outputBehavior = try container.sdkDecodeIfPresent(.outputBehavior)
     }
 }
 
-public extension BetaCreateDreamRequest {
-    init(
-        inputs: [BetaDreamInput],
-        model: BetaDreamModelParams,
-        instructions: String? = nil,
-        outputBehavior: BetaOutputBehavior? = nil
-    ) {
+extension BetaCreateDreamRequest {
+    public init(inputs: [BetaDreamInput], model: BetaDreamModelParams, instructions: String? = nil, outputBehavior: BetaOutputBehavior? = nil) {
         (self.inputs, self.model) = (inputs, model)
         (self.instructions, self.outputBehavior) = (instructions, outputBehavior)
     }
@@ -122,35 +96,25 @@ public struct BetaListDreamsResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaListDreamsResponse {
-    init(from decoder: Decoder) throws {
+extension BetaListDreamsResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaListDreamsResponse {
-    init(data: [BetaDream], nextPage: String?) {
+extension BetaListDreamsResponse {
+    public init(data: [BetaDream], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -167,30 +131,24 @@ public struct BetaDreamModelConfigParams: Codable {
         case speed
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamModelConfigParams {
-    init(from decoder: Decoder) throws {
+extension BetaDreamModelConfigParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        speed = try container.sdkDecodeIfPresent(.speed)
-        try validateLength("id", id, min: 1, max: 256)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.speed = try container.sdkDecodeIfPresent(.speed)
+            try validateLength("id", self.id, min: 1, max: 256)
     }
 }
 
-public extension BetaDreamModelConfigParams {
-    init(id: String, speed: BetaSpeed? = nil) throws {
+extension BetaDreamModelConfigParams {
+    public init(id: String, speed: BetaSpeed? = nil) throws {
         (self.id, self.speed) = (id, speed)
-        try validateLength("id", self.id, min: 1, max: 256)
+            try validateLength("id", self.id, min: 1, max: 256)
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ResourcesBetaTrue domain models
+// ResourcesBetaTrue domain models
 public indirect enum BetaManagedAgentsAddSessionResource {
     case betaManagedAgentsFileResource(BetaManagedAgentsFileResource)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaManagedAgentsAddSessionResource {
 }
 
 extension BetaManagedAgentsAddSessionResource: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaManagedAgentsAddSessionResource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -38,8 +35,8 @@ extension BetaManagedAgentsAddSessionResource: Codable {
 extension BetaManagedAgentsAddSessionResource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "file": try .betaManagedAgentsFileResource(BetaManagedAgentsFileResource(from: decoder))
-        default: nil
+        case "file": return .betaManagedAgentsFileResource(try BetaManagedAgentsFileResource(from: decoder))
+        default: return nil
         }
     }
 }
@@ -61,6 +58,7 @@ public indirect enum BetaManagedAgentsAddSessionResourceParams {
 }
 
 extension BetaManagedAgentsAddSessionResourceParams: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -68,16 +66,12 @@ extension BetaManagedAgentsAddSessionResourceParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -88,8 +82,8 @@ extension BetaManagedAgentsAddSessionResourceParams: Codable {
 extension BetaManagedAgentsAddSessionResourceParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "file": try .betaManagedAgentsFileResourceParams(BetaManagedAgentsFileResourceParams(from: decoder))
-        default: nil
+        case "file": return .betaManagedAgentsFileResourceParams(try BetaManagedAgentsFileResourceParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -116,28 +110,22 @@ public struct BetaManagedAgentsListSessionResources: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsListSessionResources {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsListSessionResources {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaManagedAgentsListSessionResources {
-    init(data: [BetaManagedAgentsSessionResource], nextPage: String? = nil) {
+extension BetaManagedAgentsListSessionResources {
+    public init(data: [BetaManagedAgentsSessionResource], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

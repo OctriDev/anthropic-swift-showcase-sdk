@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaMemoryStoresMemoriesMethods {
-    struct UpdateBetaMemoryStoresMemoriesOptions: Codable {
+extension BetaMemoryStoresMemoriesMethods {
+    public struct UpdateBetaMemoryStoresMemoriesOptions: Codable {
         public var memoryStoreId: String
         public var memoryId: String
         public var view: BetaManagedAgentsMemoryView?
@@ -24,9 +24,7 @@ public extension BetaMemoryStoresMemoriesMethods {
         }
     }
 
-    /// Updates a memory's content, path, or both in a memory store. Include at least one of `content` or `path`; omit
-    /// `content` for a rename-only update and omit `path` to keep the existing path. Use `precondition` to make the
-    /// update conditional on the memory's current state.
+    /// Updates a memory's content, path, or both in a memory store. Include at least one of `content` or `path`; omit `content` for a rename-only update and omit `path` to keep the existing path. Use `precondition` to make the update conditional on the memory's current state.
     ///
     /// - Parameters:
     /// - memoryStoreId: Path parameter memory_store_id
@@ -50,52 +48,15 @@ public extension BetaMemoryStoresMemoriesMethods {
     ///   the update applies only if the memory's current state matches; on mismatch
     ///   the request returns `memory_precondition_failed_error` (HTTP 409). When
     ///   omitted, the update is unconditional.
-    static func updateBetaMemoryStoresMemories(
-        config: ClientConfig,
-        options: UpdateBetaMemoryStoresMemoriesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsMemory {
+    public static func updateBetaMemoryStoresMemories(config: ClientConfig, options: UpdateBetaMemoryStoresMemoriesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemory {
         let requestBody = UpdateBetaMemoryStoresMemoriesRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            [
-                "/v1/memory_stores/",
-                sdkEncodePathSegment(sdkWireString(options.memoryStoreId)),
-                "/memories/",
-                sdkEncodePathSegment(sdkWireString(options.memoryId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("view", value: options.view),
-            ],
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaMemoryStoresMemories",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaManagedAgentsErrorResponse.self,
-                "401": BetaManagedAgentsErrorResponse.self,
-                "403": BetaManagedAgentsErrorResponse.self,
-                "404": BetaManagedAgentsErrorResponse.self,
-                "408": BetaManagedAgentsErrorResponse.self,
-                "409": BetaManagedAgentsErrorResponse.self,
-                "412": BetaManagedAgentsErrorResponse.self,
-                "413": BetaManagedAgentsErrorResponse.self,
-                "429": BetaManagedAgentsErrorResponse.self,
-                "431": BetaManagedAgentsErrorResponse.self,
-                "499": BetaManagedAgentsErrorResponse.self,
-                "500": BetaManagedAgentsErrorResponse.self,
-                "501": BetaManagedAgentsErrorResponse.self,
-                "503": BetaManagedAgentsErrorResponse.self,
-                "504": BetaManagedAgentsErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/memory_stores/", sdkEncodePathSegment(sdkWireString(options.memoryStoreId)), "/memories/", sdkEncodePathSegment(sdkWireString(options.memoryId)), "?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("view", value: options.view),
+        ], body: requestBody, decoder: .json, operationId: "updateBetaMemoryStoresMemories", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaManagedAgentsErrorResponse.self, "401": BetaManagedAgentsErrorResponse.self, "403": BetaManagedAgentsErrorResponse.self, "404": BetaManagedAgentsErrorResponse.self, "408": BetaManagedAgentsErrorResponse.self, "409": BetaManagedAgentsErrorResponse.self, "412": BetaManagedAgentsErrorResponse.self, "413": BetaManagedAgentsErrorResponse.self, "429": BetaManagedAgentsErrorResponse.self, "431": BetaManagedAgentsErrorResponse.self, "499": BetaManagedAgentsErrorResponse.self, "500": BetaManagedAgentsErrorResponse.self, "501": BetaManagedAgentsErrorResponse.self, "503": BetaManagedAgentsErrorResponse.self, "504": BetaManagedAgentsErrorResponse.self])).data
     }
 }

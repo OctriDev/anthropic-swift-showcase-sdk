@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ValidateBetaTrue domain models
+// ValidateBetaTrue domain models
 /// Result of a validation roundtrip against the customer's KMS. HTTP 200 for both outcomes — the operation
 /// completed; `status` says whether the key works.
 public struct BetaValidateExternalKeyResponse: Codable {
@@ -20,51 +20,33 @@ public struct BetaValidateExternalKeyResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaValidateExternalKeyResponse {
-    init(from decoder: Decoder) throws {
+extension BetaValidateExternalKeyResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.error) else {
-            throw SdkValidationError(
-                field: "error",
-                code: "required",
-                message: "Validation failed for 'error': value is required"
-            )
+            throw SdkValidationError(field: "error", code: "required", message: "Validation failed for 'error': value is required")
         }
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        error = try container.sdkDecodeNullable(.error)
-        status = try container.sdkDecodeRequired(.status)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaValidateExternalKeyResponseType.allCases.map(\.rawValue))
+        self.error = try container.sdkDecodeNullable(.error)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaValidateExternalKeyResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaValidateExternalKeyResponse {
-    init(
-        error: String?,
-        status: BetaValidateExternalKeyResponseStatus,
-        type: BetaValidateExternalKeyResponseType
-    ) throws {
+extension BetaValidateExternalKeyResponse {
+    public init(error: String?, status: BetaValidateExternalKeyResponseStatus, type: BetaValidateExternalKeyResponseType) throws {
         (self.error, self.status) = (error, status)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaValidateExternalKeyResponseType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaValidateExternalKeyResponseType.allCases.map(\.rawValue))
     }
 }
 
@@ -90,16 +72,13 @@ public enum BetaValidateExternalKeyResponseType: String, CaseIterable, Codable {
 public struct BetaValidateExternalKeyResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let failure = BetaValidateExternalKeyResponseStatus(rawValue: "failure")
     public static let success = BetaValidateExternalKeyResponseStatus(rawValue: "success")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

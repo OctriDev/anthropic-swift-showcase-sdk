@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// StopBetaTrue domain models
+// StopBetaTrue domain models
 /// Request to stop a work item.
 public struct BetaSelfHostedWorkStopRequest: Codable {
     /// If true, immediately stop work without graceful shutdown
@@ -14,19 +14,19 @@ public struct BetaSelfHostedWorkStopRequest: Codable {
     }
 
     init() {
-        force = nil
+        self.force = nil
     }
 }
 
-public extension BetaSelfHostedWorkStopRequest {
-    init(from decoder: Decoder) throws {
+extension BetaSelfHostedWorkStopRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        force = try container.sdkDecodeIfPresent(.force)
+        self.force = try container.sdkDecodeIfPresent(.force)
     }
 }
 
-public extension BetaSelfHostedWorkStopRequest {
-    init(force: Bool? = nil) {
+extension BetaSelfHostedWorkStopRequest {
+    public init(force: Bool? = nil) {
         self.init()
         self.force = force
     }

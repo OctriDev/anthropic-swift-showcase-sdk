@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaSkillsVersionsMethods {
-    /// Deletes a specific version of a Skill using its Skill identifier and version identifier. Use this operation to
-    /// remove a version when it is no longer needed; the version is identified by its ID, or by its Unix epoch
-    /// timestamp when using the `skills-2025-10-02` beta. The response confirms deletion with the version identifier.
+extension BetaSkillsVersionsMethods {
+    /// Deletes a specific version of a Skill using its Skill identifier and version identifier. Use this operation to remove a version when it is no longer needed; the version is identified by its ID, or by its Unix epoch timestamp when using the `skills-2025-10-02` beta. The response confirms deletion with the version identifier.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -28,51 +26,11 @@ public extension BetaSkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func deleteBetaSkillsVersions(
-        config: ClientConfig,
-        skillId: String,
-        version: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaDeletedSkillVersion {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/v1/skills/",
-                sdkEncodePathSegment(sdkWireString(skillId)),
-                "/versions/",
-                sdkEncodePathSegment(sdkWireString(version)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteBetaSkillsVersions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func deleteBetaSkillsVersions(config: ClientConfig, skillId: String, version: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeletedSkillVersion {
+        return try (await sdkRequest("DELETE", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions/", sdkEncodePathSegment(sdkWireString(version)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaSkillsVersions", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

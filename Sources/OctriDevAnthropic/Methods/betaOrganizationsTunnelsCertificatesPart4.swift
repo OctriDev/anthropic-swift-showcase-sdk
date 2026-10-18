@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsTunnelsCertificatesMethods {
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Retrieve a single certificate registered on a tunnel by ID.
+extension BetaOrganizationsTunnelsCertificatesMethods {
+    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Retrieve a single certificate registered on a tunnel by ID.
     ///
     /// - Parameters:
     /// - tunnelId: ID of the Tunnel.
@@ -23,49 +19,10 @@ public extension BetaOrganizationsTunnelsCertificatesMethods {
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func retrieveBetaOrganizationsTunnelsCertificates(
-        config: ClientConfig,
-        tunnelId: String,
-        certificateId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelCertificate {
-        try await (sdkRequest(
-            "GET",
-            [
-                "/v1/organizations/tunnels/",
-                sdkEncodePathSegment(sdkWireString(tunnelId)),
-                "/certificates/",
-                sdkEncodePathSegment(sdkWireString(certificateId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "retrieveBetaOrganizationsTunnelsCertificates",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func retrieveBetaOrganizationsTunnelsCertificates(config: ClientConfig, tunnelId: String, certificateId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelCertificate {
+        return try (await sdkRequest("GET", ["/v1/organizations/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/certificates/", sdkEncodePathSegment(sdkWireString(certificateId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaOrganizationsTunnelsCertificates", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

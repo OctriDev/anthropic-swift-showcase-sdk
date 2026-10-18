@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaResponseWeb domain models
+// SharedBetaResponseWeb domain models
 /// Typed representation of the `BetaResponseWebSearchResultLocationCitation` API schema.
 public struct BetaResponseWebSearchResultLocationCitation: Codable {
     /// Required `string` value serialized in the `cited_text` wire field.
@@ -25,74 +25,42 @@ public struct BetaResponseWebSearchResultLocationCitation: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseWebSearchResultLocationCitation {
-    init(from decoder: Decoder) throws {
+extension BetaResponseWebSearchResultLocationCitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(
-                field: "cited_text",
-                code: "required",
-                message: "Validation failed for 'cited_text': value is required"
-            )
+            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
         }
         guard container.contains(.encryptedIndex) else {
-            throw SdkValidationError(
-                field: "encrypted_index",
-                code: "required",
-                message: "Validation failed for 'encrypted_index': value is required"
-            )
+            throw SdkValidationError(field: "encrypted_index", code: "required", message: "Validation failed for 'encrypted_index': value is required")
         }
         guard container.contains(.title) else {
-            throw SdkValidationError(
-                field: "title",
-                code: "required",
-                message: "Validation failed for 'title': value is required"
-            )
+            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        citedText = try container.sdkDecodeRequired(.citedText)
-        encryptedIndex = try container.sdkDecodeRequired(.encryptedIndex)
-        title = try container.sdkDecodeNullable(.title)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        try sdkValidateRawEnum("type", type, BetaResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
+        self.citedText = try container.sdkDecodeRequired(.citedText)
+        self.encryptedIndex = try container.sdkDecodeRequired(.encryptedIndex)
+        self.title = try container.sdkDecodeNullable(.title)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+            try sdkValidateRawEnum("type", self.type, BetaResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseWebSearchResultLocationCitation {
-    init(
-        citedText: String,
-        encryptedIndex: String,
-        title: String?,
-        type: BetaResponseWebSearchResultLocationCitationType,
-        url: String
-    ) throws {
+extension BetaResponseWebSearchResultLocationCitation {
+    public init(citedText: String, encryptedIndex: String, title: String?, type: BetaResponseWebSearchResultLocationCitationType, url: String) throws {
         (self.citedText, self.encryptedIndex) = (citedText, encryptedIndex)
         (self.title, self.type) = (title, type)
         self.url = url
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
     }
 }
 

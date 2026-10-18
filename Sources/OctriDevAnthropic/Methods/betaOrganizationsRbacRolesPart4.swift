@@ -6,102 +6,44 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsRbacRolesMethods {
-    /// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations
-    /// only.
+extension BetaOrganizationsRbacRolesMethods {
+    /// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations only.
     ///
     /// - Parameters:
     /// - roleId: ID of the RBAC Role.
     /// - limit: Number of items to return per page. Defaults to `20`. Ranges from
     ///   `1` to `1000`.
     /// - page: Optionally set to the `next_page` token from the previous response.
-    static func permissionsBetaOrganizationsRbacRoles(
-        config: ClientConfig,
-        roleId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRbacRolePermissionList {
-        if let limit {
+    public static func permissionsBetaOrganizationsRbacRoles(config: ClientConfig, roleId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRbacRolePermissionList {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/v1/organizations/rbac_roles/", sdkEncodePathSegment(sdkWireString(roleId)), "/permissions?beta=true"]
-                .joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("page", value: page),
-            ],
-            decoder: .json,
-            operationId: "permissionsBetaOrganizationsRbacRoles",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", ["/v1/organizations/rbac_roles/", sdkEncodePathSegment(sdkWireString(roleId)), "/permissions?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+        ], decoder: .json, operationId: "permissionsBetaOrganizationsRbacRoles", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations
-    /// only.
+    /// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations only.
     ///
     /// - Parameters:
     /// - roleId: ID of the RBAC Role.
     /// - limit: Number of items to return per page. Defaults to `20`. Ranges from
     ///   `1` to `1000`.
     /// - page: Optionally set to the `next_page` token from the previous response.
-    static func permissionsBetaOrganizationsRbacRolesPaginated(
-        config: ClientConfig,
-        roleId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaRbacRolePermission, Swift.Error> {
-        AsyncThrowingStream<BetaRbacRolePermission, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaRbacRolePermission,
-            Swift.Error
-        >.Continuation) in
+    public static func permissionsBetaOrganizationsRbacRolesPaginated(config: ClientConfig, roleId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaRbacRolePermission, Swift.Error> {
+        return AsyncThrowingStream<BetaRbacRolePermission, Swift.Error> { (continuation: AsyncThrowingStream<BetaRbacRolePermission, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await permissionsBetaOrganizationsRbacRoles(
-                            config: config,
-                            roleId: roleId,
-                            limit: limit,
-                            page: pageCursor,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await permissionsBetaOrganizationsRbacRoles(config: config, roleId: roleId, limit: limit, page: pageCursor, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        if !pageResponse.hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        if !pageResponse.hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -114,53 +56,25 @@ public extension BetaOrganizationsRbacRolesMethods {
         }
     }
 
-    struct PermissionsBetaOrganizationsRbacRolesPage {
+    public struct PermissionsBetaOrganizationsRbacRolesPage {
         public let data: BetaRbacRolePermissionList
         public let items: [BetaRbacRolePermission]
         public let hasMore: Bool
     }
 
-    static func permissionsBetaOrganizationsRbacRolesPages(
-        config: ClientConfig,
-        roleId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<PermissionsBetaOrganizationsRbacRolesPage, Swift.Error> {
-        AsyncThrowingStream<
-            PermissionsBetaOrganizationsRbacRolesPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            PermissionsBetaOrganizationsRbacRolesPage,
-            Swift.Error
-        >.Continuation) in
+    public static func permissionsBetaOrganizationsRbacRolesPages(config: ClientConfig, roleId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<PermissionsBetaOrganizationsRbacRolesPage, Swift.Error> {
+        return AsyncThrowingStream<PermissionsBetaOrganizationsRbacRolesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<PermissionsBetaOrganizationsRbacRolesPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await permissionsBetaOrganizationsRbacRoles(
-                            config: config,
-                            roleId: roleId,
-                            limit: limit,
-                            page: pageCursor,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await permissionsBetaOrganizationsRbacRoles(config: config, roleId: roleId, limit: limit, page: pageCursor, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.hasMore && pageResponse.nextPage != nil
-                        pageContinuation.yield(PermissionsBetaOrganizationsRbacRolesPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(PermissionsBetaOrganizationsRbacRolesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

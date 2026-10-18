@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// FilesBetaTrue domain models
+// FilesBetaTrue domain models
 /// Typed representation of the `BetaFileListResponse` API schema.
 public struct BetaFileListResponse: Codable {
     /// List of file metadata objects.
@@ -17,28 +17,22 @@ public struct BetaFileListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFileListResponse {
-    init(from decoder: Decoder) throws {
+extension BetaFileListResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaFileListResponse {
-    init(data: [BetaFileMetadataSchema], nextPage: String? = nil) {
+extension BetaFileListResponse {
+    public init(data: [BetaFileMetadataSchema], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

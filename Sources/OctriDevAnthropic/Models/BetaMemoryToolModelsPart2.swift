@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// BetaMemoryTool domain models
+// BetaMemoryTool domain models
 /// Command type identifier
 public enum BetaMemoryTool20250818ViewCommandCommand: String, CaseIterable, Codable {
     case view

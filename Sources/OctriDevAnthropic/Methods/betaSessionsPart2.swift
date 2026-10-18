@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaSessionsMethods {
-    struct CreateBetaSessionsOptions: Codable {
+extension BetaSessionsMethods {
+    public struct CreateBetaSessionsOptions: Codable {
         public var agent: BetaManagedAgentsCreateSessionAgentUnionParams
         public var environmentId: String
         public var anthropicVersion: String?
@@ -26,10 +26,7 @@ public extension BetaSessionsMethods {
         }
     }
 
-    /// Creates a session using an agent and an environment configuration. Supply `agent` and `environment_id` at
-    /// minimum; you can also set session metadata, attach resources or vaults, and provide initial events. Initial
-    /// events are processed in order, and the session response includes its status, resolved agent configuration,
-    /// resources, usage, and timing statistics.
+    /// Creates a session using an agent and an environment configuration. Supply `agent` and `environment_id` at minimum; you can also set session metadata, attach resources or vaults, and provide initial events. Initial events are processed in order, and the session response includes its status, resolved agent configuration, resources, usage, and timing statistics.
     ///
     /// - Parameters:
     /// - agent: Agent identifier. Accepts the `agent` ID string, which pins the
@@ -56,45 +53,15 @@ public extension BetaSessionsMethods {
     ///   session. Every model the session can run — the agent's model and each
     ///   callable agent's model — must have a public list price, or the request is
     ///   rejected with reason `model_not_budgetable`.
-    static func createBetaSessions(
-        config: ClientConfig,
-        options: CreateBetaSessionsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsSession {
+    public static func createBetaSessions(config: ClientConfig, options: CreateBetaSessionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
         try validateLength("environment_id", options.environmentId, min: 1, max: 128)
 
         let requestBody = CreateBetaSessionsRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/sessions?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaSessions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/sessions?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaSessions", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 }

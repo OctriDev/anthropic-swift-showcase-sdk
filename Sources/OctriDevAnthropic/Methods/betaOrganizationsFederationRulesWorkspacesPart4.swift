@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsFederationRulesWorkspacesMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Disable a
-    /// federation rule for a workspace. Idempotent; succeeds even if the enablement was already removed. OAuth callers
-    /// may only manage rules whose `oauth_scope` is `workspace:developer` or `workspace:inference`; other scopes
-    /// require a Console session.
+extension BetaOrganizationsFederationRulesWorkspacesMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Disable a federation rule for a workspace. Idempotent; succeeds even if the enablement was already removed. OAuth callers may only manage rules whose `oauth_scope` is `workspace:developer` or `workspace:inference`; other scopes require a Console session.
     ///
     /// - Parameters:
     /// - federationRuleId: ID of the federation rule.
@@ -22,49 +18,10 @@ public extension BetaOrganizationsFederationRulesWorkspacesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func deleteBetaOrganizationsFederationRulesWorkspaces(
-        config: ClientConfig,
-        federationRuleId: String,
-        workspaceId: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRemoveFederationRuleWorkspaceResponse {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/v1/organizations/federation_rules/",
-                sdkEncodePathSegment(sdkWireString(federationRuleId)),
-                "/workspaces/",
-                sdkEncodePathSegment(sdkWireString(workspaceId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteBetaOrganizationsFederationRulesWorkspaces",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func deleteBetaOrganizationsFederationRulesWorkspaces(config: ClientConfig, federationRuleId: String, workspaceId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRemoveFederationRuleWorkspaceResponse {
+        return try (await sdkRequest("DELETE", ["/v1/organizations/federation_rules/", sdkEncodePathSegment(sdkWireString(federationRuleId)), "/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaOrganizationsFederationRulesWorkspaces", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

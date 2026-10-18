@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedRequestText domain models
+// SharedRequestText domain models
 public indirect enum RequestTextBlockCitationsItem {
     case requestCharLocationCitation(RequestCharLocationCitation)
     case requestPageLocationCitation(RequestPageLocationCitation)
@@ -15,6 +15,7 @@ public indirect enum RequestTextBlockCitationsItem {
 }
 
 extension RequestTextBlockCitationsItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -22,16 +23,12 @@ extension RequestTextBlockCitationsItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -42,17 +39,13 @@ extension RequestTextBlockCitationsItem: Codable {
 extension RequestTextBlockCitationsItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "char_location": try .requestCharLocationCitation(RequestCharLocationCitation(from: decoder))
-        case "page_location": try .requestPageLocationCitation(RequestPageLocationCitation(from: decoder))
-        case "content_block_location": try .requestContentBlockLocationCitation(
-                RequestContentBlockLocationCitation(from: decoder)
-            )
+        case "char_location": return .requestCharLocationCitation(try RequestCharLocationCitation(from: decoder))
+        case "page_location": return .requestPageLocationCitation(try RequestPageLocationCitation(from: decoder))
+        case "content_block_location": return .requestContentBlockLocationCitation(try RequestContentBlockLocationCitation(from: decoder))
         case "web_search_result_location":
-            try .requestWebSearchResultLocationCitation(RequestWebSearchResultLocationCitation(from: decoder))
-        case "search_result_location": try .requestSearchResultLocationCitation(
-                RequestSearchResultLocationCitation(from: decoder)
-            )
-        default: nil
+        return .requestWebSearchResultLocationCitation(try RequestWebSearchResultLocationCitation(from: decoder))
+        case "search_result_location": return .requestSearchResultLocationCitation(try RequestSearchResultLocationCitation(from: decoder))
+        default: return nil
         }
     }
 }
@@ -81,6 +74,7 @@ public indirect enum RequestTextEditorCodeExecutionToolResultBlockContent {
 }
 
 extension RequestTextEditorCodeExecutionToolResultBlockContent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -88,16 +82,12 @@ extension RequestTextEditorCodeExecutionToolResultBlockContent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -109,22 +99,14 @@ extension RequestTextEditorCodeExecutionToolResultBlockContent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "text_editor_code_execution_tool_result_error":
-            try .requestTextEditorCodeExecutionToolResultError(
-                RequestTextEditorCodeExecutionToolResultError(from: decoder)
-            )
+        return .requestTextEditorCodeExecutionToolResultError(try RequestTextEditorCodeExecutionToolResultError(from: decoder))
         case "text_editor_code_execution_view_result":
-            try .requestTextEditorCodeExecutionViewResultBlock(
-                RequestTextEditorCodeExecutionViewResultBlock(from: decoder)
-            )
+        return .requestTextEditorCodeExecutionViewResultBlock(try RequestTextEditorCodeExecutionViewResultBlock(from: decoder))
         case "text_editor_code_execution_create_result":
-            try .requestTextEditorCodeExecutionCreateResultBlock(
-                RequestTextEditorCodeExecutionCreateResultBlock(from: decoder)
-            )
+        return .requestTextEditorCodeExecutionCreateResultBlock(try RequestTextEditorCodeExecutionCreateResultBlock(from: decoder))
         case "text_editor_code_execution_str_replace_result":
-            try .requestTextEditorCodeExecutionStrReplaceResultBlock(
-                RequestTextEditorCodeExecutionStrReplaceResultBlock(from: decoder)
-            )
-        default: nil
+        return .requestTextEditorCodeExecutionStrReplaceResultBlock(try RequestTextEditorCodeExecutionStrReplaceResultBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -149,6 +131,7 @@ public indirect enum RequestTextBlockCacheControl {
 }
 
 extension RequestTextBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -156,16 +139,12 @@ extension RequestTextBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -176,8 +155,8 @@ extension RequestTextBlockCacheControl: Codable {
 extension RequestTextBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -210,48 +189,33 @@ public struct RequestTextBlock: Codable {
         case citations
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestTextBlock {
-    init(from decoder: Decoder) throws {
+extension RequestTextBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.text) else {
-            throw SdkValidationError(
-                field: "text",
-                code: "required",
-                message: "Validation failed for 'text': value is required"
-            )
+            throw SdkValidationError(field: "text", code: "required", message: "Validation failed for 'text': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        text = try container.sdkDecodeRequired(.text)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        citations = try container.sdkDecodeIfPresent(.citations)
-        try validateLength("text", text, min: 1, max: nil)
-        try sdkValidateRawEnum("type", type, RequestTextBlockType.allCases.map(\.rawValue))
+        self.text = try container.sdkDecodeRequired(.text)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.citations = try container.sdkDecodeIfPresent(.citations)
+            try validateLength("text", self.text, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, RequestTextBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestTextBlock {
-    init(
-        text: String,
-        type: RequestTextBlockType,
-        cacheControl: RequestTextBlockCacheControl? = nil,
-        citations: [RequestTextBlockCitationsItem]? = nil
-    ) throws {
+extension RequestTextBlock {
+    public init(text: String, type: RequestTextBlockType, cacheControl: RequestTextBlockCacheControl? = nil, citations: [RequestTextBlockCitationsItem]? = nil) throws {
         (self.text, self.type) = (text, type)
         (self.cacheControl, self.citations) = (cacheControl, citations)
-        try validateLength("text", self.text, min: 1, max: nil)
-        try sdkValidateRawEnum("type", self.type, RequestTextBlockType.allCases.map(\.rawValue))
+            try validateLength("text", self.text, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, RequestTextBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -267,46 +231,28 @@ public struct RequestTextEditorCodeExecutionCreateResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestTextEditorCodeExecutionCreateResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestTextEditorCodeExecutionCreateResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.isFileUpdate) else {
-            throw SdkValidationError(
-                field: "is_file_update",
-                code: "required",
-                message: "Validation failed for 'is_file_update': value is required"
-            )
+            throw SdkValidationError(field: "is_file_update", code: "required", message: "Validation failed for 'is_file_update': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        isFileUpdate = try container.sdkDecodeRequired(.isFileUpdate)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            RequestTextEditorCodeExecutionCreateResultBlockType.allCases.map(\.rawValue)
-        )
+        self.isFileUpdate = try container.sdkDecodeRequired(.isFileUpdate)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionCreateResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestTextEditorCodeExecutionCreateResultBlock {
-    init(isFileUpdate: Bool, type: RequestTextEditorCodeExecutionCreateResultBlockType) throws {
+extension RequestTextEditorCodeExecutionCreateResultBlock {
+    public init(isFileUpdate: Bool, type: RequestTextEditorCodeExecutionCreateResultBlockType) throws {
         (self.isFileUpdate, self.type) = (isFileUpdate, type)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            RequestTextEditorCodeExecutionCreateResultBlockType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionCreateResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -334,62 +280,37 @@ public struct RequestTextEditorCodeExecutionViewResultBlock: Codable {
         case totalLines = "total_lines"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestTextEditorCodeExecutionViewResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestTextEditorCodeExecutionViewResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.fileType) else {
-            throw SdkValidationError(
-                field: "file_type",
-                code: "required",
-                message: "Validation failed for 'file_type': value is required"
-            )
+            throw SdkValidationError(field: "file_type", code: "required", message: "Validation failed for 'file_type': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        fileType = try container.sdkDecodeRequired(.fileType)
-        type = try container.sdkDecodeRequired(.type)
-        numLines = try container.sdkDecodeIfPresent(.numLines)
-        startLine = try container.sdkDecodeIfPresent(.startLine)
-        totalLines = try container.sdkDecodeIfPresent(.totalLines)
-        try sdkValidateRawEnum("type", type, RequestTextEditorCodeExecutionViewResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.fileType = try container.sdkDecodeRequired(.fileType)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.numLines = try container.sdkDecodeIfPresent(.numLines)
+        self.startLine = try container.sdkDecodeIfPresent(.startLine)
+        self.totalLines = try container.sdkDecodeIfPresent(.totalLines)
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionViewResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestTextEditorCodeExecutionViewResultBlock {
-    init(
-        content: String,
-        fileType: RequestTextEditorCodeExecutionViewResultBlockFileType,
-        type: RequestTextEditorCodeExecutionViewResultBlockType,
-        numLines: Int? = nil,
-        startLine: Int? = nil,
-        totalLines: Int? = nil
-    ) throws {
+extension RequestTextEditorCodeExecutionViewResultBlock {
+    public init(content: String, fileType: RequestTextEditorCodeExecutionViewResultBlockFileType, type: RequestTextEditorCodeExecutionViewResultBlockType, numLines: Int? = nil, startLine: Int? = nil, totalLines: Int? = nil) throws {
         (self.content, self.fileType) = (content, fileType)
         (self.type, self.numLines) = (type, numLines)
         (self.startLine, self.totalLines) = (startLine, totalLines)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            RequestTextEditorCodeExecutionViewResultBlockType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionViewResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -411,59 +332,36 @@ public struct RequestTextEditorCodeExecutionToolResultBlock: Codable {
         case cacheControl = "cache_control"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestTextEditorCodeExecutionToolResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestTextEditorCodeExecutionToolResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        try sdkValidatePattern("tool_use_id", toolUseId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", type, RequestTextEditorCodeExecutionToolResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestTextEditorCodeExecutionToolResultBlock {
-    init(
-        content: RequestTextEditorCodeExecutionToolResultBlockContent,
-        toolUseId: String,
-        type: RequestTextEditorCodeExecutionToolResultBlockType,
-        cacheControl: RequestTextEditorCodeExecutionToolResultBlockCacheControl? = nil
-    ) throws {
+extension RequestTextEditorCodeExecutionToolResultBlock {
+    public init(content: RequestTextEditorCodeExecutionToolResultBlockContent, toolUseId: String, type: RequestTextEditorCodeExecutionToolResultBlockType, cacheControl: RequestTextEditorCodeExecutionToolResultBlockCacheControl? = nil) throws {
         (self.content, self.toolUseId) = (content, toolUseId)
         (self.type, self.cacheControl) = (type, cacheControl)
-        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            RequestTextEditorCodeExecutionToolResultBlockType.allCases.map(\.rawValue)
-        )
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -482,48 +380,30 @@ public struct RequestTextEditorCodeExecutionToolResultError: Codable {
         case errorMessage = "error_message"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestTextEditorCodeExecutionToolResultError {
-    init(from decoder: Decoder) throws {
+extension RequestTextEditorCodeExecutionToolResultError {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errorCode) else {
-            throw SdkValidationError(
-                field: "error_code",
-                code: "required",
-                message: "Validation failed for 'error_code': value is required"
-            )
+            throw SdkValidationError(field: "error_code", code: "required", message: "Validation failed for 'error_code': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        errorCode = try container.sdkDecodeRequired(.errorCode)
-        type = try container.sdkDecodeRequired(.type)
-        errorMessage = try container.sdkDecodeIfPresent(.errorMessage)
-        try sdkValidateRawEnum("type", type, RequestTextEditorCodeExecutionToolResultErrorType.allCases.map(\.rawValue))
+        self.errorCode = try container.sdkDecodeRequired(.errorCode)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.errorMessage = try container.sdkDecodeIfPresent(.errorMessage)
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestTextEditorCodeExecutionToolResultError {
-    init(
-        errorCode: TextEditorCodeExecutionToolResultErrorCode,
-        type: RequestTextEditorCodeExecutionToolResultErrorType,
-        errorMessage: String? = nil
-    ) throws {
+extension RequestTextEditorCodeExecutionToolResultError {
+    public init(errorCode: TextEditorCodeExecutionToolResultErrorCode, type: RequestTextEditorCodeExecutionToolResultErrorType, errorMessage: String? = nil) throws {
         (self.errorCode, self.type) = (errorCode, type)
         self.errorMessage = errorMessage
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            RequestTextEditorCodeExecutionToolResultErrorType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -551,52 +431,31 @@ public struct RequestTextEditorCodeExecutionStrReplaceResultBlock: Codable {
         case oldStart = "old_start"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestTextEditorCodeExecutionStrReplaceResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestTextEditorCodeExecutionStrReplaceResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        lines = try container.sdkDecodeIfPresent(.lines)
-        newLines = try container.sdkDecodeIfPresent(.newLines)
-        newStart = try container.sdkDecodeIfPresent(.newStart)
-        oldLines = try container.sdkDecodeIfPresent(.oldLines)
-        oldStart = try container.sdkDecodeIfPresent(.oldStart)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            RequestTextEditorCodeExecutionStrReplaceResultBlockType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.lines = try container.sdkDecodeIfPresent(.lines)
+        self.newLines = try container.sdkDecodeIfPresent(.newLines)
+        self.newStart = try container.sdkDecodeIfPresent(.newStart)
+        self.oldLines = try container.sdkDecodeIfPresent(.oldLines)
+        self.oldStart = try container.sdkDecodeIfPresent(.oldStart)
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionStrReplaceResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestTextEditorCodeExecutionStrReplaceResultBlock {
-    init(
-        type: RequestTextEditorCodeExecutionStrReplaceResultBlockType,
-        lines: [String]? = nil,
-        newLines: Int? = nil,
-        newStart: Int? = nil,
-        oldLines: Int? = nil,
-        oldStart: Int? = nil
-    ) throws {
+extension RequestTextEditorCodeExecutionStrReplaceResultBlock {
+    public init(type: RequestTextEditorCodeExecutionStrReplaceResultBlockType, lines: [String]? = nil, newLines: Int? = nil, newStart: Int? = nil, oldLines: Int? = nil, oldStart: Int? = nil) throws {
         (self.type, self.lines) = (type, lines)
         (self.newLines, self.newStart) = (newLines, newStart)
         (self.oldLines, self.oldStart) = (oldLines, oldStart)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            RequestTextEditorCodeExecutionStrReplaceResultBlockType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, RequestTextEditorCodeExecutionStrReplaceResultBlockType.allCases.map(\.rawValue))
     }
 }
 

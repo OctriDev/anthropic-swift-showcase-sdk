@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaEnvironment domain models
+// SharedBetaEnvironment domain models
 public indirect enum BetaEnvironmentConfig {
     case betaCloudConfig(BetaCloudConfig)
     case betaSelfHostedConfig(BetaSelfHostedConfig)
@@ -12,6 +12,7 @@ public indirect enum BetaEnvironmentConfig {
 }
 
 extension BetaEnvironmentConfig: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension BetaEnvironmentConfig: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension BetaEnvironmentConfig: Codable {
 extension BetaEnvironmentConfig {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "cloud": try .betaCloudConfig(BetaCloudConfig(from: decoder))
-        case "self_hosted": try .betaSelfHostedConfig(BetaSelfHostedConfig(from: decoder))
-        default: nil
+        case "cloud": return .betaCloudConfig(try BetaCloudConfig(from: decoder))
+        case "self_hosted": return .betaSelfHostedConfig(try BetaSelfHostedConfig(from: decoder))
+        default: return nil
         }
     }
 }
@@ -56,6 +53,10 @@ extension BetaEnvironmentConfig {
         }
     }
 }
+
+
+
+
 
 /// Unified Environment resource for both cloud and self-hosted environments.
 public struct BetaEnvironment: Codable {
@@ -94,47 +95,34 @@ public struct BetaEnvironment: Codable {
         case scope
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaEnvironment {
-    init(from decoder: Decoder) throws {
+extension BetaEnvironment {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        config = try container.sdkDecodeRequired(.config)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        description = try container.sdkDecodeNullable(.description)
-        id = try container.sdkDecodeRequired(.id)
-        metadata = try container.sdkDecodeRequired(.metadata)
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        scope = try container.sdkDecodeIfPresent(.scope)
-        try sdkValidateRawEnum("type", type, BetaEnvironmentType.allCases.map(\.rawValue))
+        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        self.config = try container.sdkDecodeRequired(.config)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.description = try container.sdkDecodeNullable(.description)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.metadata = try container.sdkDecodeRequired(.metadata)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.scope = try container.sdkDecodeIfPresent(.scope)
+            try sdkValidateRawEnum("type", self.type, BetaEnvironmentType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaEnvironment {
-    init(
-        archivedAt: String?,
-        config: BetaEnvironmentConfig,
-        createdAt: String,
-        description: String?,
-        id: String,
-        metadata: [String: String],
-        name: String,
-        type: BetaEnvironmentType,
-        updatedAt: String,
-        scope: BetaEnvironmentScope? = nil
-    ) throws {
+extension BetaEnvironment {
+    public init(archivedAt: String?, config: BetaEnvironmentConfig, createdAt: String, description: String?, id: String, metadata: [String: String], name: String, type: BetaEnvironmentType, updatedAt: String, scope: BetaEnvironmentScope? = nil) throws {
         (self.archivedAt, self.config) = (archivedAt, config)
         (self.createdAt, self.description) = (createdAt, description)
         (self.id, self.metadata) = (id, metadata)
         (self.name, self.type) = (name, type)
         (self.updatedAt, self.scope) = (updatedAt, scope)
-        try sdkValidateRawEnum("type", self.type, BetaEnvironmentType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaEnvironmentType.allCases.map(\.rawValue))
     }
 }
 
@@ -143,16 +131,13 @@ public extension BetaEnvironment {
 public struct BetaEnvironmentScope: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let organization = BetaEnvironmentScope(rawValue: "organization")
     public static let account = BetaEnvironmentScope(rawValue: "account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

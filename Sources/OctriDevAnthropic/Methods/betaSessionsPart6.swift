@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaSessionsMethods {
-    /// Deletes a session permanently. Use this operation when you need to remove a session rather than archive it. A
-    /// successful response confirms deletion with the session identifier.
+extension BetaSessionsMethods {
+    /// Deletes a session permanently. Use this operation when you need to remove a session rather than archive it. A successful response confirms deletion with the session identifier.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -17,43 +16,11 @@ public extension BetaSessionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func deleteBetaSessions(
-        config: ClientConfig,
-        sessionId: String,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsDeletedSession {
-        try await (sdkRequest(
-            "DELETE",
-            ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "?beta=true"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteBetaSessions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func deleteBetaSessions(config: ClientConfig, sessionId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeletedSession {
+        return try (await sdkRequest("DELETE", ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaSessions", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 }

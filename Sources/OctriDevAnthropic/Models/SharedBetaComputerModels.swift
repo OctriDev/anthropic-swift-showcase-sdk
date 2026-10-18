@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaComputer domain models
+// SharedBetaComputer domain models
 /// ``mouse_move``'s config overrides.
 public struct BetaComputerMouseMoveConfig: Codable {
     /// Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
@@ -18,20 +18,20 @@ public struct BetaComputerMouseMoveConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerMouseMoveConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerMouseMoveConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerMouseMoveConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerMouseMoveConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -51,20 +51,20 @@ public struct BetaComputerTripleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerTripleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerTripleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerTripleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerTripleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -107,113 +107,52 @@ public struct BetaComputerUseTool20250124: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComputerUseTool20250124 {
-    init(from decoder: Decoder) throws {
+extension BetaComputerUseTool20250124 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.displayHeightPx) else {
-            throw SdkValidationError(
-                field: "display_height_px",
-                code: "required",
-                message: "Validation failed for 'display_height_px': value is required"
-            )
+            throw SdkValidationError(field: "display_height_px", code: "required", message: "Validation failed for 'display_height_px': value is required")
         }
         guard container.contains(.displayWidthPx) else {
-            throw SdkValidationError(
-                field: "display_width_px",
-                code: "required",
-                message: "Validation failed for 'display_width_px': value is required"
-            )
+            throw SdkValidationError(field: "display_width_px", code: "required", message: "Validation failed for 'display_width_px': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        displayHeightPx = try container.sdkDecodeRequired(.displayHeightPx)
-        displayWidthPx = try container.sdkDecodeRequired(.displayWidthPx)
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        displayNumber = try container.sdkDecodeIfPresent(.displayNumber)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try validateRange(
-            "display_height_px",
-            Double(displayHeightPx),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "display_width_px",
-            Double(displayWidthPx),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("name", name, BetaComputerUseTool20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaComputerUseTool20250124Type.allCases.map(\.rawValue))
+        self.displayHeightPx = try container.sdkDecodeRequired(.displayHeightPx)
+        self.displayWidthPx = try container.sdkDecodeRequired(.displayWidthPx)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.displayNumber = try container.sdkDecodeIfPresent(.displayNumber)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try validateRange("display_height_px", Double(self.displayHeightPx), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("display_width_px", Double(self.displayWidthPx), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("name", self.name, BetaComputerUseTool20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComputerUseTool20250124Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComputerUseTool20250124 {
-    init(
-        displayHeightPx: Int,
-        displayWidthPx: Int,
-        name: BetaComputerUseTool20250124Name,
-        type: BetaComputerUseTool20250124Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaComputerUseTool20250124CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        displayNumber: Int? = nil,
-        inputExamples: [[String: BetaJsonValue]]? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaComputerUseTool20250124 {
+    public init(displayHeightPx: Int, displayWidthPx: Int, name: BetaComputerUseTool20250124Name, type: BetaComputerUseTool20250124Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaComputerUseTool20250124CacheControl? = nil, deferLoading: Bool? = nil, displayNumber: Int? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, strict: Bool? = nil) throws {
         (self.displayHeightPx, self.displayWidthPx) = (displayHeightPx, displayWidthPx)
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.displayNumber) = (deferLoading, displayNumber)
         (self.inputExamples, self.strict) = (inputExamples, strict)
-        try validateRange(
-            "display_height_px",
-            Double(self.displayHeightPx),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "display_width_px",
-            Double(self.displayWidthPx),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("name", self.name, BetaComputerUseTool20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaComputerUseTool20250124Type.allCases.map(\.rawValue))
+            try validateRange("display_height_px", Double(self.displayHeightPx), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("display_width_px", Double(self.displayWidthPx), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("name", self.name, BetaComputerUseTool20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComputerUseTool20250124Type.allCases.map(\.rawValue))
     }
 }
 
@@ -231,20 +170,20 @@ public struct BetaComputerHoldKeyConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerHoldKeyConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerHoldKeyConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerHoldKeyConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerHoldKeyConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -264,20 +203,20 @@ public struct BetaComputerDoubleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerDoubleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerDoubleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerDoubleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerDoubleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -297,20 +236,20 @@ public struct BetaComputerScrollConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerScrollConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerScrollConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerScrollConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerScrollConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -330,20 +269,20 @@ public struct BetaComputerZoomConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerZoomConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerZoomConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerZoomConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerZoomConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -363,20 +302,20 @@ public struct BetaComputerLeftClickDragConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerLeftClickDragConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerLeftClickDragConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerLeftClickDragConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerLeftClickDragConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -396,20 +335,20 @@ public struct BetaComputerScreenshotConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerScreenshotConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerScreenshotConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerScreenshotConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerScreenshotConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -429,20 +368,20 @@ public struct BetaComputerLeftClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaComputerLeftClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaComputerLeftClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaComputerLeftClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaComputerLeftClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -455,6 +394,7 @@ public indirect enum BetaComputerUseTool20241022CacheControl {
 }
 
 extension BetaComputerUseTool20241022CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -462,16 +402,12 @@ extension BetaComputerUseTool20241022CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -482,8 +418,8 @@ extension BetaComputerUseTool20241022CacheControl: Codable {
 extension BetaComputerUseTool20241022CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -518,37 +454,27 @@ public struct BetaComputerToolset20260801: Codable {
         case configs
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComputerToolset20260801 {
-    init(from decoder: Decoder) throws {
+extension BetaComputerToolset20260801 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        configs = try container.sdkDecodeIfPresent(.configs)
-        try sdkValidateRawEnum("type", type, BetaComputerToolset20260801Type.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.configs = try container.sdkDecodeIfPresent(.configs)
+            try sdkValidateRawEnum("type", self.type, BetaComputerToolset20260801Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComputerToolset20260801 {
-    init(
-        type: BetaComputerToolset20260801Type,
-        cacheControl: BetaComputerToolset20260801CacheControl? = nil,
-        configs: BetaComputerToolsetConfigs? = nil
-    ) throws {
+extension BetaComputerToolset20260801 {
+    public init(type: BetaComputerToolset20260801Type, cacheControl: BetaComputerToolset20260801CacheControl? = nil, configs: BetaComputerToolsetConfigs? = nil) throws {
         (self.type, self.cacheControl) = (type, cacheControl)
         self.configs = configs
-        try sdkValidateRawEnum("type", self.type, BetaComputerToolset20260801Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComputerToolset20260801Type.allCases.map(\.rawValue))
     }
 }
 
@@ -589,7 +515,5 @@ public struct BetaComputerUseTool20241022: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }

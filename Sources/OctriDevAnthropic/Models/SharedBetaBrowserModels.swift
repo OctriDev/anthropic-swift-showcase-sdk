@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaBrowser domain models
+// SharedBetaBrowser domain models
 /// ``javascript_exec``'s config overrides.
 public struct BetaBrowserJavascriptExecConfig: Codable {
     /// Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
@@ -18,20 +18,20 @@ public struct BetaBrowserJavascriptExecConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserJavascriptExecConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserJavascriptExecConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserJavascriptExecConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserJavascriptExecConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -51,20 +51,20 @@ public struct BetaBrowserRightClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserRightClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserRightClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserRightClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserRightClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -84,20 +84,20 @@ public struct BetaBrowserCloseTabConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserCloseTabConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserCloseTabConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserCloseTabConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserCloseTabConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -117,20 +117,20 @@ public struct BetaBrowserReadPageConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserReadPageConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserReadPageConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserReadPageConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserReadPageConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -150,20 +150,20 @@ public struct BetaBrowserMiddleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserMiddleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserMiddleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserMiddleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserMiddleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -183,20 +183,20 @@ public struct BetaBrowserFileUploadConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserFileUploadConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserFileUploadConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserFileUploadConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserFileUploadConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -216,20 +216,20 @@ public struct BetaBrowserLeftClickDragConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserLeftClickDragConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserLeftClickDragConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserLeftClickDragConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserLeftClickDragConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -249,20 +249,20 @@ public struct BetaBrowserWaitConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserWaitConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserWaitConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserWaitConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserWaitConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -282,20 +282,20 @@ public struct BetaBrowserScreenshotConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserScreenshotConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserScreenshotConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserScreenshotConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserScreenshotConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -315,20 +315,20 @@ public struct BetaBrowserHoverConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserHoverConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserHoverConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserHoverConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserHoverConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -348,20 +348,20 @@ public struct BetaBrowserHoldKeyConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserHoldKeyConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserHoldKeyConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserHoldKeyConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserHoldKeyConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -384,37 +384,27 @@ public struct BetaBrowserToolset20260801: Codable {
         case configs
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBrowserToolset20260801 {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserToolset20260801 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        configs = try container.sdkDecodeIfPresent(.configs)
-        try sdkValidateRawEnum("type", type, BetaBrowserToolset20260801Type.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.configs = try container.sdkDecodeIfPresent(.configs)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserToolset20260801Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBrowserToolset20260801 {
-    init(
-        type: BetaBrowserToolset20260801Type,
-        cacheControl: BetaBrowserToolset20260801CacheControl? = nil,
-        configs: BetaBrowserToolsetConfigs? = nil
-    ) throws {
+extension BetaBrowserToolset20260801 {
+    public init(type: BetaBrowserToolset20260801Type, cacheControl: BetaBrowserToolset20260801CacheControl? = nil, configs: BetaBrowserToolsetConfigs? = nil) throws {
         (self.type, self.cacheControl) = (type, cacheControl)
         self.configs = configs
-        try sdkValidateRawEnum("type", self.type, BetaBrowserToolset20260801Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBrowserToolset20260801Type.allCases.map(\.rawValue))
     }
 }
 
@@ -432,20 +422,20 @@ public struct BetaBrowserReadConsoleConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserReadConsoleConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserReadConsoleConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserReadConsoleConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserReadConsoleConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -465,20 +455,20 @@ public struct BetaBrowserGetPageTextConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserGetPageTextConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserGetPageTextConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserGetPageTextConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserGetPageTextConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -498,20 +488,20 @@ public struct BetaBrowserTripleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserTripleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserTripleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserTripleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserTripleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -532,42 +522,32 @@ public struct BetaBrowserStateChangeTabOpened: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBrowserStateChangeTabOpened {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserStateChangeTabOpened {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.tabId) else {
-            throw SdkValidationError(
-                field: "tab_id",
-                code: "required",
-                message: "Validation failed for 'tab_id': value is required"
-            )
+            throw SdkValidationError(field: "tab_id", code: "required", message: "Validation failed for 'tab_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        tabId = try container.sdkDecodeRequired(.tabId)
-        type = try container.sdkDecodeRequired(.type)
-        try validateLength("tab_id", tabId, min: 1, max: 4096)
-        try sdkValidatePattern("tab_id", tabId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", type, BetaBrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
+        self.tabId = try container.sdkDecodeRequired(.tabId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateLength("tab_id", self.tabId, min: 1, max: 4096)
+            try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBrowserStateChangeTabOpened {
-    init(tabId: String, type: BetaBrowserStateChangeTabOpenedType) throws {
+extension BetaBrowserStateChangeTabOpened {
+    public init(tabId: String, type: BetaBrowserStateChangeTabOpenedType) throws {
         (self.tabId, self.type) = (tabId, type)
-        try validateLength("tab_id", self.tabId, min: 1, max: 4096)
-        try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
+            try validateLength("tab_id", self.tabId, min: 1, max: 4096)
+            try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
     }
 }
 
@@ -585,20 +565,20 @@ public struct BetaBrowserLeftMouseUpConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserLeftMouseUpConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserLeftMouseUpConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserLeftMouseUpConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserLeftMouseUpConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -618,6 +598,6 @@ public struct BetaBrowserScrollConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }

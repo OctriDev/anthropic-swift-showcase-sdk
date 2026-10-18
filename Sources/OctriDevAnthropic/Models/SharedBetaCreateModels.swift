@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaCreate domain models
+// SharedBetaCreate domain models
 public indirect enum BetaCreateMessageParamsToolsItem {
     case betaTool(BetaTool)
     case betaBashTool20241022(BetaBashTool20241022)
@@ -36,47 +36,25 @@ public indirect enum BetaCreateMessageParamsToolsItem {
 }
 
 extension BetaCreateMessageParamsToolsItem: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) {
-                self = value; return
-            }
-            if let value = Self.decodeLossless2(from: container, raw) {
-                self = value; return
-            }
-            if let value = Self.decodeLossless3(from: container, raw) {
-                self = value; return
-            }
-            if let value = Self.decodeLossless4(from: container, raw) {
-                self = value; return
-            }
+            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless2(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless3(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless4(from: container, raw) { self = value; return }
         }
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        if let value = Self.decodeGroup2(from: container) {
-            self = value; return
-        }
-        if let value = Self.decodeGroup3(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaCreateMessageParamsToolsItem"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        if let value = Self.decodeGroup2(from: container) { self = value; return }
+        if let value = Self.decodeGroup3(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCreateMessageParamsToolsItem")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
-        if try encodeGroup2(to: encoder) {
-            return
-        }
-        if try encodeGroup3(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup3(to: encoder) { return }
     }
 }
 
@@ -190,116 +168,46 @@ extension BetaCreateMessageParamsToolsItem {
 
 extension BetaCreateMessageParamsToolsItem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(BetaTool.self) {
-            return .betaTool(value)
-        }
-        if let value = try? container.decode(BetaBashTool20241022.self) {
-            return .betaBashTool20241022(value)
-        }
-        if let value = try? container.decode(BetaBashTool20250124.self) {
-            return .betaBashTool20250124(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20250522.self) {
-            return .betaCodeExecutionTool20250522(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20250825.self) {
-            return .betaCodeExecutionTool20250825(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20260120.self) {
-            return .betaCodeExecutionTool20260120(value)
-        }
-        if let value = try? container
-            .decode(BetaCodeExecutionTool20260521.self) {
-            return .betaCodeExecutionTool20260521(value)
-        }
-        if let value = try? container
-            .decode(BetaBrowserToolset20260801.self) {
-            return .betaBrowserToolset20260801(value)
-        }
-        if let value = try? container
-            .decode(BetaComputerUseTool20241022.self) {
-            return .betaComputerUseTool20241022(value)
-        }
-        if let value = try? container.decode(BetaMemoryTool20250818.self) {
-            return .betaMemoryTool20250818(value)
-        }
-        if let value = try? container
-            .decode(BetaComputerUseTool20250124.self) {
-            return .betaComputerUseTool20250124(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20241022.self) {
-            return .betaTextEditor20241022(value)
-        }
+        if let value = try? container.decode(BetaTool.self) { return .betaTool(value) }
+        if let value = try? container.decode(BetaBashTool20241022.self) { return .betaBashTool20241022(value) }
+        if let value = try? container.decode(BetaBashTool20250124.self) { return .betaBashTool20250124(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20250522.self) { return .betaCodeExecutionTool20250522(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20250825.self) { return .betaCodeExecutionTool20250825(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20260120.self) { return .betaCodeExecutionTool20260120(value) }
+        if let value = try? container.decode(BetaCodeExecutionTool20260521.self) { return .betaCodeExecutionTool20260521(value) }
+        if let value = try? container.decode(BetaBrowserToolset20260801.self) { return .betaBrowserToolset20260801(value) }
+        if let value = try? container.decode(BetaComputerUseTool20241022.self) { return .betaComputerUseTool20241022(value) }
+        if let value = try? container.decode(BetaMemoryTool20250818.self) { return .betaMemoryTool20250818(value) }
+        if let value = try? container.decode(BetaComputerUseTool20250124.self) { return .betaComputerUseTool20250124(value) }
+        if let value = try? container.decode(BetaTextEditor20241022.self) { return .betaTextEditor20241022(value) }
         return nil
     }
 }
 
 extension BetaCreateMessageParamsToolsItem {
     static func decodeGroup2(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container
-            .decode(BetaComputerUseTool20251124.self) {
-            return .betaComputerUseTool20251124(value)
-        }
-        if let value = try? container
-            .decode(BetaComputerToolset20260801.self) {
-            return .betaComputerToolset20260801(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20250124.self) {
-            return .betaTextEditor20250124(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20250429.self) {
-            return .betaTextEditor20250429(value)
-        }
-        if let value = try? container.decode(BetaTextEditor20250728.self) {
-            return .betaTextEditor20250728(value)
-        }
-        if let value = try? container
-            .decode(BetaWebSearchTool20250305.self) {
-            return .betaWebSearchTool20250305(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20250910.self) {
-            return .betaWebFetchTool20250910(value)
-        }
-        if let value = try? container
-            .decode(BetaWebSearchTool20260209.self) {
-            return .betaWebSearchTool20260209(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20260209.self) {
-            return .betaWebFetchTool20260209(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20260309.self) {
-            return .betaWebFetchTool20260309(value)
-        }
-        if let value = try? container
-            .decode(BetaWebSearchTool20260318.self) {
-            return .betaWebSearchTool20260318(value)
-        }
-        if let value = try? container.decode(BetaWebFetchTool20260318.self) {
-            return .betaWebFetchTool20260318(value)
-        }
+        if let value = try? container.decode(BetaComputerUseTool20251124.self) { return .betaComputerUseTool20251124(value) }
+        if let value = try? container.decode(BetaComputerToolset20260801.self) { return .betaComputerToolset20260801(value) }
+        if let value = try? container.decode(BetaTextEditor20250124.self) { return .betaTextEditor20250124(value) }
+        if let value = try? container.decode(BetaTextEditor20250429.self) { return .betaTextEditor20250429(value) }
+        if let value = try? container.decode(BetaTextEditor20250728.self) { return .betaTextEditor20250728(value) }
+        if let value = try? container.decode(BetaWebSearchTool20250305.self) { return .betaWebSearchTool20250305(value) }
+        if let value = try? container.decode(BetaWebFetchTool20250910.self) { return .betaWebFetchTool20250910(value) }
+        if let value = try? container.decode(BetaWebSearchTool20260209.self) { return .betaWebSearchTool20260209(value) }
+        if let value = try? container.decode(BetaWebFetchTool20260209.self) { return .betaWebFetchTool20260209(value) }
+        if let value = try? container.decode(BetaWebFetchTool20260309.self) { return .betaWebFetchTool20260309(value) }
+        if let value = try? container.decode(BetaWebSearchTool20260318.self) { return .betaWebSearchTool20260318(value) }
+        if let value = try? container.decode(BetaWebFetchTool20260318.self) { return .betaWebFetchTool20260318(value) }
         return nil
     }
 }
 
 extension BetaCreateMessageParamsToolsItem {
     static func decodeGroup3(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(BetaAdvisorTool20260301.self) {
-            return .betaAdvisorTool20260301(value)
-        }
-        if let value = try? container
-            .decode(BetaToolSearchToolBM2520251119.self) {
-            return .betaToolSearchToolBm2520251119(value)
-        }
-        if let value = try? container
-            .decode(BetaToolSearchToolRegex20251119.self) {
-            return .betaToolSearchToolRegex20251119(value)
-        }
-        if let value = try? container.decode(BetaMCPToolset.self) {
-            return .betaMcpToolset(value)
-        }
+        if let value = try? container.decode(BetaAdvisorTool20260301.self) { return .betaAdvisorTool20260301(value) }
+        if let value = try? container.decode(BetaToolSearchToolBM2520251119.self) { return .betaToolSearchToolBm2520251119(value) }
+        if let value = try? container.decode(BetaToolSearchToolRegex20251119.self) { return .betaToolSearchToolRegex20251119(value) }
+        if let value = try? container.decode(BetaMCPToolset.self) { return .betaMcpToolset(value) }
         return nil
     }
 }
@@ -365,32 +273,22 @@ public indirect enum BetaCreateMessageParamsSystem {
 }
 
 extension BetaCreateMessageParamsSystem: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaCreateMessageParamsSystem"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCreateMessageParamsSystem")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension BetaCreateMessageParamsSystem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container.decode([BetaRequestTextBlock].self) {
-            return .betaRequestTextBlockList(value)
-        }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode([BetaRequestTextBlock].self) { return .betaRequestTextBlockList(value) }
         return nil
     }
 }
@@ -412,35 +310,23 @@ public indirect enum BetaCreateMessageParamsContainer {
 }
 
 extension BetaCreateMessageParamsContainer: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaCreateMessageParamsContainer"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCreateMessageParamsContainer")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension BetaCreateMessageParamsContainer {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(BetaContainerParams.self) {
-            return .betaContainerParams(value)
-        }
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container.decode(JSONValue.self) {
-            return .jsonValue(value)
-        }
+        if let value = try? container.decode(BetaContainerParams.self) { return .betaContainerParams(value) }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
         return nil
     }
 }
@@ -463,6 +349,7 @@ public indirect enum BetaCreateMessageParamsCacheControl {
 }
 
 extension BetaCreateMessageParamsCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -470,16 +357,12 @@ extension BetaCreateMessageParamsCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -490,8 +373,8 @@ extension BetaCreateMessageParamsCacheControl: Codable {
 extension BetaCreateMessageParamsCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -513,36 +396,23 @@ public indirect enum BetaCreateMessageParamsFallbackCreditToken {
 }
 
 extension BetaCreateMessageParamsFallbackCreditToken: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for BetaCreateMessageParamsFallbackCreditToken"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCreateMessageParamsFallbackCreditToken")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension BetaCreateMessageParamsFallbackCreditToken {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container
-            .decode(BetaFallbackCreditTokenParam.self) {
-            return .betaFallbackCreditTokenParam(value)
-        }
-        if let value = try? container.decode(JSONValue.self) {
-            return .jsonValue(value)
-        }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(BetaFallbackCreditTokenParam.self) { return .betaFallbackCreditTokenParam(value) }
+        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
         return nil
     }
 }

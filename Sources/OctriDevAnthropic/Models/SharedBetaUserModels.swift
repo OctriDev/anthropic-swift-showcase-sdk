@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaUser domain models
+// SharedBetaUser domain models
 /// A user within the organization. `name` and `email_address` are null when the underlying account is unavailable
 /// or has been deleted; `deleted` is true only for deleted accounts.
 public struct BetaUserActorSchema: Codable {
@@ -26,64 +26,42 @@ public struct BetaUserActorSchema: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUserActorSchema {
-    init(from decoder: Decoder) throws {
+extension BetaUserActorSchema {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.deleted) else {
-            throw SdkValidationError(
-                field: "deleted",
-                code: "required",
-                message: "Validation failed for 'deleted': value is required"
-            )
+            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
         }
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(
-                field: "email_address",
-                code: "required",
-                message: "Validation failed for 'email_address': value is required"
-            )
+            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
-        deleted = try container.sdkDecodeRequired(.deleted)
-        emailAddress = try container.sdkDecodeNullable(.emailAddress)
-        name = try container.sdkDecodeNullable(.name)
-        type = try container.sdkDecodeRequired(.type)
-        userId = try container.sdkDecodeRequired(.userId)
-        try sdkValidateRawEnum("type", type, BetaUserActorSchemaType.allCases.map(\.rawValue))
+        self.deleted = try container.sdkDecodeRequired(.deleted)
+        self.emailAddress = try container.sdkDecodeNullable(.emailAddress)
+        self.name = try container.sdkDecodeNullable(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.userId = try container.sdkDecodeRequired(.userId)
+            try sdkValidateRawEnum("type", self.type, BetaUserActorSchemaType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaUserActorSchema {
-    init(deleted: Bool, emailAddress: String?, name: String?, type: BetaUserActorSchemaType, userId: String) throws {
+extension BetaUserActorSchema {
+    public init(deleted: Bool, emailAddress: String?, name: String?, type: BetaUserActorSchemaType, userId: String) throws {
         (self.deleted, self.emailAddress) = (deleted, emailAddress)
         (self.name, self.type) = (name, type)
         self.userId = userId
-        try sdkValidateRawEnum("type", self.type, BetaUserActorSchemaType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaUserActorSchemaType.allCases.map(\.rawValue))
     }
 }
 
@@ -111,81 +89,48 @@ public struct BetaUser: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUser {
-    init(from decoder: Decoder) throws {
+extension BetaUser {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.addedAt) else {
-            throw SdkValidationError(
-                field: "added_at",
-                code: "required",
-                message: "Validation failed for 'added_at': value is required"
-            )
+            throw SdkValidationError(field: "added_at", code: "required", message: "Validation failed for 'added_at': value is required")
         }
         guard container.contains(.email) else {
-            throw SdkValidationError(
-                field: "email",
-                code: "required",
-                message: "Validation failed for 'email': value is required"
-            )
+            throw SdkValidationError(field: "email", code: "required", message: "Validation failed for 'email': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.role) else {
-            throw SdkValidationError(
-                field: "role",
-                code: "required",
-                message: "Validation failed for 'role': value is required"
-            )
+            throw SdkValidationError(field: "role", code: "required", message: "Validation failed for 'role': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        addedAt = try container.sdkDecodeRequired(.addedAt)
-        email = try container.sdkDecodeRequired(.email)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        role = try container.sdkDecodeRequired(.role)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("added_at", sdkWireString(addedAt))
-        try sdkValidateRawEnum("type", type, BetaUserType.allCases.map(\.rawValue))
+        self.addedAt = try container.sdkDecodeRequired(.addedAt)
+        self.email = try container.sdkDecodeRequired(.email)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.role = try container.sdkDecodeRequired(.role)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("added_at", sdkWireString(self.addedAt))
+            try sdkValidateRawEnum("type", self.type, BetaUserType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaUser {
-    init(
-        addedAt: Date,
-        email: String,
-        id: String,
-        name: String,
-        role: BetaOrganizationRoleSchema,
-        type: BetaUserType
-    ) throws {
+extension BetaUser {
+    public init(addedAt: Date, email: String, id: String, name: String, role: BetaOrganizationRoleSchema, type: BetaUserType) throws {
         (self.addedAt, self.email) = (addedAt, email)
         (self.id, self.name) = (id, name)
         (self.role, self.type) = (role, type)
-        try sdkValidateDateTime("added_at", sdkWireString(self.addedAt))
-        try sdkValidateRawEnum("type", self.type, BetaUserType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("added_at", sdkWireString(self.addedAt))
+            try sdkValidateRawEnum("type", self.type, BetaUserType.allCases.map(\.rawValue))
     }
 }
 
@@ -210,42 +155,30 @@ public struct BetaUserLocation: Codable {
         case timezone
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUserLocation {
-    init(from decoder: Decoder) throws {
+extension BetaUserLocation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        city = try container.sdkDecodeIfPresent(.city)
-        country = try container.sdkDecodeIfPresent(.country)
-        region = try container.sdkDecodeIfPresent(.region)
-        timezone = try container.sdkDecodeIfPresent(.timezone)
-        try sdkValidateRawEnum("type", type, BetaUserLocationType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.city = try container.sdkDecodeIfPresent(.city)
+        self.country = try container.sdkDecodeIfPresent(.country)
+        self.region = try container.sdkDecodeIfPresent(.region)
+        self.timezone = try container.sdkDecodeIfPresent(.timezone)
+            try sdkValidateRawEnum("type", self.type, BetaUserLocationType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaUserLocation {
-    init(
-        type: BetaUserLocationType,
-        city: String? = nil,
-        country: String? = nil,
-        region: String? = nil,
-        timezone: String? = nil
-    ) throws {
+extension BetaUserLocation {
+    public init(type: BetaUserLocationType, city: String? = nil, country: String? = nil, region: String? = nil, timezone: String? = nil) throws {
         (self.type, self.city) = (type, city)
         (self.country, self.region) = (country, region)
         self.timezone = timezone
-        try sdkValidateRawEnum("type", self.type, BetaUserLocationType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaUserLocationType.allCases.map(\.rawValue))
     }
 }
 
@@ -258,27 +191,21 @@ public struct BetaUserProfileTrustGrant: Codable {
         case status
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUserProfileTrustGrant {
-    init(from decoder: Decoder) throws {
+extension BetaUserProfileTrustGrant {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
-        status = try container.sdkDecodeRequired(.status)
+        self.status = try container.sdkDecodeRequired(.status)
     }
 }
 
-public extension BetaUserProfileTrustGrant {
-    init(status: BetaUserProfileTrustGrantStatus) {
+extension BetaUserProfileTrustGrant {
+    public init(status: BetaUserProfileTrustGrantStatus) {
         self.status = status
     }
 }
@@ -324,82 +251,45 @@ public struct BetaUserProfile: Codable {
         case externalUserOnboardedAt = "external_user_onboarded_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUserProfile {
-    init(from decoder: Decoder) throws {
+extension BetaUserProfile {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.trustGrants) else {
-            throw SdkValidationError(
-                field: "trust_grants",
-                code: "required",
-                message: "Validation failed for 'trust_grants': value is required"
-            )
+            throw SdkValidationError(field: "trust_grants", code: "required", message: "Validation failed for 'trust_grants': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.metadata) else {
-            throw SdkValidationError(
-                field: "metadata",
-                code: "required",
-                message: "Validation failed for 'metadata': value is required"
-            )
+            throw SdkValidationError(field: "metadata", code: "required", message: "Validation failed for 'metadata': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        trustGrants = try container.sdkDecodeRequired(.trustGrants)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        metadata = try container.sdkDecodeRequired(.metadata)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        externalId = try container.sdkDecodeIfPresent(.externalId)
-        name = try container.sdkDecodeIfPresent(.name)
-        accessType = try container.sdkDecodeIfPresent(.accessType)
-        externalUserOnboardedAt = try container.sdkDecodeIfPresent(.externalUserOnboardedAt)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.trustGrants = try container.sdkDecodeRequired(.trustGrants)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.metadata = try container.sdkDecodeRequired(.metadata)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.externalId = try container.sdkDecodeIfPresent(.externalId)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.accessType = try container.sdkDecodeIfPresent(.accessType)
+        self.externalUserOnboardedAt = try container.sdkDecodeIfPresent(.externalUserOnboardedAt)
     }
 }
 
-public extension BetaUserProfile {
-    init(
-        id: String,
-        type: BetaUserProfileType,
-        trustGrants: [String: BetaUserProfileTrustGrant],
-        createdAt: BetaTimestamp,
-        metadata: [String: String],
-        updatedAt: BetaTimestamp,
-        externalId: String? = nil,
-        name: String? = nil,
-        accessType: BetaUserProfileAccessType? = nil,
-        externalUserOnboardedAt: BetaTimestamp? = nil
-    ) {
+extension BetaUserProfile {
+    public init(id: String, type: BetaUserProfileType, trustGrants: [String: BetaUserProfileTrustGrant], createdAt: BetaTimestamp, metadata: [String: String], updatedAt: BetaTimestamp, externalId: String? = nil, name: String? = nil, accessType: BetaUserProfileAccessType? = nil, externalUserOnboardedAt: BetaTimestamp? = nil) {
         (self.id, self.type) = (id, type)
         (self.trustGrants, self.createdAt) = (trustGrants, createdAt)
         (self.metadata, self.updatedAt) = (metadata, updatedAt)
@@ -420,38 +310,28 @@ public struct BetaUserScope: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUserScope {
-    init(from decoder: Decoder) throws {
+extension BetaUserScope {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        userId = try container.sdkDecodeRequired(.userId)
-        try sdkValidateRawEnum("type", type, BetaUserScopeType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.userId = try container.sdkDecodeRequired(.userId)
+            try sdkValidateRawEnum("type", self.type, BetaUserScopeType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaUserScope {
-    init(type: BetaUserScopeType, userId: String) throws {
+extension BetaUserScope {
+    public init(type: BetaUserScopeType, userId: String) throws {
         (self.type, self.userId) = (type, userId)
-        try sdkValidateRawEnum("type", self.type, BetaUserScopeType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaUserScopeType.allCases.map(\.rawValue))
     }
 }
 
@@ -462,16 +342,13 @@ public extension BetaUserScope {
 public struct BetaUserProfileAccessType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let application = BetaUserProfileAccessType(rawValue: "application")
     public static let passthrough = BetaUserProfileAccessType(rawValue: "passthrough")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -502,15 +379,12 @@ public enum BetaUserScopeType: String, CaseIterable, Codable {
 public struct BetaUserProfileType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let userProfile = BetaUserProfileType(rawValue: "user_profile")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -577,17 +451,14 @@ public enum BetaUserActorSchemaType: String, CaseIterable, Codable {
 public struct BetaUserProfileTrustGrantStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = BetaUserProfileTrustGrantStatus(rawValue: "active")
     public static let pending = BetaUserProfileTrustGrantStatus(rawValue: "pending")
     public static let rejected = BetaUserProfileTrustGrantStatus(rawValue: "rejected")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,8 +3,9 @@
 
 import Foundation
 
-/// SharedRequestText domain models
+// SharedRequestText domain models
 extension RequestTextEditorCodeExecutionToolResultBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -12,16 +13,12 @@ extension RequestTextEditorCodeExecutionToolResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -32,8 +29,8 @@ extension RequestTextEditorCodeExecutionToolResultBlockCacheControl: Codable {
 extension RequestTextEditorCodeExecutionToolResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -157,21 +154,17 @@ public enum RequestTextBlockType: String, CaseIterable, Codable {
 }
 
 /// Required enumerated value serialized in the `file_type` wire field.
-public struct RequestTextEditorCodeExecutionViewResultBlockFileType: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct RequestTextEditorCodeExecutionViewResultBlockFileType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let text = RequestTextEditorCodeExecutionViewResultBlockFileType(rawValue: "text")
     public static let image = RequestTextEditorCodeExecutionViewResultBlockFileType(rawValue: "image")
     public static let pdf = RequestTextEditorCodeExecutionViewResultBlockFileType(rawValue: "pdf")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

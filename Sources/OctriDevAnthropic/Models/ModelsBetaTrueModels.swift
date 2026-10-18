@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ModelsBetaTrue domain models
+// ModelsBetaTrue domain models
 /// Typed representation of the `BetaListResponse_ModelInfo_` API schema.
 public struct BetaListResponseModelInfo: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -22,51 +22,33 @@ public struct BetaListResponseModelInfo: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaListResponseModelInfo {
-    init(from decoder: Decoder) throws {
+extension BetaListResponseModelInfo {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.firstId) else {
-            throw SdkValidationError(
-                field: "first_id",
-                code: "required",
-                message: "Validation failed for 'first_id': value is required"
-            )
+            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.lastId) else {
-            throw SdkValidationError(
-                field: "last_id",
-                code: "required",
-                message: "Validation failed for 'last_id': value is required"
-            )
+            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        firstId = try container.sdkDecodeNullable(.firstId)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        lastId = try container.sdkDecodeNullable(.lastId)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.firstId = try container.sdkDecodeNullable(.firstId)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.lastId = try container.sdkDecodeNullable(.lastId)
     }
 }
 
-public extension BetaListResponseModelInfo {
-    init(data: [BetaModelInfo], firstId: String?, hasMore: Bool, lastId: String?) {
+extension BetaListResponseModelInfo {
+    public init(data: [BetaModelInfo], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }

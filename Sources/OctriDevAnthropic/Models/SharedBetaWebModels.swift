@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaWeb domain models
+// SharedBetaWeb domain models
 /// Web fetch tool with use_cache parameter for bypassing cached content.
 public struct BetaWebFetchTool20260309: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -49,68 +49,45 @@ public struct BetaWebFetchTool20260309: Codable {
         case useCache = "use_cache"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaWebFetchTool20260309 {
-    init(from decoder: Decoder) throws {
+extension BetaWebFetchTool20260309 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        citations = try container.sdkDecodeIfPresent(.citations)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        useCache = try container.sdkDecodeIfPresent(.useCache)
-        try sdkValidateRawEnum("name", name, BetaWebFetchTool20260309Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaWebFetchTool20260309Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.citations = try container.sdkDecodeIfPresent(.citations)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+        self.useCache = try container.sdkDecodeIfPresent(.useCache)
+            try sdkValidateRawEnum("name", self.name, BetaWebFetchTool20260309Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaWebFetchTool20260309Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaWebFetchTool20260309 {
-    init(
-        name: BetaWebFetchTool20260309Name,
-        type: BetaWebFetchTool20260309Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        allowedDomains: [String]? = nil,
-        blockedDomains: [String]? = nil,
-        cacheControl: BetaWebFetchTool20260309CacheControl? = nil,
-        citations: BetaRequestCitationsConfig? = nil,
-        deferLoading: Bool? = nil,
-        maxContentTokens: Int? = nil,
-        maxUses: Int? = nil,
-        strict: Bool? = nil,
-        useCache: Bool? = nil
-    ) throws {
+extension BetaWebFetchTool20260309 {
+    public init(name: BetaWebFetchTool20260309Name, type: BetaWebFetchTool20260309Type, allowedCallers: [BetaAllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: BetaWebFetchTool20260309CacheControl? = nil, citations: BetaRequestCitationsConfig? = nil, deferLoading: Bool? = nil, maxContentTokens: Int? = nil, maxUses: Int? = nil, strict: Bool? = nil, useCache: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.citations, self.deferLoading) = (citations, deferLoading)
         (self.maxContentTokens, self.maxUses) = (maxContentTokens, maxUses)
         (self.strict, self.useCache) = (strict, useCache)
-        try sdkValidateRawEnum("name", self.name, BetaWebFetchTool20260309Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaWebFetchTool20260309Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaWebFetchTool20260309Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaWebFetchTool20260309Type.allCases.map(\.rawValue))
     }
 }
 
@@ -151,63 +128,42 @@ public struct BetaWebSearchTool20250305: Codable {
         case userLocation = "user_location"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaWebSearchTool20250305 {
-    init(from decoder: Decoder) throws {
+extension BetaWebSearchTool20250305 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        userLocation = try container.sdkDecodeIfPresent(.userLocation)
-        try sdkValidateRawEnum("name", name, BetaWebSearchTool20250305Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaWebSearchTool20250305Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+        self.userLocation = try container.sdkDecodeIfPresent(.userLocation)
+            try sdkValidateRawEnum("name", self.name, BetaWebSearchTool20250305Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaWebSearchTool20250305Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaWebSearchTool20250305 {
-    init(
-        name: BetaWebSearchTool20250305Name,
-        type: BetaWebSearchTool20250305Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        allowedDomains: [String]? = nil,
-        blockedDomains: [String]? = nil,
-        cacheControl: BetaWebSearchTool20250305CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        maxUses: Int? = nil,
-        strict: Bool? = nil,
-        userLocation: BetaUserLocation? = nil
-    ) throws {
+extension BetaWebSearchTool20250305 {
+    public init(name: BetaWebSearchTool20250305Name, type: BetaWebSearchTool20250305Type, allowedCallers: [BetaAllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: BetaWebSearchTool20250305CacheControl? = nil, deferLoading: Bool? = nil, maxUses: Int? = nil, strict: Bool? = nil, userLocation: BetaUserLocation? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.deferLoading, self.maxUses) = (deferLoading, maxUses)
         (self.strict, self.userLocation) = (strict, userLocation)
-        try sdkValidateRawEnum("name", self.name, BetaWebSearchTool20250305Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaWebSearchTool20250305Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaWebSearchTool20250305Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaWebSearchTool20250305Type.allCases.map(\.rawValue))
     }
 }
 
@@ -218,6 +174,7 @@ public indirect enum BetaWebFetchTool20260318CacheControl {
 }
 
 extension BetaWebFetchTool20260318CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -225,16 +182,12 @@ extension BetaWebFetchTool20260318CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -245,8 +198,8 @@ extension BetaWebFetchTool20260318CacheControl: Codable {
 extension BetaWebFetchTool20260318CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -268,6 +221,7 @@ public indirect enum BetaWebFetchTool20260209CacheControl {
 }
 
 extension BetaWebFetchTool20260209CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -275,16 +229,12 @@ extension BetaWebFetchTool20260209CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -295,8 +245,8 @@ extension BetaWebFetchTool20260209CacheControl: Codable {
 extension BetaWebFetchTool20260209CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -318,6 +268,7 @@ public indirect enum BetaWebSearchTool20250305CacheControl {
 }
 
 extension BetaWebSearchTool20250305CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -325,16 +276,12 @@ extension BetaWebSearchTool20250305CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -345,8 +292,8 @@ extension BetaWebSearchTool20250305CacheControl: Codable {
 extension BetaWebSearchTool20250305CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -368,6 +315,7 @@ public indirect enum BetaWebFetchTool20250910CacheControl {
 }
 
 extension BetaWebFetchTool20250910CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -375,16 +323,12 @@ extension BetaWebFetchTool20250910CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -395,8 +339,8 @@ extension BetaWebFetchTool20250910CacheControl: Codable {
 extension BetaWebFetchTool20250910CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -418,6 +362,7 @@ public indirect enum BetaWebSearchTool20260318CacheControl {
 }
 
 extension BetaWebSearchTool20260318CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -425,16 +370,12 @@ extension BetaWebSearchTool20260318CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -445,8 +386,8 @@ extension BetaWebSearchTool20260318CacheControl: Codable {
 extension BetaWebSearchTool20260318CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -504,66 +445,44 @@ public struct BetaWebSearchTool20260318: Codable {
         case userLocation = "user_location"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaWebSearchTool20260318 {
-    init(from decoder: Decoder) throws {
+extension BetaWebSearchTool20260318 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        responseInclusion = try container.sdkDecodeIfPresent(.responseInclusion)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        userLocation = try container.sdkDecodeIfPresent(.userLocation)
-        try sdkValidateRawEnum("name", name, BetaWebSearchTool20260318Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaWebSearchTool20260318Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.responseInclusion = try container.sdkDecodeIfPresent(.responseInclusion)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+        self.userLocation = try container.sdkDecodeIfPresent(.userLocation)
+            try sdkValidateRawEnum("name", self.name, BetaWebSearchTool20260318Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaWebSearchTool20260318Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaWebSearchTool20260318 {
-    init(
-        name: BetaWebSearchTool20260318Name,
-        type: BetaWebSearchTool20260318Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        allowedDomains: [String]? = nil,
-        blockedDomains: [String]? = nil,
-        cacheControl: BetaWebSearchTool20260318CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        maxUses: Int? = nil,
-        responseInclusion: BetaWebSearchTool20260318ResponseInclusion? = nil,
-        strict: Bool? = nil,
-        userLocation: BetaUserLocation? = nil
-    ) throws {
+extension BetaWebSearchTool20260318 {
+    public init(name: BetaWebSearchTool20260318Name, type: BetaWebSearchTool20260318Type, allowedCallers: [BetaAllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: BetaWebSearchTool20260318CacheControl? = nil, deferLoading: Bool? = nil, maxUses: Int? = nil, responseInclusion: BetaWebSearchTool20260318ResponseInclusion? = nil, strict: Bool? = nil, userLocation: BetaUserLocation? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.deferLoading, self.maxUses) = (deferLoading, maxUses)
         (self.responseInclusion, self.strict) = (responseInclusion, strict)
         self.userLocation = userLocation
-        try sdkValidateRawEnum("name", self.name, BetaWebSearchTool20260318Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaWebSearchTool20260318Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaWebSearchTool20260318Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaWebSearchTool20260318Type.allCases.map(\.rawValue))
     }
 }
 
@@ -608,7 +527,5 @@ public struct BetaWebFetchTool20260209: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }

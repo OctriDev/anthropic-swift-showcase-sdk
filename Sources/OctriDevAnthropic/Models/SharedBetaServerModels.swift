@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaServer domain models
+// SharedBetaServer domain models
 /// Typed representation of the `BetaServerToolUsage` API schema.
 public struct BetaServerToolUsage: Codable {
     /// The number of web fetch tool requests.
@@ -16,72 +16,30 @@ public struct BetaServerToolUsage: Codable {
         case webSearchRequests = "web_search_requests"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServerToolUsage {
-    init(from decoder: Decoder) throws {
+extension BetaServerToolUsage {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.webFetchRequests) else {
-            throw SdkValidationError(
-                field: "web_fetch_requests",
-                code: "required",
-                message: "Validation failed for 'web_fetch_requests': value is required"
-            )
+            throw SdkValidationError(field: "web_fetch_requests", code: "required", message: "Validation failed for 'web_fetch_requests': value is required")
         }
         guard container.contains(.webSearchRequests) else {
-            throw SdkValidationError(
-                field: "web_search_requests",
-                code: "required",
-                message: "Validation failed for 'web_search_requests': value is required"
-            )
+            throw SdkValidationError(field: "web_search_requests", code: "required", message: "Validation failed for 'web_search_requests': value is required")
         }
-        webFetchRequests = try container.sdkDecodeRequired(.webFetchRequests)
-        webSearchRequests = try container.sdkDecodeRequired(.webSearchRequests)
-        try validateRange(
-            "web_fetch_requests",
-            Double(webFetchRequests),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "web_search_requests",
-            Double(webSearchRequests),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+        self.webFetchRequests = try container.sdkDecodeRequired(.webFetchRequests)
+        self.webSearchRequests = try container.sdkDecodeRequired(.webSearchRequests)
+            try validateRange("web_fetch_requests", Double(self.webFetchRequests), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("web_search_requests", Double(self.webSearchRequests), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
     }
 }
 
-public extension BetaServerToolUsage {
-    init(webFetchRequests: Int, webSearchRequests: Int) throws {
+extension BetaServerToolUsage {
+    public init(webFetchRequests: Int, webSearchRequests: Int) throws {
         (self.webFetchRequests, self.webSearchRequests) = (webFetchRequests, webSearchRequests)
-        try validateRange(
-            "web_fetch_requests",
-            Double(self.webFetchRequests),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "web_search_requests",
-            Double(self.webSearchRequests),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+            try validateRange("web_fetch_requests", Double(self.webFetchRequests), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("web_search_requests", Double(self.webSearchRequests), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
     }
 }
 
@@ -94,27 +52,21 @@ public struct BetaServerToolUse: Codable {
         case webSearchRequests = "web_search_requests"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServerToolUse {
-    init(from decoder: Decoder) throws {
+extension BetaServerToolUse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.webSearchRequests) else {
-            throw SdkValidationError(
-                field: "web_search_requests",
-                code: "required",
-                message: "Validation failed for 'web_search_requests': value is required"
-            )
+            throw SdkValidationError(field: "web_search_requests", code: "required", message: "Validation failed for 'web_search_requests': value is required")
         }
-        webSearchRequests = try container.sdkDecodeRequired(.webSearchRequests)
+        self.webSearchRequests = try container.sdkDecodeRequired(.webSearchRequests)
     }
 }
 
-public extension BetaServerToolUse {
-    init(webSearchRequests: Int) {
+extension BetaServerToolUse {
+    public init(webSearchRequests: Int) {
         self.webSearchRequests = webSearchRequests
     }
 }
@@ -131,40 +83,30 @@ public struct BetaServerToolCaller: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServerToolCaller {
-    init(from decoder: Decoder) throws {
+extension BetaServerToolCaller {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.toolId) else {
-            throw SdkValidationError(
-                field: "tool_id",
-                code: "required",
-                message: "Validation failed for 'tool_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_id", code: "required", message: "Validation failed for 'tool_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        toolId = try container.sdkDecodeRequired(.toolId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidatePattern("tool_id", toolId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", type, BetaServerToolCallerType.allCases.map(\.rawValue))
+        self.toolId = try container.sdkDecodeRequired(.toolId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidatePattern("tool_id", self.toolId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, BetaServerToolCallerType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaServerToolCaller {
-    init(toolId: String, type: BetaServerToolCallerType) throws {
+extension BetaServerToolCaller {
+    public init(toolId: String, type: BetaServerToolCallerType) throws {
         (self.toolId, self.type) = (toolId, type)
-        try sdkValidatePattern("tool_id", self.toolId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", self.type, BetaServerToolCallerType.allCases.map(\.rawValue))
+            try sdkValidatePattern("tool_id", self.toolId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, BetaServerToolCallerType.allCases.map(\.rawValue))
     }
 }
 
@@ -180,40 +122,30 @@ public struct BetaServerToolCaller20260120: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaServerToolCaller20260120 {
-    init(from decoder: Decoder) throws {
+extension BetaServerToolCaller20260120 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.toolId) else {
-            throw SdkValidationError(
-                field: "tool_id",
-                code: "required",
-                message: "Validation failed for 'tool_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_id", code: "required", message: "Validation failed for 'tool_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        toolId = try container.sdkDecodeRequired(.toolId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidatePattern("tool_id", toolId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", type, BetaServerToolCaller20260120Type.allCases.map(\.rawValue))
+        self.toolId = try container.sdkDecodeRequired(.toolId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidatePattern("tool_id", self.toolId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, BetaServerToolCaller20260120Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaServerToolCaller20260120 {
-    init(toolId: String, type: BetaServerToolCaller20260120Type) throws {
+extension BetaServerToolCaller20260120 {
+    public init(toolId: String, type: BetaServerToolCaller20260120Type) throws {
         (self.toolId, self.type) = (toolId, type)
-        try sdkValidatePattern("tool_id", self.toolId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", self.type, BetaServerToolCaller20260120Type.allCases.map(\.rawValue))
+            try sdkValidatePattern("tool_id", self.toolId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, BetaServerToolCaller20260120Type.allCases.map(\.rawValue))
     }
 }
 

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaDream domain models
+// SharedBetaDream domain models
 public indirect enum BetaDreamInput {
     case betaDreamMemoryStoreInput(BetaDreamMemoryStoreInput)
     case betaDreamSessionsInput(BetaDreamSessionsInput)
@@ -12,6 +12,7 @@ public indirect enum BetaDreamInput {
 }
 
 extension BetaDreamInput: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension BetaDreamInput: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension BetaDreamInput: Codable {
 extension BetaDreamInput {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store": try .betaDreamMemoryStoreInput(BetaDreamMemoryStoreInput(from: decoder))
-        case "sessions": try .betaDreamSessionsInput(BetaDreamSessionsInput(from: decoder))
-        default: nil
+        case "memory_store": return .betaDreamMemoryStoreInput(try BetaDreamMemoryStoreInput(from: decoder))
+        case "sessions": return .betaDreamSessionsInput(try BetaDreamSessionsInput(from: decoder))
+        default: return nil
         }
     }
 }
@@ -64,6 +61,7 @@ public indirect enum BetaDreamOutput {
 }
 
 extension BetaDreamOutput: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -71,16 +69,12 @@ extension BetaDreamOutput: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -91,8 +85,8 @@ extension BetaDreamOutput: Codable {
 extension BetaDreamOutput {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store": try .betaDreamMemoryStoreOutput(BetaDreamMemoryStoreOutput(from: decoder))
-        default: nil
+        case "memory_store": return .betaDreamMemoryStoreOutput(try BetaDreamMemoryStoreOutput(from: decoder))
+        default: return nil
         }
     }
 }
@@ -159,49 +153,32 @@ public struct BetaDream: Codable {
         case outputBehavior = "output_behavior"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDream {
-    init(from decoder: Decoder) throws {
+extension BetaDream {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
-        inputs = try container.sdkDecodeRequired(.inputs)
-        outputs = try container.sdkDecodeRequired(.outputs)
-        status = try container.sdkDecodeRequired(.status)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        endedAt = try container.sdkDecodeNullable(.endedAt)
-        archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        error = try container.sdkDecodeNullable(.error)
-        model = try container.sdkDecodeRequired(.model)
-        instructions = try container.sdkDecodeNullable(.instructions)
-        sessionId = try container.sdkDecodeNullable(.sessionId)
-        usage = try container.sdkDecodeRequired(.usage)
-        outputBehavior = try container.sdkDecodeRequired(.outputBehavior)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.inputs = try container.sdkDecodeRequired(.inputs)
+        self.outputs = try container.sdkDecodeRequired(.outputs)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.endedAt = try container.sdkDecodeNullable(.endedAt)
+        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        self.error = try container.sdkDecodeNullable(.error)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.instructions = try container.sdkDecodeNullable(.instructions)
+        self.sessionId = try container.sdkDecodeNullable(.sessionId)
+        self.usage = try container.sdkDecodeRequired(.usage)
+        self.outputBehavior = try container.sdkDecodeRequired(.outputBehavior)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
     }
 }
 
-public extension BetaDream {
-    init(
-        type: BetaDreamType,
-        id: String,
-        inputs: [BetaDreamInput],
-        outputs: [BetaDreamOutput],
-        status: BetaDreamStatus,
-        createdAt: BetaTimestamp,
-        endedAt: BetaTimestamp?,
-        archivedAt: BetaTimestamp?,
-        error: BetaDreamError?,
-        model: BetaDreamModelConfig,
-        instructions: String?,
-        sessionId: String?,
-        usage: BetaDreamUsage,
-        outputBehavior: BetaOutputBehavior
-    ) throws {
+extension BetaDream {
+    public init(type: BetaDreamType, id: String, inputs: [BetaDreamInput], outputs: [BetaDreamOutput], status: BetaDreamStatus, createdAt: BetaTimestamp, endedAt: BetaTimestamp?, archivedAt: BetaTimestamp?, error: BetaDreamError?, model: BetaDreamModelConfig, instructions: String?, sessionId: String?, usage: BetaDreamUsage, outputBehavior: BetaOutputBehavior) throws {
         (self.type, self.id) = (type, id)
         (self.inputs, self.outputs) = (inputs, outputs)
         (self.status, self.createdAt) = (status, createdAt)
@@ -209,7 +186,7 @@ public extension BetaDream {
         (self.error, self.model) = (error, model)
         (self.instructions, self.sessionId) = (instructions, sessionId)
         (self.usage, self.outputBehavior) = (usage, outputBehavior)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
     }
 }
 
@@ -225,38 +202,28 @@ public struct BetaDreamSessionsInput: Codable {
         case sessionIds = "session_ids"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamSessionsInput {
-    init(from decoder: Decoder) throws {
+extension BetaDreamSessionsInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.sessionIds) else {
-            throw SdkValidationError(
-                field: "session_ids",
-                code: "required",
-                message: "Validation failed for 'session_ids': value is required"
-            )
+            throw SdkValidationError(field: "session_ids", code: "required", message: "Validation failed for 'session_ids': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        sessionIds = try container.sdkDecodeRequired(.sessionIds)
-        try sdkValidateRawEnum("type", type, BetaDreamSessionsInputType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.sessionIds = try container.sdkDecodeRequired(.sessionIds)
+            try sdkValidateRawEnum("type", self.type, BetaDreamSessionsInputType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaDreamSessionsInput {
-    init(type: BetaDreamSessionsInputType, sessionIds: [String]) throws {
+extension BetaDreamSessionsInput {
+    public init(type: BetaDreamSessionsInputType, sessionIds: [String]) throws {
         (self.type, self.sessionIds) = (type, sessionIds)
-        try sdkValidateRawEnum("type", self.type, BetaDreamSessionsInputType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaDreamSessionsInputType.allCases.map(\.rawValue))
     }
 }
 
@@ -278,51 +245,33 @@ public struct BetaDreamUsage: Codable {
         case cacheCreationInputTokens = "cache_creation_input_tokens"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamUsage {
-    init(from decoder: Decoder) throws {
+extension BetaDreamUsage {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.inputTokens) else {
-            throw SdkValidationError(
-                field: "input_tokens",
-                code: "required",
-                message: "Validation failed for 'input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "input_tokens", code: "required", message: "Validation failed for 'input_tokens': value is required")
         }
         guard container.contains(.outputTokens) else {
-            throw SdkValidationError(
-                field: "output_tokens",
-                code: "required",
-                message: "Validation failed for 'output_tokens': value is required"
-            )
+            throw SdkValidationError(field: "output_tokens", code: "required", message: "Validation failed for 'output_tokens': value is required")
         }
         guard container.contains(.cacheReadInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_read_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_read_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_read_input_tokens", code: "required", message: "Validation failed for 'cache_read_input_tokens': value is required")
         }
         guard container.contains(.cacheCreationInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_creation_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_creation_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_creation_input_tokens", code: "required", message: "Validation failed for 'cache_creation_input_tokens': value is required")
         }
-        inputTokens = try container.sdkDecodeRequired(.inputTokens)
-        outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
-        cacheCreationInputTokens = try container.sdkDecodeRequired(.cacheCreationInputTokens)
+        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
+        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        self.cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
+        self.cacheCreationInputTokens = try container.sdkDecodeRequired(.cacheCreationInputTokens)
     }
 }
 
-public extension BetaDreamUsage {
-    init(inputTokens: Int, outputTokens: Int, cacheReadInputTokens: Int, cacheCreationInputTokens: Int) {
+extension BetaDreamUsage {
+    public init(inputTokens: Int, outputTokens: Int, cacheReadInputTokens: Int, cacheCreationInputTokens: Int) {
         (self.inputTokens, self.outputTokens) = (inputTokens, outputTokens)
         self.cacheReadInputTokens = cacheReadInputTokens
         self.cacheCreationInputTokens = cacheCreationInputTokens
@@ -341,35 +290,25 @@ public struct BetaDreamError: Codable {
         case message
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamError {
-    init(from decoder: Decoder) throws {
+extension BetaDreamError {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        message = try container.sdkDecodeRequired(.message)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.message = try container.sdkDecodeRequired(.message)
     }
 }
 
-public extension BetaDreamError {
-    init(type: String, message: String) {
+extension BetaDreamError {
+    public init(type: String, message: String) {
         (self.type, self.message) = (type, message)
     }
 }
@@ -387,31 +326,25 @@ public struct BetaDreamModelConfig: Codable {
         case speed
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamModelConfig {
-    init(from decoder: Decoder) throws {
+extension BetaDreamModelConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        speed = try container.sdkDecodeIfPresent(.speed)
-        try validateLength("id", id, min: 1, max: 256)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.speed = try container.sdkDecodeIfPresent(.speed)
+            try validateLength("id", self.id, min: 1, max: 256)
     }
 }
 
-public extension BetaDreamModelConfig {
-    init(id: String, speed: BetaSpeed? = nil) throws {
+extension BetaDreamModelConfig {
+    public init(id: String, speed: BetaSpeed? = nil) throws {
         (self.id, self.speed) = (id, speed)
-        try validateLength("id", self.id, min: 1, max: 256)
+            try validateLength("id", self.id, min: 1, max: 256)
     }
 }
 
@@ -427,38 +360,28 @@ public struct BetaDreamMemoryStoreOutput: Codable {
         case memoryStoreId = "memory_store_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamMemoryStoreOutput {
-    init(from decoder: Decoder) throws {
+extension BetaDreamMemoryStoreOutput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.memoryStoreId) else {
-            throw SdkValidationError(
-                field: "memory_store_id",
-                code: "required",
-                message: "Validation failed for 'memory_store_id': value is required"
-            )
+            throw SdkValidationError(field: "memory_store_id", code: "required", message: "Validation failed for 'memory_store_id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        memoryStoreId = try container.sdkDecodeRequired(.memoryStoreId)
-        try sdkValidateRawEnum("type", type, BetaDreamMemoryStoreOutputType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.memoryStoreId = try container.sdkDecodeRequired(.memoryStoreId)
+            try sdkValidateRawEnum("type", self.type, BetaDreamMemoryStoreOutputType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaDreamMemoryStoreOutput {
-    init(type: BetaDreamMemoryStoreOutputType, memoryStoreId: String) throws {
+extension BetaDreamMemoryStoreOutput {
+    public init(type: BetaDreamMemoryStoreOutputType, memoryStoreId: String) throws {
         (self.type, self.memoryStoreId) = (type, memoryStoreId)
-        try sdkValidateRawEnum("type", self.type, BetaDreamMemoryStoreOutputType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaDreamMemoryStoreOutputType.allCases.map(\.rawValue))
     }
 }
 
@@ -475,40 +398,30 @@ public struct BetaDreamMemoryStoreInput: Codable {
         case memoryStoreId = "memory_store_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDreamMemoryStoreInput {
-    init(from decoder: Decoder) throws {
+extension BetaDreamMemoryStoreInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.memoryStoreId) else {
-            throw SdkValidationError(
-                field: "memory_store_id",
-                code: "required",
-                message: "Validation failed for 'memory_store_id': value is required"
-            )
+            throw SdkValidationError(field: "memory_store_id", code: "required", message: "Validation failed for 'memory_store_id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        memoryStoreId = try container.sdkDecodeRequired(.memoryStoreId)
-        try sdkValidateRawEnum("type", type, BetaDreamMemoryStoreInputType.allCases.map(\.rawValue))
-        try validateLength("memory_store_id", memoryStoreId, min: 1, max: nil)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.memoryStoreId = try container.sdkDecodeRequired(.memoryStoreId)
+            try sdkValidateRawEnum("type", self.type, BetaDreamMemoryStoreInputType.allCases.map(\.rawValue))
+            try validateLength("memory_store_id", self.memoryStoreId, min: 1, max: nil)
     }
 }
 
-public extension BetaDreamMemoryStoreInput {
-    init(type: BetaDreamMemoryStoreInputType, memoryStoreId: String) throws {
+extension BetaDreamMemoryStoreInput {
+    public init(type: BetaDreamMemoryStoreInputType, memoryStoreId: String) throws {
         (self.type, self.memoryStoreId) = (type, memoryStoreId)
-        try sdkValidateRawEnum("type", self.type, BetaDreamMemoryStoreInputType.allCases.map(\.rawValue))
-        try validateLength("memory_store_id", self.memoryStoreId, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, BetaDreamMemoryStoreInputType.allCases.map(\.rawValue))
+            try validateLength("memory_store_id", self.memoryStoreId, min: 1, max: nil)
     }
 }
 
@@ -570,10 +483,7 @@ public enum BetaDreamMemoryStoreOutputType: String, CaseIterable, Codable {
 public struct BetaDreamStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let pending = BetaDreamStatus(rawValue: "pending")
     public static let running = BetaDreamStatus(rawValue: "running")
     public static let completed = BetaDreamStatus(rawValue: "completed")
@@ -582,7 +492,7 @@ public struct BetaDreamStatus: RawRepresentable, Hashable, Codable, Sendable, Sd
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -595,15 +505,12 @@ public struct BetaDreamStatus: RawRepresentable, Hashable, Codable, Sendable, Sd
 public struct BetaDreamType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let dream = BetaDreamType(rawValue: "dream")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
