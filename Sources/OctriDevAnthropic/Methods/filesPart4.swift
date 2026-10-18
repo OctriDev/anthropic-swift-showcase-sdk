@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension FilesMethods {
-    /// Retrieves metadata for a specific file. Use `file_id` to identify the file whose metadata you need, including its filename, MIME type, size, and availability. The response also includes the file's expiration time when applicable.
+public extension FilesMethods {
+    /// Retrieves metadata for a specific file. Use `file_id` to identify the file whose metadata you need, including
+    /// its filename, MIME type, size, and availability. The response also includes the file's expiration time when
+    /// applicable.
     ///
     /// - Parameters:
     /// - fileId: ID of the File.
@@ -19,10 +21,42 @@ extension FilesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func retrieveFiles(config: ClientConfig, fileId: String, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> FileMetadataSchema {
-        return try (await sdkRequest("GET", ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId))].joined(), config: config, decoder: .json, operationId: "retrieveFiles", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+    static func retrieveFiles(
+        config: ClientConfig,
+        fileId: String,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> FileMetadataSchema {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveFiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 }

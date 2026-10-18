@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SpendLimits domain models
+/// SpendLimits domain models
 /// Typed representation of the `BetaDeleteSpendLimitResponse` API schema.
 public struct BetaDeleteSpendLimitResponse: Codable {
     /// Required `string` value serialized in the `id` wire field.
@@ -16,28 +16,38 @@ public struct BetaDeleteSpendLimitResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaDeleteSpendLimitResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaDeleteSpendLimitResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaDeleteSpendLimitResponse {
-    public init(id: String, type: BetaDeleteSpendLimitResponseType) throws {
+public extension BetaDeleteSpendLimitResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaDeleteSpendLimitResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaDeleteSpendLimitResponse {
+    init(id: String, type: BetaDeleteSpendLimitResponseType) throws {
         (self.id, self.type) = (id, type)
-            try sdkValidateRawEnum("type", self.type, BetaDeleteSpendLimitResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaDeleteSpendLimitResponseType.allCases.map(\.rawValue))
     }
 }
 

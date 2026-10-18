@@ -3,29 +3,39 @@
 
 import Foundation
 
-// SharedBetaRequestMcptool domain models
+/// SharedBetaRequestMcptool domain models
 public indirect enum BetaRequestMCPToolResultBlockContent {
     case stringValue(String)
     case betaRequestTextBlockList([BetaRequestTextBlock])
 }
 
 extension BetaRequestMCPToolResultBlockContent: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaRequestMCPToolResultBlockContent")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaRequestMCPToolResultBlockContent"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaRequestMCPToolResultBlockContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode([BetaRequestTextBlock].self) { return .betaRequestTextBlockList(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode([BetaRequestTextBlock].self) {
+            return .betaRequestTextBlockList(value)
+        }
         return nil
     }
 }
@@ -47,7 +57,6 @@ public indirect enum BetaRequestMCPToolResultBlockCacheControl {
 }
 
 extension BetaRequestMCPToolResultBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -55,12 +64,16 @@ extension BetaRequestMCPToolResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -71,8 +84,8 @@ extension BetaRequestMCPToolResultBlockCacheControl: Codable {
 extension BetaRequestMCPToolResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -108,35 +121,51 @@ public struct BetaRequestMCPToolResultBlock: Codable {
         case isError = "is_error"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestMCPToolResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.toolUseId) else {
-            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.content = try container.sdkDecodeIfPresent(.content)
-        self.isError = try container.sdkDecodeIfPresent(.isError)
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
-            try sdkValidateRawEnum("type", self.type, BetaRequestMCPToolResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestMCPToolResultBlock {
-    public init(toolUseId: String, type: BetaRequestMCPToolResultBlockType, cacheControl: BetaRequestMCPToolResultBlockCacheControl? = nil, content: BetaRequestMCPToolResultBlockContent? = nil, isError: Bool? = nil) throws {
+public extension BetaRequestMCPToolResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.toolUseId) else {
+            throw SdkValidationError(
+                field: "tool_use_id",
+                code: "required",
+                message: "Validation failed for 'tool_use_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        content = try container.sdkDecodeIfPresent(.content)
+        isError = try container.sdkDecodeIfPresent(.isError)
+        try sdkValidatePattern("tool_use_id", toolUseId, sdkPatterna828669d9fe5)
+        try sdkValidateRawEnum("type", type, BetaRequestMCPToolResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRequestMCPToolResultBlock {
+    init(
+        toolUseId: String,
+        type: BetaRequestMCPToolResultBlockType,
+        cacheControl: BetaRequestMCPToolResultBlockCacheControl? = nil,
+        content: BetaRequestMCPToolResultBlockContent? = nil,
+        isError: Bool? = nil
+    ) throws {
         (self.toolUseId, self.type) = (toolUseId, type)
         (self.cacheControl, self.content) = (cacheControl, content)
         self.isError = isError
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
-            try sdkValidateRawEnum("type", self.type, BetaRequestMCPToolResultBlockType.allCases.map(\.rawValue))
+        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
+        try sdkValidateRawEnum("type", self.type, BetaRequestMCPToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -164,45 +193,74 @@ public struct BetaRequestMCPToolUseBlock: Codable {
         case cacheControl = "cache_control"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestMCPToolUseBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.input) else {
-            throw SdkValidationError(field: "input", code: "required", message: "Validation failed for 'input': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.serverName) else {
-            throw SdkValidationError(field: "server_name", code: "required", message: "Validation failed for 'server_name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.input = try container.sdkDecodeRequired(.input)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.serverName = try container.sdkDecodeRequired(.serverName)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-            try sdkValidateRawEnum("type", self.type, BetaRequestMCPToolUseBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestMCPToolUseBlock {
-    public init(id: String, input: [String: JSONValue], name: String, serverName: String, type: BetaRequestMCPToolUseBlockType, cacheControl: BetaRequestMCPToolUseBlockCacheControl? = nil) throws {
+public extension BetaRequestMCPToolUseBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.input) else {
+            throw SdkValidationError(
+                field: "input",
+                code: "required",
+                message: "Validation failed for 'input': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.serverName) else {
+            throw SdkValidationError(
+                field: "server_name",
+                code: "required",
+                message: "Validation failed for 'server_name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        input = try container.sdkDecodeRequired(.input)
+        name = try container.sdkDecodeRequired(.name)
+        serverName = try container.sdkDecodeRequired(.serverName)
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        try sdkValidatePattern("id", id, sdkPatterna828669d9fe5)
+        try sdkValidateRawEnum("type", type, BetaRequestMCPToolUseBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRequestMCPToolUseBlock {
+    init(
+        id: String,
+        input: [String: JSONValue],
+        name: String,
+        serverName: String,
+        type: BetaRequestMCPToolUseBlockType,
+        cacheControl: BetaRequestMCPToolUseBlockCacheControl? = nil
+    ) throws {
         (self.id, self.input) = (id, input)
         (self.name, self.serverName) = (name, serverName)
         (self.type, self.cacheControl) = (type, cacheControl)
-            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-            try sdkValidateRawEnum("type", self.type, BetaRequestMCPToolUseBlockType.allCases.map(\.rawValue))
+        try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+        try sdkValidateRawEnum("type", self.type, BetaRequestMCPToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -213,7 +271,6 @@ public indirect enum BetaRequestMCPToolUseBlockCacheControl {
 }
 
 extension BetaRequestMCPToolUseBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -221,12 +278,16 @@ extension BetaRequestMCPToolUseBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -237,8 +298,8 @@ extension BetaRequestMCPToolUseBlockCacheControl: Codable {
 extension BetaRequestMCPToolUseBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }

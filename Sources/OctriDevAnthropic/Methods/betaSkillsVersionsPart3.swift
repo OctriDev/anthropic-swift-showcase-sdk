@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSkillsVersionsMethods {
-    /// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page` token and `limit` to control the number of results per page. Results include version metadata and a token for retrieving the next page when more versions are available.
+public extension BetaSkillsVersionsMethods {
+    /// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page`
+    /// token and `limit` to control the number of results per page. Results include version metadata and a token for
+    /// retrieving the next page when more versions are available.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -26,18 +28,56 @@ extension BetaSkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaSkillsVersions(config: ClientConfig, skillId: String, page: String? = nil, limit: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListSkillVersionsResponse {
-        return try (await sdkRequest("GET", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("limit", value: limit),
-        ], decoder: .json, operationId: "listBetaSkillsVersions", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    static func listBetaSkillsVersions(
+        config: ClientConfig,
+        skillId: String,
+        page: String? = nil,
+        limit: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListSkillVersionsResponse {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions?beta=true"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("limit", value: limit),
+            ],
+            decoder: .json,
+            operationId: "listBetaSkillsVersions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page` token and `limit` to control the number of results per page. Results include version metadata and a token for retrieving the next page when more versions are available.
+    /// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page`
+    /// token and `limit` to control the number of results per page. Results include version metadata and a token for
+    /// retrieving the next page when more versions are available.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -56,17 +96,44 @@ extension BetaSkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaSkillsVersionsPaginated(config: ClientConfig, skillId: String, page: String? = nil, limit: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSkillVersion, Swift.Error> {
-        return AsyncThrowingStream<BetaSkillVersion, Swift.Error> { (continuation: AsyncThrowingStream<BetaSkillVersion, Swift.Error>.Continuation) in
+    static func listBetaSkillsVersionsPaginated(
+        config: ClientConfig,
+        skillId: String,
+        page: String? = nil,
+        limit: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaSkillVersion, Swift.Error> {
+        AsyncThrowingStream<BetaSkillVersion, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaSkillVersion,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaSkillsVersions(config: config, skillId: skillId, page: pageCursor, limit: limit, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaSkillsVersions(
+                            config: config,
+                            skillId: skillId,
+                            page: pageCursor,
+                            limit: limit,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -79,25 +146,56 @@ extension BetaSkillsVersionsMethods {
         }
     }
 
-    public struct ListBetaSkillsVersionsPage {
+    struct ListBetaSkillsVersionsPage {
         public let data: BetaListSkillVersionsResponse
         public let items: [BetaSkillVersion]
         public let hasMore: Bool
     }
 
-    public static func listBetaSkillsVersionsPages(config: ClientConfig, skillId: String, page: String? = nil, limit: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaSkillsVersionsPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaSkillsVersionsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaSkillsVersionsPage, Swift.Error>.Continuation) in
+    static func listBetaSkillsVersionsPages(
+        config: ClientConfig,
+        skillId: String,
+        page: String? = nil,
+        limit: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaSkillsVersionsPage, Swift.Error> {
+        AsyncThrowingStream<ListBetaSkillsVersionsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaSkillsVersionsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaSkillsVersions(config: config, skillId: skillId, page: pageCursor, limit: limit, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaSkillsVersions(
+                            config: config,
+                            skillId: skillId,
+                            page: pageCursor,
+                            limit: limit,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaSkillsVersionsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaSkillsVersionsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

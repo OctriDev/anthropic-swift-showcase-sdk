@@ -3,7 +3,7 @@
 
 import Foundation
 
-// RbacRolesBetaTrue domain models
+/// RbacRolesBetaTrue domain models
 /// Typed representation of the `BetaRbacRoleList` API schema.
 public struct BetaRbacRoleList: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -19,29 +19,43 @@ public struct BetaRbacRoleList: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRbacRoleList {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRbacRoleList {
-    public init(data: [BetaRbacRole], hasMore: Bool, nextPage: String?) {
+public extension BetaRbacRoleList {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaRbacRoleList {
+    init(data: [BetaRbacRole], hasMore: Bool, nextPage: String?) {
         (self.data, self.hasMore) = (data, hasMore)
         self.nextPage = nextPage
     }

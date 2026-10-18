@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Environments domain models
+/// Environments domain models
 public indirect enum BetaPublicEnvironmentUpdateRequestConfig {
     case betaCloudConfigParams(BetaCloudConfigParams)
     case betaSelfHostedConfigParams(BetaSelfHostedConfigParams)
@@ -12,7 +12,6 @@ public indirect enum BetaPublicEnvironmentUpdateRequestConfig {
 }
 
 extension BetaPublicEnvironmentUpdateRequestConfig: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaPublicEnvironmentUpdateRequestConfig: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaPublicEnvironmentUpdateRequestConfig: Codable {
 extension BetaPublicEnvironmentUpdateRequestConfig {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "cloud": return .betaCloudConfigParams(try BetaCloudConfigParams(from: decoder))
-        case "self_hosted": return .betaSelfHostedConfigParams(try BetaSelfHostedConfigParams(from: decoder))
-        default: return nil
+        case "cloud": try .betaCloudConfigParams(BetaCloudConfigParams(from: decoder))
+        case "self_hosted": try .betaSelfHostedConfigParams(BetaSelfHostedConfigParams(from: decoder))
+        default: nil
         }
     }
 }
@@ -78,23 +81,29 @@ public struct BetaPublicEnvironmentUpdateRequest: Codable {
     }
 
     init() {
-        (self.config, self.description, self.metadata, self.name, self.scope) = (nil, nil, nil, nil, nil)
+        (config, description, metadata, name, scope) = (nil, nil, nil, nil, nil)
     }
 }
 
-extension BetaPublicEnvironmentUpdateRequest {
-    public init(from decoder: Decoder) throws {
+public extension BetaPublicEnvironmentUpdateRequest {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.config = try container.sdkDecodeIfPresent(.config)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.scope = try container.sdkDecodeIfPresent(.scope)
+        config = try container.sdkDecodeIfPresent(.config)
+        description = try container.sdkDecodeIfPresent(.description)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        name = try container.sdkDecodeIfPresent(.name)
+        scope = try container.sdkDecodeIfPresent(.scope)
     }
 }
 
-extension BetaPublicEnvironmentUpdateRequest {
-    public init(config: BetaPublicEnvironmentUpdateRequestConfig? = nil, description: String? = nil, metadata: [String: String?]? = nil, name: String? = nil, scope: BetaPublicEnvironmentUpdateRequestScopeVariant0? = nil) {
+public extension BetaPublicEnvironmentUpdateRequest {
+    init(
+        config: BetaPublicEnvironmentUpdateRequestConfig? = nil,
+        description: String? = nil,
+        metadata: [String: String?]? = nil,
+        name: String? = nil,
+        scope: BetaPublicEnvironmentUpdateRequestScopeVariant0? = nil
+    ) {
         self.init()
         (self.config, self.description) = (config, description)
         (self.metadata, self.name) = (metadata, name)
@@ -114,40 +123,54 @@ public struct BetaEnvironmentDeleteResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaEnvironmentDeleteResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.type = try container.sdkDecodeRequired(.type)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaEnvironmentDeleteResponse {
-    public init(id: String, type: BetaEnvironmentDeleteResponseType) {
+public extension BetaEnvironmentDeleteResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        type = try container.sdkDecodeRequired(.type)
+    }
+}
+
+public extension BetaEnvironmentDeleteResponse {
+    init(id: String, type: BetaEnvironmentDeleteResponseType) {
         (self.id, self.type) = (id, type)
     }
 }
 
 /// Optional enumerated value serialized in the `scope` wire field.
-public struct BetaPublicEnvironmentUpdateRequestScopeVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaPublicEnvironmentUpdateRequestScopeVariant0: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let organization = BetaPublicEnvironmentUpdateRequestScopeVariant0(rawValue: "organization")
     public static let account = BetaPublicEnvironmentUpdateRequestScopeVariant0(rawValue: "account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -160,12 +183,15 @@ public struct BetaPublicEnvironmentUpdateRequestScopeVariant0: RawRepresentable,
 public struct BetaEnvironmentDeleteResponseType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let environmentDeleted = BetaEnvironmentDeleteResponseType(rawValue: "environment_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaDreaming domain models
+/// SharedBetaDreaming domain models
 public indirect enum BetaDreamingError {
     case betaInvalidRequestError(BetaInvalidRequestError)
     case betaAuthenticationError(BetaAuthenticationError)
@@ -20,7 +20,6 @@ public indirect enum BetaDreamingError {
 }
 
 extension BetaDreamingError: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -28,12 +27,16 @@ extension BetaDreamingError: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -44,17 +47,17 @@ extension BetaDreamingError: Codable {
 extension BetaDreamingError {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "invalid_request_error": return .betaInvalidRequestError(try BetaInvalidRequestError(from: decoder))
-        case "authentication_error": return .betaAuthenticationError(try BetaAuthenticationError(from: decoder))
-        case "billing_error": return .betaBillingError(try BetaBillingError(from: decoder))
-        case "permission_error": return .betaPermissionError(try BetaPermissionError(from: decoder))
-        case "not_found_error": return .betaNotFoundError(try BetaNotFoundError(from: decoder))
-        case "rate_limit_error": return .betaRateLimitError(try BetaRateLimitError(from: decoder))
-        case "timeout_error": return .betaGatewayTimeoutError(try BetaGatewayTimeoutError(from: decoder))
-        case "api_error": return .betaApiError(try BetaAPIError(from: decoder))
-        case "overloaded_error": return .betaOverloadedError(try BetaOverloadedError(from: decoder))
-        case "conflict_error": return .betaTargetStoreHeldError(try BetaTargetStoreHeldError(from: decoder))
-        default: return nil
+        case "invalid_request_error": try .betaInvalidRequestError(BetaInvalidRequestError(from: decoder))
+        case "authentication_error": try .betaAuthenticationError(BetaAuthenticationError(from: decoder))
+        case "billing_error": try .betaBillingError(BetaBillingError(from: decoder))
+        case "permission_error": try .betaPermissionError(BetaPermissionError(from: decoder))
+        case "not_found_error": try .betaNotFoundError(BetaNotFoundError(from: decoder))
+        case "rate_limit_error": try .betaRateLimitError(BetaRateLimitError(from: decoder))
+        case "timeout_error": try .betaGatewayTimeoutError(BetaGatewayTimeoutError(from: decoder))
+        case "api_error": try .betaApiError(BetaAPIError(from: decoder))
+        case "overloaded_error": try .betaOverloadedError(BetaOverloadedError(from: decoder))
+        case "conflict_error": try .betaTargetStoreHeldError(BetaTargetStoreHeldError(from: decoder))
+        default: nil
         }
     }
 }
@@ -90,28 +93,38 @@ public struct BetaDreamingErrorResponse: Codable {
         case error
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaDreamingErrorResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.error) else {
-            throw SdkValidationError(field: "error", code: "required", message: "Validation failed for 'error': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.error = try container.sdkDecodeRequired(.error)
-            try sdkValidateRawEnum("type", self.type, BetaDreamingErrorResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaDreamingErrorResponse {
-    public init(type: BetaDreamingErrorResponseType, error: BetaDreamingError) throws {
+public extension BetaDreamingErrorResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.error) else {
+            throw SdkValidationError(
+                field: "error",
+                code: "required",
+                message: "Validation failed for 'error': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        error = try container.sdkDecodeRequired(.error)
+        try sdkValidateRawEnum("type", type, BetaDreamingErrorResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaDreamingErrorResponse {
+    init(type: BetaDreamingErrorResponseType, error: BetaDreamingError) throws {
         (self.type, self.error) = (type, error)
-            try sdkValidateRawEnum("type", self.type, BetaDreamingErrorResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaDreamingErrorResponseType.allCases.map(\.rawValue))
     }
 }
 

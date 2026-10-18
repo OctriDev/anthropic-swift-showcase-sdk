@@ -3,7 +3,7 @@
 
 import Foundation
 
-// BetaWebhookBetaWebhookSession domain models
+/// BetaWebhookBetaWebhookSession domain models
 /// Typed representation of the `BetaWebhookSessionRunningEventData` API schema.
 public struct BetaWebhookSessionRunningEventData: Codable {
     /// Required `string` value serialized in the `type` wire field.
@@ -22,37 +22,55 @@ public struct BetaWebhookSessionRunningEventData: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionRunningEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionRunningEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionRunningEventData {
-    public init(type: BetaWebhookSessionRunningEventDataType, id: String, organizationId: String, workspaceId: String) throws {
+public extension BetaWebhookSessionRunningEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionRunningEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionRunningEventData {
+    init(type: BetaWebhookSessionRunningEventDataType, id: String, organizationId: String, workspaceId: String) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionRunningEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookSessionRunningEventDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -77,42 +95,74 @@ public struct BetaWebhookSessionThreadTerminatedEventData: Codable {
         case sessionThreadId = "session_thread_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionThreadTerminatedEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        guard container.contains(.sessionThreadId) else {
-            throw SdkValidationError(field: "session_thread_id", code: "required", message: "Validation failed for 'session_thread_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-        self.sessionThreadId = try container.sdkDecodeRequired(.sessionThreadId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionThreadTerminatedEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionThreadTerminatedEventData {
-    public init(type: BetaWebhookSessionThreadTerminatedEventDataType, id: String, organizationId: String, workspaceId: String, sessionThreadId: String) throws {
+public extension BetaWebhookSessionThreadTerminatedEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        guard container.contains(.sessionThreadId) else {
+            throw SdkValidationError(
+                field: "session_thread_id",
+                code: "required",
+                message: "Validation failed for 'session_thread_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        sessionThreadId = try container.sdkDecodeRequired(.sessionThreadId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionThreadTerminatedEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionThreadTerminatedEventData {
+    init(
+        type: BetaWebhookSessionThreadTerminatedEventDataType,
+        id: String,
+        organizationId: String,
+        workspaceId: String,
+        sessionThreadId: String
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
         self.sessionThreadId = sessionThreadId
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionThreadTerminatedEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "type",
+            self.type,
+            BetaWebhookSessionThreadTerminatedEventDataType.allCases.map(\.rawValue)
+        )
     }
 }
 
@@ -137,42 +187,70 @@ public struct BetaWebhookSessionThreadIdledEventData: Codable {
         case sessionThreadId = "session_thread_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionThreadIdledEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        guard container.contains(.sessionThreadId) else {
-            throw SdkValidationError(field: "session_thread_id", code: "required", message: "Validation failed for 'session_thread_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-        self.sessionThreadId = try container.sdkDecodeRequired(.sessionThreadId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionThreadIdledEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionThreadIdledEventData {
-    public init(type: BetaWebhookSessionThreadIdledEventDataType, id: String, organizationId: String, workspaceId: String, sessionThreadId: String) throws {
+public extension BetaWebhookSessionThreadIdledEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        guard container.contains(.sessionThreadId) else {
+            throw SdkValidationError(
+                field: "session_thread_id",
+                code: "required",
+                message: "Validation failed for 'session_thread_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        sessionThreadId = try container.sdkDecodeRequired(.sessionThreadId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionThreadIdledEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionThreadIdledEventData {
+    init(
+        type: BetaWebhookSessionThreadIdledEventDataType,
+        id: String,
+        organizationId: String,
+        workspaceId: String,
+        sessionThreadId: String
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
         self.sessionThreadId = sessionThreadId
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionThreadIdledEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookSessionThreadIdledEventDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -194,37 +272,55 @@ public struct BetaWebhookSessionUpdatedEventData: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionUpdatedEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionUpdatedEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionUpdatedEventData {
-    public init(type: BetaWebhookSessionUpdatedEventDataType, id: String, organizationId: String, workspaceId: String) throws {
+public extension BetaWebhookSessionUpdatedEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionUpdatedEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionUpdatedEventData {
+    init(type: BetaWebhookSessionUpdatedEventDataType, id: String, organizationId: String, workspaceId: String) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionUpdatedEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookSessionUpdatedEventDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -246,37 +342,55 @@ public struct BetaWebhookSessionIdledEventData: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionIdledEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionIdledEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionIdledEventData {
-    public init(type: BetaWebhookSessionIdledEventDataType, id: String, organizationId: String, workspaceId: String) throws {
+public extension BetaWebhookSessionIdledEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionIdledEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionIdledEventData {
+    init(type: BetaWebhookSessionIdledEventDataType, id: String, organizationId: String, workspaceId: String) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionIdledEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookSessionIdledEventDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -298,37 +412,60 @@ public struct BetaWebhookSessionArchivedEventData: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionArchivedEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionArchivedEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionArchivedEventData {
-    public init(type: BetaWebhookSessionArchivedEventDataType, id: String, organizationId: String, workspaceId: String) throws {
+public extension BetaWebhookSessionArchivedEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionArchivedEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionArchivedEventData {
+    init(
+        type: BetaWebhookSessionArchivedEventDataType,
+        id: String,
+        organizationId: String,
+        workspaceId: String
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionArchivedEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookSessionArchivedEventDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -350,37 +487,60 @@ public struct BetaWebhookSessionStatusIdledEventData: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookSessionStatusIdledEventData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionStatusIdledEventDataType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookSessionStatusIdledEventData {
-    public init(type: BetaWebhookSessionStatusIdledEventDataType, id: String, organizationId: String, workspaceId: String) throws {
+public extension BetaWebhookSessionStatusIdledEventData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionStatusIdledEventDataType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWebhookSessionStatusIdledEventData {
+    init(
+        type: BetaWebhookSessionStatusIdledEventDataType,
+        id: String,
+        organizationId: String,
+        workspaceId: String
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.organizationId, self.workspaceId) = (organizationId, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionStatusIdledEventDataType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookSessionStatusIdledEventDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -402,28 +562,46 @@ public struct BetaWebhookSessionPendingEventData: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaWebhookSessionPendingEventData {
-    public init(from decoder: Decoder) throws {
+public extension BetaWebhookSessionPendingEventData {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
         }
         guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
         }
         guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
         }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookSessionPendingEventDataType.allCases.map(\.rawValue))
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWebhookSessionPendingEventDataType.allCases.map(\.rawValue))
     }
 }

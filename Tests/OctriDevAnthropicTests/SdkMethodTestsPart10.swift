@@ -41,14 +41,14 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.work.heartbeat(
-            environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
-            workId: decoded("\"work-1\""),
-            desiredTtlSeconds: decoded("1"),
-            expectedLastHeartbeat: decoded("\"NO_HEARTBEAT\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicVersion: decoded("\"anthropic-version\""),
-            authorization: decoded("\"authorization\"")
-        )
+                environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
+                workId: decoded("\"work-1\""),
+                desiredTtlSeconds: decoded("1"),
+                expectedLastHeartbeat: decoded("\"NO_HEARTBEAT\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicVersion: decoded("\"anthropic-version\""),
+                authorization: decoded("\"authorization\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -111,8 +111,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.agents.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -162,13 +162,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.agents.versions.list(
-            agentId: decoded("\"agent_011CZkYpogX7uDKUyvBTophP\""),
-            limit: decoded("1"),
-            page: decoded("\"page\""),
-            anthropicVersion: decoded("\"anthropic-version\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                agentId: decoded("\"agent_011CZkYpogX7uDKUyvBTophP\""),
+                limit: decoded("1"),
+                page: decoded("\"page\""),
+                anthropicVersion: decoded("\"anthropic-version\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -239,8 +239,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.deploymentRuns.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -307,8 +307,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.deployments.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -373,8 +373,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.dreams.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -424,13 +424,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.list(
-            limit: decoded("20"),
-            page: decoded("\"page\""),
-            includeArchived: decoded("false"),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicVersion: decoded("\"anthropic-version\""),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                limit: decoded("20"),
+                page: decoded("\"page\""),
+                includeArchived: decoded("false"),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicVersion: decoded("\"anthropic-version\""),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -480,13 +480,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.work.list(
-            environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
-            limit: decoded("20"),
-            page: decoded("\"page\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicVersion: decoded("\"anthropic-version\""),
-            authorization: decoded("\"authorization\"")
-        )
+                environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
+                limit: decoded("20"),
+                page: decoded("\"page\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicVersion: decoded("\"anthropic-version\""),
+                authorization: decoded("\"authorization\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -537,14 +537,14 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.files.list(
-            page: decoded("\"page\""),
-            ids: decoded("[\"ids[]\"]"),
-            limit: decoded("20"),
-            scopeId: decoded("\"scope-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicVersion: decoded("\"anthropic-version\""),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                page: decoded("\"page\""),
+                ids: decoded("[\"ids[]\"]"),
+                limit: decoded("20"),
+                scopeId: decoded("\"scope-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicVersion: decoded("\"anthropic-version\""),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

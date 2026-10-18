@@ -3,7 +3,7 @@
 
 import Foundation
 
-// BetaMessage domain models
+/// BetaMessage domain models
 public indirect enum BetaMessageStreamEvent {
     case betaMessageStartEvent(BetaMessageStartEvent)
     case betaMessageDeltaEvent(BetaMessageDeltaEvent)
@@ -16,7 +16,6 @@ public indirect enum BetaMessageStreamEvent {
 }
 
 extension BetaMessageStreamEvent: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -24,12 +23,16 @@ extension BetaMessageStreamEvent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,13 +43,13 @@ extension BetaMessageStreamEvent: Codable {
 extension BetaMessageStreamEvent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "message_start": return .betaMessageStartEvent(try BetaMessageStartEvent(from: decoder))
-        case "message_delta": return .betaMessageDeltaEvent(try BetaMessageDeltaEvent(from: decoder))
-        case "message_stop": return .betaMessageStopEvent(try BetaMessageStopEvent(from: decoder))
-        case "content_block_start": return .betaContentBlockStartEvent(try BetaContentBlockStartEvent(from: decoder))
-        case "content_block_delta": return .betaContentBlockDeltaEvent(try BetaContentBlockDeltaEvent(from: decoder))
-        case "content_block_stop": return .betaContentBlockStopEvent(try BetaContentBlockStopEvent(from: decoder))
-        default: return nil
+        case "message_start": try .betaMessageStartEvent(BetaMessageStartEvent(from: decoder))
+        case "message_delta": try .betaMessageDeltaEvent(BetaMessageDeltaEvent(from: decoder))
+        case "message_stop": try .betaMessageStopEvent(BetaMessageStopEvent(from: decoder))
+        case "content_block_start": try .betaContentBlockStartEvent(BetaContentBlockStartEvent(from: decoder))
+        case "content_block_delta": try .betaContentBlockDeltaEvent(BetaContentBlockDeltaEvent(from: decoder))
+        case "content_block_stop": try .betaContentBlockStopEvent(BetaContentBlockStopEvent(from: decoder))
+        default: nil
         }
     }
 }
@@ -78,28 +81,38 @@ public struct BetaMessageStartEvent: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMessageStartEvent {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaMessageStartEventType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMessageStartEvent {
-    public init(message: BetaMessage, type: BetaMessageStartEventType) throws {
+public extension BetaMessageStartEvent {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaMessageStartEventType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaMessageStartEvent {
+    init(message: BetaMessage, type: BetaMessageStartEventType) throws {
         (self.message, self.type) = (message, type)
-            try sdkValidateRawEnum("type", self.type, BetaMessageStartEventType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaMessageStartEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -142,25 +155,36 @@ public struct BetaMessageDeltaUsage: Codable {
         case serverToolUse = "server_tool_use"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMessageDeltaUsage {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
-        self.cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
-        self.fallbackCredit = try container.sdkDecodeNullable(.fallbackCredit)
-        self.inputTokens = try container.sdkDecodeNullable(.inputTokens)
-        self.iterations = try container.sdkDecodeNullable(.iterations)
-        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        self.outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
-        self.serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMessageDeltaUsage {
-    public init(cacheCreationInputTokens: Int?, cacheReadInputTokens: Int?, fallbackCredit: BetaFallbackCreditUsage?, inputTokens: Int?, iterations: BetaIterationsUsage?, outputTokens: Int, outputTokensDetails: BetaOutputTokensDetails?, serverToolUse: BetaServerToolUsage?) {
+public extension BetaMessageDeltaUsage {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
+        cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
+        fallbackCredit = try container.sdkDecodeNullable(.fallbackCredit)
+        inputTokens = try container.sdkDecodeNullable(.inputTokens)
+        iterations = try container.sdkDecodeNullable(.iterations)
+        outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
+        serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
+    }
+}
+
+public extension BetaMessageDeltaUsage {
+    init(
+        cacheCreationInputTokens: Int?,
+        cacheReadInputTokens: Int?,
+        fallbackCredit: BetaFallbackCreditUsage?,
+        inputTokens: Int?,
+        iterations: BetaIterationsUsage?,
+        outputTokens: Int,
+        outputTokensDetails: BetaOutputTokensDetails?,
+        serverToolUse: BetaServerToolUsage?
+    ) {
         self.cacheCreationInputTokens = cacheCreationInputTokens
         (self.cacheReadInputTokens, self.fallbackCredit) = (cacheReadInputTokens, fallbackCredit)
         (self.inputTokens, self.iterations) = (inputTokens, iterations)
@@ -178,24 +202,30 @@ public struct BetaMessageStopEvent: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMessageStopEvent {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaMessageStopEventType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMessageStopEvent {
-    public init(type: BetaMessageStopEventType) throws {
+public extension BetaMessageStopEvent {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaMessageStopEventType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaMessageStopEvent {
+    init(type: BetaMessageStopEventType) throws {
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaMessageStopEventType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaMessageStopEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -219,34 +249,57 @@ public struct BetaMessageDelta: Codable {
         case stopSequence = "stop_sequence"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMessageDelta {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.container) else {
-            throw SdkValidationError(field: "container", code: "required", message: "Validation failed for 'container': value is required")
-        }
-        guard container.contains(.stopDetails) else {
-            throw SdkValidationError(field: "stop_details", code: "required", message: "Validation failed for 'stop_details': value is required")
-        }
-        guard container.contains(.stopReason) else {
-            throw SdkValidationError(field: "stop_reason", code: "required", message: "Validation failed for 'stop_reason': value is required")
-        }
-        guard container.contains(.stopSequence) else {
-            throw SdkValidationError(field: "stop_sequence", code: "required", message: "Validation failed for 'stop_sequence': value is required")
-        }
-        self.container = try container.sdkDecodeNullable(.container)
-        self.stopDetails = try container.sdkDecodeNullable(.stopDetails)
-        self.stopReason = try container.sdkDecodeNullable(.stopReason)
-        self.stopSequence = try container.sdkDecodeNullable(.stopSequence)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMessageDelta {
-    public init(container containerValue: BetaContainer?, stopDetails: BetaRefusalStopDetails?, stopReason: BetaStopReason?, stopSequence: String?) {
-        (self.container, self.stopDetails) = (containerValue, stopDetails)
+public extension BetaMessageDelta {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.container) else {
+            throw SdkValidationError(
+                field: "container",
+                code: "required",
+                message: "Validation failed for 'container': value is required"
+            )
+        }
+        guard container.contains(.stopDetails) else {
+            throw SdkValidationError(
+                field: "stop_details",
+                code: "required",
+                message: "Validation failed for 'stop_details': value is required"
+            )
+        }
+        guard container.contains(.stopReason) else {
+            throw SdkValidationError(
+                field: "stop_reason",
+                code: "required",
+                message: "Validation failed for 'stop_reason': value is required"
+            )
+        }
+        guard container.contains(.stopSequence) else {
+            throw SdkValidationError(
+                field: "stop_sequence",
+                code: "required",
+                message: "Validation failed for 'stop_sequence': value is required"
+            )
+        }
+        self.container = try container.sdkDecodeNullable(.container)
+        stopDetails = try container.sdkDecodeNullable(.stopDetails)
+        stopReason = try container.sdkDecodeNullable(.stopReason)
+        stopSequence = try container.sdkDecodeNullable(.stopSequence)
+    }
+}
+
+public extension BetaMessageDelta {
+    init(
+        container containerValue: BetaContainer?,
+        stopDetails: BetaRefusalStopDetails?,
+        stopReason: BetaStopReason?,
+        stopSequence: String?
+    ) {
+        (container, self.stopDetails) = (containerValue, stopDetails)
         (self.stopReason, self.stopSequence) = (stopReason, stopSequence)
     }
 }
@@ -280,39 +333,63 @@ public struct BetaMessageDeltaEvent: Codable {
         case inputTransformations = "input_transformations"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMessageDeltaEvent {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.contextManagement) else {
-            throw SdkValidationError(field: "context_management", code: "required", message: "Validation failed for 'context_management': value is required")
-        }
-        guard container.contains(.delta) else {
-            throw SdkValidationError(field: "delta", code: "required", message: "Validation failed for 'delta': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.usage) else {
-            throw SdkValidationError(field: "usage", code: "required", message: "Validation failed for 'usage': value is required")
-        }
-        self.contextManagement = try container.sdkDecodeNullable(.contextManagement)
-        self.delta = try container.sdkDecodeRequired(.delta)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.usage = try container.sdkDecodeRequired(.usage)
-        self.inputTransformations = try container.sdkDecodeIfPresent(.inputTransformations)
-            try sdkValidateRawEnum("type", self.type, BetaMessageDeltaEventType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMessageDeltaEvent {
-    public init(contextManagement: BetaResponseContextManagement?, delta: BetaMessageDelta, type: BetaMessageDeltaEventType, usage: BetaMessageDeltaUsage, inputTransformations: [BetaThinkingDroppedInputTransformation]? = nil) throws {
+public extension BetaMessageDeltaEvent {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.contextManagement) else {
+            throw SdkValidationError(
+                field: "context_management",
+                code: "required",
+                message: "Validation failed for 'context_management': value is required"
+            )
+        }
+        guard container.contains(.delta) else {
+            throw SdkValidationError(
+                field: "delta",
+                code: "required",
+                message: "Validation failed for 'delta': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.usage) else {
+            throw SdkValidationError(
+                field: "usage",
+                code: "required",
+                message: "Validation failed for 'usage': value is required"
+            )
+        }
+        contextManagement = try container.sdkDecodeNullable(.contextManagement)
+        delta = try container.sdkDecodeRequired(.delta)
+        type = try container.sdkDecodeRequired(.type)
+        usage = try container.sdkDecodeRequired(.usage)
+        inputTransformations = try container.sdkDecodeIfPresent(.inputTransformations)
+        try sdkValidateRawEnum("type", type, BetaMessageDeltaEventType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaMessageDeltaEvent {
+    init(
+        contextManagement: BetaResponseContextManagement?,
+        delta: BetaMessageDelta,
+        type: BetaMessageDeltaEventType,
+        usage: BetaMessageDeltaUsage,
+        inputTransformations: [BetaThinkingDroppedInputTransformation]? = nil
+    ) throws {
         (self.contextManagement, self.delta) = (contextManagement, delta)
         (self.type, self.usage) = (type, usage)
         self.inputTransformations = inputTransformations
-            try sdkValidateRawEnum("type", self.type, BetaMessageDeltaEventType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaMessageDeltaEventType.allCases.map(\.rawValue))
     }
 }
 

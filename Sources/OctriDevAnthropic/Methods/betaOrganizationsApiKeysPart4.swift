@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsApiKeysMethods {
-    /// Lists API keys in the organization, with optional filters for status, workspace, and creator. Use `before_id` or `after_id` to navigate pages and `limit` to set the page size. The response includes cursor IDs and a `has_more` flag.
+public extension BetaOrganizationsApiKeysMethods {
+    /// Lists API keys in the organization, with optional filters for status, workspace, and creator. Use `before_id` or
+    /// `after_id` to navigate pages and `limit` to set the page size. The response includes cursor IDs and a `has_more`
+    /// flag.
     ///
     /// - Parameters:
     /// - beforeId: ID of the object to use as a cursor for pagination. When
@@ -22,20 +24,57 @@ extension BetaOrganizationsApiKeysMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsApiKeys(config: ClientConfig, beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, status: ListBetaOrganizationsApiKeysParameterVariant0? = nil, workspaceId: String? = nil, createdByUserId: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseApiKey {
-        if let limit = limit {
+    static func listBetaOrganizationsApiKeys(
+        config: ClientConfig,
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        status: ListBetaOrganizationsApiKeysParameterVariant0? = nil,
+        workspaceId: String? = nil,
+        createdByUserId: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseApiKey {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/api_keys?beta=true", config: config, query: [
-            SdkQueryParameter("before_id", value: beforeId),
-            SdkQueryParameter("after_id", value: afterId),
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("status", value: status),
-            SdkQueryParameter("workspace_id", value: workspaceId),
-            SdkQueryParameter("created_by_user_id", value: createdByUserId),
-        ], decoder: .json, operationId: "listBetaOrganizationsApiKeys", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/api_keys?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("before_id", value: beforeId),
+                SdkQueryParameter("after_id", value: afterId),
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("status", value: status),
+                SdkQueryParameter("workspace_id", value: workspaceId),
+                SdkQueryParameter("created_by_user_id", value: createdByUserId),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsApiKeys",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

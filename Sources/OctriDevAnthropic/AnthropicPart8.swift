@@ -9,34 +9,111 @@ public class BetaDreamsNamespace {
         self.config = config
     }
 
-/// Creates an asynchronous memory-consolidation job that reads memory stores or session transcripts and writes consolidated memories to an output memory store. Provide `inputs` and `model`; `output_behavior` controls whether the job creates a new destination store or writes to an existing one. Poll GET /v1/dreams/{dream_id}?beta=true to check the job status and outputs.
-    public func create(inputs: [BetaDreamInput], model: BetaDreamModelParams, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, instructions: SdkOptional<String>? = nil, outputBehavior: BetaOutputBehavior? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        return try await BetaDreamsMethods.createBetaDreams(config: config, inputs: inputs, model: model, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, instructions: instructions, outputBehavior: outputBehavior, requestOptions: requestOptions)
+    /// Creates an asynchronous memory-consolidation job that reads memory stores or session transcripts and writes
+    /// consolidated memories to an output memory store. Provide `inputs` and `model`; `output_behavior` controls
+    /// whether the job creates a new destination store or writes to an existing one. Poll GET
+    /// /v1/dreams/{dream_id}?beta=true to check the job status and outputs.
+    public func create(
+        inputs: [BetaDreamInput],
+        model: BetaDreamModelParams,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        instructions: SdkOptional<String>? = nil,
+        outputBehavior: BetaOutputBehavior? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        try await BetaDreamsMethods.createBetaDreams(
+            config: config,
+            inputs: inputs,
+            model: model,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            instructions: instructions,
+            outputBehavior: outputBehavior,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page` with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use this research-preview API.
-    public func list(options: BetaDreamsMethods.ListBetaDreamsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaListDreamsResponse {
-        return try await BetaDreamsMethods.listBetaDreams(config: config, options: options, requestOptions: requestOptions)
+    /// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write
+    /// consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page`
+    /// with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use
+    /// this research-preview API.
+    public func list(
+        options: BetaDreamsMethods.ListBetaDreamsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListDreamsResponse {
+        try await BetaDreamsMethods.listBetaDreams(config: config, options: options, requestOptions: requestOptions)
     }
 
-/// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page` with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use this research-preview API.
-    public func listPaginated(options: BetaDreamsMethods.ListBetaDreamsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaDream, Swift.Error> {
-        return BetaDreamsMethods.listBetaDreamsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write
+    /// consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page`
+    /// with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use
+    /// this research-preview API.
+    public func listPaginated(
+        options: BetaDreamsMethods.ListBetaDreamsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaDream, Swift.Error> {
+        BetaDreamsMethods.listBetaDreamsPaginated(config: config, options: options, requestOptions: requestOptions)
     }
 
-/// Retrieves a Dream job by its identifier. Use this endpoint to inspect the job's status, inputs, outputs, and cumulative token usage. The returned status indicates whether the job is pending, running, completed, failed, or canceled.
-    public func retrieve(dreamId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        return try await BetaDreamsMethods.retrieveBetaDreams(config: config, dreamId: dreamId, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a Dream job by its identifier. Use this endpoint to inspect the job's status, inputs, outputs, and
+    /// cumulative token usage. The returned status indicates whether the job is pending, running, completed, failed, or
+    /// canceled.
+    public func retrieve(
+        dreamId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        try await BetaDreamsMethods.retrieveBetaDreams(
+            config: config,
+            dreamId: dreamId,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Triggers cancellation of a Dream job. Provide the Dream's identifier to request cancellation of the job. Use GET /v1/dreams/{dream_id}?beta=true to inspect the job's status after the cancellation request.
-    public func cancel(dreamId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        return try await BetaDreamsMethods.cancelBetaDreams(config: config, dreamId: dreamId, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Triggers cancellation of a Dream job. Provide the Dream's identifier to request cancellation of the job. Use GET
+    /// /v1/dreams/{dream_id}?beta=true to inspect the job's status after the cancellation request.
+    public func cancel(
+        dreamId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        try await BetaDreamsMethods.cancelBetaDreams(
+            config: config,
+            dreamId: dreamId,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a Dream job. Provide the Dream's identifier to archive that job. Use GET /v1/dreams/{dream_id}?beta=true to retrieve the Dream and inspect its archive timestamp.
-    public func archive(dreamId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        return try await BetaDreamsMethods.archiveBetaDreams(config: config, dreamId: dreamId, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives a Dream job. Provide the Dream's identifier to archive that job. Use GET
+    /// /v1/dreams/{dream_id}?beta=true to retrieve the Dream and inspect its archive timestamp.
+    public func archive(
+        dreamId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        try await BetaDreamsMethods.archiveBetaDreams(
+            config: config,
+            dreamId: dreamId,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -46,30 +123,87 @@ public class BetaOrganizationsInvitesNamespace {
         self.config = config
     }
 
-/// Invite a user to join the organization by email. On plans that draw members from a finite pool of purchased seats, the invite automatically consumes a seat from the lowest tier with availability; there is no seat-tier parameter. When no seat is free the request fails with a 400 error rather than purchasing a seat.
-    public func create(email: String, role: BetaCreateInviteParamsRole, anthropicVersion: String? = nil, rbacGroupIds: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaInviteSchema {
-        return try await BetaOrganizationsInvitesMethods.createBetaOrganizationsInvites(config: config, email: email, role: role, anthropicVersion: anthropicVersion, rbacGroupIds: rbacGroupIds, requestOptions: requestOptions)
+    /// Invite a user to join the organization by email. On plans that draw members from a finite pool of purchased
+    /// seats, the invite automatically consumes a seat from the lowest tier with availability; there is no seat-tier
+    /// parameter. When no seat is free the request fails with a 400 error rather than purchasing a seat.
+    public func create(
+        email: String,
+        role: BetaCreateInviteParamsRole,
+        anthropicVersion: String? = nil,
+        rbacGroupIds: [String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaInviteSchema {
+        try await BetaOrganizationsInvitesMethods.createBetaOrganizationsInvites(
+            config: config,
+            email: email,
+            role: role,
+            anthropicVersion: anthropicVersion,
+            rbacGroupIds: rbacGroupIds,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists organization invites with optional cursor pagination and filters. Use `before_id` or `after_id` to navigate pages, and filter by invite status, email address, or role as needed. Results include pagination cursors and a `has_more` indicator.
+    /// Lists organization invites with optional cursor pagination and filters. Use `before_id` or `after_id` to
+    /// navigate pages, and filter by invite status, email address, or role as needed. Results include pagination
+    /// cursors and a `has_more` indicator.
     ///
     /// List the organization's invites.
-    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, statuses: [ListBetaOrganizationsInvitesParameterItem]? = nil, email: String? = nil, roles: [String]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseInviteSchema {
-        return try await BetaOrganizationsInvitesMethods.listBetaOrganizationsInvites(config: config, beforeId: beforeId, afterId: afterId, limit: limit, statuses: statuses, email: email, roles: roles, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func list(
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        statuses: [ListBetaOrganizationsInvitesParameterItem]? = nil,
+        email: String? = nil,
+        roles: [String]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseInviteSchema {
+        try await BetaOrganizationsInvitesMethods.listBetaOrganizationsInvites(
+            config: config,
+            beforeId: beforeId,
+            afterId: afterId,
+            limit: limit,
+            statuses: statuses,
+            email: email,
+            roles: roles,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves an organization invite by its identifier. Use this endpoint to inspect the recipient, assigned role, status, and expiration details for a specific invite. The invite status indicates whether it is accepted, deleted, expired, or pending.
+    /// Retrieves an organization invite by its identifier. Use this endpoint to inspect the recipient, assigned role,
+    /// status, and expiration details for a specific invite. The invite status indicates whether it is accepted,
+    /// deleted, expired, or pending.
     ///
     /// Retrieve an invite by ID.
-    public func retrieve(inviteId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaInviteSchema {
-        return try await BetaOrganizationsInvitesMethods.retrieveBetaOrganizationsInvites(config: config, inviteId: inviteId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func retrieve(
+        inviteId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaInviteSchema {
+        try await BetaOrganizationsInvitesMethods.retrieveBetaOrganizationsInvites(
+            config: config,
+            inviteId: inviteId,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a pending organization invite. Provide the invite's identifier to remove it. The response confirms deletion with the invite ID and a deleted-object type.
+    /// Deletes a pending organization invite. Provide the invite's identifier to remove it. The response confirms
+    /// deletion with the invite ID and a deleted-object type.
     ///
     /// Delete a pending invite.
-    public func delete(inviteId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteInviteResponse {
-        return try await BetaOrganizationsInvitesMethods.deleteBetaOrganizationsInvites(config: config, inviteId: inviteId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func delete(
+        inviteId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeleteInviteResponse {
+        try await BetaOrganizationsInvitesMethods.deleteBetaOrganizationsInvites(
+            config: config,
+            inviteId: inviteId,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -79,32 +213,85 @@ public class BetaOrganizationsUsersNamespace {
         self.config = config
     }
 
-/// Retrieves an organization member by user ID. Use this endpoint to inspect the member's email address, name, organization role, and join timestamp. The returned role identifies the member's permissions within the organization.
+    /// Retrieves an organization member by user ID. Use this endpoint to inspect the member's email address, name,
+    /// organization role, and join timestamp. The returned role identifies the member's permissions within the
+    /// organization.
     ///
     /// Retrieve a member of the organization by user ID.
-    public func retrieve(userId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUser {
-        return try await BetaOrganizationsUsersMethods.retrieveBetaOrganizationsUsers(config: config, userId: userId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func retrieve(
+        userId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUser {
+        try await BetaOrganizationsUsersMethods.retrieveBetaOrganizationsUsers(
+            config: config,
+            userId: userId,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates an organization member's role. Provide the new `role` in the request body; accepted values depend on the organization type, and the API does not allow assigning the admin role. The response returns the updated organization user object.
+    /// Updates an organization member's role. Provide the new `role` in the request body; accepted values depend on the
+    /// organization type, and the API does not allow assigning the admin role. The response returns the updated
+    /// organization user object.
     ///
     /// Update a member's organization role.
-    public func update(userId: String, role: BetaUpdateUserParamsRole, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUser {
-        return try await BetaOrganizationsUsersMethods.updateBetaOrganizationsUsers(config: config, userId: userId, role: role, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func update(
+        userId: String,
+        role: BetaUpdateUserParamsRole,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUser {
+        try await BetaOrganizationsUsersMethods.updateBetaOrganizationsUsers(
+            config: config,
+            userId: userId,
+            role: role,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Removes a user from the organization. Supply the user's `user_id` and authenticate with an Admin API key in the `x-api-key` header. The response identifies the deleted user.
+    /// Removes a user from the organization. Supply the user's `user_id` and authenticate with an Admin API key in the
+    /// `x-api-key` header. The response identifies the deleted user.
     ///
     /// Remove a member from the organization.
-    public func delete(userId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteUserResponse {
-        return try await BetaOrganizationsUsersMethods.deleteBetaOrganizationsUsers(config: config, userId: userId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func delete(
+        userId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeleteUserResponse {
+        try await BetaOrganizationsUsersMethods.deleteBetaOrganizationsUsers(
+            config: config,
+            userId: userId,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists members of the organization, with cursor-based pagination and optional filters. Use `before_id` or `after_id` to navigate pages, and filter by `email` or one or more `roles[]` values. The response includes pagination cursors and a `has_more` flag.
+    /// Lists members of the organization, with cursor-based pagination and optional filters. Use `before_id` or
+    /// `after_id` to navigate pages, and filter by `email` or one or more `roles[]` values. The response includes
+    /// pagination cursors and a `has_more` flag.
     ///
     /// List the organization's members.
-    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, email: String? = nil, roles: [String]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseUser {
-        return try await BetaOrganizationsUsersMethods.listBetaOrganizationsUsers(config: config, beforeId: beforeId, afterId: afterId, limit: limit, email: email, roles: roles, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    public func list(
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        email: String? = nil,
+        roles: [String]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseUser {
+        try await BetaOrganizationsUsersMethods.listBetaOrganizationsUsers(
+            config: config,
+            beforeId: beforeId,
+            afterId: afterId,
+            limit: limit,
+            email: email,
+            roles: roles,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -114,29 +301,99 @@ public class BetaOrganizationsWorkspacesMembersNamespace {
         self.config = config
     }
 
-/// Retrieves a user's membership in a workspace. Supply both `workspace_id` and `user_id` to identify the membership. The response includes the user's workspace role.
-    public func retrieve(workspaceId: String, userId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspaceMemberSchema {
-        return try await BetaOrganizationsWorkspacesMembersMethods.retrieveBetaOrganizationsWorkspacesMembers(config: config, workspaceId: workspaceId, userId: userId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// Retrieves a user's membership in a workspace. Supply both `workspace_id` and `user_id` to identify the
+    /// membership. The response includes the user's workspace role.
+    public func retrieve(
+        workspaceId: String,
+        userId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaWorkspaceMemberSchema {
+        try await BetaOrganizationsWorkspacesMembersMethods.retrieveBetaOrganizationsWorkspacesMembers(
+            config: config,
+            workspaceId: workspaceId,
+            userId: userId,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates a user's role in a workspace. Supply `workspace_role` with the new role and use the path parameters to identify the workspace membership. The role must be one of the defined workspace roles.
-    public func update(userId: String, workspaceId: String, workspaceRole: BetaWorkspaceRoleSchema, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspaceMemberSchema {
-        return try await BetaOrganizationsWorkspacesMembersMethods.updateBetaOrganizationsWorkspacesMembers(config: config, userId: userId, workspaceId: workspaceId, workspaceRole: workspaceRole, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// Updates a user's role in a workspace. Supply `workspace_role` with the new role and use the path parameters to
+    /// identify the workspace membership. The role must be one of the defined workspace roles.
+    public func update(
+        userId: String,
+        workspaceId: String,
+        workspaceRole: BetaWorkspaceRoleSchema,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaWorkspaceMemberSchema {
+        try await BetaOrganizationsWorkspacesMembersMethods.updateBetaOrganizationsWorkspacesMembers(
+            config: config,
+            userId: userId,
+            workspaceId: workspaceId,
+            workspaceRole: workspaceRole,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Removes a user's membership from a workspace. Identify the membership with `workspace_id` and `user_id`, and authenticate with an Admin API key in the `x-api-key` header. The response identifies the deleted workspace membership.
-    public func delete(userId: String, workspaceId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteWorkspaceMemberResponse {
-        return try await BetaOrganizationsWorkspacesMembersMethods.deleteBetaOrganizationsWorkspacesMembers(config: config, userId: userId, workspaceId: workspaceId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// Removes a user's membership from a workspace. Identify the membership with `workspace_id` and `user_id`, and
+    /// authenticate with an Admin API key in the `x-api-key` header. The response identifies the deleted workspace
+    /// membership.
+    public func delete(
+        userId: String,
+        workspaceId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeleteWorkspaceMemberResponse {
+        try await BetaOrganizationsWorkspacesMembersMethods.deleteBetaOrganizationsWorkspacesMembers(
+            config: config,
+            userId: userId,
+            workspaceId: workspaceId,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists members of a specified workspace. Use `before_id` or `after_id` to navigate the results, and `limit` to control the page size. The response includes cursor IDs and a `has_more` flag.
-    public func list(workspaceId: String, beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseWorkspaceMemberSchema {
-        return try await BetaOrganizationsWorkspacesMembersMethods.listBetaOrganizationsWorkspacesMembers(config: config, workspaceId: workspaceId, beforeId: beforeId, afterId: afterId, limit: limit, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// Lists members of a specified workspace. Use `before_id` or `after_id` to navigate the results, and `limit` to
+    /// control the page size. The response includes cursor IDs and a `has_more` flag.
+    public func list(
+        workspaceId: String,
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseWorkspaceMemberSchema {
+        try await BetaOrganizationsWorkspacesMembersMethods.listBetaOrganizationsWorkspacesMembers(
+            config: config,
+            workspaceId: workspaceId,
+            beforeId: beforeId,
+            afterId: afterId,
+            limit: limit,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a membership for a user in a specified workspace. Supply `user_id` and `workspace_role`; the role must be one of the supported non-billing workspace roles. The response contains the new workspace member and its assigned role.
-    public func create(workspaceId: String, userId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspaceMemberSchema {
-        return try await BetaOrganizationsWorkspacesMembersMethods.createBetaOrganizationsWorkspacesMembers(config: config, workspaceId: workspaceId, userId: userId, workspaceRole: workspaceRole, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// Creates a membership for a user in a specified workspace. Supply `user_id` and `workspace_role`; the role must
+    /// be one of the supported non-billing workspace roles. The response contains the new workspace member and its
+    /// assigned role.
+    public func create(
+        workspaceId: String,
+        userId: String,
+        workspaceRole: BetaNoBillingWorkspaceRoleSchema,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaWorkspaceMemberSchema {
+        try await BetaOrganizationsWorkspacesMembersMethods.createBetaOrganizationsWorkspacesMembers(
+            config: config,
+            workspaceId: workspaceId,
+            userId: userId,
+            workspaceRole: workspaceRole,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -146,14 +403,50 @@ public class BetaOrganizationsWorkspacesRateLimitsNamespace {
         self.config = config
     }
 
-/// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
-    public func list(workspaceId: String, groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspaceRateLimitListResponse {
-        return try await BetaOrganizationsWorkspacesRateLimitsMethods.listBetaOrganizationsWorkspacesRateLimits(config: config, workspaceId: workspaceId, groupType: groupType, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a
+    /// workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET
+    /// /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a
+    /// single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
+    public func list(
+        workspaceId: String,
+        groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaWorkspaceRateLimitListResponse {
+        try await BetaOrganizationsWorkspacesRateLimitsMethods.listBetaOrganizationsWorkspacesRateLimits(
+            config: config,
+            workspaceId: workspaceId,
+            groupType: groupType,
+            limit: limit,
+            page: page,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
-    public func listPaginated(workspaceId: String, groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error> {
-        return BetaOrganizationsWorkspacesRateLimitsMethods.listBetaOrganizationsWorkspacesRateLimitsPaginated(config: config, workspaceId: workspaceId, groupType: groupType, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a
+    /// workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET
+    /// /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a
+    /// single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
+    public func listPaginated(
+        workspaceId: String,
+        groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error> {
+        BetaOrganizationsWorkspacesRateLimitsMethods.listBetaOrganizationsWorkspacesRateLimitsPaginated(
+            config: config,
+            workspaceId: workspaceId,
+            groupType: groupType,
+            limit: limit,
+            page: page,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -163,33 +456,151 @@ public class BetaOrganizationsWorkspacesServiceAccountsNamespace {
         self.config = config
     }
 
-/// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the service accounts that are members of a workspace. Each entry includes the service account's `workspace_role`. Use `limit` and the `next_page` cursor to paginate. Archived workspaces return 400; use `GET /service_accounts/{id}/workspaces` to audit memberships of an archived workspace. The implicit default-workspace membership is not included in this list. Memberships of archived service accounts are omitted from the results.
-    public func list(workspaceId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMemberListResponse {
-        return try await BetaOrganizationsWorkspacesServiceAccountsMethods.listBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the
+    /// service accounts that are members of a workspace. Each entry includes the service account's `workspace_role`.
+    /// Use `limit` and the `next_page` cursor to paginate. Archived workspaces return 400; use `GET
+    /// /service_accounts/{id}/workspaces` to audit memberships of an archived workspace. The implicit default-workspace
+    /// membership is not included in this list. Memberships of archived service accounts are omitted from the results.
+    public func list(
+        workspaceId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMemberListResponse {
+        try await BetaOrganizationsWorkspacesServiceAccountsMethods.listBetaOrganizationsWorkspacesServiceAccounts(
+            config: config,
+            workspaceId: workspaceId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the service accounts that are members of a workspace. Each entry includes the service account's `workspace_role`. Use `limit` and the `next_page` cursor to paginate. Archived workspaces return 400; use `GET /service_accounts/{id}/workspaces` to audit memberships of an archived workspace. The implicit default-workspace membership is not included in this list. Memberships of archived service accounts are omitted from the results.
-    public func listPaginated(workspaceId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> {
-        return BetaOrganizationsWorkspacesServiceAccountsMethods.listBetaOrganizationsWorkspacesServiceAccountsPaginated(config: config, workspaceId: workspaceId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the
+    /// service accounts that are members of a workspace. Each entry includes the service account's `workspace_role`.
+    /// Use `limit` and the `next_page` cursor to paginate. Archived workspaces return 400; use `GET
+    /// /service_accounts/{id}/workspaces` to audit memberships of an archived workspace. The implicit default-workspace
+    /// membership is not included in this list. Memberships of archived service accounts are omitted from the results.
+    public func listPaginated(
+        workspaceId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> {
+        BetaOrganizationsWorkspacesServiceAccountsMethods.listBetaOrganizationsWorkspacesServiceAccountsPaginated(
+            config: config,
+            workspaceId: workspaceId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Add a service account to a workspace with the given `workspace_role`. The role determines what the service account can do in the workspace and which workspace-scoped permissions it can be granted when authenticating through federation. Every service account is already an implicit `workspace_user` member of the default workspace; adding it explicitly assigns a chosen role. If the service account is already an explicit member of the workspace, its `workspace_role` is replaced with the value supplied here. Archived workspaces return 400. Archived service accounts cannot be added and are rejected.
-    public func create(workspaceId: String, serviceAccountId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMember {
-        return try await BetaOrganizationsWorkspacesServiceAccountsMethods.createBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, serviceAccountId: serviceAccountId, workspaceRole: workspaceRole, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Add a
+    /// service account to a workspace with the given `workspace_role`. The role determines what the service account can
+    /// do in the workspace and which workspace-scoped permissions it can be granted when authenticating through
+    /// federation. Every service account is already an implicit `workspace_user` member of the default workspace;
+    /// adding it explicitly assigns a chosen role. If the service account is already an explicit member of the
+    /// workspace, its `workspace_role` is replaced with the value supplied here. Archived workspaces return 400.
+    /// Archived service accounts cannot be added and are rejected.
+    public func create(
+        workspaceId: String,
+        serviceAccountId: String,
+        workspaceRole: BetaNoBillingWorkspaceRoleSchema,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMember {
+        try await BetaOrganizationsWorkspacesServiceAccountsMethods.createBetaOrganizationsWorkspacesServiceAccounts(
+            config: config,
+            workspaceId: workspaceId,
+            serviceAccountId: serviceAccountId,
+            workspaceRole: workspaceRole,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Retrieve a service account's membership in a workspace. Returns the membership record, including the service account's `workspace_role` in this workspace. Archived workspaces return 400. For the default workspace, returns the implicit (`implicit: true`) membership when no explicit membership exists; an explicitly added membership is returned with its assigned role. An archived service account returns 404.
-    public func retrieve(workspaceId: String, serviceAccountId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMember {
-        return try await BetaOrganizationsWorkspacesServiceAccountsMethods.retrieveBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, serviceAccountId: serviceAccountId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Retrieve
+    /// a service account's membership in a workspace. Returns the membership record, including the service account's
+    /// `workspace_role` in this workspace. Archived workspaces return 400. For the default workspace, returns the
+    /// implicit (`implicit: true`) membership when no explicit membership exists; an explicitly added membership is
+    /// returned with its assigned role. An archived service account returns 404.
+    public func retrieve(
+        workspaceId: String,
+        serviceAccountId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMember {
+        try await BetaOrganizationsWorkspacesServiceAccountsMethods.retrieveBetaOrganizationsWorkspacesServiceAccounts(
+            config: config,
+            workspaceId: workspaceId,
+            serviceAccountId: serviceAccountId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Change a service account's role in a workspace. The new `workspace_role` replaces the current one. Only explicit memberships can be updated; to set a role on the implicit default-workspace membership, add the service account explicitly with `POST /workspaces/{workspace_id}/service_accounts`. Archived workspaces return 400. Archived service accounts cannot be updated and are rejected.
-    public func update(workspaceId: String, serviceAccountId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMember {
-        return try await BetaOrganizationsWorkspacesServiceAccountsMethods.updateBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, serviceAccountId: serviceAccountId, workspaceRole: workspaceRole, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Change a
+    /// service account's role in a workspace. The new `workspace_role` replaces the current one. Only explicit
+    /// memberships can be updated; to set a role on the implicit default-workspace membership, add the service account
+    /// explicitly with `POST /workspaces/{workspace_id}/service_accounts`. Archived workspaces return 400. Archived
+    /// service accounts cannot be updated and are rejected.
+    public func update(
+        workspaceId: String,
+        serviceAccountId: String,
+        workspaceRole: BetaNoBillingWorkspaceRoleSchema,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMember {
+        try await BetaOrganizationsWorkspacesServiceAccountsMethods.updateBetaOrganizationsWorkspacesServiceAccounts(
+            config: config,
+            workspaceId: workspaceId,
+            serviceAccountId: serviceAccountId,
+            workspaceRole: workspaceRole,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 
-/// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Remove a service account from a workspace. Removal is idempotent (returns 200 even if the membership was already removed). A DELETE against the implicit default-workspace membership returns 200 but is a no-op and the membership persists; deleting an explicit default-workspace row reverts to the implicit `workspace_user` membership. Archived workspaces return 400.
-    public func delete(workspaceId: String, serviceAccountId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMemberDeleteResponse {
-        return try await BetaOrganizationsWorkspacesServiceAccountsMethods.deleteBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, serviceAccountId: serviceAccountId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Remove a
+    /// service account from a workspace. Removal is idempotent (returns 200 even if the membership was already
+    /// removed). A DELETE against the implicit default-workspace membership returns 200 but is a no-op and the
+    /// membership persists; deleting an explicit default-workspace row reverts to the implicit `workspace_user`
+    /// membership. Archived workspaces return 400.
+    public func delete(
+        workspaceId: String,
+        serviceAccountId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMemberDeleteResponse {
+        try await BetaOrganizationsWorkspacesServiceAccountsMethods.deleteBetaOrganizationsWorkspacesServiceAccounts(
+            config: config,
+            workspaceId: workspaceId,
+            serviceAccountId: serviceAccountId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            requestOptions: requestOptions
+        )
     }
 }
