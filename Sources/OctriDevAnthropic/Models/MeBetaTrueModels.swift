@@ -3,7 +3,7 @@
 
 import Foundation
 
-// MeBetaTrue domain models
+/// MeBetaTrue domain models
 /// Typed representation of the `BetaOrganizationSchema` API schema.
 public struct BetaOrganizationSchema: Codable {
     /// ID of the Organization.
@@ -19,35 +19,49 @@ public struct BetaOrganizationSchema: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaOrganizationSchema {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateUuid("id", self.id)
-            try sdkValidateRawEnum("type", self.type, BetaOrganizationSchemaType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaOrganizationSchema {
-    public init(id: String, name: String, type: BetaOrganizationSchemaType) throws {
+public extension BetaOrganizationSchema {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateUuid("id", id)
+        try sdkValidateRawEnum("type", type, BetaOrganizationSchemaType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaOrganizationSchema {
+    init(id: String, name: String, type: BetaOrganizationSchemaType) throws {
         (self.id, self.name) = (id, name)
         self.type = type
-            try sdkValidateUuid("id", self.id)
-            try sdkValidateRawEnum("type", self.type, BetaOrganizationSchemaType.allCases.map(\.rawValue))
+        try sdkValidateUuid("id", self.id)
+        try sdkValidateRawEnum("type", self.type, BetaOrganizationSchemaType.allCases.map(\.rawValue))
     }
 }
 

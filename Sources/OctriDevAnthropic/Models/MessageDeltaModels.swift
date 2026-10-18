@@ -3,7 +3,7 @@
 
 import Foundation
 
-// MessageDelta domain models
+/// MessageDelta domain models
 /// Typed representation of the `MessageDeltaUsage` API schema.
 public struct MessageDeltaUsage: Codable {
     /// The cumulative number of input tokens used to create the cache entry.
@@ -31,41 +31,74 @@ public struct MessageDeltaUsage: Codable {
         case serverToolUse = "server_tool_use"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MessageDeltaUsage {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.cacheCreationInputTokens) else {
-            throw SdkValidationError(field: "cache_creation_input_tokens", code: "required", message: "Validation failed for 'cache_creation_input_tokens': value is required")
-        }
-        guard container.contains(.cacheReadInputTokens) else {
-            throw SdkValidationError(field: "cache_read_input_tokens", code: "required", message: "Validation failed for 'cache_read_input_tokens': value is required")
-        }
-        guard container.contains(.inputTokens) else {
-            throw SdkValidationError(field: "input_tokens", code: "required", message: "Validation failed for 'input_tokens': value is required")
-        }
-        guard container.contains(.outputTokens) else {
-            throw SdkValidationError(field: "output_tokens", code: "required", message: "Validation failed for 'output_tokens': value is required")
-        }
-        guard container.contains(.outputTokensDetails) else {
-            throw SdkValidationError(field: "output_tokens_details", code: "required", message: "Validation failed for 'output_tokens_details': value is required")
-        }
-        guard container.contains(.serverToolUse) else {
-            throw SdkValidationError(field: "server_tool_use", code: "required", message: "Validation failed for 'server_tool_use': value is required")
-        }
-        self.cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
-        self.cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
-        self.inputTokens = try container.sdkDecodeNullable(.inputTokens)
-        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        self.outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
-        self.serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MessageDeltaUsage {
-    public init(cacheCreationInputTokens: Int?, cacheReadInputTokens: Int?, inputTokens: Int?, outputTokens: Int, outputTokensDetails: OutputTokensDetails?, serverToolUse: ServerToolUsage?) {
+public extension MessageDeltaUsage {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.cacheCreationInputTokens) else {
+            throw SdkValidationError(
+                field: "cache_creation_input_tokens",
+                code: "required",
+                message: "Validation failed for 'cache_creation_input_tokens': value is required"
+            )
+        }
+        guard container.contains(.cacheReadInputTokens) else {
+            throw SdkValidationError(
+                field: "cache_read_input_tokens",
+                code: "required",
+                message: "Validation failed for 'cache_read_input_tokens': value is required"
+            )
+        }
+        guard container.contains(.inputTokens) else {
+            throw SdkValidationError(
+                field: "input_tokens",
+                code: "required",
+                message: "Validation failed for 'input_tokens': value is required"
+            )
+        }
+        guard container.contains(.outputTokens) else {
+            throw SdkValidationError(
+                field: "output_tokens",
+                code: "required",
+                message: "Validation failed for 'output_tokens': value is required"
+            )
+        }
+        guard container.contains(.outputTokensDetails) else {
+            throw SdkValidationError(
+                field: "output_tokens_details",
+                code: "required",
+                message: "Validation failed for 'output_tokens_details': value is required"
+            )
+        }
+        guard container.contains(.serverToolUse) else {
+            throw SdkValidationError(
+                field: "server_tool_use",
+                code: "required",
+                message: "Validation failed for 'server_tool_use': value is required"
+            )
+        }
+        cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
+        cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
+        inputTokens = try container.sdkDecodeNullable(.inputTokens)
+        outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
+        serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
+    }
+}
+
+public extension MessageDeltaUsage {
+    init(
+        cacheCreationInputTokens: Int?,
+        cacheReadInputTokens: Int?,
+        inputTokens: Int?,
+        outputTokens: Int,
+        outputTokensDetails: OutputTokensDetails?,
+        serverToolUse: ServerToolUsage?
+    ) {
         self.cacheCreationInputTokens = cacheCreationInputTokens
         (self.cacheReadInputTokens, self.inputTokens) = (cacheReadInputTokens, inputTokens)
         (self.outputTokens, self.outputTokensDetails) = (outputTokens, outputTokensDetails)
@@ -92,33 +125,47 @@ public struct MessageDeltaEvent: Codable {
         case usage
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MessageDeltaEvent {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.delta) else {
-            throw SdkValidationError(field: "delta", code: "required", message: "Validation failed for 'delta': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.usage) else {
-            throw SdkValidationError(field: "usage", code: "required", message: "Validation failed for 'usage': value is required")
-        }
-        self.delta = try container.sdkDecodeRequired(.delta)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.usage = try container.sdkDecodeRequired(.usage)
-            try sdkValidateRawEnum("type", self.type, MessageDeltaEventType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MessageDeltaEvent {
-    public init(delta: MessageDelta, type: MessageDeltaEventType, usage: MessageDeltaUsage) throws {
+public extension MessageDeltaEvent {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.delta) else {
+            throw SdkValidationError(
+                field: "delta",
+                code: "required",
+                message: "Validation failed for 'delta': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.usage) else {
+            throw SdkValidationError(
+                field: "usage",
+                code: "required",
+                message: "Validation failed for 'usage': value is required"
+            )
+        }
+        delta = try container.sdkDecodeRequired(.delta)
+        type = try container.sdkDecodeRequired(.type)
+        usage = try container.sdkDecodeRequired(.usage)
+        try sdkValidateRawEnum("type", type, MessageDeltaEventType.allCases.map(\.rawValue))
+    }
+}
+
+public extension MessageDeltaEvent {
+    init(delta: MessageDelta, type: MessageDeltaEventType, usage: MessageDeltaUsage) throws {
         (self.delta, self.type) = (delta, type)
         self.usage = usage
-            try sdkValidateRawEnum("type", self.type, MessageDeltaEventType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, MessageDeltaEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -142,34 +189,57 @@ public struct MessageDelta: Codable {
         case stopSequence = "stop_sequence"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MessageDelta {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.container) else {
-            throw SdkValidationError(field: "container", code: "required", message: "Validation failed for 'container': value is required")
-        }
-        guard container.contains(.stopDetails) else {
-            throw SdkValidationError(field: "stop_details", code: "required", message: "Validation failed for 'stop_details': value is required")
-        }
-        guard container.contains(.stopReason) else {
-            throw SdkValidationError(field: "stop_reason", code: "required", message: "Validation failed for 'stop_reason': value is required")
-        }
-        guard container.contains(.stopSequence) else {
-            throw SdkValidationError(field: "stop_sequence", code: "required", message: "Validation failed for 'stop_sequence': value is required")
-        }
-        self.container = try container.sdkDecodeNullable(.container)
-        self.stopDetails = try container.sdkDecodeNullable(.stopDetails)
-        self.stopReason = try container.sdkDecodeNullable(.stopReason)
-        self.stopSequence = try container.sdkDecodeNullable(.stopSequence)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MessageDelta {
-    public init(container containerValue: Container?, stopDetails: RefusalStopDetails?, stopReason: StopReason?, stopSequence: String?) {
-        (self.container, self.stopDetails) = (containerValue, stopDetails)
+public extension MessageDelta {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.container) else {
+            throw SdkValidationError(
+                field: "container",
+                code: "required",
+                message: "Validation failed for 'container': value is required"
+            )
+        }
+        guard container.contains(.stopDetails) else {
+            throw SdkValidationError(
+                field: "stop_details",
+                code: "required",
+                message: "Validation failed for 'stop_details': value is required"
+            )
+        }
+        guard container.contains(.stopReason) else {
+            throw SdkValidationError(
+                field: "stop_reason",
+                code: "required",
+                message: "Validation failed for 'stop_reason': value is required"
+            )
+        }
+        guard container.contains(.stopSequence) else {
+            throw SdkValidationError(
+                field: "stop_sequence",
+                code: "required",
+                message: "Validation failed for 'stop_sequence': value is required"
+            )
+        }
+        self.container = try container.sdkDecodeNullable(.container)
+        stopDetails = try container.sdkDecodeNullable(.stopDetails)
+        stopReason = try container.sdkDecodeNullable(.stopReason)
+        stopSequence = try container.sdkDecodeNullable(.stopSequence)
+    }
+}
+
+public extension MessageDelta {
+    init(
+        container containerValue: Container?,
+        stopDetails: RefusalStopDetails?,
+        stopReason: StopReason?,
+        stopSequence: String?
+    ) {
+        (container, self.stopDetails) = (containerValue, stopDetails)
         (self.stopReason, self.stopSequence) = (stopReason, stopSequence)
     }
 }

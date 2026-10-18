@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaApi domain models
+/// SharedBetaApi domain models
 public indirect enum BetaApiKeyPrincipal {
     case betaApiKeyUserActor(BetaApiKeyUserActor)
     case betaApiKeyServiceAccountActor(BetaApiKeyServiceAccountActor)
@@ -12,7 +12,6 @@ public indirect enum BetaApiKeyPrincipal {
 }
 
 extension BetaApiKeyPrincipal: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaApiKeyPrincipal: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaApiKeyPrincipal: Codable {
 extension BetaApiKeyPrincipal {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user_actor": return .betaApiKeyUserActor(try BetaApiKeyUserActor(from: decoder))
-        case "service_account_actor": return .betaApiKeyServiceAccountActor(try BetaApiKeyServiceAccountActor(from: decoder))
-        default: return nil
+        case "user_actor": try .betaApiKeyUserActor(BetaApiKeyUserActor(from: decoder))
+        case "service_account_actor": try .betaApiKeyServiceAccountActor(BetaApiKeyServiceAccountActor(from: decoder))
+        default: nil
         }
     }
 }
@@ -62,7 +65,6 @@ public indirect enum BetaApiKeyScope {
 }
 
 extension BetaApiKeyScope: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -70,12 +72,16 @@ extension BetaApiKeyScope: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -86,9 +92,9 @@ extension BetaApiKeyScope: Codable {
 extension BetaApiKeyScope {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "organization": return .betaApiKeyOrganizationScope(try BetaApiKeyOrganizationScope(from: decoder))
-        case "workspace": return .betaApiKeyWorkspaceScope(try BetaApiKeyWorkspaceScope(from: decoder))
-        default: return nil
+        case "organization": try .betaApiKeyOrganizationScope(BetaApiKeyOrganizationScope(from: decoder))
+        case "workspace": try .betaApiKeyWorkspaceScope(BetaApiKeyWorkspaceScope(from: decoder))
+        default: nil
         }
     }
 }
@@ -117,28 +123,38 @@ public struct BetaApiKeyWorkspaceScope: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaApiKeyWorkspaceScope {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyWorkspaceScopeType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaApiKeyWorkspaceScope {
-    public init(type: BetaApiKeyWorkspaceScopeType, workspaceId: String) throws {
+public extension BetaApiKeyWorkspaceScope {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaApiKeyWorkspaceScopeType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaApiKeyWorkspaceScope {
+    init(type: BetaApiKeyWorkspaceScopeType, workspaceId: String) throws {
         (self.type, self.workspaceId) = (type, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyWorkspaceScopeType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaApiKeyWorkspaceScopeType.allCases.map(\.rawValue))
     }
 }
 
@@ -152,24 +168,30 @@ public struct BetaApiKeyOrganizationScope: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaApiKeyOrganizationScope {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyOrganizationScopeType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaApiKeyOrganizationScope {
-    public init(type: BetaApiKeyOrganizationScopeType) throws {
+public extension BetaApiKeyOrganizationScope {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaApiKeyOrganizationScopeType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaApiKeyOrganizationScope {
+    init(type: BetaApiKeyOrganizationScopeType) throws {
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyOrganizationScopeType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaApiKeyOrganizationScopeType.allCases.map(\.rawValue))
     }
 }
 
@@ -185,34 +207,40 @@ public struct BetaApiKeyServiceAccountActor: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaApiKeyServiceAccountActor {
-    public init(from decoder: Decoder) throws {
+public extension BetaApiKeyServiceAccountActor {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.serviceAccountId) else {
-            throw SdkValidationError(field: "service_account_id", code: "required", message: "Validation failed for 'service_account_id': value is required")
+            throw SdkValidationError(
+                field: "service_account_id",
+                code: "required",
+                message: "Validation failed for 'service_account_id': value is required"
+            )
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
-        self.serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyServiceAccountActorType.allCases.map(\.rawValue))
+        serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaApiKeyServiceAccountActorType.allCases.map(\.rawValue))
     }
 }
 
-extension BetaApiKeyServiceAccountActor {
-    public init(serviceAccountId: String, type: BetaApiKeyServiceAccountActorType) throws {
+public extension BetaApiKeyServiceAccountActor {
+    init(serviceAccountId: String, type: BetaApiKeyServiceAccountActorType) throws {
         (self.serviceAccountId, self.type) = (serviceAccountId, type)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyServiceAccountActorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaApiKeyServiceAccountActorType.allCases.map(\.rawValue))
     }
 }
-
-
-
-
 
 /// Typed representation of the `BetaApiKey` API schema.
 public struct BetaApiKey: Codable {
@@ -259,38 +287,52 @@ public struct BetaApiKey: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaApiKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.createdBy = try container.sdkDecodeNullable(.createdBy)
-        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.partialKeyHint = try container.sdkDecodeNullable(.partialKeyHint)
-        self.principal = try container.sdkDecodeNullable(.principal)
-        self.scope = try container.sdkDecodeRequired(.scope)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeNullable(.workspaceId)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaApiKey {
-    public init(createdAt: Date, createdBy: BetaCreatedBy?, expiresAt: Date?, id: String, name: String, partialKeyHint: String?, principal: BetaApiKeyPrincipal?, scope: BetaApiKeyScope, status: BetaApiKeyStatus, type: BetaApiKeyType, workspaceId: String?) throws {
+public extension BetaApiKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        createdBy = try container.sdkDecodeNullable(.createdBy)
+        expiresAt = try container.sdkDecodeNullable(.expiresAt)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        partialKeyHint = try container.sdkDecodeNullable(.partialKeyHint)
+        principal = try container.sdkDecodeNullable(.principal)
+        scope = try container.sdkDecodeRequired(.scope)
+        status = try container.sdkDecodeRequired(.status)
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeNullable(.workspaceId)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaApiKeyType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaApiKey {
+    init(
+        createdAt: Date,
+        createdBy: BetaCreatedBy?,
+        expiresAt: Date?,
+        id: String,
+        name: String,
+        partialKeyHint: String?,
+        principal: BetaApiKeyPrincipal?,
+        scope: BetaApiKeyScope,
+        status: BetaApiKeyStatus,
+        type: BetaApiKeyType,
+        workspaceId: String?
+    ) throws {
         (self.createdAt, self.createdBy) = (createdAt, createdBy)
         (self.expiresAt, self.id) = (expiresAt, id)
         (self.name, self.partialKeyHint) = (name, partialKeyHint)
         (self.principal, self.scope) = (principal, scope)
         (self.status, self.type) = (status, type)
         self.workspaceId = workspaceId
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaApiKeyType.allCases.map(\.rawValue))
     }
 }
 
@@ -306,28 +348,38 @@ public struct BetaApiKeyUserActor: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaApiKeyUserActor {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.userId = try container.sdkDecodeRequired(.userId)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyUserActorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaApiKeyUserActor {
-    public init(type: BetaApiKeyUserActorType, userId: String) throws {
+public extension BetaApiKeyUserActor {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        userId = try container.sdkDecodeRequired(.userId)
+        try sdkValidateRawEnum("type", type, BetaApiKeyUserActorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaApiKeyUserActor {
+    init(type: BetaApiKeyUserActorType, userId: String) throws {
         (self.type, self.userId) = (type, userId)
-            try sdkValidateRawEnum("type", self.type, BetaApiKeyUserActorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaApiKeyUserActorType.allCases.map(\.rawValue))
     }
 }
 
@@ -390,7 +442,10 @@ public enum BetaApiKeyServiceAccountActorType: String, CaseIterable, Codable {
 public struct BetaApiKeyStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = BetaApiKeyStatus(rawValue: "active")
     public static let archived = BetaApiKeyStatus(rawValue: "archived")
     public static let expired = BetaApiKeyStatus(rawValue: "expired")
@@ -398,7 +453,7 @@ public struct BetaApiKeyStatus: RawRepresentable, Hashable, Codable, Sendable, S
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

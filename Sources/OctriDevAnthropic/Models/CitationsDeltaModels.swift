@@ -3,7 +3,7 @@
 
 import Foundation
 
-// CitationsDelta domain models
+/// CitationsDelta domain models
 public indirect enum CitationsDeltaCitation {
     case responseCharLocationCitation(ResponseCharLocationCitation)
     case responsePageLocationCitation(ResponsePageLocationCitation)
@@ -15,7 +15,6 @@ public indirect enum CitationsDeltaCitation {
 }
 
 extension CitationsDeltaCitation: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -23,12 +22,16 @@ extension CitationsDeltaCitation: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,13 +42,17 @@ extension CitationsDeltaCitation: Codable {
 extension CitationsDeltaCitation {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "char_location": return .responseCharLocationCitation(try ResponseCharLocationCitation(from: decoder))
-        case "page_location": return .responsePageLocationCitation(try ResponsePageLocationCitation(from: decoder))
-        case "content_block_location": return .responseContentBlockLocationCitation(try ResponseContentBlockLocationCitation(from: decoder))
+        case "char_location": try .responseCharLocationCitation(ResponseCharLocationCitation(from: decoder))
+        case "page_location": try .responsePageLocationCitation(ResponsePageLocationCitation(from: decoder))
+        case "content_block_location": try .responseContentBlockLocationCitation(
+                ResponseContentBlockLocationCitation(from: decoder)
+            )
         case "web_search_result_location":
-        return .responseWebSearchResultLocationCitation(try ResponseWebSearchResultLocationCitation(from: decoder))
-        case "search_result_location": return .responseSearchResultLocationCitation(try ResponseSearchResultLocationCitation(from: decoder))
-        default: return nil
+            try .responseWebSearchResultLocationCitation(ResponseWebSearchResultLocationCitation(from: decoder))
+        case "search_result_location": try .responseSearchResultLocationCitation(
+                ResponseSearchResultLocationCitation(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -76,28 +83,38 @@ public struct CitationsDelta: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CitationsDelta {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.citation) else {
-            throw SdkValidationError(field: "citation", code: "required", message: "Validation failed for 'citation': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.citation = try container.sdkDecodeRequired(.citation)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, CitationsDeltaType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CitationsDelta {
-    public init(citation: CitationsDeltaCitation, type: CitationsDeltaType) throws {
+public extension CitationsDelta {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.citation) else {
+            throw SdkValidationError(
+                field: "citation",
+                code: "required",
+                message: "Validation failed for 'citation': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        citation = try container.sdkDecodeRequired(.citation)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, CitationsDeltaType.allCases.map(\.rawValue))
+    }
+}
+
+public extension CitationsDelta {
+    init(citation: CitationsDeltaCitation, type: CitationsDeltaType) throws {
         (self.citation, self.type) = (citation, type)
-            try sdkValidateRawEnum("type", self.type, CitationsDeltaType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, CitationsDeltaType.allCases.map(\.rawValue))
     }
 }
 

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// McpOauthValidateBetaTrue domain models
+/// McpOauthValidateBetaTrue domain models
 /// Result of live-probing a credential against its configured MCP server.
 public struct BetaManagedAgentsCredentialValidation: Codable {
     /// Required enumerated value serialized in the `type` wire field.
@@ -34,25 +34,36 @@ public struct BetaManagedAgentsCredentialValidation: Codable {
         case refresh
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsCredentialValidation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.credentialId = try container.sdkDecodeRequired(.credentialId)
-        self.vaultId = try container.sdkDecodeRequired(.vaultId)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.validatedAt = try container.sdkDecodeRequired(.validatedAt)
-        self.hasRefreshToken = try container.sdkDecodeRequired(.hasRefreshToken)
-        self.mcpProbe = try container.sdkDecodeNullable(.mcpProbe)
-        self.refresh = try container.sdkDecodeNullable(.refresh)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsCredentialValidation {
-    public init(type: BetaManagedAgentsCredentialValidationType, credentialId: String, vaultId: String, status: BetaManagedAgentsCredentialValidationStatus, validatedAt: BetaTimestamp, hasRefreshToken: Bool, mcpProbe: BetaManagedAgentsMcpProbe?, refresh: BetaManagedAgentsRefreshObject?) {
+public extension BetaManagedAgentsCredentialValidation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        type = try container.sdkDecodeRequired(.type)
+        credentialId = try container.sdkDecodeRequired(.credentialId)
+        vaultId = try container.sdkDecodeRequired(.vaultId)
+        status = try container.sdkDecodeRequired(.status)
+        validatedAt = try container.sdkDecodeRequired(.validatedAt)
+        hasRefreshToken = try container.sdkDecodeRequired(.hasRefreshToken)
+        mcpProbe = try container.sdkDecodeNullable(.mcpProbe)
+        refresh = try container.sdkDecodeNullable(.refresh)
+    }
+}
+
+public extension BetaManagedAgentsCredentialValidation {
+    init(
+        type: BetaManagedAgentsCredentialValidationType,
+        credentialId: String,
+        vaultId: String,
+        status: BetaManagedAgentsCredentialValidationStatus,
+        validatedAt: BetaTimestamp,
+        hasRefreshToken: Bool,
+        mcpProbe: BetaManagedAgentsMcpProbe?,
+        refresh: BetaManagedAgentsRefreshObject?
+    ) {
         (self.type, self.credentialId) = (type, credentialId)
         (self.vaultId, self.status) = (vaultId, status)
         (self.validatedAt, self.hasRefreshToken) = (validatedAt, hasRefreshToken)
@@ -72,25 +83,35 @@ public struct BetaManagedAgentsMcpProbe: Codable {
         case httpResponse = "http_response"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsMcpProbe {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.method) else {
-            throw SdkValidationError(field: "method", code: "required", message: "Validation failed for 'method': value is required")
-        }
-        guard container.contains(.httpResponse) else {
-            throw SdkValidationError(field: "http_response", code: "required", message: "Validation failed for 'http_response': value is required")
-        }
-        self.method = try container.sdkDecodeRequired(.method)
-        self.httpResponse = try container.sdkDecodeNullable(.httpResponse)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsMcpProbe {
-    public init(method: String, httpResponse: BetaManagedAgentsRefreshHttpResponse?) {
+public extension BetaManagedAgentsMcpProbe {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.method) else {
+            throw SdkValidationError(
+                field: "method",
+                code: "required",
+                message: "Validation failed for 'method': value is required"
+            )
+        }
+        guard container.contains(.httpResponse) else {
+            throw SdkValidationError(
+                field: "http_response",
+                code: "required",
+                message: "Validation failed for 'http_response': value is required"
+            )
+        }
+        method = try container.sdkDecodeRequired(.method)
+        httpResponse = try container.sdkDecodeNullable(.httpResponse)
+    }
+}
+
+public extension BetaManagedAgentsMcpProbe {
+    init(method: String, httpResponse: BetaManagedAgentsRefreshHttpResponse?) {
         (self.method, self.httpResponse) = (method, httpResponse)
     }
 }
@@ -107,25 +128,35 @@ public struct BetaManagedAgentsRefreshObject: Codable {
         case httpResponse = "http_response"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsRefreshObject {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.httpResponse) else {
-            throw SdkValidationError(field: "http_response", code: "required", message: "Validation failed for 'http_response': value is required")
-        }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.httpResponse = try container.sdkDecodeNullable(.httpResponse)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsRefreshObject {
-    public init(status: BetaManagedAgentsCredentialRefreshStatus, httpResponse: BetaManagedAgentsRefreshHttpResponse?) {
+public extension BetaManagedAgentsRefreshObject {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.status) else {
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
+        }
+        guard container.contains(.httpResponse) else {
+            throw SdkValidationError(
+                field: "http_response",
+                code: "required",
+                message: "Validation failed for 'http_response': value is required"
+            )
+        }
+        status = try container.sdkDecodeRequired(.status)
+        httpResponse = try container.sdkDecodeNullable(.httpResponse)
+    }
+}
+
+public extension BetaManagedAgentsRefreshObject {
+    init(status: BetaManagedAgentsCredentialRefreshStatus, httpResponse: BetaManagedAgentsRefreshHttpResponse?) {
         (self.status, self.httpResponse) = (status, httpResponse)
     }
 }
@@ -148,43 +179,65 @@ public struct BetaManagedAgentsRefreshHttpResponse: Codable {
         case bodyTruncated = "body_truncated"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsRefreshHttpResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.statusCode) else {
-            throw SdkValidationError(field: "status_code", code: "required", message: "Validation failed for 'status_code': value is required")
-        }
-        guard container.contains(.contentType) else {
-            throw SdkValidationError(field: "content_type", code: "required", message: "Validation failed for 'content_type': value is required")
-        }
-        guard container.contains(.body) else {
-            throw SdkValidationError(field: "body", code: "required", message: "Validation failed for 'body': value is required")
-        }
-        guard container.contains(.bodyTruncated) else {
-            throw SdkValidationError(field: "body_truncated", code: "required", message: "Validation failed for 'body_truncated': value is required")
-        }
-        self.statusCode = try container.sdkDecodeRequired(.statusCode)
-        self.contentType = try container.sdkDecodeRequired(.contentType)
-        self.body = try container.sdkDecodeRequired(.body)
-        self.bodyTruncated = try container.sdkDecodeRequired(.bodyTruncated)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsRefreshHttpResponse {
-    public init(statusCode: Int, contentType: String, body: String, bodyTruncated: Bool) {
+public extension BetaManagedAgentsRefreshHttpResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.statusCode) else {
+            throw SdkValidationError(
+                field: "status_code",
+                code: "required",
+                message: "Validation failed for 'status_code': value is required"
+            )
+        }
+        guard container.contains(.contentType) else {
+            throw SdkValidationError(
+                field: "content_type",
+                code: "required",
+                message: "Validation failed for 'content_type': value is required"
+            )
+        }
+        guard container.contains(.body) else {
+            throw SdkValidationError(
+                field: "body",
+                code: "required",
+                message: "Validation failed for 'body': value is required"
+            )
+        }
+        guard container.contains(.bodyTruncated) else {
+            throw SdkValidationError(
+                field: "body_truncated",
+                code: "required",
+                message: "Validation failed for 'body_truncated': value is required"
+            )
+        }
+        statusCode = try container.sdkDecodeRequired(.statusCode)
+        contentType = try container.sdkDecodeRequired(.contentType)
+        body = try container.sdkDecodeRequired(.body)
+        bodyTruncated = try container.sdkDecodeRequired(.bodyTruncated)
+    }
+}
+
+public extension BetaManagedAgentsRefreshHttpResponse {
+    init(statusCode: Int, contentType: String, body: String, bodyTruncated: Bool) {
         (self.statusCode, self.contentType) = (statusCode, contentType)
         (self.body, self.bodyTruncated) = (body, bodyTruncated)
     }
 }
 
 /// Outcome of a refresh-token exchange attempted during credential validation.
-public struct BetaManagedAgentsCredentialRefreshStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsCredentialRefreshStatus: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let succeeded = BetaManagedAgentsCredentialRefreshStatus(rawValue: "succeeded")
     public static let failed = BetaManagedAgentsCredentialRefreshStatus(rawValue: "failed")
     public static let connectError = BetaManagedAgentsCredentialRefreshStatus(rawValue: "connect_error")
@@ -192,7 +245,7 @@ public struct BetaManagedAgentsCredentialRefreshStatus: RawRepresentable, Hashab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -202,17 +255,21 @@ public struct BetaManagedAgentsCredentialRefreshStatus: RawRepresentable, Hashab
 }
 
 /// Overall verdict of a credential validation probe.
-public struct BetaManagedAgentsCredentialValidationStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsCredentialValidationStatus: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let valid = BetaManagedAgentsCredentialValidationStatus(rawValue: "valid")
     public static let invalid = BetaManagedAgentsCredentialValidationStatus(rawValue: "invalid")
     public static let unknown = BetaManagedAgentsCredentialValidationStatus(rawValue: "unknown")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -222,15 +279,20 @@ public struct BetaManagedAgentsCredentialValidationStatus: RawRepresentable, Has
 }
 
 /// Required enumerated value serialized in the `type` wire field.
-public struct BetaManagedAgentsCredentialValidationType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsCredentialValidationType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let vaultCredentialValidation = BetaManagedAgentsCredentialValidationType(rawValue: "vault_credential_validation")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let vaultCredentialValidation =
+        BetaManagedAgentsCredentialValidationType(rawValue: "vault_credential_validation")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

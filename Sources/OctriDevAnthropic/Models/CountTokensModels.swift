@@ -3,7 +3,7 @@
 
 import Foundation
 
-// CountTokens domain models
+/// CountTokens domain models
 public indirect enum CountMessageTokensParamsToolsItem {
     case tool(Tool)
     case bashTool20250124(BashTool20250124)
@@ -29,22 +29,38 @@ public indirect enum CountMessageTokensParamsToolsItem {
 }
 
 extension CountMessageTokensParamsToolsItem: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
-            if let value = Self.decodeLossless2(from: container, raw) { self = value; return }
-            if let value = Self.decodeLossless3(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless1(from: container, raw) {
+                self = value; return
+            }
+            if let value = Self.decodeLossless2(from: container, raw) {
+                self = value; return
+            }
+            if let value = Self.decodeLossless3(from: container, raw) {
+                self = value; return
+            }
         }
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        if let value = Self.decodeGroup2(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for CountMessageTokensParamsToolsItem")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        if let value = Self.decodeGroup2(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for CountMessageTokensParamsToolsItem"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
+        if try encodeGroup2(to: encoder) {
+            return
+        }
     }
 }
 
@@ -131,33 +147,81 @@ extension CountMessageTokensParamsToolsItem {
 
 extension CountMessageTokensParamsToolsItem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(Tool.self) { return .tool(value) }
-        if let value = try? container.decode(BashTool20250124.self) { return .bashTool20250124(value) }
-        if let value = try? container.decode(CodeExecutionTool20250522.self) { return .codeExecutionTool20250522(value) }
-        if let value = try? container.decode(CodeExecutionTool20250825.self) { return .codeExecutionTool20250825(value) }
-        if let value = try? container.decode(CodeExecutionTool20260120.self) { return .codeExecutionTool20260120(value) }
-        if let value = try? container.decode(CodeExecutionTool20260521.self) { return .codeExecutionTool20260521(value) }
-        if let value = try? container.decode(BrowserToolset20260801.self) { return .browserToolset20260801(value) }
-        if let value = try? container.decode(MemoryTool20250818.self) { return .memoryTool20250818(value) }
-        if let value = try? container.decode(ComputerToolset20260801.self) { return .computerToolset20260801(value) }
-        if let value = try? container.decode(TextEditor20250124.self) { return .textEditor20250124(value) }
-        if let value = try? container.decode(TextEditor20250429.self) { return .textEditor20250429(value) }
-        if let value = try? container.decode(TextEditor20250728.self) { return .textEditor20250728(value) }
+        if let value = try? container.decode(Tool.self) {
+            return .tool(value)
+        }
+        if let value = try? container.decode(BashTool20250124.self) {
+            return .bashTool20250124(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20250522.self) {
+            return .codeExecutionTool20250522(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20250825.self) {
+            return .codeExecutionTool20250825(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20260120.self) {
+            return .codeExecutionTool20260120(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20260521.self) {
+            return .codeExecutionTool20260521(value)
+        }
+        if let value = try? container.decode(BrowserToolset20260801.self) {
+            return .browserToolset20260801(value)
+        }
+        if let value = try? container.decode(MemoryTool20250818.self) {
+            return .memoryTool20250818(value)
+        }
+        if let value = try? container.decode(ComputerToolset20260801.self) {
+            return .computerToolset20260801(value)
+        }
+        if let value = try? container.decode(TextEditor20250124.self) {
+            return .textEditor20250124(value)
+        }
+        if let value = try? container.decode(TextEditor20250429.self) {
+            return .textEditor20250429(value)
+        }
+        if let value = try? container.decode(TextEditor20250728.self) {
+            return .textEditor20250728(value)
+        }
         return nil
     }
 }
 
 extension CountMessageTokensParamsToolsItem {
     static func decodeGroup2(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(WebSearchTool20250305.self) { return .webSearchTool20250305(value) }
-        if let value = try? container.decode(WebFetchTool20250910.self) { return .webFetchTool20250910(value) }
-        if let value = try? container.decode(WebSearchTool20260209.self) { return .webSearchTool20260209(value) }
-        if let value = try? container.decode(WebFetchTool20260209.self) { return .webFetchTool20260209(value) }
-        if let value = try? container.decode(WebFetchTool20260309.self) { return .webFetchTool20260309(value) }
-        if let value = try? container.decode(WebSearchTool20260318.self) { return .webSearchTool20260318(value) }
-        if let value = try? container.decode(WebFetchTool20260318.self) { return .webFetchTool20260318(value) }
-        if let value = try? container.decode(ToolSearchToolBM2520251119.self) { return .toolSearchToolBm2520251119(value) }
-        if let value = try? container.decode(ToolSearchToolRegex20251119.self) { return .toolSearchToolRegex20251119(value) }
+        if let value = try? container.decode(WebSearchTool20250305.self) {
+            return .webSearchTool20250305(value)
+        }
+        if let value = try? container.decode(WebFetchTool20250910.self) {
+            return .webFetchTool20250910(value)
+        }
+        if let value = try? container.decode(WebSearchTool20260209.self) {
+            return .webSearchTool20260209(value)
+        }
+        if let value = try? container.decode(WebFetchTool20260209.self) {
+            return .webFetchTool20260209(value)
+        }
+        if let value = try? container.decode(WebFetchTool20260309.self) {
+            return .webFetchTool20260309(value)
+        }
+        if let value = try? container.decode(WebSearchTool20260318.self) {
+            return .webSearchTool20260318(value)
+        }
+        if let value = try? container.decode(WebFetchTool20260318.self) {
+            return .webFetchTool20260318(value)
+        }
+        if let value = try? container
+            .decode(ToolSearchToolBM2520251119.self) {
+            return .toolSearchToolBm2520251119(value)
+        }
+        if let value = try? container
+            .decode(ToolSearchToolRegex20251119.self) {
+            return .toolSearchToolRegex20251119(value)
+        }
         return nil
     }
 }
@@ -210,21 +274,27 @@ public struct CountMessageTokensResponse: Codable {
         case inputTokens = "input_tokens"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CountMessageTokensResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.inputTokens) else {
-            throw SdkValidationError(field: "input_tokens", code: "required", message: "Validation failed for 'input_tokens': value is required")
-        }
-        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CountMessageTokensResponse {
-    public init(inputTokens: Int) {
+public extension CountMessageTokensResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.inputTokens) else {
+            throw SdkValidationError(
+                field: "input_tokens",
+                code: "required",
+                message: "Validation failed for 'input_tokens': value is required"
+            )
+        }
+        inputTokens = try container.sdkDecodeRequired(.inputTokens)
+    }
+}
+
+public extension CountMessageTokensResponse {
+    init(inputTokens: Int) {
         self.inputTokens = inputTokens
     }
 }
@@ -272,31 +342,50 @@ public struct CountMessageTokensParams: Codable {
         case tools
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CountMessageTokensParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.messages) else {
-            throw SdkValidationError(field: "messages", code: "required", message: "Validation failed for 'messages': value is required")
-        }
-        guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
-        }
-        self.messages = try container.sdkDecodeRequired(.messages)
-        self.model = try container.sdkDecodeRequired(.model)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
-        self.system = try container.sdkDecodeIfPresent(.system)
-        self.thinking = try container.sdkDecodeIfPresent(.thinking)
-        self.toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
-        self.tools = try container.sdkDecodeIfPresent(.tools)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CountMessageTokensParams {
-    public init(messages: [InputMessage], model: Model, cacheControl: CountMessageTokensParamsCacheControl? = nil, outputConfig: OutputConfig? = nil, system: CountMessageTokensParamsSystem? = nil, thinking: ThinkingConfigParam? = nil, toolChoice: ToolChoice? = nil, tools: [CountMessageTokensParamsToolsItem]? = nil) {
+public extension CountMessageTokensParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.messages) else {
+            throw SdkValidationError(
+                field: "messages",
+                code: "required",
+                message: "Validation failed for 'messages': value is required"
+            )
+        }
+        guard container.contains(.model) else {
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
+        }
+        messages = try container.sdkDecodeRequired(.messages)
+        model = try container.sdkDecodeRequired(.model)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
+        system = try container.sdkDecodeIfPresent(.system)
+        thinking = try container.sdkDecodeIfPresent(.thinking)
+        toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
+        tools = try container.sdkDecodeIfPresent(.tools)
+    }
+}
+
+public extension CountMessageTokensParams {
+    init(
+        messages: [InputMessage],
+        model: Model,
+        cacheControl: CountMessageTokensParamsCacheControl? = nil,
+        outputConfig: OutputConfig? = nil,
+        system: CountMessageTokensParamsSystem? = nil,
+        thinking: ThinkingConfigParam? = nil,
+        toolChoice: ToolChoice? = nil,
+        tools: [CountMessageTokensParamsToolsItem]? = nil
+    ) {
         (self.messages, self.model) = (messages, model)
         (self.cacheControl, self.outputConfig) = (cacheControl, outputConfig)
         (self.system, self.thinking) = (system, thinking)
@@ -310,22 +399,32 @@ public indirect enum CountMessageTokensParamsSystem {
 }
 
 extension CountMessageTokensParamsSystem: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for CountMessageTokensParamsSystem")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for CountMessageTokensParamsSystem"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension CountMessageTokensParamsSystem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode([RequestTextBlock].self) { return .requestTextBlockList(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode([RequestTextBlock].self) {
+            return .requestTextBlockList(value)
+        }
         return nil
     }
 }
@@ -347,7 +446,6 @@ public indirect enum CountMessageTokensParamsCacheControl {
 }
 
 extension CountMessageTokensParamsCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -355,12 +453,16 @@ extension CountMessageTokensParamsCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -371,8 +473,8 @@ extension CountMessageTokensParamsCacheControl: Codable {
 extension CountMessageTokensParamsCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }

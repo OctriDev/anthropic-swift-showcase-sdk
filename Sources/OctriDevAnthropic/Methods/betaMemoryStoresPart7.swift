@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaMemoryStoresMethods {
-    /// Archives a memory store by setting its `archived_at` timestamp. Use this operation when you want to retain the store while marking it as archived; the response includes the updated store.
+public extension BetaMemoryStoresMethods {
+    /// Archives a memory store by setting its `archived_at` timestamp. Use this operation when you want to retain the
+    /// store while marking it as archived; the response includes the updated store.
     ///
     /// - Parameters:
     /// - memoryStoreId: Path parameter memory_store_id
@@ -16,11 +17,43 @@ extension BetaMemoryStoresMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func archiveBetaMemoryStores(config: ClientConfig, memoryStoreId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsArchiveMemoryStoreResponse {
-        return try (await sdkRequest("POST", ["/v1/memory_stores/", sdkEncodePathSegment(sdkWireString(memoryStoreId)), "/archive?beta=true"].joined(), config: config, decoder: .json, operationId: "archiveBetaMemoryStores", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+    static func archiveBetaMemoryStores(
+        config: ClientConfig,
+        memoryStoreId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsArchiveMemoryStoreResponse {
+        try await (sdkRequest(
+            "POST",
+            ["/v1/memory_stores/", sdkEncodePathSegment(sdkWireString(memoryStoreId)), "/archive?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "archiveBetaMemoryStores",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

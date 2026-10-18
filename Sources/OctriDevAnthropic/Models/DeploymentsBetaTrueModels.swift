@@ -3,7 +3,7 @@
 
 import Foundation
 
-// DeploymentsBetaTrue domain models
+/// DeploymentsBetaTrue domain models
 /// Request parameters for creating a `deployment`.
 public struct BetaManagedAgentsCreateDeploymentParams: Codable {
     /// Human-readable name for the deployment.
@@ -45,48 +45,77 @@ public struct BetaManagedAgentsCreateDeploymentParams: Codable {
         case budget
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsCreateDeploymentParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.agent) else {
-            throw SdkValidationError(field: "agent", code: "required", message: "Validation failed for 'agent': value is required")
-        }
-        guard container.contains(.environmentId) else {
-            throw SdkValidationError(field: "environment_id", code: "required", message: "Validation failed for 'environment_id': value is required")
-        }
-        guard container.contains(.initialEvents) else {
-            throw SdkValidationError(field: "initial_events", code: "required", message: "Validation failed for 'initial_events': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.agent = try container.sdkDecodeRequired(.agent)
-        self.environmentId = try container.sdkDecodeRequired(.environmentId)
-        self.initialEvents = try container.sdkDecodeRequired(.initialEvents)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
-        self.resources = try container.sdkDecodeIfPresent(.resources)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.schedule = try container.sdkDecodeIfPresent(.schedule)
-        self.budget = try container.sdkDecodeIfPresent(.budget)
-            try validateLength("name", self.name, min: 1, max: 256)
-            try validateLength("environment_id", self.environmentId, min: 1, max: 128)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsCreateDeploymentParams {
-    public init(name: String, agent: BetaManagedAgentsAgentUnionParams, environmentId: String, initialEvents: [BetaManagedAgentsDeploymentInitialEventParams], description: String? = nil, vaultIds: [String]? = nil, resources: [BetaManagedAgentsSessionResourceParams]? = nil, metadata: [String: String]? = nil, schedule: BetaManagedAgentsScheduleParams? = nil, budget: BetaManagedAgentsBudget? = nil) throws {
+public extension BetaManagedAgentsCreateDeploymentParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.agent) else {
+            throw SdkValidationError(
+                field: "agent",
+                code: "required",
+                message: "Validation failed for 'agent': value is required"
+            )
+        }
+        guard container.contains(.environmentId) else {
+            throw SdkValidationError(
+                field: "environment_id",
+                code: "required",
+                message: "Validation failed for 'environment_id': value is required"
+            )
+        }
+        guard container.contains(.initialEvents) else {
+            throw SdkValidationError(
+                field: "initial_events",
+                code: "required",
+                message: "Validation failed for 'initial_events': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        agent = try container.sdkDecodeRequired(.agent)
+        environmentId = try container.sdkDecodeRequired(.environmentId)
+        initialEvents = try container.sdkDecodeRequired(.initialEvents)
+        description = try container.sdkDecodeIfPresent(.description)
+        vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
+        resources = try container.sdkDecodeIfPresent(.resources)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        schedule = try container.sdkDecodeIfPresent(.schedule)
+        budget = try container.sdkDecodeIfPresent(.budget)
+        try validateLength("name", name, min: 1, max: 256)
+        try validateLength("environment_id", environmentId, min: 1, max: 128)
+    }
+}
+
+public extension BetaManagedAgentsCreateDeploymentParams {
+    init(
+        name: String,
+        agent: BetaManagedAgentsAgentUnionParams,
+        environmentId: String,
+        initialEvents: [BetaManagedAgentsDeploymentInitialEventParams],
+        description: String? = nil,
+        vaultIds: [String]? = nil,
+        resources: [BetaManagedAgentsSessionResourceParams]? = nil,
+        metadata: [String: String]? = nil,
+        schedule: BetaManagedAgentsScheduleParams? = nil,
+        budget: BetaManagedAgentsBudget? = nil
+    ) throws {
         (self.name, self.agent) = (name, agent)
         (self.environmentId, self.initialEvents) = (environmentId, initialEvents)
         (self.description, self.vaultIds) = (description, vaultIds)
         (self.resources, self.metadata) = (resources, metadata)
         (self.schedule, self.budget) = (schedule, budget)
-            try validateLength("name", self.name, min: 1, max: 256)
-            try validateLength("environment_id", self.environmentId, min: 1, max: 128)
+        try validateLength("name", self.name, min: 1, max: 256)
+        try validateLength("environment_id", self.environmentId, min: 1, max: 128)
     }
 }
 
@@ -102,22 +131,28 @@ public struct BetaManagedAgentsListDeploymentsData: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsListDeploymentsData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsListDeploymentsData {
-    public init(data: [BetaManagedAgentsDeployment], nextPage: String? = nil) {
+public extension BetaManagedAgentsListDeploymentsData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    }
+}
+
+public extension BetaManagedAgentsListDeploymentsData {
+    init(data: [BetaManagedAgentsDeployment], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

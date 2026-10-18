@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaPackages domain models
+/// SharedBetaPackages domain models
 /// Packages (and their versions) available in this environment.
 public struct BetaPackages: Codable {
     /// Ubuntu/Debian packages to install
@@ -31,45 +31,79 @@ public struct BetaPackages: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaPackages {
-    public init(from decoder: Decoder) throws {
+public extension BetaPackages {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.apt) else {
-            throw SdkValidationError(field: "apt", code: "required", message: "Validation failed for 'apt': value is required")
+            throw SdkValidationError(
+                field: "apt",
+                code: "required",
+                message: "Validation failed for 'apt': value is required"
+            )
         }
         guard container.contains(.cargo) else {
-            throw SdkValidationError(field: "cargo", code: "required", message: "Validation failed for 'cargo': value is required")
+            throw SdkValidationError(
+                field: "cargo",
+                code: "required",
+                message: "Validation failed for 'cargo': value is required"
+            )
         }
         guard container.contains(.gem) else {
-            throw SdkValidationError(field: "gem", code: "required", message: "Validation failed for 'gem': value is required")
+            throw SdkValidationError(
+                field: "gem",
+                code: "required",
+                message: "Validation failed for 'gem': value is required"
+            )
         }
         guard container.contains(.go) else {
-            throw SdkValidationError(field: "go", code: "required", message: "Validation failed for 'go': value is required")
+            throw SdkValidationError(
+                field: "go",
+                code: "required",
+                message: "Validation failed for 'go': value is required"
+            )
         }
         guard container.contains(.npm) else {
-            throw SdkValidationError(field: "npm", code: "required", message: "Validation failed for 'npm': value is required")
+            throw SdkValidationError(
+                field: "npm",
+                code: "required",
+                message: "Validation failed for 'npm': value is required"
+            )
         }
         guard container.contains(.pip) else {
-            throw SdkValidationError(field: "pip", code: "required", message: "Validation failed for 'pip': value is required")
+            throw SdkValidationError(
+                field: "pip",
+                code: "required",
+                message: "Validation failed for 'pip': value is required"
+            )
         }
-        self.apt = try container.sdkDecodeRequired(.apt)
-        self.cargo = try container.sdkDecodeRequired(.cargo)
-        self.gem = try container.sdkDecodeRequired(.gem)
-        self.go = try container.sdkDecodeRequired(.go)
-        self.npm = try container.sdkDecodeRequired(.npm)
-        self.pip = try container.sdkDecodeRequired(.pip)
-        self.type = try container.sdkDecodeIfPresent(.type)
-        if let value = self.type {
+        apt = try container.sdkDecodeRequired(.apt)
+        cargo = try container.sdkDecodeRequired(.cargo)
+        gem = try container.sdkDecodeRequired(.gem)
+        go = try container.sdkDecodeRequired(.go)
+        npm = try container.sdkDecodeRequired(.npm)
+        pip = try container.sdkDecodeRequired(.pip)
+        type = try container.sdkDecodeIfPresent(.type)
+        if let value = type {
             try sdkValidateRawEnum("type", value, BetaPackagesType.allCases.map(\.rawValue))
         }
     }
 }
 
-extension BetaPackages {
-    public init(apt: [String], cargo: [String], gem: [String], go: [String], npm: [String], pip: [String], type: BetaPackagesType? = nil) throws {
+public extension BetaPackages {
+    init(
+        apt: [String],
+        cargo: [String],
+        gem: [String],
+        go: [String],
+        npm: [String],
+        pip: [String],
+        type: BetaPackagesType? = nil
+    ) throws {
         (self.apt, self.cargo) = (apt, cargo)
         (self.gem, self.go) = (gem, go)
         (self.npm, self.pip) = (npm, pip)
@@ -111,29 +145,37 @@ public struct BetaPackagesParams: Codable {
     }
 
     init() {
-        (self.apt, self.cargo, self.gem, self.go, self.npm) = (nil, nil, nil, nil, nil)
-        (self.pip, self.type) = (nil, nil)
+        (apt, cargo, gem, go, npm) = (nil, nil, nil, nil, nil)
+        (pip, type) = (nil, nil)
     }
 }
 
-extension BetaPackagesParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaPackagesParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.apt = try container.sdkDecodeIfPresent(.apt)
-        self.cargo = try container.sdkDecodeIfPresent(.cargo)
-        self.gem = try container.sdkDecodeIfPresent(.gem)
-        self.go = try container.sdkDecodeIfPresent(.go)
-        self.npm = try container.sdkDecodeIfPresent(.npm)
-        self.pip = try container.sdkDecodeIfPresent(.pip)
-        self.type = try container.sdkDecodeIfPresent(.type)
-        if let value = self.type {
+        apt = try container.sdkDecodeIfPresent(.apt)
+        cargo = try container.sdkDecodeIfPresent(.cargo)
+        gem = try container.sdkDecodeIfPresent(.gem)
+        go = try container.sdkDecodeIfPresent(.go)
+        npm = try container.sdkDecodeIfPresent(.npm)
+        pip = try container.sdkDecodeIfPresent(.pip)
+        type = try container.sdkDecodeIfPresent(.type)
+        if let value = type {
             try sdkValidateRawEnum("type", value, BetaPackagesParamsType.allCases.map(\.rawValue))
         }
     }
 }
 
-extension BetaPackagesParams {
-    public init(apt: [String]? = nil, cargo: [String]? = nil, gem: [String]? = nil, go: [String]? = nil, npm: [String]? = nil, pip: [String]? = nil, type: BetaPackagesParamsType? = nil) throws {
+public extension BetaPackagesParams {
+    init(
+        apt: [String]? = nil,
+        cargo: [String]? = nil,
+        gem: [String]? = nil,
+        go: [String]? = nil,
+        npm: [String]? = nil,
+        pip: [String]? = nil,
+        type: BetaPackagesParamsType? = nil
+    ) throws {
         self.init()
         (self.apt, self.cargo) = (apt, cargo)
         (self.gem, self.go) = (gem, go)

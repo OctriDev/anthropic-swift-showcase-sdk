@@ -6,15 +6,47 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaUserProfilesMethods {
-    /// Retrieves a user profile by its identifier. Use `user_profile_id` to select the profile; the response includes its profile details, trust grants, metadata, and timestamps.
+public extension BetaUserProfilesMethods {
+    /// Retrieves a user profile by its identifier. Use `user_profile_id` to select the profile; the response includes
+    /// its profile details, trust grants, metadata, and timestamps.
     ///
     /// - Parameters:
     /// - userProfileId: Path parameter user_profile_id
-    public static func retrieveBetaUserProfiles(config: ClientConfig, userProfileId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
-        return try (await sdkRequest("GET", ["/v1/user_profiles/", sdkEncodePathSegment(sdkWireString(userProfileId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaUserProfiles", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+    static func retrieveBetaUserProfiles(
+        config: ClientConfig,
+        userProfileId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/user_profiles/", sdkEncodePathSegment(sdkWireString(userProfileId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaUserProfiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

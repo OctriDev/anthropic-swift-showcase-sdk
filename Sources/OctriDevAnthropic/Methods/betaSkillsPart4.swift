@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSkillsMethods {
-    /// Retrieves a Skill by its identifier. Use `skill_id` to select the Skill and, when applicable, `anthropic-workspace-id` to choose the workspace to access. The response includes the Skill's metadata and latest version identifier.
+public extension BetaSkillsMethods {
+    /// Retrieves a Skill by its identifier. Use `skill_id` to select the Skill and, when applicable,
+    /// `anthropic-workspace-id` to choose the workspace to access. The response includes the Skill's metadata and
+    /// latest version identifier.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -23,11 +25,44 @@ extension BetaSkillsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func retrieveBetaSkills(config: ClientConfig, skillId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkill {
-        return try (await sdkRequest("GET", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaSkills", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    static func retrieveBetaSkills(
+        config: ClientConfig,
+        skillId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSkill {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaSkills",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

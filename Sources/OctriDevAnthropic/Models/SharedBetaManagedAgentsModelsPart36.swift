@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaManagedAgents domain models
+/// SharedBetaManagedAgents domain models
 /// Must be "grep".
 public enum BetaManagedAgentsGrepToolConfigParamsName: String, CaseIterable, Codable {
     case grep
@@ -98,12 +98,15 @@ public enum BetaManagedAgentsSessionStatusTerminatedEventType: String, CaseItera
 public struct BetaManagedAgentsAgentType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let agent = BetaManagedAgentsAgentType(rawValue: "agent")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -134,13 +137,16 @@ public enum BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausXf67fb2
 public struct BetaManagedAgentsListOrder: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let asc = BetaManagedAgentsListOrder(rawValue: "asc")
     public static let desc = BetaManagedAgentsListOrder(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -169,7 +175,7 @@ public enum BetaManagedAgentsFileImageSourceType: String, CaseIterable, Codable 
 
 /// Required enumerated value serialized in the `type` wire field.
 public enum BetaManagedAgentsMultiagentSelfParamsType: String, CaseIterable, Codable {
-    case `self` = "self"
+    case `self`
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)

@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsUsageReportClaudeCodeMethods {
-    /// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer productivity and build custom dashboards.
+public extension BetaOrganizationsUsageReportClaudeCodeMethods {
+    /// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer
+    /// productivity and build custom dashboards.
     ///
     /// - Parameters:
     /// - startingAt: UTC date in YYYY-MM-DD format. Returns metrics for this single
@@ -17,24 +18,59 @@ extension BetaOrganizationsUsageReportClaudeCodeMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func retrieveBetaOrganizationsUsageReportClaudeCode(config: ClientConfig, startingAt: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaGetClaudeCodeUsageReportResponse {
+    static func retrieveBetaOrganizationsUsageReportClaudeCode(
+        config: ClientConfig,
+        startingAt: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaGetClaudeCodeUsageReportResponse {
         try sdkValidatePattern("starting_at", startingAt, sdkPatterndd5bdffc27b1)
         try sdkValidateDate("starting_at", startingAt)
 
-        if let limit = limit {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/usage_report/claude_code?beta=true", config: config, query: [
-            SdkQueryParameter("starting_at", value: startingAt),
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-        ], decoder: .json, operationId: "retrieveBetaOrganizationsUsageReportClaudeCode", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/usage_report/claude_code?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("starting_at", value: startingAt),
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+            ],
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsUsageReportClaudeCode",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer productivity and build custom dashboards.
+    /// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer
+    /// productivity and build custom dashboards.
     ///
     /// - Parameters:
     /// - startingAt: UTC date in YYYY-MM-DD format. Returns metrics for this single
@@ -44,18 +80,43 @@ extension BetaOrganizationsUsageReportClaudeCodeMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func retrieveBetaOrganizationsUsageReportClaudeCodePaginated(config: ClientConfig, startingAt: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error> {
-        return AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error> { (continuation: AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error>.Continuation) in
+    static func retrieveBetaOrganizationsUsageReportClaudeCodePaginated(
+        config: ClientConfig,
+        startingAt: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error> {
+        AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaClaudeCodeUsageReportItem,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await retrieveBetaOrganizationsUsageReportClaudeCode(config: config, startingAt: startingAt, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await retrieveBetaOrganizationsUsageReportClaudeCode(
+                            config: config,
+                            startingAt: startingAt,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        if !pageResponse.hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        if !pageResponse.hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -68,25 +129,55 @@ extension BetaOrganizationsUsageReportClaudeCodeMethods {
         }
     }
 
-    public struct RetrieveBetaOrganizationsUsageReportClaudeCodePage {
+    struct RetrieveBetaOrganizationsUsageReportClaudeCodePage {
         public let data: BetaGetClaudeCodeUsageReportResponse
         public let items: [BetaClaudeCodeUsageReportItem]
         public let hasMore: Bool
     }
 
-    public static func retrieveBetaOrganizationsUsageReportClaudeCodePages(config: ClientConfig, startingAt: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<RetrieveBetaOrganizationsUsageReportClaudeCodePage, Swift.Error> {
-        return AsyncThrowingStream<RetrieveBetaOrganizationsUsageReportClaudeCodePage, Swift.Error> { (pageContinuation: AsyncThrowingStream<RetrieveBetaOrganizationsUsageReportClaudeCodePage, Swift.Error>.Continuation) in
+    static func retrieveBetaOrganizationsUsageReportClaudeCodePages(
+        config: ClientConfig,
+        startingAt: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<RetrieveBetaOrganizationsUsageReportClaudeCodePage, Swift.Error> {
+        AsyncThrowingStream<
+            RetrieveBetaOrganizationsUsageReportClaudeCodePage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            RetrieveBetaOrganizationsUsageReportClaudeCodePage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await retrieveBetaOrganizationsUsageReportClaudeCode(config: config, startingAt: startingAt, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await retrieveBetaOrganizationsUsageReportClaudeCode(
+                            config: config,
+                            startingAt: startingAt,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.hasMore && pageResponse.nextPage != nil
-                        pageContinuation.yield(RetrieveBetaOrganizationsUsageReportClaudeCodePage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(RetrieveBetaOrganizationsUsageReportClaudeCodePage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

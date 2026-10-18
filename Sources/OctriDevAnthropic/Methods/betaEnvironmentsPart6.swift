@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaEnvironmentsMethods {
-    /// Deletes an environment identified by `environment_id`. Use this operation when you want to remove an environment rather than archive it. A successful response confirms deletion with the environment identifier.
+public extension BetaEnvironmentsMethods {
+    /// Deletes an environment identified by `environment_id`. Use this operation when you want to remove an environment
+    /// rather than archive it. A successful response confirms deletion with the environment identifier.
     ///
     /// Delete an environment by ID. Returns a confirmation of the deletion.
     ///
@@ -23,11 +24,44 @@ extension BetaEnvironmentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func deleteBetaEnvironments(config: ClientConfig, environmentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironmentDeleteResponse {
-        return try (await sdkRequest("DELETE", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaEnvironments", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    static func deleteBetaEnvironments(
+        config: ClientConfig,
+        environmentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironmentDeleteResponse {
+        try await (sdkRequest(
+            "DELETE",
+            ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "deleteBetaEnvironments",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

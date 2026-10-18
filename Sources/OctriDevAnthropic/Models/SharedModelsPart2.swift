@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Shared domain models
+/// Shared domain models
 /// Specification for a skill to be loaded in a container (request model).
 public struct SkillParams: Codable {
     /// Skill ID
@@ -19,33 +19,43 @@ public struct SkillParams: Codable {
         case version
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension SkillParams {
-    public init(from decoder: Decoder) throws {
+public extension SkillParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.skillId) else {
-            throw SdkValidationError(field: "skill_id", code: "required", message: "Validation failed for 'skill_id': value is required")
+            throw SdkValidationError(
+                field: "skill_id",
+                code: "required",
+                message: "Validation failed for 'skill_id': value is required"
+            )
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
-        self.skillId = try container.sdkDecodeRequired(.skillId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.version = try container.sdkDecodeIfPresent(.version)
-            try validateLength("skill_id", self.skillId, min: 1, max: 64)
-        if let value = self.version {
+        skillId = try container.sdkDecodeRequired(.skillId)
+        type = try container.sdkDecodeRequired(.type)
+        version = try container.sdkDecodeIfPresent(.version)
+        try validateLength("skill_id", skillId, min: 1, max: 64)
+        if let value = version {
             try validateLength("version", value, min: 1, max: 64)
         }
     }
 }
 
-extension SkillParams {
-    public init(skillId: String, type: SkillParamsType, version: String? = nil) throws {
+public extension SkillParams {
+    init(skillId: String, type: SkillParamsType, version: String? = nil) throws {
         (self.skillId, self.type) = (skillId, type)
         self.version = version
-            try validateLength("skill_id", self.skillId, min: 1, max: 64)
+        try validateLength("skill_id", self.skillId, min: 1, max: 64)
         if let value = self.version {
             try validateLength("version", value, min: 1, max: 64)
         }
@@ -88,35 +98,79 @@ public struct Usage: Codable {
         case serviceTier = "service_tier"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Usage {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
-        self.cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
-        self.cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
-        self.inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
-        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
-        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        self.outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
-        self.serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
-        self.serviceTier = try container.sdkDecodeNullable(.serviceTier)
-            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Usage {
-    public init(cacheCreation: CacheCreation?, cacheCreationInputTokens: Int?, cacheReadInputTokens: Int?, inferenceGeo: String?, inputTokens: Int, outputTokens: Int, outputTokensDetails: OutputTokensDetails?, serverToolUse: ServerToolUsage?, serviceTier: UsageServiceTierVariant0?) throws {
+public extension Usage {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
+        cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
+        cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
+        inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
+        inputTokens = try container.sdkDecodeRequired(.inputTokens)
+        outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
+        serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
+        serviceTier = try container.sdkDecodeNullable(.serviceTier)
+        try validateRange(
+            "input_tokens",
+            Double(inputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "output_tokens",
+            Double(outputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension Usage {
+    init(
+        cacheCreation: CacheCreation?,
+        cacheCreationInputTokens: Int?,
+        cacheReadInputTokens: Int?,
+        inferenceGeo: String?,
+        inputTokens: Int,
+        outputTokens: Int,
+        outputTokensDetails: OutputTokensDetails?,
+        serverToolUse: ServerToolUsage?,
+        serviceTier: UsageServiceTierVariant0?
+    ) throws {
         (self.cacheCreation, self.cacheCreationInputTokens) = (cacheCreation, cacheCreationInputTokens)
         (self.cacheReadInputTokens, self.inferenceGeo) = (cacheReadInputTokens, inferenceGeo)
         (self.inputTokens, self.outputTokens) = (inputTokens, outputTokens)
         (self.outputTokensDetails, self.serverToolUse) = (outputTokensDetails, serverToolUse)
         self.serviceTier = serviceTier
-            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateRange(
+            "input_tokens",
+            Double(self.inputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "output_tokens",
+            Double(self.outputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -132,28 +186,38 @@ public struct InvalidRequestError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InvalidRequestError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, InvalidRequestErrorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InvalidRequestError {
-    public init(message: String, type: InvalidRequestErrorType) throws {
+public extension InvalidRequestError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, InvalidRequestErrorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension InvalidRequestError {
+    init(message: String, type: InvalidRequestErrorType) throws {
         (self.message, self.type) = (message, type)
-            try sdkValidateRawEnum("type", self.type, InvalidRequestErrorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, InvalidRequestErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -169,28 +233,38 @@ public struct APIError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension APIError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, APIErrorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension APIError {
-    public init(message: String, type: APIErrorType) throws {
+public extension APIError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, APIErrorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension APIError {
+    init(message: String, type: APIErrorType) throws {
         (self.message, self.type) = (message, type)
-            try sdkValidateRawEnum("type", self.type, APIErrorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, APIErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -206,28 +280,38 @@ public struct URLPDFSource: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension URLPDFSource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.url) else {
-            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.url = try container.sdkDecodeRequired(.url)
-            try sdkValidateRawEnum("type", self.type, URLPDFSourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension URLPDFSource {
-    public init(type: URLPDFSourceType, url: String) throws {
+public extension URLPDFSource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.url) else {
+            throw SdkValidationError(
+                field: "url",
+                code: "required",
+                message: "Validation failed for 'url': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        url = try container.sdkDecodeRequired(.url)
+        try sdkValidateRawEnum("type", type, URLPDFSourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension URLPDFSource {
+    init(type: URLPDFSourceType, url: String) throws {
         (self.type, self.url) = (type, url)
-            try sdkValidateRawEnum("type", self.type, URLPDFSourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, URLPDFSourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -252,30 +336,42 @@ public struct UserLocation: Codable {
         case timezone
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension UserLocation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.city = try container.sdkDecodeIfPresent(.city)
-        self.country = try container.sdkDecodeIfPresent(.country)
-        self.region = try container.sdkDecodeIfPresent(.region)
-        self.timezone = try container.sdkDecodeIfPresent(.timezone)
-            try sdkValidateRawEnum("type", self.type, UserLocationType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension UserLocation {
-    public init(type: UserLocationType, city: String? = nil, country: String? = nil, region: String? = nil, timezone: String? = nil) throws {
+public extension UserLocation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        city = try container.sdkDecodeIfPresent(.city)
+        country = try container.sdkDecodeIfPresent(.country)
+        region = try container.sdkDecodeIfPresent(.region)
+        timezone = try container.sdkDecodeIfPresent(.timezone)
+        try sdkValidateRawEnum("type", type, UserLocationType.allCases.map(\.rawValue))
+    }
+}
+
+public extension UserLocation {
+    init(
+        type: UserLocationType,
+        city: String? = nil,
+        country: String? = nil,
+        region: String? = nil,
+        timezone: String? = nil
+    ) throws {
         (self.type, self.city) = (type, city)
         (self.country, self.region) = (country, region)
         self.timezone = timezone
-            try sdkValidateRawEnum("type", self.type, UserLocationType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, UserLocationType.allCases.map(\.rawValue))
     }
 }
 
@@ -291,19 +387,19 @@ public struct Metadata: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension Metadata {
-    public init(from decoder: Decoder) throws {
+public extension Metadata {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension Metadata {
-    public init(userId: String? = nil) {
+public extension Metadata {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }
@@ -321,28 +417,38 @@ public struct PermissionError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension PermissionError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, PermissionErrorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension PermissionError {
-    public init(message: String, type: PermissionErrorType) throws {
+public extension PermissionError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, PermissionErrorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension PermissionError {
+    init(message: String, type: PermissionErrorType) throws {
         (self.message, self.type) = (message, type)
-            try sdkValidateRawEnum("type", self.type, PermissionErrorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, PermissionErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -374,38 +480,56 @@ public struct MemoryTool20250818: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MemoryTool20250818 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, MemoryTool20250818Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, MemoryTool20250818Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MemoryTool20250818 {
-    public init(name: MemoryTool20250818Name, type: MemoryTool20250818Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: MemoryTool20250818CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: JsonValue]]? = nil, strict: Bool? = nil) throws {
+public extension MemoryTool20250818 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, MemoryTool20250818Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, MemoryTool20250818Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension MemoryTool20250818 {
+    init(
+        name: MemoryTool20250818Name,
+        type: MemoryTool20250818Type,
+        allowedCallers: [AllowedCaller]? = nil,
+        cacheControl: MemoryTool20250818CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        inputExamples: [[String: JsonValue]]? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-            try sdkValidateRawEnum("name", self.name, MemoryTool20250818Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, MemoryTool20250818Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, MemoryTool20250818Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, MemoryTool20250818Type.allCases.map(\.rawValue))
     }
 }
 
@@ -413,13 +537,16 @@ extension MemoryTool20250818 {
 public struct SkillParamsType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let anthropic = SkillParamsType(rawValue: "anthropic")
     public static let custom = SkillParamsType(rawValue: "custom")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -435,7 +562,10 @@ public struct SkillParamsType: RawRepresentable, Hashable, Codable, Sendable, Sd
 public struct AllowedCaller: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let direct = AllowedCaller(rawValue: "direct")
     public static let codeExecution20250825 = AllowedCaller(rawValue: "code_execution_20250825")
     public static let codeExecution20260120 = AllowedCaller(rawValue: "code_execution_20260120")
@@ -443,7 +573,7 @@ public struct AllowedCaller: RawRepresentable, Hashable, Codable, Sendable, SdkW
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -492,7 +622,10 @@ public enum NotFoundErrorType: String, CaseIterable, Codable {
 public struct StopReason: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let endTurn = StopReason(rawValue: "end_turn")
     public static let maxTokens = StopReason(rawValue: "max_tokens")
     public static let stopSequence = StopReason(rawValue: "stop_sequence")
@@ -503,7 +636,7 @@ public struct StopReason: RawRepresentable, Hashable, Codable, Sendable, SdkWire
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

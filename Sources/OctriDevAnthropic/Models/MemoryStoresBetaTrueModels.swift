@@ -3,7 +3,7 @@
 
 import Foundation
 
-// MemoryStoresBetaTrue domain models
+/// MemoryStoresBetaTrue domain models
 public indirect enum BetaManagedAgentsCreateMemoryStoreResponse {
     case betaManagedAgentsMemoryStore(BetaManagedAgentsMemoryStore)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,7 +11,6 @@ public indirect enum BetaManagedAgentsCreateMemoryStoreResponse {
 }
 
 extension BetaManagedAgentsCreateMemoryStoreResponse: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,12 +18,16 @@ extension BetaManagedAgentsCreateMemoryStoreResponse: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -35,8 +38,8 @@ extension BetaManagedAgentsCreateMemoryStoreResponse: Codable {
 extension BetaManagedAgentsCreateMemoryStoreResponse {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store": return .betaManagedAgentsMemoryStore(try BetaManagedAgentsMemoryStore(from: decoder))
-        default: return nil
+        case "memory_store": try .betaManagedAgentsMemoryStore(BetaManagedAgentsMemoryStore(from: decoder))
+        default: nil
         }
     }
 }
@@ -65,20 +68,20 @@ public struct BetaManagedAgentsListMemoryStoresResponse: Codable {
     }
 
     init() {
-        (self.data, self.nextPage) = (nil, nil)
+        (data, nextPage) = (nil, nil)
     }
 }
 
-extension BetaManagedAgentsListMemoryStoresResponse {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsListMemoryStoresResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.sdkDecodeIfPresent(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        data = try container.sdkDecodeIfPresent(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-extension BetaManagedAgentsListMemoryStoresResponse {
-    public init(data: [BetaManagedAgentsMemoryStore]? = nil, nextPage: String? = nil) {
+public extension BetaManagedAgentsListMemoryStoresResponse {
+    init(data: [BetaManagedAgentsMemoryStore]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }
@@ -103,30 +106,36 @@ public struct BetaManagedAgentsCreateMemoryStoreRequest: Codable {
         case metadata
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaManagedAgentsCreateMemoryStoreRequest {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsCreateMemoryStoreRequest {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
         }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-            try validateLength("name", self.name, min: 1, max: 255)
-        if let value = self.description {
+        name = try container.sdkDecodeRequired(.name)
+        description = try container.sdkDecodeIfPresent(.description)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        try validateLength("name", name, min: 1, max: 255)
+        if let value = description {
             try validateLength("description", value, min: nil, max: 1024)
         }
     }
 }
 
-extension BetaManagedAgentsCreateMemoryStoreRequest {
-    public init(name: String, description: String? = nil, metadata: [String: String]? = nil) throws {
+public extension BetaManagedAgentsCreateMemoryStoreRequest {
+    init(name: String, description: String? = nil, metadata: [String: String]? = nil) throws {
         (self.name, self.description) = (name, description)
         self.metadata = metadata
-            try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("name", self.name, min: 1, max: 255)
         if let value = self.description {
             try validateLength("description", value, min: nil, max: 1024)
         }

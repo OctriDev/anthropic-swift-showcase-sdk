@@ -3,7 +3,7 @@
 
 import Foundation
 
-// CertificatesBetaTrue domain models
+/// CertificatesBetaTrue domain models
 /// Typed representation of the `BetaTunnelCertificateListResponse` API schema.
 public struct BetaTunnelCertificateListResponse: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,25 +16,35 @@ public struct BetaTunnelCertificateListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTunnelCertificateListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTunnelCertificateListResponse {
-    public init(data: [BetaOrganizationTunnelCertificate], nextPage: String?) {
+public extension BetaTunnelCertificateListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaTunnelCertificateListResponse {
+    init(data: [BetaOrganizationTunnelCertificate], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -51,25 +61,35 @@ public struct BetaListTunnelCertificatesResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListTunnelCertificatesResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListTunnelCertificatesResponse {
-    public init(data: [BetaTunnelCertificate], nextPage: String?) {
+public extension BetaListTunnelCertificatesResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaListTunnelCertificatesResponse {
+    init(data: [BetaTunnelCertificate], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -84,24 +104,30 @@ public struct BetaCreateTunnelCertificateRequestBody: Codable {
         case caCertificatePem = "ca_certificate_pem"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaCreateTunnelCertificateRequestBody {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.caCertificatePem) else {
-            throw SdkValidationError(field: "ca_certificate_pem", code: "required", message: "Validation failed for 'ca_certificate_pem': value is required")
-        }
-        self.caCertificatePem = try container.sdkDecodeRequired(.caCertificatePem)
-            try validateLength("ca_certificate_pem", self.caCertificatePem, min: nil, max: 8192)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaCreateTunnelCertificateRequestBody {
-    public init(caCertificatePem: String) throws {
+public extension BetaCreateTunnelCertificateRequestBody {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.caCertificatePem) else {
+            throw SdkValidationError(
+                field: "ca_certificate_pem",
+                code: "required",
+                message: "Validation failed for 'ca_certificate_pem': value is required"
+            )
+        }
+        caCertificatePem = try container.sdkDecodeRequired(.caCertificatePem)
+        try validateLength("ca_certificate_pem", caCertificatePem, min: nil, max: 8192)
+    }
+}
+
+public extension BetaCreateTunnelCertificateRequestBody {
+    init(caCertificatePem: String) throws {
         self.caCertificatePem = caCertificatePem
-            try validateLength("ca_certificate_pem", self.caCertificatePem, min: nil, max: 8192)
+        try validateLength("ca_certificate_pem", self.caCertificatePem, min: nil, max: 8192)
     }
 }
 
@@ -114,23 +140,29 @@ public struct BetaCreateTunnelCertificateParams: Codable {
         case caCertificatePem = "ca_certificate_pem"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaCreateTunnelCertificateParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.caCertificatePem) else {
-            throw SdkValidationError(field: "ca_certificate_pem", code: "required", message: "Validation failed for 'ca_certificate_pem': value is required")
-        }
-        self.caCertificatePem = try container.sdkDecodeRequired(.caCertificatePem)
-            try validateLength("ca_certificate_pem", self.caCertificatePem, min: nil, max: 8192)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaCreateTunnelCertificateParams {
-    public init(caCertificatePem: String) throws {
+public extension BetaCreateTunnelCertificateParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.caCertificatePem) else {
+            throw SdkValidationError(
+                field: "ca_certificate_pem",
+                code: "required",
+                message: "Validation failed for 'ca_certificate_pem': value is required"
+            )
+        }
+        caCertificatePem = try container.sdkDecodeRequired(.caCertificatePem)
+        try validateLength("ca_certificate_pem", caCertificatePem, min: nil, max: 8192)
+    }
+}
+
+public extension BetaCreateTunnelCertificateParams {
+    init(caCertificatePem: String) throws {
         self.caCertificatePem = caCertificatePem
-            try validateLength("ca_certificate_pem", self.caCertificatePem, min: nil, max: 8192)
+        try validateLength("ca_certificate_pem", self.caCertificatePem, min: nil, max: 8192)
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// StatsBetaTrue domain models
+/// StatsBetaTrue domain models
 /// Statistics about the work queue for an environment. Uses Redis Stream consumer group metrics for O(1) queries.
 public struct BetaSelfHostedWorkQueueStats: Codable {
     /// Number of work items waiting to be picked up (lag from consumer group)
@@ -27,42 +27,70 @@ public struct BetaSelfHostedWorkQueueStats: Codable {
         case workersPolling = "workers_polling"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSelfHostedWorkQueueStats {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.depth) else {
-            throw SdkValidationError(field: "depth", code: "required", message: "Validation failed for 'depth': value is required")
-        }
-        guard container.contains(.oldestQueuedAt) else {
-            throw SdkValidationError(field: "oldest_queued_at", code: "required", message: "Validation failed for 'oldest_queued_at': value is required")
-        }
-        guard container.contains(.pending) else {
-            throw SdkValidationError(field: "pending", code: "required", message: "Validation failed for 'pending': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workersPolling) else {
-            throw SdkValidationError(field: "workers_polling", code: "required", message: "Validation failed for 'workers_polling': value is required")
-        }
-        self.depth = try container.sdkDecodeRequired(.depth)
-        self.oldestQueuedAt = try container.sdkDecodeNullable(.oldestQueuedAt)
-        self.pending = try container.sdkDecodeRequired(.pending)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workersPolling = try container.sdkDecodeNullable(.workersPolling)
-            try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkQueueStatsType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSelfHostedWorkQueueStats {
-    public init(depth: Int, oldestQueuedAt: String?, pending: Int, type: BetaSelfHostedWorkQueueStatsType, workersPolling: Int?) throws {
+public extension BetaSelfHostedWorkQueueStats {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.depth) else {
+            throw SdkValidationError(
+                field: "depth",
+                code: "required",
+                message: "Validation failed for 'depth': value is required"
+            )
+        }
+        guard container.contains(.oldestQueuedAt) else {
+            throw SdkValidationError(
+                field: "oldest_queued_at",
+                code: "required",
+                message: "Validation failed for 'oldest_queued_at': value is required"
+            )
+        }
+        guard container.contains(.pending) else {
+            throw SdkValidationError(
+                field: "pending",
+                code: "required",
+                message: "Validation failed for 'pending': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workersPolling) else {
+            throw SdkValidationError(
+                field: "workers_polling",
+                code: "required",
+                message: "Validation failed for 'workers_polling': value is required"
+            )
+        }
+        depth = try container.sdkDecodeRequired(.depth)
+        oldestQueuedAt = try container.sdkDecodeNullable(.oldestQueuedAt)
+        pending = try container.sdkDecodeRequired(.pending)
+        type = try container.sdkDecodeRequired(.type)
+        workersPolling = try container.sdkDecodeNullable(.workersPolling)
+        try sdkValidateRawEnum("type", type, BetaSelfHostedWorkQueueStatsType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaSelfHostedWorkQueueStats {
+    init(
+        depth: Int,
+        oldestQueuedAt: String?,
+        pending: Int,
+        type: BetaSelfHostedWorkQueueStatsType,
+        workersPolling: Int?
+    ) throws {
         (self.depth, self.oldestQueuedAt) = (depth, oldestQueuedAt)
         (self.pending, self.type) = (pending, type)
         self.workersPolling = workersPolling
-            try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkQueueStatsType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkQueueStatsType.allCases.map(\.rawValue))
     }
 }
 

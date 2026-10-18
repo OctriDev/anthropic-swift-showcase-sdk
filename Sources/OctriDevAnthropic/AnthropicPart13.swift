@@ -9,29 +9,75 @@ public class BetaOrganizationsRbacRolesNamespace {
         self.config = config
     }
 
-/// List RBAC Roles in the organization. The RBAC Roles API is available to Claude Enterprise organizations only.
-    public func list(limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRbacRoleList {
-        return try await BetaOrganizationsRbacRolesMethods.listBetaOrganizationsRbacRoles(config: config, limit: limit, page: page, requestOptions: requestOptions)
+    /// List RBAC Roles in the organization. The RBAC Roles API is available to Claude Enterprise organizations only.
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaRbacRoleList {
+        try await BetaOrganizationsRbacRolesMethods.listBetaOrganizationsRbacRoles(
+            config: config,
+            limit: limit,
+            page: page,
+            requestOptions: requestOptions
+        )
     }
 
-/// List RBAC Roles in the organization. The RBAC Roles API is available to Claude Enterprise organizations only.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaRbacRole, Swift.Error> {
-        return BetaOrganizationsRbacRolesMethods.listBetaOrganizationsRbacRolesPaginated(config: config, limit: limit, page: page, requestOptions: requestOptions)
+    /// List RBAC Roles in the organization. The RBAC Roles API is available to Claude Enterprise organizations only.
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaRbacRole, Swift.Error> {
+        BetaOrganizationsRbacRolesMethods.listBetaOrganizationsRbacRolesPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieve an RBAC Role by ID. The RBAC Roles API is available to Claude Enterprise organizations only.
+    /// Retrieve an RBAC Role by ID. The RBAC Roles API is available to Claude Enterprise organizations only.
     public func retrieve(roleId: String, requestOptions: RequestOptions? = nil) async throws -> BetaRbacRole {
-        return try await BetaOrganizationsRbacRolesMethods.retrieveBetaOrganizationsRbacRoles(config: config, roleId: roleId, requestOptions: requestOptions)
+        try await BetaOrganizationsRbacRolesMethods.retrieveBetaOrganizationsRbacRoles(
+            config: config,
+            roleId: roleId,
+            requestOptions: requestOptions
+        )
     }
 
-/// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations only.
-    public func permissions(roleId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRbacRolePermissionList {
-        return try await BetaOrganizationsRbacRolesMethods.permissionsBetaOrganizationsRbacRoles(config: config, roleId: roleId, limit: limit, page: page, requestOptions: requestOptions)
+    /// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations
+    /// only.
+    public func permissions(
+        roleId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaRbacRolePermissionList {
+        try await BetaOrganizationsRbacRolesMethods.permissionsBetaOrganizationsRbacRoles(
+            config: config,
+            roleId: roleId,
+            limit: limit,
+            page: page,
+            requestOptions: requestOptions
+        )
     }
 
-/// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations only.
-    public func permissionsPaginated(roleId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaRbacRolePermission, Swift.Error> {
-        return BetaOrganizationsRbacRolesMethods.permissionsBetaOrganizationsRbacRolesPaginated(config: config, roleId: roleId, limit: limit, page: page, requestOptions: requestOptions)
+    /// List the permissions an RBAC Role grants. The RBAC Roles API is available to Claude Enterprise organizations
+    /// only.
+    public func permissionsPaginated(
+        roleId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaRbacRolePermission, Swift.Error> {
+        BetaOrganizationsRbacRolesMethods.permissionsBetaOrganizationsRbacRolesPaginated(
+            config: config,
+            roleId: roleId,
+            limit: limit,
+            page: page,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -41,14 +87,38 @@ public class BetaOrganizationsAnalyticsUserUsageReportNamespace {
         self.config = config
     }
 
-/// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use this to see which users consume the most tokens. Only usage attributable to a seat user is included; for organization-wide totals including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrieve(options: BetaOrganizationsAnalyticsUserUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsUsageUsersResponse {
-        return try await BetaOrganizationsAnalyticsUserUsageReportMethods.retrieveBetaOrganizationsAnalyticsUserUsageReport(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use
+    /// this to see which users consume the most tokens. Only usage attributable to a seat user is included; for
+    /// organization-wide totals including direct API-key and automation traffic, use the bucketed
+    /// `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan.
+    /// Requires an API key with the `read:analytics` scope.
+    public func retrieve(
+        options: BetaOrganizationsAnalyticsUserUsageReportMethods
+            .RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsUsageUsersResponse {
+        try await BetaOrganizationsAnalyticsUserUsageReportMethods.retrieveBetaOrganizationsAnalyticsUserUsageReport(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use this to see which users consume the most tokens. Only usage attributable to a seat user is included; for organization-wide totals including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrievePaginated(options: BetaOrganizationsAnalyticsUserUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error> {
-        return BetaOrganizationsAnalyticsUserUsageReportMethods.retrieveBetaOrganizationsAnalyticsUserUsageReportPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use
+    /// this to see which users consume the most tokens. Only usage attributable to a seat user is included; for
+    /// organization-wide totals including direct API-key and automation traffic, use the bucketed
+    /// `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan.
+    /// Requires an API key with the `read:analytics` scope.
+    public func retrievePaginated(
+        options: BetaOrganizationsAnalyticsUserUsageReportMethods
+            .RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error> {
+        BetaOrganizationsAnalyticsUserUsageReportMethods.retrieveBetaOrganizationsAnalyticsUserUsageReportPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -58,14 +128,38 @@ public class BetaOrganizationsAnalyticsUserCostReportNamespace {
         self.config = config
     }
 
-/// Get per-user cost in USD across a date range. Returns one row per user, ranked by spend. Use this to see which users account for the most cost. Only cost attributable to a seat user is included; for organization-wide totals including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/cost_report` endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrieve(options: BetaOrganizationsAnalyticsUserCostReportMethods.RetrieveBetaOrganizationsAnalyticsUserCostReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsCostUsersResponse {
-        return try await BetaOrganizationsAnalyticsUserCostReportMethods.retrieveBetaOrganizationsAnalyticsUserCostReport(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-user cost in USD across a date range. Returns one row per user, ranked by spend. Use this to see which
+    /// users account for the most cost. Only cost attributable to a seat user is included; for organization-wide totals
+    /// including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/cost_report`
+    /// endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics`
+    /// scope.
+    public func retrieve(
+        options: BetaOrganizationsAnalyticsUserCostReportMethods
+            .RetrieveBetaOrganizationsAnalyticsUserCostReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsCostUsersResponse {
+        try await BetaOrganizationsAnalyticsUserCostReportMethods.retrieveBetaOrganizationsAnalyticsUserCostReport(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get per-user cost in USD across a date range. Returns one row per user, ranked by spend. Use this to see which users account for the most cost. Only cost attributable to a seat user is included; for organization-wide totals including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/cost_report` endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrievePaginated(options: BetaOrganizationsAnalyticsUserCostReportMethods.RetrieveBetaOrganizationsAnalyticsUserCostReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsCostUsersItem, Swift.Error> {
-        return BetaOrganizationsAnalyticsUserCostReportMethods.retrieveBetaOrganizationsAnalyticsUserCostReportPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-user cost in USD across a date range. Returns one row per user, ranked by spend. Use this to see which
+    /// users account for the most cost. Only cost attributable to a seat user is included; for organization-wide totals
+    /// including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/cost_report`
+    /// endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics`
+    /// scope.
+    public func retrievePaginated(
+        options: BetaOrganizationsAnalyticsUserCostReportMethods
+            .RetrieveBetaOrganizationsAnalyticsUserCostReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsCostUsersItem, Swift.Error> {
+        BetaOrganizationsAnalyticsUserCostReportMethods.retrieveBetaOrganizationsAnalyticsUserCostReportPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -75,14 +169,32 @@ public class BetaOrganizationsAnalyticsUsageReportNamespace {
         self.config = config
     }
 
-/// Get token usage over time across a date range. Returns token usage bucketed by minute, hour, or day, optionally broken down by product, model, context window, inference region, or speed. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrieve(options: BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsUsageBucketedResponse {
-        return try await BetaOrganizationsAnalyticsUsageReportMethods.retrieveBetaOrganizationsAnalyticsUsageReport(config: config, options: options, requestOptions: requestOptions)
+    /// Get token usage over time across a date range. Returns token usage bucketed by minute, hour, or day, optionally
+    /// broken down by product, model, context window, inference region, or speed. Available to organizations on a
+    /// Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func retrieve(
+        options: BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsUsageBucketedResponse {
+        try await BetaOrganizationsAnalyticsUsageReportMethods.retrieveBetaOrganizationsAnalyticsUsageReport(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get token usage over time across a date range. Returns token usage bucketed by minute, hour, or day, optionally broken down by product, model, context window, inference region, or speed. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrievePaginated(options: BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsUsageReportTimeBucket, Swift.Error> {
-        return BetaOrganizationsAnalyticsUsageReportMethods.retrieveBetaOrganizationsAnalyticsUsageReportPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get token usage over time across a date range. Returns token usage bucketed by minute, hour, or day, optionally
+    /// broken down by product, model, context window, inference region, or speed. Available to organizations on a
+    /// Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func retrievePaginated(
+        options: BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsUsageReportTimeBucket, Swift.Error> {
+        BetaOrganizationsAnalyticsUsageReportMethods.retrieveBetaOrganizationsAnalyticsUsageReportPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -92,14 +204,32 @@ public class BetaOrganizationsAnalyticsCostReportNamespace {
         self.config = config
     }
 
-/// Get cost in USD over time across a date range. Returns cost bucketed by minute, hour, or day, optionally broken down by product, model, context window, inference region, speed, cost type, or token type. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrieve(options: BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsCostBucketedResponse {
-        return try await BetaOrganizationsAnalyticsCostReportMethods.retrieveBetaOrganizationsAnalyticsCostReport(config: config, options: options, requestOptions: requestOptions)
+    /// Get cost in USD over time across a date range. Returns cost bucketed by minute, hour, or day, optionally broken
+    /// down by product, model, context window, inference region, speed, cost type, or token type. Available to
+    /// organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func retrieve(
+        options: BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsCostBucketedResponse {
+        try await BetaOrganizationsAnalyticsCostReportMethods.retrieveBetaOrganizationsAnalyticsCostReport(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get cost in USD over time across a date range. Returns cost bucketed by minute, hour, or day, optionally broken down by product, model, context window, inference region, speed, cost type, or token type. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func retrievePaginated(options: BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsCostReportTimeBucket, Swift.Error> {
-        return BetaOrganizationsAnalyticsCostReportMethods.retrieveBetaOrganizationsAnalyticsCostReportPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get cost in USD over time across a date range. Returns cost bucketed by minute, hour, or day, optionally broken
+    /// down by product, model, context window, inference region, speed, cost type, or token type. Available to
+    /// organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func retrievePaginated(
+        options: BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsCostReportTimeBucket, Swift.Error> {
+        BetaOrganizationsAnalyticsCostReportMethods.retrieveBetaOrganizationsAnalyticsCostReportPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -109,9 +239,25 @@ public class BetaOrganizationsAnalyticsSummariesNamespace {
         self.config = config
     }
 
-/// Get organization-wide activity summaries for a date range. Returns one entry per day from `starting_date` (inclusive) to `ending_date` (exclusive). Data is typically available with a 1-day lag and may be revised by a few percent over the following days: when `ending_date` is omitted it defaults to the most recent available day + 1, so the last entry covers the most recent available day. The series can be scoped to an RBAC group via `filter[]=rbac_group_id:{id}`. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func list(startingDate: String, endingDate: String? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsActivitySummaryResponse {
-        return try await BetaOrganizationsAnalyticsSummariesMethods.listBetaOrganizationsAnalyticsSummaries(config: config, startingDate: startingDate, endingDate: endingDate, filter: filter, requestOptions: requestOptions)
+    /// Get organization-wide activity summaries for a date range. Returns one entry per day from `starting_date`
+    /// (inclusive) to `ending_date` (exclusive). Data is typically available with a 1-day lag and may be revised by a
+    /// few percent over the following days: when `ending_date` is omitted it defaults to the most recent available day
+    /// + 1, so the last entry covers the most recent available day. The series can be scoped to an RBAC group via
+    /// `filter[]=rbac_group_id:{id}`. Available to organizations on a Claude Enterprise plan. Requires an API key with
+    /// the `read:analytics` scope.
+    public func list(
+        startingDate: String,
+        endingDate: String? = nil,
+        filter: [String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsActivitySummaryResponse {
+        try await BetaOrganizationsAnalyticsSummariesMethods.listBetaOrganizationsAnalyticsSummaries(
+            config: config,
+            startingDate: startingDate,
+            endingDate: endingDate,
+            filter: filter,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -121,14 +267,34 @@ public class BetaOrganizationsAnalyticsUsersNamespace {
         self.config = config
     }
 
-/// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func list(options: BetaOrganizationsAnalyticsUsersMethods.ListBetaOrganizationsAnalyticsUsersOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsUsersResponse {
-        return try await BetaOrganizationsAnalyticsUsersMethods.listBetaOrganizationsAnalyticsUsers(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in
+    /// the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to
+    /// scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise
+    /// plan. Requires an API key with the `read:analytics` scope.
+    public func list(
+        options: BetaOrganizationsAnalyticsUsersMethods.ListBetaOrganizationsAnalyticsUsersOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsUsersResponse {
+        try await BetaOrganizationsAnalyticsUsersMethods.listBetaOrganizationsAnalyticsUsers(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func listPaginated(options: BetaOrganizationsAnalyticsUsersMethods.ListBetaOrganizationsAnalyticsUsersOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error> {
-        return BetaOrganizationsAnalyticsUsersMethods.listBetaOrganizationsAnalyticsUsersPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-user activity for a given day, with cursor-based pagination. Returns activity metrics for each user in
+    /// the organization, sorted by email address. Use `group_by[]` for per-RBAC-group aggregates, or `filter[]` to
+    /// scope results to specific members, groups, or a chat project. Available to organizations on a Claude Enterprise
+    /// plan. Requires an API key with the `read:analytics` scope.
+    public func listPaginated(
+        options: BetaOrganizationsAnalyticsUsersMethods.ListBetaOrganizationsAnalyticsUsersOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsUserActivity, Swift.Error> {
+        BetaOrganizationsAnalyticsUsersMethods.listBetaOrganizationsAnalyticsUsersPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -138,14 +304,36 @@ public class BetaOrganizationsAnalyticsAppsChatProjectsNamespace {
         self.config = config
     }
 
-/// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func list(options: BetaOrganizationsAnalyticsAppsChatProjectsMethods.ListBetaOrganizationsAnalyticsAppsChatProjectsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsProjectsResponse {
-        return try await BetaOrganizationsAnalyticsAppsChatProjectsMethods.listBetaOrganizationsAnalyticsAppsChatProjects(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each
+    /// project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC
+    /// group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to
+    /// organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func list(
+        options: BetaOrganizationsAnalyticsAppsChatProjectsMethods
+            .ListBetaOrganizationsAnalyticsAppsChatProjectsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsProjectsResponse {
+        try await BetaOrganizationsAnalyticsAppsChatProjectsMethods.listBetaOrganizationsAnalyticsAppsChatProjects(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func listPaginated(options: BetaOrganizationsAnalyticsAppsChatProjectsMethods.ListBetaOrganizationsAnalyticsAppsChatProjectsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error> {
-        return BetaOrganizationsAnalyticsAppsChatProjectsMethods.listBetaOrganizationsAnalyticsAppsChatProjectsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-project activity for a given day, with cursor-based pagination. Returns activity metrics for each
+    /// project in the organization, sorted by project ID. Use `group_by[]` to break projects out per member or per RBAC
+    /// group, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to
+    /// organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func listPaginated(
+        options: BetaOrganizationsAnalyticsAppsChatProjectsMethods
+            .ListBetaOrganizationsAnalyticsAppsChatProjectsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsProjectActivity, Swift.Error> {
+        BetaOrganizationsAnalyticsAppsChatProjectsMethods.listBetaOrganizationsAnalyticsAppsChatProjectsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -169,14 +357,34 @@ public class BetaOrganizationsAnalyticsSkillsNamespace {
         self.config = config
     }
 
-/// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func list(options: BetaOrganizationsAnalyticsSkillsMethods.ListBetaOrganizationsAnalyticsSkillsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsSkillsResponse {
-        return try await BetaOrganizationsAnalyticsSkillsMethods.listBetaOrganizationsAnalyticsSkills(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the
+    /// organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per
+    /// product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
+    /// Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func list(
+        options: BetaOrganizationsAnalyticsSkillsMethods.ListBetaOrganizationsAnalyticsSkillsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsSkillsResponse {
+        try await BetaOrganizationsAnalyticsSkillsMethods.listBetaOrganizationsAnalyticsSkills(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func listPaginated(options: BetaOrganizationsAnalyticsSkillsMethods.ListBetaOrganizationsAnalyticsSkillsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error> {
-        return BetaOrganizationsAnalyticsSkillsMethods.listBetaOrganizationsAnalyticsSkillsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the
+    /// organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per
+    /// product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
+    /// Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    public func listPaginated(
+        options: BetaOrganizationsAnalyticsSkillsMethods.ListBetaOrganizationsAnalyticsSkillsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error> {
+        BetaOrganizationsAnalyticsSkillsMethods.listBetaOrganizationsAnalyticsSkillsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -186,13 +394,37 @@ public class BetaOrganizationsAnalyticsConnectorsNamespace {
         self.config = config
     }
 
-/// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the organization, sorted by connector name. Connector names are normalized from their various sources — for example, "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func list(options: BetaOrganizationsAnalyticsConnectorsMethods.ListBetaOrganizationsAnalyticsConnectorsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsConnectorsResponse {
-        return try await BetaOrganizationsAnalyticsConnectorsMethods.listBetaOrganizationsAnalyticsConnectors(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the
+    /// organization, sorted by connector name. Connector names are normalized from their various sources — for example,
+    /// "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per
+    /// member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list
+    /// the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the
+    /// `read:analytics` scope.
+    public func list(
+        options: BetaOrganizationsAnalyticsConnectorsMethods.ListBetaOrganizationsAnalyticsConnectorsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsConnectorsResponse {
+        try await BetaOrganizationsAnalyticsConnectorsMethods.listBetaOrganizationsAnalyticsConnectors(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the organization, sorted by connector name. Connector names are normalized from their various sources — for example, "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
-    public func listPaginated(options: BetaOrganizationsAnalyticsConnectorsMethods.ListBetaOrganizationsAnalyticsConnectorsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error> {
-        return BetaOrganizationsAnalyticsConnectorsMethods.listBetaOrganizationsAnalyticsConnectorsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the
+    /// organization, sorted by connector name. Connector names are normalized from their various sources — for example,
+    /// "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per
+    /// member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list
+    /// the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the
+    /// `read:analytics` scope.
+    public func listPaginated(
+        options: BetaOrganizationsAnalyticsConnectorsMethods.ListBetaOrganizationsAnalyticsConnectorsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error> {
+        BetaOrganizationsAnalyticsConnectorsMethods.listBetaOrganizationsAnalyticsConnectorsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }

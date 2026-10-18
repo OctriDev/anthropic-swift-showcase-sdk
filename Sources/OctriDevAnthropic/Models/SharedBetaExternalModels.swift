@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaExternal domain models
+/// SharedBetaExternal domain models
 public indirect enum BetaExternalKeyAttachment {
     case betaAttachedAttachment(BetaAttachedAttachment)
     case betaUnattachedAttachment(BetaUnattachedAttachment)
@@ -12,7 +12,6 @@ public indirect enum BetaExternalKeyAttachment {
 }
 
 extension BetaExternalKeyAttachment: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaExternalKeyAttachment: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaExternalKeyAttachment: Codable {
 extension BetaExternalKeyAttachment {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "attached": return .betaAttachedAttachment(try BetaAttachedAttachment(from: decoder))
-        case "unattached": return .betaUnattachedAttachment(try BetaUnattachedAttachment(from: decoder))
-        default: return nil
+        case "attached": try .betaAttachedAttachment(BetaAttachedAttachment(from: decoder))
+        case "unattached": try .betaUnattachedAttachment(BetaUnattachedAttachment(from: decoder))
+        default: nil
         }
     }
 }
@@ -63,7 +66,6 @@ public indirect enum BetaExternalKeyProviderConfig {
 }
 
 extension BetaExternalKeyProviderConfig: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -71,12 +73,16 @@ extension BetaExternalKeyProviderConfig: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -87,10 +93,10 @@ extension BetaExternalKeyProviderConfig: Codable {
 extension BetaExternalKeyProviderConfig {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "aws": return .betaAwsExternalKeyConfig(try BetaAwsExternalKeyConfig(from: decoder))
-        case "gcp": return .betaGcpExternalKeyConfig(try BetaGcpExternalKeyConfig(from: decoder))
-        case "azure": return .betaAzureExternalKeyConfig(try BetaAzureExternalKeyConfig(from: decoder))
-        default: return nil
+        case "aws": try .betaAwsExternalKeyConfig(BetaAwsExternalKeyConfig(from: decoder))
+        case "gcp": try .betaGcpExternalKeyConfig(BetaGcpExternalKeyConfig(from: decoder))
+        case "azure": try .betaAzureExternalKeyConfig(BetaAzureExternalKeyConfig(from: decoder))
+        default: nil
         }
     }
 }
@@ -142,35 +148,46 @@ public struct BetaExternalKey: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaExternalKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.attachment = try container.sdkDecodeRequired(.attachment)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.displayName = try container.sdkDecodeNullable(.displayName)
-        self.geo = try container.sdkDecodeRequired(.geo)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.providerConfig = try container.sdkDecodeRequired(.providerConfig)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaExternalKeyType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaExternalKey {
-    public init(attachment: BetaExternalKeyAttachment, createdAt: Date, displayName: String?, geo: String, id: String, providerConfig: BetaExternalKeyProviderConfig, type: BetaExternalKeyType, updatedAt: Date) throws {
+public extension BetaExternalKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        attachment = try container.sdkDecodeRequired(.attachment)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        displayName = try container.sdkDecodeNullable(.displayName)
+        geo = try container.sdkDecodeRequired(.geo)
+        id = try container.sdkDecodeRequired(.id)
+        providerConfig = try container.sdkDecodeRequired(.providerConfig)
+        type = try container.sdkDecodeRequired(.type)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaExternalKeyType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("updated_at", sdkWireString(updatedAt))
+    }
+}
+
+public extension BetaExternalKey {
+    init(
+        attachment: BetaExternalKeyAttachment,
+        createdAt: Date,
+        displayName: String?,
+        geo: String,
+        id: String,
+        providerConfig: BetaExternalKeyProviderConfig,
+        type: BetaExternalKeyType,
+        updatedAt: Date
+    ) throws {
         (self.attachment, self.createdAt) = (attachment, createdAt)
         (self.displayName, self.geo) = (displayName, geo)
         (self.id, self.providerConfig) = (id, providerConfig)
         (self.type, self.updatedAt) = (type, updatedAt)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaExternalKeyType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaExternalKeyType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 

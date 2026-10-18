@@ -3,7 +3,7 @@
 
 import Foundation
 
-// DeploymentRunsBetaTrue domain models
+/// DeploymentRunsBetaTrue domain models
 /// Paginated list of deployment runs. Sorted by `created_at` descending (most recent first).
 public struct BetaManagedAgentsListDeploymentRunsData: Codable {
     /// List of deployment runs.
@@ -16,22 +16,28 @@ public struct BetaManagedAgentsListDeploymentRunsData: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsListDeploymentRunsData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsListDeploymentRunsData {
-    public init(data: [BetaManagedAgentsDeploymentRun], nextPage: String? = nil) {
+public extension BetaManagedAgentsListDeploymentRunsData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    }
+}
+
+public extension BetaManagedAgentsListDeploymentRunsData {
+    init(data: [BetaManagedAgentsDeploymentRun], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -40,13 +46,16 @@ extension BetaManagedAgentsListDeploymentRunsData {
 public struct BetaManagedAgentsTriggerType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let schedule = BetaManagedAgentsTriggerType(rawValue: "schedule")
     public static let manual = BetaManagedAgentsTriggerType(rawValue: "manual")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

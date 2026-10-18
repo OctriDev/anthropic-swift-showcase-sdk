@@ -6,10 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaEnvironmentsWorkMethods {
-    /// Records a heartbeat for a work item to maintain its lease. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. For conditional updates, send `NO_HEARTBEAT` for the first heartbeat or echo the previous heartbeat value exactly.
+public extension BetaEnvironmentsWorkMethods {
+    /// Records a heartbeat for a work item to maintain its lease. The pre-built environment worker in the SDKs and CLI
+    /// calls this operation automatically, so you do not need to invoke it directly. For conditional updates, send
+    /// `NO_HEARTBEAT` for the first heartbeat or echo the previous heartbeat value exactly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Record a heartbeat for a work item to maintain the lease.
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Record a heartbeat for a work item to maintain the lease.
     ///
     /// - Parameters:
     /// - desiredTtlSeconds: Desired TTL in seconds
@@ -24,14 +28,57 @@ extension BetaEnvironmentsWorkMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func heartbeatBetaEnvironmentsWork(config: ClientConfig, environmentId: String, workId: String, desiredTtlSeconds: Int? = nil, expectedLastHeartbeat: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWorkHeartbeatResponse {
-        return try (await sdkRequest("POST", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "/work/", sdkEncodePathSegment(sdkWireString(workId)), "/heartbeat?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("desired_ttl_seconds", value: desiredTtlSeconds),
-            SdkQueryParameter("expected_last_heartbeat", value: expectedLastHeartbeat),
-        ], decoder: .json, operationId: "heartbeatBetaEnvironmentsWork", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("authorization", sdkHeaderValue(authorization)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    static func heartbeatBetaEnvironmentsWork(
+        config: ClientConfig,
+        environmentId: String,
+        workId: String,
+        desiredTtlSeconds: Int? = nil,
+        expectedLastHeartbeat: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWorkHeartbeatResponse {
+        try await (sdkRequest(
+            "POST",
+            [
+                "/v1/environments/",
+                sdkEncodePathSegment(sdkWireString(environmentId)),
+                "/work/",
+                sdkEncodePathSegment(sdkWireString(workId)),
+                "/heartbeat?beta=true",
+            ].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("desired_ttl_seconds", value: desiredTtlSeconds),
+                SdkQueryParameter("expected_last_heartbeat", value: expectedLastHeartbeat),
+            ],
+            decoder: .json,
+            operationId: "heartbeatBetaEnvironmentsWork",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("authorization", sdkHeaderValue(authorization)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }
