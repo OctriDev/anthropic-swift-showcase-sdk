@@ -9,69 +9,258 @@ public class BetaEnvironmentsWorkNamespace {
         self.config = config
     }
 
-/// Retrieves queue statistics for an environment, including queued work depth, pending work, and the oldest queued timestamp. Use `environment_id` to select the environment; `workers_polling` reports workers that polled in the last 30 seconds when poll requests include a worker identifier.
+    /// Retrieves queue statistics for an environment, including queued work depth, pending work, and the oldest queued
+    /// timestamp. Use `environment_id` to select the environment; `workers_polling` reports workers that polled in the
+    /// last 30 seconds when poll requests include a worker identifier.
     ///
     /// Get statistics about the work queue for an environment.
-    public func retrieveStats(environmentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWorkQueueStats {
-        return try await BetaEnvironmentsWorkMethods.retrieveBetaEnvironmentsWorkStats(config: config, environmentId: environmentId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    public func retrieveStats(
+        environmentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWorkQueueStats {
+        try await BetaEnvironmentsWorkMethods.retrieveBetaEnvironmentsWorkStats(
+            config: config,
+            environmentId: environmentId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            authorization: authorization,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Polls an environment work queue for an available work item, optionally waiting for work or reclaiming older unacknowledged items. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. Set `block_ms` to wait up to 999 milliseconds; omit it for a non-blocking poll.
+    /// Polls an environment work queue for an available work item, optionally waiting for work or reclaiming older
+    /// unacknowledged items. The pre-built environment worker in the SDKs and CLI calls this operation automatically,
+    /// so you do not need to invoke it directly. Set `block_ms` to wait up to 999 milliseconds; omit it for a
+    /// non-blocking poll.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Long poll for work items in the queue.
-    public func poll(environmentId: String, blockMs: Int? = nil, reclaimOlderThanMs: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkerId: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
-        return try await BetaEnvironmentsWorkMethods.pollBetaEnvironmentsWork(config: config, environmentId: environmentId, blockMs: blockMs, reclaimOlderThanMs: reclaimOlderThanMs, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkerId: anthropicWorkerId, authorization: authorization, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Long poll for work items in the queue.
+    public func poll(
+        environmentId: String,
+        blockMs: Int? = nil,
+        reclaimOlderThanMs: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkerId: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWork {
+        try await BetaEnvironmentsWorkMethods.pollBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            blockMs: blockMs,
+            reclaimOlderThanMs: reclaimOlderThanMs,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkerId: anthropicWorkerId,
+            authorization: authorization,
+            requestOptions: requestOptions
+        )
     }
 
-/// Acknowledges receipt of a work item, moving it from the queued state to starting and removing it from the queue. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. Use the environment and work identifiers corresponding to the item being processed.
+    /// Acknowledges receipt of a work item, moving it from the queued state to starting and removing it from the queue.
+    /// The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to
+    /// invoke it directly. Use the environment and work identifiers corresponding to the item being processed.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting' and removing it from the queue.
-    public func ack(environmentId: String, workId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
-        return try await BetaEnvironmentsWorkMethods.ackBetaEnvironmentsWork(config: config, environmentId: environmentId, workId: workId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Acknowledge receipt of a work item, transitioning it from 'queued' to
+    /// 'starting' and removing it from the queue.
+    public func ack(
+        environmentId: String,
+        workId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWork {
+        try await BetaEnvironmentsWorkMethods.ackBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            workId: workId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            authorization: authorization,
+            requestOptions: requestOptions
+        )
     }
 
-/// Records a heartbeat for a work item to maintain its lease. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. For conditional updates, send `NO_HEARTBEAT` for the first heartbeat or echo the previous heartbeat value exactly.
+    /// Records a heartbeat for a work item to maintain its lease. The pre-built environment worker in the SDKs and CLI
+    /// calls this operation automatically, so you do not need to invoke it directly. For conditional updates, send
+    /// `NO_HEARTBEAT` for the first heartbeat or echo the previous heartbeat value exactly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Record a heartbeat for a work item to maintain the lease.
-    public func heartbeat(environmentId: String, workId: String, desiredTtlSeconds: Int? = nil, expectedLastHeartbeat: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWorkHeartbeatResponse {
-        return try await BetaEnvironmentsWorkMethods.heartbeatBetaEnvironmentsWork(config: config, environmentId: environmentId, workId: workId, desiredTtlSeconds: desiredTtlSeconds, expectedLastHeartbeat: expectedLastHeartbeat, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Record a heartbeat for a work item to maintain the lease.
+    public func heartbeat(
+        environmentId: String,
+        workId: String,
+        desiredTtlSeconds: Int? = nil,
+        expectedLastHeartbeat: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWorkHeartbeatResponse {
+        try await BetaEnvironmentsWorkMethods.heartbeatBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            workId: workId,
+            desiredTtlSeconds: desiredTtlSeconds,
+            expectedLastHeartbeat: expectedLastHeartbeat,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            authorization: authorization,
+            requestOptions: requestOptions
+        )
     }
 
-/// Stops a work item by initiating a graceful or forced shutdown. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. Set `force` to true to stop the work immediately rather than allowing graceful shutdown.
+    /// Stops a work item by initiating a graceful or forced shutdown. The pre-built environment worker in the SDKs and
+    /// CLI calls this operation automatically, so you do not need to invoke it directly. Set `force` to true to stop
+    /// the work immediately rather than allowing graceful shutdown.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Stop a work item, initiating graceful or forced shutdown.
-    public func stop(environmentId: String, workId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, anthropicWorkspaceId: String? = nil, force: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
-        return try await BetaEnvironmentsWorkMethods.stopBetaEnvironmentsWork(config: config, environmentId: environmentId, workId: workId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, anthropicWorkspaceId: anthropicWorkspaceId, force: force, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Stop a work item, initiating graceful or forced shutdown.
+    public func stop(
+        environmentId: String,
+        workId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        force: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWork {
+        try await BetaEnvironmentsWorkMethods.stopBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            workId: workId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            authorization: authorization,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            force: force,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves detailed information about a specific work item in an environment. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. Use both `environment_id` and `work_id` to identify the item.
+    /// Retrieves detailed information about a specific work item in an environment. The pre-built environment worker in
+    /// the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. Use both
+    /// `environment_id` and `work_id` to identify the item.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Retrieve detailed information about a specific work item.
-    public func retrieve(environmentId: String, workId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
-        return try await BetaEnvironmentsWorkMethods.retrieveBetaEnvironmentsWork(config: config, environmentId: environmentId, workId: workId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Retrieve detailed information about a specific work item.
+    public func retrieve(
+        environmentId: String,
+        workId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWork {
+        try await BetaEnvironmentsWorkMethods.retrieveBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            workId: workId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates metadata on a work item in a self-hosted environment using merge semantics. Set metadata keys to strings to add or replace them, or to null to delete them; omit `metadata` keys you want to preserve. The SDK and CLI environment workers call this operation automatically, so you do not need to invoke it directly.
+    /// Updates metadata on a work item in a self-hosted environment using merge semantics. Set metadata keys to strings
+    /// to add or replace them, or to null to delete them; omit `metadata` keys you want to preserve. The SDK and CLI
+    /// environment workers call this operation automatically, so you do not need to invoke it directly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Update work item metadata with merge semantics.
-    public func update(environmentId: String, workId: String, metadata: [String: String?], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
-        return try await BetaEnvironmentsWorkMethods.updateBetaEnvironmentsWork(config: config, environmentId: environmentId, workId: workId, metadata: metadata, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Update work item metadata with merge semantics.
+    public func update(
+        environmentId: String,
+        workId: String,
+        metadata: [String: String?],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWork {
+        try await BetaEnvironmentsWorkMethods.updateBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            workId: workId,
+            metadata: metadata,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this operation automatically, so you do not need to invoke it directly.
+    /// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use
+    /// `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this
+    /// operation automatically, so you do not need to invoke it directly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. List work items in an environment.
-    public func list(environmentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWorkListResponse {
-        return try await BetaEnvironmentsWorkMethods.listBetaEnvironmentsWork(config: config, environmentId: environmentId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. List work items in an environment.
+    public func list(
+        environmentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWorkListResponse {
+        try await BetaEnvironmentsWorkMethods.listBetaEnvironmentsWork(
+            config: config,
+            environmentId: environmentId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            authorization: authorization,
+            requestOptions: requestOptions
+        )
     }
 }
 
-extension BetaEnvironmentsWorkNamespace {
-/// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this operation automatically, so you do not need to invoke it directly.
+public extension BetaEnvironmentsWorkNamespace {
+    /// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use
+    /// `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this
+    /// operation automatically, so you do not need to invoke it directly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. List work items in an environment.
-    public func listPaginated(environmentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSelfHostedWork, Swift.Error> {
-        return BetaEnvironmentsWorkMethods.listBetaEnvironmentsWorkPaginated(config: config, environmentId: environmentId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, requestOptions: requestOptions)
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. List work items in an environment.
+    func listPaginated(
+        environmentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaSelfHostedWork, Swift.Error> {
+        BetaEnvironmentsWorkMethods.listBetaEnvironmentsWorkPaginated(
+            config: config,
+            environmentId: environmentId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            authorization: authorization,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -83,51 +272,149 @@ public class BetaEnvironmentsNamespace {
         work = BetaEnvironmentsWorkNamespace(config: config)
     }
 
-/// Create a new environment with the specified configuration.
-    public func create(options: BetaEnvironmentsMethods.CreateBetaEnvironmentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
-        return try await BetaEnvironmentsMethods.createBetaEnvironments(config: config, options: options, requestOptions: requestOptions)
+    /// Create a new environment with the specified configuration.
+    public func create(
+        options: BetaEnvironmentsMethods.CreateBetaEnvironmentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironment {
+        try await BetaEnvironmentsMethods.createBetaEnvironments(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists environments with cursor-based pagination. Set `include_archived` to include archived environments and use `page` with the previous response's `next_page` token to fetch another page. The response includes environment objects and a token indicating whether another page is available.
+    /// Lists environments with cursor-based pagination. Set `include_archived` to include archived environments and use
+    /// `page` with the previous response's `next_page` token to fetch another page. The response includes environment
+    /// objects and a token indicating whether another page is available.
     ///
     /// List environments with pagination support.
-    public func list(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironmentListResponse {
-        return try await BetaEnvironmentsMethods.listBetaEnvironments(config: config, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironmentListResponse {
+        try await BetaEnvironmentsMethods.listBetaEnvironments(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists environments with cursor-based pagination. Set `include_archived` to include archived environments and use `page` with the previous response's `next_page` token to fetch another page. The response includes environment objects and a token indicating whether another page is available.
+    /// Lists environments with cursor-based pagination. Set `include_archived` to include archived environments and use
+    /// `page` with the previous response's `next_page` token to fetch another page. The response includes environment
+    /// objects and a token indicating whether another page is available.
     ///
     /// List environments with pagination support.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaEnvironment, Swift.Error> {
-        return BetaEnvironmentsMethods.listBetaEnvironmentsPaginated(config: config, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaEnvironment, Swift.Error> {
+        BetaEnvironmentsMethods.listBetaEnvironmentsPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a specific environment by its identifier. Use `environment_id` to select the environment, and include `anthropic-workspace-id` when your credentials can act on multiple workspaces. The response includes its configuration, visibility scope, metadata, and lifecycle timestamps.
+    /// Retrieves a specific environment by its identifier. Use `environment_id` to select the environment, and include
+    /// `anthropic-workspace-id` when your credentials can act on multiple workspaces. The response includes its
+    /// configuration, visibility scope, metadata, and lifecycle timestamps.
     ///
     /// Retrieve a specific environment by ID.
-    public func retrieve(environmentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
-        return try await BetaEnvironmentsMethods.retrieveBetaEnvironments(config: config, environmentId: environmentId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    public func retrieve(
+        environmentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironment {
+        try await BetaEnvironmentsMethods.retrieveBetaEnvironments(
+            config: config,
+            environmentId: environmentId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates the configuration and settings of an existing environment. Supply only the fields you want to change: omitted fields remain unchanged, while `description: null` clears the description. Use `scope` to choose whether the environment is visible across the organization or only to its owning account.
+    /// Updates the configuration and settings of an existing environment. Supply only the fields you want to change:
+    /// omitted fields remain unchanged, while `description: null` clears the description. Use `scope` to choose whether
+    /// the environment is visible across the organization or only to its owning account.
     ///
     /// Update an existing environment's configuration.
-    public func update(options: BetaEnvironmentsMethods.UpdateBetaEnvironmentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
-        return try await BetaEnvironmentsMethods.updateBetaEnvironments(config: config, options: options, requestOptions: requestOptions)
+    public func update(
+        options: BetaEnvironmentsMethods.UpdateBetaEnvironmentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironment {
+        try await BetaEnvironmentsMethods.updateBetaEnvironments(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes an environment identified by `environment_id`. Use this operation when you want to remove an environment rather than archive it. A successful response confirms deletion with the environment identifier.
+    /// Deletes an environment identified by `environment_id`. Use this operation when you want to remove an environment
+    /// rather than archive it. A successful response confirms deletion with the environment identifier.
     ///
     /// Delete an environment by ID. Returns a confirmation of the deletion.
-    public func delete(environmentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironmentDeleteResponse {
-        return try await BetaEnvironmentsMethods.deleteBetaEnvironments(config: config, environmentId: environmentId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    public func delete(
+        environmentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironmentDeleteResponse {
+        try await BetaEnvironmentsMethods.deleteBetaEnvironments(
+            config: config,
+            environmentId: environmentId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives an environment identified by `environment_id`. Use this operation to prevent the environment from being used to create new sessions without deleting the environment record. The response includes the environment with its updated archive timestamp.
+    /// Archives an environment identified by `environment_id`. Use this operation to prevent the environment from being
+    /// used to create new sessions without deleting the environment record. The response includes the environment with
+    /// its updated archive timestamp.
     ///
     /// Archive an environment by ID. Archived environments cannot be used to create new sessions.
-    public func archive(environmentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
-        return try await BetaEnvironmentsMethods.archiveBetaEnvironments(config: config, environmentId: environmentId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    public func archive(
+        environmentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironment {
+        try await BetaEnvironmentsMethods.archiveBetaEnvironments(
+            config: config,
+            environmentId: environmentId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -137,24 +424,77 @@ public class BetaSessionsEventsNamespace {
         self.config = config
     }
 
-/// Lists events for a session in pages, ordered by the event processing time. Use `types[]` and the `created_at` filters to narrow the events, and use `page` to continue from a previous response's cursor. Set `order` to choose chronological or reverse-chronological order.
-    public func list(options: BetaSessionsEventsMethods.ListBetaSessionsEventsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListSessionEvents {
-        return try await BetaSessionsEventsMethods.listBetaSessionsEvents(config: config, options: options, requestOptions: requestOptions)
+    /// Lists events for a session in pages, ordered by the event processing time. Use `types[]` and the `created_at`
+    /// filters to narrow the events, and use `page` to continue from a previous response's cursor. Set `order` to
+    /// choose chronological or reverse-chronological order.
+    public func list(
+        options: BetaSessionsEventsMethods.ListBetaSessionsEventsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListSessionEvents {
+        try await BetaSessionsEventsMethods.listBetaSessionsEvents(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists events for a session in pages, ordered by the event processing time. Use `types[]` and the `created_at` filters to narrow the events, and use `page` to continue from a previous response's cursor. Set `order` to choose chronological or reverse-chronological order.
-    public func listPaginated(options: BetaSessionsEventsMethods.ListBetaSessionsEventsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsSessionEvent, Swift.Error> {
-        return BetaSessionsEventsMethods.listBetaSessionsEventsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists events for a session in pages, ordered by the event processing time. Use `types[]` and the `created_at`
+    /// filters to narrow the events, and use `page` to continue from a previous response's cursor. Set `order` to
+    /// choose chronological or reverse-chronological order.
+    public func listPaginated(
+        options: BetaSessionsEventsMethods.ListBetaSessionsEventsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsSessionEvent, Swift.Error> {
+        BetaSessionsEventsMethods.listBetaSessionsEventsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Submits events to a session, including user messages, interrupts, and tool execution confirmations. Provide the events as an array in `events`; each event must match one of the supported event types and include that type's required fields. The response contains the events that were successfully sent to the session.
-    public func create(sessionId: String, events: [BetaManagedAgentsEventParams], anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSendSessionEvents {
-        return try await BetaSessionsEventsMethods.createBetaSessionsEvents(config: config, sessionId: sessionId, events: events, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Submits events to a session, including user messages, interrupts, and tool execution confirmations. Provide the
+    /// events as an array in `events`; each event must match one of the supported event types and include that type's
+    /// required fields. The response contains the events that were successfully sent to the session.
+    public func create(
+        sessionId: String,
+        events: [BetaManagedAgentsEventParams],
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSendSessionEvents {
+        try await BetaSessionsEventsMethods.createBetaSessionsEvents(
+            config: config,
+            sessionId: sessionId,
+            events: events,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Streams events from a session as server-sent events. Set `event_deltas[]` to receive best-effort previews for `agent.message` or `agent.thinking` events before the complete event arrives; the final event contains the complete content when produced. If a model request ends early with an error or interrupt, its terminal `span.model_request_end` closes the preview without a final event.
-    public func stream(sessionId: String, eventDeltas: [BetaManagedAgentsEventDeltaType]? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsStreamSessionEvents {
-        return try await BetaSessionsEventsMethods.streamBetaSessionsEvents(config: config, sessionId: sessionId, eventDeltas: eventDeltas, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Streams events from a session as server-sent events. Set `event_deltas[]` to receive best-effort previews for
+    /// `agent.message` or `agent.thinking` events before the complete event arrives; the final event contains the
+    /// complete content when produced. If a model request ends early with an error or interrupt, its terminal
+    /// `span.model_request_end` closes the preview without a final event.
+    public func stream(
+        sessionId: String,
+        eventDeltas: [BetaManagedAgentsEventDeltaType]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsStreamSessionEvents {
+        try await BetaSessionsEventsMethods.streamBetaSessionsEvents(
+            config: config,
+            sessionId: sessionId,
+            eventDeltas: eventDeltas,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -164,13 +504,53 @@ public class BetaSessionsThreadsEventsNamespace {
         self.config = config
     }
 
-/// Lists events for a specific execution thread, ordered by processing time. Use `page` as the cursor for subsequent results and `limit` to control the requested page size.
-    public func list(sessionId: String, threadId: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListSessionThreadEvents {
-        return try await BetaSessionsThreadsEventsMethods.listBetaSessionsThreadsEvents(config: config, sessionId: sessionId, threadId: threadId, limit: limit, page: page, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists events for a specific execution thread, ordered by processing time. Use `page` as the cursor for
+    /// subsequent results and `limit` to control the requested page size.
+    public func list(
+        sessionId: String,
+        threadId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListSessionThreadEvents {
+        try await BetaSessionsThreadsEventsMethods.listBetaSessionsThreadsEvents(
+            config: config,
+            sessionId: sessionId,
+            threadId: threadId,
+            limit: limit,
+            page: page,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists events for a specific execution thread, ordered by processing time. Use `page` as the cursor for subsequent results and `limit` to control the requested page size.
-    public func listPaginated(sessionId: String, threadId: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsSessionEvent, Swift.Error> {
-        return BetaSessionsThreadsEventsMethods.listBetaSessionsThreadsEventsPaginated(config: config, sessionId: sessionId, threadId: threadId, limit: limit, page: page, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists events for a specific execution thread, ordered by processing time. Use `page` as the cursor for
+    /// subsequent results and `limit` to control the requested page size.
+    public func listPaginated(
+        sessionId: String,
+        threadId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsSessionEvent, Swift.Error> {
+        BetaSessionsThreadsEventsMethods.listBetaSessionsThreadsEventsPaginated(
+            config: config,
+            sessionId: sessionId,
+            threadId: threadId,
+            limit: limit,
+            page: page,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }

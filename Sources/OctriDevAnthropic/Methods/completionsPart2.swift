@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension CompletionsMethods {
-    public struct CreateCompletionsOptions: Codable {
+public extension CompletionsMethods {
+    struct CreateCompletionsOptions: Codable {
         public var model: Model
         public var prompt: String
         public var maxTokensToSample: Int
@@ -28,7 +28,11 @@ extension CompletionsMethods {
         }
     }
 
-    /// [Legacy] Create a Text Completion. The Text Completions API is a legacy API. We recommend using the [Messages API](https://platform.claude.com/docs/en/api/messages) going forward. Future models and features will not be compatible with Text Completions. See our [migration guide](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) for guidance in migrating from Text Completions to Messages.
+    /// [Legacy] Create a Text Completion. The Text Completions API is a legacy API. We recommend using the [Messages
+    /// API](https://platform.claude.com/docs/en/api/messages) going forward. Future models and features will not be
+    /// compatible with Text Completions. See our [migration
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) for guidance in migrating
+    /// from Text Completions to Messages.
     ///
     /// - Parameters:
     /// - model: The model that will complete your prompt. See
@@ -79,7 +83,11 @@ extension CompletionsMethods {
     ///   events. See
     ///   [streaming](https://platform.claude.com/docs/en/build-with-claude/streaming)
     ///   for details.
-    public static func createCompletions(config: ClientConfig, options: CreateCompletionsOptions, requestOptions: RequestOptions? = nil) async throws -> CompletionResponse {
+    static func createCompletions(
+        config: ClientConfig,
+        options: CreateCompletionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CompletionResponse {
         try validateLength("prompt", options.prompt, min: 1)
 
         try validateRange("max_tokens_to_sample", Double(options.maxTokensToSample), min: 1)
@@ -98,10 +106,37 @@ extension CompletionsMethods {
 
         let requestBody = CreateCompletionsRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/v1/complete", config: config, body: requestBody, decoder: .json, operationId: "createCompletions", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/complete",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createCompletions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 }

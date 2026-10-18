@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaVaultsCredentialsMethods {
-    /// Retrieves a credential stored in a vault. Use `vault_id` and `credential_id` to identify the credential; sensitive fields are not included in the response. Include `anthropic-workspace-id` only when a multi-Workspace credential needs to select a Workspace.
+public extension BetaVaultsCredentialsMethods {
+    /// Retrieves a credential stored in a vault. Use `vault_id` and `credential_id` to identify the credential;
+    /// sensitive fields are not included in the response. Include `anthropic-workspace-id` only when a multi-Workspace
+    /// credential needs to select a Workspace.
     ///
     /// - Parameters:
     /// - vaultId: Path parameter vault_id
@@ -17,11 +19,50 @@ extension BetaVaultsCredentialsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func retrieveBetaVaultsCredentials(config: ClientConfig, vaultId: String, credentialId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredential {
-        return try (await sdkRequest("GET", ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "/credentials/", sdkEncodePathSegment(sdkWireString(credentialId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaVaultsCredentials", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+    static func retrieveBetaVaultsCredentials(
+        config: ClientConfig,
+        vaultId: String,
+        credentialId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredential {
+        try await (sdkRequest(
+            "GET",
+            [
+                "/v1/vaults/",
+                sdkEncodePathSegment(sdkWireString(vaultId)),
+                "/credentials/",
+                sdkEncodePathSegment(sdkWireString(credentialId)),
+                "?beta=true",
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaVaultsCredentials",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

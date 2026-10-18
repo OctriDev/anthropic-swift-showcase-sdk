@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaService domain models
+/// SharedBetaService domain models
 /// Typed representation of the `BetaServiceAccountWorkspaceMemberDeleteResponse` API schema.
 public struct BetaServiceAccountWorkspaceMemberDeleteResponse: Codable {
     /// Tagged service account ID (`svac_...`) named in the delete request. Removal is idempotent; see the endpoint
@@ -20,33 +20,59 @@ public struct BetaServiceAccountWorkspaceMemberDeleteResponse: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaServiceAccountWorkspaceMemberDeleteResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.serviceAccountId) else {
-            throw SdkValidationError(field: "service_account_id", code: "required", message: "Validation failed for 'service_account_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountWorkspaceMemberDeleteResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaServiceAccountWorkspaceMemberDeleteResponse {
-    public init(serviceAccountId: String, type: BetaServiceAccountWorkspaceMemberDeleteResponseType, workspaceId: String) throws {
+public extension BetaServiceAccountWorkspaceMemberDeleteResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.serviceAccountId) else {
+            throw SdkValidationError(
+                field: "service_account_id",
+                code: "required",
+                message: "Validation failed for 'service_account_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum(
+            "type",
+            type,
+            BetaServiceAccountWorkspaceMemberDeleteResponseType.allCases.map(\.rawValue)
+        )
+    }
+}
+
+public extension BetaServiceAccountWorkspaceMemberDeleteResponse {
+    init(
+        serviceAccountId: String,
+        type: BetaServiceAccountWorkspaceMemberDeleteResponseType,
+        workspaceId: String
+    ) throws {
         (self.serviceAccountId, self.type) = (serviceAccountId, type)
         self.workspaceId = workspaceId
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountWorkspaceMemberDeleteResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "type",
+            self.type,
+            BetaServiceAccountWorkspaceMemberDeleteResponseType.allCases.map(\.rawValue)
+        )
     }
 }
 
@@ -75,46 +101,79 @@ public struct BetaServiceAccountWorkspaceMember: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaServiceAccountWorkspaceMember {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.createdByActorId) else {
-            throw SdkValidationError(field: "created_by_actor_id", code: "required", message: "Validation failed for 'created_by_actor_id': value is required")
-        }
-        guard container.contains(.implicit) else {
-            throw SdkValidationError(field: "implicit", code: "required", message: "Validation failed for 'implicit': value is required")
-        }
-        guard container.contains(.serviceAccountId) else {
-            throw SdkValidationError(field: "service_account_id", code: "required", message: "Validation failed for 'service_account_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
-        }
-        self.createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
-        self.implicit = try container.sdkDecodeNullable(.implicit)
-        self.serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountWorkspaceMemberType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaServiceAccountWorkspaceMember {
-    public init(createdByActorId: String?, implicit: Bool?, serviceAccountId: String, type: BetaServiceAccountWorkspaceMemberType, workspaceId: String, workspaceRole: BetaWorkspaceRoleSchema) throws {
+public extension BetaServiceAccountWorkspaceMember {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.createdByActorId) else {
+            throw SdkValidationError(
+                field: "created_by_actor_id",
+                code: "required",
+                message: "Validation failed for 'created_by_actor_id': value is required"
+            )
+        }
+        guard container.contains(.implicit) else {
+            throw SdkValidationError(
+                field: "implicit",
+                code: "required",
+                message: "Validation failed for 'implicit': value is required"
+            )
+        }
+        guard container.contains(.serviceAccountId) else {
+            throw SdkValidationError(
+                field: "service_account_id",
+                code: "required",
+                message: "Validation failed for 'service_account_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceRole) else {
+            throw SdkValidationError(
+                field: "workspace_role",
+                code: "required",
+                message: "Validation failed for 'workspace_role': value is required"
+            )
+        }
+        createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
+        implicit = try container.sdkDecodeNullable(.implicit)
+        serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+        try sdkValidateRawEnum("type", type, BetaServiceAccountWorkspaceMemberType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaServiceAccountWorkspaceMember {
+    init(
+        createdByActorId: String?,
+        implicit: Bool?,
+        serviceAccountId: String,
+        type: BetaServiceAccountWorkspaceMemberType,
+        workspaceId: String,
+        workspaceRole: BetaWorkspaceRoleSchema
+    ) throws {
         (self.createdByActorId, self.implicit) = (createdByActorId, implicit)
         (self.serviceAccountId, self.type) = (serviceAccountId, type)
         (self.workspaceId, self.workspaceRole) = (workspaceId, workspaceRole)
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountWorkspaceMemberType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaServiceAccountWorkspaceMemberType.allCases.map(\.rawValue))
     }
 }
 
@@ -133,36 +192,42 @@ public struct BetaServiceAccountTarget: Codable {
         case serviceAccountName = "service_account_name"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaServiceAccountTarget {
-    public init(from decoder: Decoder) throws {
+public extension BetaServiceAccountTarget {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.serviceAccountId) else {
-            throw SdkValidationError(field: "service_account_id", code: "required", message: "Validation failed for 'service_account_id': value is required")
+            throw SdkValidationError(
+                field: "service_account_id",
+                code: "required",
+                message: "Validation failed for 'service_account_id': value is required"
+            )
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
-        self.serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.serviceAccountName = try container.sdkDecodeIfPresent(.serviceAccountName)
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountTargetType.allCases.map(\.rawValue))
+        serviceAccountId = try container.sdkDecodeRequired(.serviceAccountId)
+        type = try container.sdkDecodeRequired(.type)
+        serviceAccountName = try container.sdkDecodeIfPresent(.serviceAccountName)
+        try sdkValidateRawEnum("type", type, BetaServiceAccountTargetType.allCases.map(\.rawValue))
     }
 }
 
-extension BetaServiceAccountTarget {
-    public init(serviceAccountId: String, type: BetaServiceAccountTargetType, serviceAccountName: String? = nil) throws {
+public extension BetaServiceAccountTarget {
+    init(serviceAccountId: String, type: BetaServiceAccountTargetType, serviceAccountName: String? = nil) throws {
         (self.serviceAccountId, self.type) = (serviceAccountId, type)
         self.serviceAccountName = serviceAccountName
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountTargetType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaServiceAccountTargetType.allCases.map(\.rawValue))
     }
 }
-
-
-
-
 
 /// Named non-human identity within the caller's organization. A service account is a pure identity: name + org.
 /// Authorization lives on whatever references it (federation rules).
@@ -206,40 +271,54 @@ public struct BetaServiceAccount: Codable {
         case updatedByActorId = "updated_by_actor_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaServiceAccount {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        self.archivedByActorId = try container.sdkDecodeNullable(.archivedByActorId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.organizationRole = try container.sdkDecodeRequired(.organizationRole)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.updatedByActorId = try container.sdkDecodeNullable(.updatedByActorId)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaServiceAccount {
-    public init(archivedAt: Date?, archivedByActorId: String?, createdAt: Date, createdByActorId: String?, description: String?, id: String, name: String, organizationRole: BetaServiceAccountOrganizationRole, type: BetaServiceAccountType, updatedAt: Date, updatedByActorId: String?) throws {
+public extension BetaServiceAccount {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        archivedByActorId = try container.sdkDecodeNullable(.archivedByActorId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
+        description = try container.sdkDecodeNullable(.description)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        organizationRole = try container.sdkDecodeRequired(.organizationRole)
+        type = try container.sdkDecodeRequired(.type)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        updatedByActorId = try container.sdkDecodeNullable(.updatedByActorId)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaServiceAccountType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("updated_at", sdkWireString(updatedAt))
+    }
+}
+
+public extension BetaServiceAccount {
+    init(
+        archivedAt: Date?,
+        archivedByActorId: String?,
+        createdAt: Date,
+        createdByActorId: String?,
+        description: String?,
+        id: String,
+        name: String,
+        organizationRole: BetaServiceAccountOrganizationRole,
+        type: BetaServiceAccountType,
+        updatedAt: Date,
+        updatedByActorId: String?
+    ) throws {
         (self.archivedAt, self.archivedByActorId) = (archivedAt, archivedByActorId)
         (self.createdAt, self.createdByActorId) = (createdAt, createdByActorId)
         (self.description, self.id) = (description, id)
         (self.name, self.organizationRole) = (name, organizationRole)
         (self.type, self.updatedAt) = (type, updatedAt)
         self.updatedByActorId = updatedByActorId
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaServiceAccountType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaServiceAccountType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
@@ -255,25 +334,35 @@ public struct BetaServiceAccountWorkspaceMemberListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaServiceAccountWorkspaceMemberListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaServiceAccountWorkspaceMemberListResponse {
-    public init(data: [BetaServiceAccountWorkspaceMember], nextPage: String?) {
+public extension BetaServiceAccountWorkspaceMemberListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaServiceAccountWorkspaceMemberListResponse {
+    init(data: [BetaServiceAccountWorkspaceMember], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -284,13 +373,16 @@ extension BetaServiceAccountWorkspaceMemberListResponse {
 public struct BetaServiceAccountOrganizationRole: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let admin = BetaServiceAccountOrganizationRole(rawValue: "admin")
     public static let developer = BetaServiceAccountOrganizationRole(rawValue: "developer")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

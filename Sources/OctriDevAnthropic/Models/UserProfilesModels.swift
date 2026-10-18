@@ -3,7 +3,7 @@
 
 import Foundation
 
-// UserProfiles domain models
+/// UserProfiles domain models
 /// Typed representation of the `BetaUpdateUserProfileRequestBody` API schema.
 public struct BetaUpdateUserProfileRequestBody: Codable {
     /// If present, replaces the stored external_id. Omit to leave unchanged. Maximum 255 characters.
@@ -30,23 +30,29 @@ public struct BetaUpdateUserProfileRequestBody: Codable {
     }
 
     init() {
-        (self.externalId, self.metadata, self.name, self.accessType, self.externalUserOnboardedAt) = (nil, nil, nil, nil, nil)
+        (externalId, metadata, name, accessType, externalUserOnboardedAt) = (nil, nil, nil, nil, nil)
     }
 }
 
-extension BetaUpdateUserProfileRequestBody {
-    public init(from decoder: Decoder) throws {
+public extension BetaUpdateUserProfileRequestBody {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.externalId = try container.sdkDecodeIfPresent(.externalId)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.accessType = try container.sdkDecodeIfPresent(.accessType)
-        self.externalUserOnboardedAt = try container.sdkDecodeIfPresent(.externalUserOnboardedAt)
+        externalId = try container.sdkDecodeIfPresent(.externalId)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        name = try container.sdkDecodeIfPresent(.name)
+        accessType = try container.sdkDecodeIfPresent(.accessType)
+        externalUserOnboardedAt = try container.sdkDecodeIfPresent(.externalUserOnboardedAt)
     }
 }
 
-extension BetaUpdateUserProfileRequestBody {
-    public init(externalId: String? = nil, metadata: [String: String]? = nil, name: String? = nil, accessType: BetaUserProfileAccessType? = nil, externalUserOnboardedAt: BetaTimestamp? = nil) {
+public extension BetaUpdateUserProfileRequestBody {
+    init(
+        externalId: String? = nil,
+        metadata: [String: String]? = nil,
+        name: String? = nil,
+        accessType: BetaUserProfileAccessType? = nil,
+        externalUserOnboardedAt: BetaTimestamp? = nil
+    ) {
         self.init()
         (self.externalId, self.metadata) = (externalId, metadata)
         (self.name, self.accessType) = (name, accessType)

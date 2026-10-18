@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension MessagesBatchesMethods {
-    /// Delete a Message Batch. Message Batches can only be deleted once they've finished processing. If you'd like to delete an in-progress batch, you must first cancel it. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+public extension MessagesBatchesMethods {
+    /// Delete a Message Batch. Message Batches can only be deleted once they've finished processing. If you'd like to
+    /// delete an in-progress batch, you must first cancel it. Learn more about the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
     ///
     /// - Parameters:
     /// - messageBatchId: ID of the Message Batch.
@@ -19,10 +21,42 @@ extension MessagesBatchesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func deleteMessagesBatches(config: ClientConfig, messageBatchId: String, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> DeleteMessageBatchResponse {
-        return try (await sdkRequest("DELETE", ["/v1/messages/batches/", sdkEncodePathSegment(sdkWireString(messageBatchId))].joined(), config: config, decoder: .json, operationId: "deleteMessagesBatches", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+    static func deleteMessagesBatches(
+        config: ClientConfig,
+        messageBatchId: String,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeleteMessageBatchResponse {
+        try await (sdkRequest(
+            "DELETE",
+            ["/v1/messages/batches/", sdkEncodePathSegment(sdkWireString(messageBatchId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "deleteMessagesBatches",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 }

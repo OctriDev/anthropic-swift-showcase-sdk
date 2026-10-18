@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedInput domain models
+/// SharedInput domain models
 public indirect enum InputContentBlock {
     case requestTextBlock(RequestTextBlock)
     case requestImageBlock(RequestImageBlock)
@@ -26,7 +26,6 @@ public indirect enum InputContentBlock {
 }
 
 extension InputContentBlock: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -34,13 +33,19 @@ extension InputContentBlock: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
+        if try encodeGroup2(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -51,26 +56,32 @@ extension InputContentBlock: Codable {
 extension InputContentBlock {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": return .requestTextBlock(try RequestTextBlock(from: decoder))
-        case "image": return .requestImageBlock(try RequestImageBlock(from: decoder))
-        case "document": return .requestDocumentBlock(try RequestDocumentBlock(from: decoder))
-        case "search_result": return .requestSearchResultBlock(try RequestSearchResultBlock(from: decoder))
-        case "thinking": return .requestThinkingBlock(try RequestThinkingBlock(from: decoder))
-        case "redacted_thinking": return .requestRedactedThinkingBlock(try RequestRedactedThinkingBlock(from: decoder))
-        case "tool_use": return .requestToolUseBlock(try RequestToolUseBlock(from: decoder))
-        case "tool_result": return .requestToolResultBlock(try RequestToolResultBlock(from: decoder))
-        case "server_tool_use": return .requestServerToolUseBlock(try RequestServerToolUseBlock(from: decoder))
-        case "web_search_tool_result": return .requestWebSearchToolResultBlock(try RequestWebSearchToolResultBlock(from: decoder))
-        case "web_fetch_tool_result": return .requestWebFetchToolResultBlock(try RequestWebFetchToolResultBlock(from: decoder))
+        case "text": try .requestTextBlock(RequestTextBlock(from: decoder))
+        case "image": try .requestImageBlock(RequestImageBlock(from: decoder))
+        case "document": try .requestDocumentBlock(RequestDocumentBlock(from: decoder))
+        case "search_result": try .requestSearchResultBlock(RequestSearchResultBlock(from: decoder))
+        case "thinking": try .requestThinkingBlock(RequestThinkingBlock(from: decoder))
+        case "redacted_thinking": try .requestRedactedThinkingBlock(RequestRedactedThinkingBlock(from: decoder))
+        case "tool_use": try .requestToolUseBlock(RequestToolUseBlock(from: decoder))
+        case "tool_result": try .requestToolResultBlock(RequestToolResultBlock(from: decoder))
+        case "server_tool_use": try .requestServerToolUseBlock(RequestServerToolUseBlock(from: decoder))
+        case "web_search_tool_result": try .requestWebSearchToolResultBlock(
+                RequestWebSearchToolResultBlock(from: decoder)
+            )
+        case "web_fetch_tool_result": try .requestWebFetchToolResultBlock(RequestWebFetchToolResultBlock(from: decoder))
         case "code_execution_tool_result":
-        return .requestCodeExecutionToolResultBlock(try RequestCodeExecutionToolResultBlock(from: decoder))
+            try .requestCodeExecutionToolResultBlock(RequestCodeExecutionToolResultBlock(from: decoder))
         case "bash_code_execution_tool_result":
-        return .requestBashCodeExecutionToolResultBlock(try RequestBashCodeExecutionToolResultBlock(from: decoder))
+            try .requestBashCodeExecutionToolResultBlock(RequestBashCodeExecutionToolResultBlock(from: decoder))
         case "text_editor_code_execution_tool_result":
-        return .requestTextEditorCodeExecutionToolResultBlock(try RequestTextEditorCodeExecutionToolResultBlock(from: decoder))
-        case "tool_search_tool_result": return .requestToolSearchToolResultBlock(try RequestToolSearchToolResultBlock(from: decoder))
-        case "container_upload": return .requestContainerUploadBlock(try RequestContainerUploadBlock(from: decoder))
-        default: return nil
+            try .requestTextEditorCodeExecutionToolResultBlock(
+                RequestTextEditorCodeExecutionToolResultBlock(from: decoder)
+            )
+        case "tool_search_tool_result": try .requestToolSearchToolResultBlock(
+                RequestToolSearchToolResultBlock(from: decoder)
+            )
+        case "container_upload": try .requestContainerUploadBlock(RequestContainerUploadBlock(from: decoder))
+        default: nil
         }
     }
 }
@@ -115,22 +126,32 @@ public indirect enum InputMessageContent {
 }
 
 extension InputMessageContent: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for InputMessageContent")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for InputMessageContent"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension InputMessageContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode([InputContentBlock].self) { return .inputContentBlockList(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode([InputContentBlock].self) {
+            return .inputContentBlockList(value)
+        }
         return nil
     }
 }
@@ -157,25 +178,35 @@ public struct InputMessage: Codable {
         case role
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InputMessage {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.role) else {
-            throw SdkValidationError(field: "role", code: "required", message: "Validation failed for 'role': value is required")
-        }
-        self.content = try container.sdkDecodeRequired(.content)
-        self.role = try container.sdkDecodeRequired(.role)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InputMessage {
-    public init(content: InputMessageContent, role: InputMessageRole) {
+public extension InputMessage {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.role) else {
+            throw SdkValidationError(
+                field: "role",
+                code: "required",
+                message: "Validation failed for 'role': value is required"
+            )
+        }
+        content = try container.sdkDecodeRequired(.content)
+        role = try container.sdkDecodeRequired(.role)
+    }
+}
+
+public extension InputMessage {
+    init(content: InputMessageContent, role: InputMessageRole) {
         (self.content, self.role) = (content, role)
     }
 }
@@ -197,33 +228,39 @@ public struct InputSchema: Codable {
         case required
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension InputSchema {
-    public init(from decoder: Decoder) throws {
+public extension InputSchema {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.properties = try container.sdkDecodeIfPresent(.properties)
-        self.required = try container.sdkDecodeIfPresent(.required)
+        type = try container.sdkDecodeRequired(.type)
+        properties = try container.sdkDecodeIfPresent(.properties)
+        required = try container.sdkDecodeIfPresent(.required)
         additionalProperties = try decoder.sdkAdditionalProperties(besides: CodingKeys.self)
-            try sdkValidateRawEnum("type", self.type, InputSchemaType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, InputSchemaType.allCases.map(\.rawValue))
     }
 }
 
-extension InputSchema {
-    public init(type: InputSchemaType, properties: [String: JSONValue]? = nil, required: [String]? = nil) throws {
+public extension InputSchema {
+    init(type: InputSchemaType, properties: [String: JSONValue]? = nil, required: [String]? = nil) throws {
         (self.type, self.properties) = (type, properties)
         self.required = required
-            try sdkValidateRawEnum("type", self.type, InputSchemaType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, InputSchemaType.allCases.map(\.rawValue))
     }
 }
 
-extension InputSchema {
-    public func encode(to encoder: Encoder) throws {
+public extension InputSchema {
+    func encode(to encoder: Encoder) throws {
         try encoder.sdkEncodeAdditionalProperties(additionalProperties)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
@@ -236,14 +273,17 @@ extension InputSchema {
 public struct InputMessageRole: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let user = InputMessageRole(rawValue: "user")
     public static let assistant = InputMessageRole(rawValue: "assistant")
     public static let system = InputMessageRole(rawValue: "system")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

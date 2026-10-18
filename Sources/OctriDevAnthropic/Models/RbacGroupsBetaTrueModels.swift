@@ -3,7 +3,7 @@
 
 import Foundation
 
-// RbacGroupsBetaTrue domain models
+/// RbacGroupsBetaTrue domain models
 /// Typed representation of the `BetaRbacGroupList` API schema.
 public struct BetaRbacGroupList: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -19,29 +19,43 @@ public struct BetaRbacGroupList: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRbacGroupList {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRbacGroupList {
-    public init(data: [BetaRbacGroup], hasMore: Bool, nextPage: String?) {
+public extension BetaRbacGroupList {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaRbacGroupList {
+    init(data: [BetaRbacGroup], hasMore: Bool, nextPage: String?) {
         (self.data, self.hasMore) = (data, hasMore)
         self.nextPage = nextPage
     }
@@ -56,23 +70,29 @@ public struct BetaCreateRbacGroupParams: Codable {
         case name
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaCreateRbacGroupParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-            try validateLength("name", self.name, min: 1, max: 255)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaCreateRbacGroupParams {
-    public init(name: String) throws {
+public extension BetaCreateRbacGroupParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        try validateLength("name", name, min: 1, max: 255)
+    }
+}
+
+public extension BetaCreateRbacGroupParams {
+    init(name: String) throws {
         self.name = name
-            try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("name", self.name, min: 1, max: 255)
     }
 }

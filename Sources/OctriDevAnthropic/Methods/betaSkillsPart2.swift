@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSkillsMethods {
-    /// Creates a new Skill and its initial version from uploaded files. Include a `SKILL.md` file at the root of a single top-level directory; `display_name` can be omitted to derive it from the file's frontmatter. The response includes the created Skill and its latest version identifier.
+public extension BetaSkillsMethods {
+    /// Creates a new Skill and its initial version from uploaded files. Include a `SKILL.md` file at the root of a
+    /// single top-level directory; `display_name` can be omitted to derive it from the file's frontmatter. The response
+    /// includes the created Skill and its latest version identifier.
     ///
     /// - Parameters:
     /// - files: Files to upload for the skill. All files must be in the same
@@ -27,20 +29,56 @@ extension BetaSkillsMethods {
     /// - displayName: Human-readable, single-line label for the Skill. Maximum 255
     ///   characters. Always set: derived from the SKILL.md frontmatter `name` when
     ///   omitted at creation. Not unique.
-    public static func createBetaSkills(config: ClientConfig, files: [SdkUploadFile], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkill {
+    static func createBetaSkills(
+        config: ClientConfig,
+        files: [SdkUploadFile],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSkill {
         var multipartParts: [SdkMultipartField] = []
         for item in files {
             multipartParts.append(.file("files", item))
         }
-        if let displayName = displayName {
+        if let displayName {
             multipartParts.append(.scalar("display_name", displayName))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try (await sdkRequest("POST", "/v1/skills?beta=true", config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "createBetaSkills", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/skills?beta=true",
+            config: config,
+            rawBody: multipart.data,
+            contentType: multipart.contentType,
+            decoder: .json,
+            operationId: "createBetaSkills",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

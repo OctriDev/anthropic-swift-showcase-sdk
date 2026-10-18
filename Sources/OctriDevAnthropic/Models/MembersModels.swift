@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Members domain models
+/// Members domain models
 /// Typed representation of the `BetaUpdateWorkspaceMemberParams` API schema.
 public struct BetaUpdateWorkspaceMemberParams: Codable {
     /// New workspace role for the User.
@@ -13,21 +13,27 @@ public struct BetaUpdateWorkspaceMemberParams: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaUpdateWorkspaceMemberParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
-        }
-        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaUpdateWorkspaceMemberParams {
-    public init(workspaceRole: BetaWorkspaceRoleSchema) {
+public extension BetaUpdateWorkspaceMemberParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.workspaceRole) else {
+            throw SdkValidationError(
+                field: "workspace_role",
+                code: "required",
+                message: "Validation failed for 'workspace_role': value is required"
+            )
+        }
+        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+    }
+}
+
+public extension BetaUpdateWorkspaceMemberParams {
+    init(workspaceRole: BetaWorkspaceRoleSchema) {
         self.workspaceRole = workspaceRole
     }
 }
@@ -47,33 +53,47 @@ public struct BetaDeleteWorkspaceMemberResponse: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaDeleteWorkspaceMemberResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaDeleteWorkspaceMemberResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaDeleteWorkspaceMemberResponse {
-    public init(type: BetaDeleteWorkspaceMemberResponseType, userId: String, workspaceId: String) throws {
+public extension BetaDeleteWorkspaceMemberResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        userId = try container.sdkDecodeRequired(.userId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaDeleteWorkspaceMemberResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaDeleteWorkspaceMemberResponse {
+    init(type: BetaDeleteWorkspaceMemberResponseType, userId: String, workspaceId: String) throws {
         (self.type, self.userId) = (type, userId)
         self.workspaceId = workspaceId
-            try sdkValidateRawEnum("type", self.type, BetaDeleteWorkspaceMemberResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaDeleteWorkspaceMemberResponseType.allCases.map(\.rawValue))
     }
 }
 
@@ -92,33 +112,47 @@ public struct BetaDeleteRbacGroupMemberResponse: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaDeleteRbacGroupMemberResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.groupId) else {
-            throw SdkValidationError(field: "group_id", code: "required", message: "Validation failed for 'group_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        self.groupId = try container.sdkDecodeRequired(.groupId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.userId = try container.sdkDecodeRequired(.userId)
-            try sdkValidateRawEnum("type", self.type, BetaDeleteRbacGroupMemberResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaDeleteRbacGroupMemberResponse {
-    public init(groupId: String, type: BetaDeleteRbacGroupMemberResponseType, userId: String) throws {
+public extension BetaDeleteRbacGroupMemberResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.groupId) else {
+            throw SdkValidationError(
+                field: "group_id",
+                code: "required",
+                message: "Validation failed for 'group_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        groupId = try container.sdkDecodeRequired(.groupId)
+        type = try container.sdkDecodeRequired(.type)
+        userId = try container.sdkDecodeRequired(.userId)
+        try sdkValidateRawEnum("type", type, BetaDeleteRbacGroupMemberResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaDeleteRbacGroupMemberResponse {
+    init(groupId: String, type: BetaDeleteRbacGroupMemberResponseType, userId: String) throws {
         (self.groupId, self.type) = (groupId, type)
         self.userId = userId
-            try sdkValidateRawEnum("type", self.type, BetaDeleteRbacGroupMemberResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaDeleteRbacGroupMemberResponseType.allCases.map(\.rawValue))
     }
 }
 

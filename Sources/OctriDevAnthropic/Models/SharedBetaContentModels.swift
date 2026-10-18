@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaContent domain models
+/// SharedBetaContent domain models
 public indirect enum BetaContentBlock {
     case betaResponseTextBlock(BetaResponseTextBlock)
     case betaResponseThinkingBlock(BetaResponseThinkingBlock)
@@ -27,7 +27,6 @@ public indirect enum BetaContentBlock {
 }
 
 extension BetaContentBlock: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -35,13 +34,19 @@ extension BetaContentBlock: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
+        if try encodeGroup2(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -52,28 +57,40 @@ extension BetaContentBlock: Codable {
 extension BetaContentBlock {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": return .betaResponseTextBlock(try BetaResponseTextBlock(from: decoder))
-        case "thinking": return .betaResponseThinkingBlock(try BetaResponseThinkingBlock(from: decoder))
-        case "redacted_thinking": return .betaResponseRedactedThinkingBlock(try BetaResponseRedactedThinkingBlock(from: decoder))
-        case "tool_use": return .betaResponseToolUseBlock(try BetaResponseToolUseBlock(from: decoder))
-        case "server_tool_use": return .betaResponseServerToolUseBlock(try BetaResponseServerToolUseBlock(from: decoder))
-        case "web_search_tool_result": return .betaResponseWebSearchToolResultBlock(try BetaResponseWebSearchToolResultBlock(from: decoder))
-        case "web_fetch_tool_result": return .betaResponseWebFetchToolResultBlock(try BetaResponseWebFetchToolResultBlock(from: decoder))
-        case "advisor_tool_result": return .betaResponseAdvisorToolResultBlock(try BetaResponseAdvisorToolResultBlock(from: decoder))
+        case "text": try .betaResponseTextBlock(BetaResponseTextBlock(from: decoder))
+        case "thinking": try .betaResponseThinkingBlock(BetaResponseThinkingBlock(from: decoder))
+        case "redacted_thinking": try .betaResponseRedactedThinkingBlock(
+                BetaResponseRedactedThinkingBlock(from: decoder)
+            )
+        case "tool_use": try .betaResponseToolUseBlock(BetaResponseToolUseBlock(from: decoder))
+        case "server_tool_use": try .betaResponseServerToolUseBlock(BetaResponseServerToolUseBlock(from: decoder))
+        case "web_search_tool_result": try .betaResponseWebSearchToolResultBlock(
+                BetaResponseWebSearchToolResultBlock(from: decoder)
+            )
+        case "web_fetch_tool_result": try .betaResponseWebFetchToolResultBlock(
+                BetaResponseWebFetchToolResultBlock(from: decoder)
+            )
+        case "advisor_tool_result": try .betaResponseAdvisorToolResultBlock(
+                BetaResponseAdvisorToolResultBlock(from: decoder)
+            )
         case "code_execution_tool_result":
-        return .betaResponseCodeExecutionToolResultBlock(try BetaResponseCodeExecutionToolResultBlock(from: decoder))
+            try .betaResponseCodeExecutionToolResultBlock(BetaResponseCodeExecutionToolResultBlock(from: decoder))
         case "bash_code_execution_tool_result":
-        return .betaResponseBashCodeExecutionToolResultBlock(try BetaResponseBashCodeExecutionToolResultBlock(from: decoder))
+            try .betaResponseBashCodeExecutionToolResultBlock(
+                BetaResponseBashCodeExecutionToolResultBlock(from: decoder)
+            )
         case "text_editor_code_execution_tool_result":
-        return .betaResponseTextEditorCodeExecutionToolResultBlock(try BetaResponseTextEditorCodeExecutionToolResultBlock(from: decoder))
+            try .betaResponseTextEditorCodeExecutionToolResultBlock(
+                BetaResponseTextEditorCodeExecutionToolResultBlock(from: decoder)
+            )
         case "tool_search_tool_result":
-        return .betaResponseToolSearchToolResultBlock(try BetaResponseToolSearchToolResultBlock(from: decoder))
-        case "mcp_tool_use": return .betaResponseMcpToolUseBlock(try BetaResponseMCPToolUseBlock(from: decoder))
-        case "mcp_tool_result": return .betaResponseMcpToolResultBlock(try BetaResponseMCPToolResultBlock(from: decoder))
-        case "container_upload": return .betaResponseContainerUploadBlock(try BetaResponseContainerUploadBlock(from: decoder))
-        case "compaction": return .betaResponseCompactionBlock(try BetaResponseCompactionBlock(from: decoder))
-        case "fallback": return .betaResponseFallbackBlock(try BetaResponseFallbackBlock(from: decoder))
-        default: return nil
+            try .betaResponseToolSearchToolResultBlock(BetaResponseToolSearchToolResultBlock(from: decoder))
+        case "mcp_tool_use": try .betaResponseMcpToolUseBlock(BetaResponseMCPToolUseBlock(from: decoder))
+        case "mcp_tool_result": try .betaResponseMcpToolResultBlock(BetaResponseMCPToolResultBlock(from: decoder))
+        case "container_upload": try .betaResponseContainerUploadBlock(BetaResponseContainerUploadBlock(from: decoder))
+        case "compaction": try .betaResponseCompactionBlock(BetaResponseCompactionBlock(from: decoder))
+        case "fallback": try .betaResponseFallbackBlock(BetaResponseFallbackBlock(from: decoder))
+        default: nil
         }
     }
 }
@@ -121,7 +138,6 @@ public indirect enum BetaContentBlockSourceContentItem {
 }
 
 extension BetaContentBlockSourceContentItem: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -129,12 +145,16 @@ extension BetaContentBlockSourceContentItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -145,9 +165,9 @@ extension BetaContentBlockSourceContentItem: Codable {
 extension BetaContentBlockSourceContentItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": return .betaRequestTextBlock(try BetaRequestTextBlock(from: decoder))
-        case "image": return .betaRequestImageBlock(try BetaRequestImageBlock(from: decoder))
-        default: return nil
+        case "text": try .betaRequestTextBlock(BetaRequestTextBlock(from: decoder))
+        case "image": try .betaRequestImageBlock(BetaRequestImageBlock(from: decoder))
+        default: nil
         }
     }
 }
@@ -175,28 +195,38 @@ public struct BetaContentBlockSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaContentBlockSource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.content = try container.sdkDecodeRequired(.content)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaContentBlockSourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaContentBlockSource {
-    public init(content: BetaContentBlockSourceContent, type: BetaContentBlockSourceType) throws {
+public extension BetaContentBlockSource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        content = try container.sdkDecodeRequired(.content)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaContentBlockSourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaContentBlockSource {
+    init(content: BetaContentBlockSourceContent, type: BetaContentBlockSourceType) throws {
         (self.content, self.type) = (content, type)
-            try sdkValidateRawEnum("type", self.type, BetaContentBlockSourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaContentBlockSourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -206,25 +236,33 @@ public indirect enum BetaContentBlockSourceContent {
 }
 
 extension BetaContentBlockSourceContent: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaContentBlockSourceContent")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaContentBlockSourceContent"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaContentBlockSourceContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
         if let value = try? container.decode(
             [BetaContentBlockSourceContentItem].self
         ) {
-            return             .betaContentBlockSourceContentItemList(value)
+            return .betaContentBlockSourceContentItemList(value)
         }
         return nil
     }

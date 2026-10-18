@@ -3,48 +3,111 @@
 
 import Foundation
 
-// SharedBetaRequest domain models
-extension BetaRequestCharLocationCitation {
-    public init(from decoder: Decoder) throws {
+/// SharedBetaRequest domain models
+public extension BetaRequestCharLocationCitation {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
+            throw SdkValidationError(
+                field: "cited_text",
+                code: "required",
+                message: "Validation failed for 'cited_text': value is required"
+            )
         }
         guard container.contains(.documentIndex) else {
-            throw SdkValidationError(field: "document_index", code: "required", message: "Validation failed for 'document_index': value is required")
+            throw SdkValidationError(
+                field: "document_index",
+                code: "required",
+                message: "Validation failed for 'document_index': value is required"
+            )
         }
         guard container.contains(.documentTitle) else {
-            throw SdkValidationError(field: "document_title", code: "required", message: "Validation failed for 'document_title': value is required")
+            throw SdkValidationError(
+                field: "document_title",
+                code: "required",
+                message: "Validation failed for 'document_title': value is required"
+            )
         }
         guard container.contains(.endCharIndex) else {
-            throw SdkValidationError(field: "end_char_index", code: "required", message: "Validation failed for 'end_char_index': value is required")
+            throw SdkValidationError(
+                field: "end_char_index",
+                code: "required",
+                message: "Validation failed for 'end_char_index': value is required"
+            )
         }
         guard container.contains(.startCharIndex) else {
-            throw SdkValidationError(field: "start_char_index", code: "required", message: "Validation failed for 'start_char_index': value is required")
+            throw SdkValidationError(
+                field: "start_char_index",
+                code: "required",
+                message: "Validation failed for 'start_char_index': value is required"
+            )
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
-        self.citedText = try container.sdkDecodeRequired(.citedText)
-        self.documentIndex = try container.sdkDecodeRequired(.documentIndex)
-        self.documentTitle = try container.sdkDecodeNullable(.documentTitle)
-        self.endCharIndex = try container.sdkDecodeRequired(.endCharIndex)
-        self.startCharIndex = try container.sdkDecodeRequired(.startCharIndex)
-        self.type = try container.sdkDecodeRequired(.type)
-            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("start_char_index", Double(self.startCharIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, BetaRequestCharLocationCitationType.allCases.map(\.rawValue))
+        citedText = try container.sdkDecodeRequired(.citedText)
+        documentIndex = try container.sdkDecodeRequired(.documentIndex)
+        documentTitle = try container.sdkDecodeNullable(.documentTitle)
+        endCharIndex = try container.sdkDecodeRequired(.endCharIndex)
+        startCharIndex = try container.sdkDecodeRequired(.startCharIndex)
+        type = try container.sdkDecodeRequired(.type)
+        try validateRange(
+            "document_index",
+            Double(documentIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "start_char_index",
+            Double(startCharIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", type, BetaRequestCharLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-extension BetaRequestCharLocationCitation {
-    public init(citedText: String, documentIndex: Int, documentTitle: String?, endCharIndex: Int, startCharIndex: Int, type: BetaRequestCharLocationCitationType) throws {
+public extension BetaRequestCharLocationCitation {
+    init(
+        citedText: String,
+        documentIndex: Int,
+        documentTitle: String?,
+        endCharIndex: Int,
+        startCharIndex: Int,
+        type: BetaRequestCharLocationCitationType
+    ) throws {
         (self.citedText, self.documentIndex) = (citedText, documentIndex)
         (self.documentTitle, self.endCharIndex) = (documentTitle, endCharIndex)
         (self.startCharIndex, self.type) = (startCharIndex, type)
-            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("start_char_index", Double(self.startCharIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, BetaRequestCharLocationCitationType.allCases.map(\.rawValue))
+        try validateRange(
+            "document_index",
+            Double(self.documentIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "start_char_index",
+            Double(self.startCharIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", self.type, BetaRequestCharLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -65,33 +128,47 @@ public struct BetaRequestThinkingBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestThinkingBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.signature) else {
-            throw SdkValidationError(field: "signature", code: "required", message: "Validation failed for 'signature': value is required")
-        }
-        guard container.contains(.thinking) else {
-            throw SdkValidationError(field: "thinking", code: "required", message: "Validation failed for 'thinking': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.signature = try container.sdkDecodeRequired(.signature)
-        self.thinking = try container.sdkDecodeRequired(.thinking)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaRequestThinkingBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestThinkingBlock {
-    public init(signature: String, thinking: String, type: BetaRequestThinkingBlockType) throws {
+public extension BetaRequestThinkingBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.signature) else {
+            throw SdkValidationError(
+                field: "signature",
+                code: "required",
+                message: "Validation failed for 'signature': value is required"
+            )
+        }
+        guard container.contains(.thinking) else {
+            throw SdkValidationError(
+                field: "thinking",
+                code: "required",
+                message: "Validation failed for 'thinking': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        signature = try container.sdkDecodeRequired(.signature)
+        thinking = try container.sdkDecodeRequired(.thinking)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaRequestThinkingBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRequestThinkingBlock {
+    init(signature: String, thinking: String, type: BetaRequestThinkingBlockType) throws {
         (self.signature, self.thinking) = (signature, thinking)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaRequestThinkingBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRequestThinkingBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -102,7 +179,6 @@ public indirect enum BetaRequestContainerUploadBlockCacheControl {
 }
 
 extension BetaRequestContainerUploadBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -110,12 +186,16 @@ extension BetaRequestContainerUploadBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -126,8 +206,8 @@ extension BetaRequestContainerUploadBlockCacheControl: Codable {
 extension BetaRequestContainerUploadBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -149,7 +229,6 @@ public indirect enum BetaRequestCompactionBlockCacheControl {
 }
 
 extension BetaRequestCompactionBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -157,12 +236,16 @@ extension BetaRequestCompactionBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -173,8 +256,8 @@ extension BetaRequestCompactionBlockCacheControl: Codable {
 extension BetaRequestCompactionBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -209,28 +292,39 @@ public struct BetaRequestCompactionBlock: Codable {
         case encryptedContent = "encrypted_content"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestCompactionBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.content = try container.sdkDecodeIfPresent(.content)
-        self.encryptedContent = try container.sdkDecodeIfPresent(.encryptedContent)
-            try sdkValidateRawEnum("type", self.type, BetaRequestCompactionBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestCompactionBlock {
-    public init(type: BetaRequestCompactionBlockType, cacheControl: BetaRequestCompactionBlockCacheControl? = nil, content: String? = nil, encryptedContent: String? = nil) throws {
+public extension BetaRequestCompactionBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        content = try container.sdkDecodeIfPresent(.content)
+        encryptedContent = try container.sdkDecodeIfPresent(.encryptedContent)
+        try sdkValidateRawEnum("type", type, BetaRequestCompactionBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRequestCompactionBlock {
+    init(
+        type: BetaRequestCompactionBlockType,
+        cacheControl: BetaRequestCompactionBlockCacheControl? = nil,
+        content: String? = nil,
+        encryptedContent: String? = nil
+    ) throws {
         (self.type, self.cacheControl) = (type, cacheControl)
         (self.content, self.encryptedContent) = (content, encryptedContent)
-            try sdkValidateRawEnum("type", self.type, BetaRequestCompactionBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRequestCompactionBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -244,19 +338,19 @@ public struct BetaRequestCitationsConfig: Codable {
     }
 
     init() {
-        self.enabled = nil
+        enabled = nil
     }
 }
 
-extension BetaRequestCitationsConfig {
-    public init(from decoder: Decoder) throws {
+public extension BetaRequestCitationsConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BetaRequestCitationsConfig {
-    public init(enabled: Bool? = nil) {
+public extension BetaRequestCitationsConfig {
+    init(enabled: Bool? = nil) {
         self.init()
         self.enabled = enabled
     }

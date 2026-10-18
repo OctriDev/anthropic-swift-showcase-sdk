@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSessionsThreadsMethods {
-    /// Streams server-sent events from an execution thread, delivering events as they are produced. Use `event_deltas[]` to request best-effort previews for `agent.message` or `agent.thinking`; the final event carries complete content, while a model request that ends early may have no final event.
+public extension BetaSessionsThreadsMethods {
+    /// Streams server-sent events from an execution thread, delivering events as they are produced. Use
+    /// `event_deltas[]` to request best-effort previews for `agent.message` or `agent.thinking`; the final event
+    /// carries complete content, while a model request that ends early may have no final event.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -27,13 +29,54 @@ extension BetaSessionsThreadsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func streamBetaSessionsThreads(config: ClientConfig, sessionId: String, threadId: String, eventDeltas: [BetaManagedAgentsEventDeltaType]? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsStreamSessionThreadEvents {
-        return try (await sdkRequest("GET", ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/threads/", sdkEncodePathSegment(sdkWireString(threadId)), "/stream?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("event_deltas[]", values: eventDeltas, style: "form", explode: true),
-        ], decoder: .json, operationId: "streamBetaSessionsThreads", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+    static func streamBetaSessionsThreads(
+        config: ClientConfig,
+        sessionId: String,
+        threadId: String,
+        eventDeltas: [BetaManagedAgentsEventDeltaType]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsStreamSessionThreadEvents {
+        try await (sdkRequest(
+            "GET",
+            [
+                "/v1/sessions/",
+                sdkEncodePathSegment(sdkWireString(sessionId)),
+                "/threads/",
+                sdkEncodePathSegment(sdkWireString(threadId)),
+                "/stream?beta=true",
+            ].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("event_deltas[]", values: eventDeltas, style: "form", explode: true),
+            ],
+            decoder: .json,
+            operationId: "streamBetaSessionsThreads",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

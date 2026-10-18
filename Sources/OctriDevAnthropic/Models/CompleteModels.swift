@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Complete domain models
+/// Complete domain models
 /// Typed representation of the `CompletionRequest` API schema.
 public struct CompletionRequest: Codable {
     /// The model that will complete your prompt. See models for additional details and options.
@@ -48,61 +48,149 @@ public struct CompletionRequest: Codable {
         case stream
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CompletionRequest {
-    public init(from decoder: Decoder) throws {
+public extension CompletionRequest {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
         }
         guard container.contains(.prompt) else {
-            throw SdkValidationError(field: "prompt", code: "required", message: "Validation failed for 'prompt': value is required")
+            throw SdkValidationError(
+                field: "prompt",
+                code: "required",
+                message: "Validation failed for 'prompt': value is required"
+            )
         }
         guard container.contains(.maxTokensToSample) else {
-            throw SdkValidationError(field: "max_tokens_to_sample", code: "required", message: "Validation failed for 'max_tokens_to_sample': value is required")
+            throw SdkValidationError(
+                field: "max_tokens_to_sample",
+                code: "required",
+                message: "Validation failed for 'max_tokens_to_sample': value is required"
+            )
         }
-        self.model = try container.sdkDecodeRequired(.model)
-        self.prompt = try container.sdkDecodeRequired(.prompt)
-        self.maxTokensToSample = try container.sdkDecodeRequired(.maxTokensToSample)
-        self.stopSequences = try container.sdkDecodeIfPresent(.stopSequences)
-        self.temperature = try container.sdkDecodeIfPresent(.temperature)
-        self.topP = try container.sdkDecodeIfPresent(.topP)
-        self.topK = try container.sdkDecodeIfPresent(.topK)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.stream = try container.sdkDecodeIfPresent(.stream)
-            try validateLength("prompt", self.prompt, min: 1, max: nil)
-            try validateRange("max_tokens_to_sample", Double(self.maxTokensToSample), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-        if let value = self.temperature {
-            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        model = try container.sdkDecodeRequired(.model)
+        prompt = try container.sdkDecodeRequired(.prompt)
+        maxTokensToSample = try container.sdkDecodeRequired(.maxTokensToSample)
+        stopSequences = try container.sdkDecodeIfPresent(.stopSequences)
+        temperature = try container.sdkDecodeIfPresent(.temperature)
+        topP = try container.sdkDecodeIfPresent(.topP)
+        topK = try container.sdkDecodeIfPresent(.topK)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        stream = try container.sdkDecodeIfPresent(.stream)
+        try validateLength("prompt", prompt, min: 1, max: nil)
+        try validateRange(
+            "max_tokens_to_sample",
+            Double(maxTokensToSample),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        if let value = temperature {
+            try validateRange(
+                "temperature",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
-        if let value = self.topP {
-            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = topP {
+            try validateRange(
+                "top_p",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
-        if let value = self.topK {
-            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = topK {
+            try validateRange(
+                "top_k",
+                Double(value),
+                min: 0,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CompletionRequest {
-    public init(model: Model, prompt: String, maxTokensToSample: Int, stopSequences: [String]? = nil, temperature: Double? = nil, topP: Double? = nil, topK: Int? = nil, metadata: Metadata? = nil, stream: Bool? = nil) throws {
+public extension CompletionRequest {
+    init(
+        model: Model,
+        prompt: String,
+        maxTokensToSample: Int,
+        stopSequences: [String]? = nil,
+        temperature: Double? = nil,
+        topP: Double? = nil,
+        topK: Int? = nil,
+        metadata: Metadata? = nil,
+        stream: Bool? = nil
+    ) throws {
         (self.model, self.prompt) = (model, prompt)
         (self.maxTokensToSample, self.stopSequences) = (maxTokensToSample, stopSequences)
         (self.temperature, self.topP) = (temperature, topP)
         (self.topK, self.metadata) = (topK, metadata)
         self.stream = stream
-            try validateLength("prompt", self.prompt, min: 1, max: nil)
-            try validateRange("max_tokens_to_sample", Double(self.maxTokensToSample), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateLength("prompt", self.prompt, min: 1, max: nil)
+        try validateRange(
+            "max_tokens_to_sample",
+            Double(self.maxTokensToSample),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
         if let value = self.temperature {
-            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "temperature",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
         if let value = self.topP {
-            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "top_p",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
         if let value = self.topK {
-            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "top_k",
+                Double(value),
+                min: 0,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -130,42 +218,64 @@ public struct CompletionResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CompletionResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.completion) else {
-            throw SdkValidationError(field: "completion", code: "required", message: "Validation failed for 'completion': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
-        }
-        guard container.contains(.stopReason) else {
-            throw SdkValidationError(field: "stop_reason", code: "required", message: "Validation failed for 'stop_reason': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.completion = try container.sdkDecodeRequired(.completion)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.model = try container.sdkDecodeRequired(.model)
-        self.stopReason = try container.sdkDecodeNullable(.stopReason)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, CompletionResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CompletionResponse {
-    public init(completion: String, id: String, model: Model, stopReason: String?, type: CompletionResponseType) throws {
+public extension CompletionResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.completion) else {
+            throw SdkValidationError(
+                field: "completion",
+                code: "required",
+                message: "Validation failed for 'completion': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.model) else {
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
+        }
+        guard container.contains(.stopReason) else {
+            throw SdkValidationError(
+                field: "stop_reason",
+                code: "required",
+                message: "Validation failed for 'stop_reason': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        completion = try container.sdkDecodeRequired(.completion)
+        id = try container.sdkDecodeRequired(.id)
+        model = try container.sdkDecodeRequired(.model)
+        stopReason = try container.sdkDecodeNullable(.stopReason)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, CompletionResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension CompletionResponse {
+    init(completion: String, id: String, model: Model, stopReason: String?, type: CompletionResponseType) throws {
         (self.completion, self.id) = (completion, id)
         (self.model, self.stopReason) = (model, stopReason)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, CompletionResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, CompletionResponseType.allCases.map(\.rawValue))
     }
 }
 

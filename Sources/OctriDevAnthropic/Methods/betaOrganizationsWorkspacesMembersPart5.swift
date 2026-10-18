@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsWorkspacesMembersMethods {
-    /// Lists members of a specified workspace. Use `before_id` or `after_id` to navigate the results, and `limit` to control the page size. The response includes cursor IDs and a `has_more` flag.
+public extension BetaOrganizationsWorkspacesMembersMethods {
+    /// Lists members of a specified workspace. Use `before_id` or `after_id` to navigate the results, and `limit` to
+    /// control the page size. The response includes cursor IDs and a `has_more` flag.
     ///
     /// - Parameters:
     /// - workspaceId: ID of the Workspace.
@@ -20,17 +21,53 @@ extension BetaOrganizationsWorkspacesMembersMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsWorkspacesMembers(config: ClientConfig, workspaceId: String, beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseWorkspaceMemberSchema {
-        if let limit = limit {
+    static func listBetaOrganizationsWorkspacesMembers(
+        config: ClientConfig,
+        workspaceId: String,
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseWorkspaceMemberSchema {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/members?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("before_id", value: beforeId),
-            SdkQueryParameter("after_id", value: afterId),
-            SdkQueryParameter("limit", value: limit),
-        ], decoder: .json, operationId: "listBetaOrganizationsWorkspacesMembers", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/members?beta=true"]
+                .joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("before_id", value: beforeId),
+                SdkQueryParameter("after_id", value: afterId),
+                SdkQueryParameter("limit", value: limit),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsWorkspacesMembers",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaManagedAgents domain models
+/// SharedBetaManagedAgents domain models
 /// Required enumerated value serialized in the `type` wire field.
 public enum BetaManagedAgentsMcpConnectionFailedErrorType: String, CaseIterable, Codable {
     case mcpConnectionFailedError = "mcp_connection_failed_error"
@@ -279,13 +279,16 @@ public enum BetaManagedAgentsAnthropicSkillType: String, CaseIterable, Codable {
 public struct BetaManagedAgentsSpeed: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let standard = BetaManagedAgentsSpeed(rawValue: "standard")
     public static let fast = BetaManagedAgentsSpeed(rawValue: "fast")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -367,15 +370,19 @@ public enum BetaManagedAgentsBranchCheckoutType: String, CaseIterable, Codable {
 }
 
 /// Required enumerated value serialized in the `type` wire field.
-public struct BetaManagedAgentsSearchResultContentType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsSearchResultContentType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let text = BetaManagedAgentsSearchResultContentType(rawValue: "text")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -604,12 +611,15 @@ public enum BetaManagedAgentsAgentParamsType: String, CaseIterable, Codable {
 public struct BetaManagedAgentsSessionType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let session = BetaManagedAgentsSessionType(rawValue: "session")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

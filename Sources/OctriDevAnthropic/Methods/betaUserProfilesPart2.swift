@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaUserProfilesMethods {
-    /// Creates a user profile for an individual or company represented by your platform. Set `access_type` to `application` or `passthrough` to describe how your platform uses the API for that entity; all request fields are optional.
+public extension BetaUserProfilesMethods {
+    /// Creates a user profile for an individual or company represented by your platform. Set `access_type` to
+    /// `application` or `passthrough` to describe how your platform uses the API for that entity; all request fields
+    /// are optional.
     ///
     /// - Parameters:
     /// - externalId: Platform's own identifier for this user. Not enforced unique.
@@ -28,12 +30,54 @@ extension BetaUserProfilesMethods {
     /// - metadata: Free-form key-value data to attach to this user profile. Maximum
     ///   16 keys, with keys up to 64 characters and values up to 512 characters.
     ///   Values must be non-empty strings.
-    public static func createBetaUserProfiles(config: ClientConfig, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, externalId: SdkOptional<String>? = nil, name: SdkOptional<String>? = nil, accessType: BetaUserProfileAccessType? = nil, externalUserOnboardedAt: BetaTimestamp? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
-        let requestBody = CreateBetaUserProfilesRequestBody(externalId: externalId, name: name, accessType: accessType, externalUserOnboardedAt: externalUserOnboardedAt, metadata: metadata)
+    static func createBetaUserProfiles(
+        config: ClientConfig,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        externalId: SdkOptional<String>? = nil,
+        name: SdkOptional<String>? = nil,
+        accessType: BetaUserProfileAccessType? = nil,
+        externalUserOnboardedAt: BetaTimestamp? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
+        let requestBody = CreateBetaUserProfilesRequestBody(
+            externalId: externalId,
+            name: name,
+            accessType: accessType,
+            externalUserOnboardedAt: externalUserOnboardedAt,
+            metadata: metadata
+        )
 
-        return try (await sdkRequest("POST", "/v1/user_profiles?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaUserProfiles", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/user_profiles?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaUserProfiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

@@ -6,10 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaEnvironmentsWorkMethods {
-    /// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this operation automatically, so you do not need to invoke it directly.
+public extension BetaEnvironmentsWorkMethods {
+    /// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use
+    /// `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this
+    /// operation automatically, so you do not need to invoke it directly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. List work items in an environment.
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. List work items in an environment.
     ///
     /// - Parameters:
     /// - limit: Maximum number of work items to return
@@ -20,24 +24,64 @@ extension BetaEnvironmentsWorkMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaEnvironmentsWork(config: ClientConfig, environmentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWorkListResponse {
-        if let limit = limit {
+    static func listBetaEnvironmentsWork(
+        config: ClientConfig,
+        environmentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWorkListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "/work?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-        ], decoder: .json, operationId: "listBetaEnvironmentsWork", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("authorization", sdkHeaderValue(authorization)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "/work?beta=true"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+            ],
+            decoder: .json,
+            operationId: "listBetaEnvironmentsWork",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("authorization", sdkHeaderValue(authorization)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this operation automatically, so you do not need to invoke it directly.
+    /// Lists work items in a self-hosted environment. Use the cursor in `page` to continue through the results, and use
+    /// `limit` to control the maximum number of items in each response. The SDK and CLI environment workers call this
+    /// operation automatically, so you do not need to invoke it directly.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. List work items in an environment.
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. List work items in an environment.
     ///
     /// - Parameters:
     /// - limit: Maximum number of work items to return
@@ -48,17 +92,44 @@ extension BetaEnvironmentsWorkMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaEnvironmentsWorkPaginated(config: ClientConfig, environmentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSelfHostedWork, Swift.Error> {
-        return AsyncThrowingStream<BetaSelfHostedWork, Swift.Error> { (continuation: AsyncThrowingStream<BetaSelfHostedWork, Swift.Error>.Continuation) in
+    static func listBetaEnvironmentsWorkPaginated(
+        config: ClientConfig,
+        environmentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaSelfHostedWork, Swift.Error> {
+        AsyncThrowingStream<BetaSelfHostedWork, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaSelfHostedWork,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaEnvironmentsWork(config: config, environmentId: environmentId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaEnvironmentsWork(
+                            config: config,
+                            environmentId: environmentId,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            authorization: authorization,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -71,25 +142,56 @@ extension BetaEnvironmentsWorkMethods {
         }
     }
 
-    public struct ListBetaEnvironmentsWorkPage {
+    struct ListBetaEnvironmentsWorkPage {
         public let data: BetaSelfHostedWorkListResponse
         public let items: [BetaSelfHostedWork]
         public let hasMore: Bool
     }
 
-    public static func listBetaEnvironmentsWorkPages(config: ClientConfig, environmentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, authorization: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaEnvironmentsWorkPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaEnvironmentsWorkPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaEnvironmentsWorkPage, Swift.Error>.Continuation) in
+    static func listBetaEnvironmentsWorkPages(
+        config: ClientConfig,
+        environmentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        authorization: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaEnvironmentsWorkPage, Swift.Error> {
+        AsyncThrowingStream<ListBetaEnvironmentsWorkPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaEnvironmentsWorkPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaEnvironmentsWork(config: config, environmentId: environmentId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, authorization: authorization, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaEnvironmentsWork(
+                            config: config,
+                            environmentId: environmentId,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            authorization: authorization,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaEnvironmentsWorkPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaEnvironmentsWorkPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

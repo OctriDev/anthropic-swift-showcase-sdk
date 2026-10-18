@@ -6,10 +6,15 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaTunnelsCertificatesMethods {
-    /// Lists certificates registered on a tunnel, ordered by creation time from newest to oldest. Archived certificates are excluded by default; use `include_archived` to include them and `page` to continue through the results. Send the required `anthropic-beta` header to use this research-preview API.
+public extension BetaTunnelsCertificatesMethods {
+    /// Lists certificates registered on a tunnel, ordered by creation time from newest to oldest. Archived certificates
+    /// are excluded by default; use `include_archived` to include them and `page` to continue through the results. Send
+    /// the required `anthropic-beta` header to use this research-preview API.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates are excluded unless include_archived is set.
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates
+    /// are excluded unless include_archived is set.
     ///
     /// - Parameters:
     /// - tunnelId: Path parameter tunnel_id
@@ -24,21 +29,62 @@ extension BetaTunnelsCertificatesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaTunnelsCertificates(config: ClientConfig, tunnelId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListTunnelCertificatesResponse {
-        return try (await sdkRequest("GET", ["/v1/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/certificates?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("include_archived", value: includeArchived),
-        ], decoder: .json, operationId: "listBetaTunnelsCertificates", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+    static func listBetaTunnelsCertificates(
+        config: ClientConfig,
+        tunnelId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListTunnelCertificatesResponse {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/certificates?beta=true"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("include_archived", value: includeArchived),
+            ],
+            decoder: .json,
+            operationId: "listBetaTunnelsCertificates",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Lists certificates registered on a tunnel, ordered by creation time from newest to oldest. Archived certificates are excluded by default; use `include_archived` to include them and `page` to continue through the results. Send the required `anthropic-beta` header to use this research-preview API.
+    /// Lists certificates registered on a tunnel, ordered by creation time from newest to oldest. Archived certificates
+    /// are excluded by default; use `include_archived` to include them and `page` to continue through the results. Send
+    /// the required `anthropic-beta` header to use this research-preview API.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates are excluded unless include_archived is set.
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates
+    /// are excluded unless include_archived is set.
     ///
     /// - Parameters:
     /// - tunnelId: Path parameter tunnel_id
@@ -53,17 +99,46 @@ extension BetaTunnelsCertificatesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaTunnelsCertificatesPaginated(config: ClientConfig, tunnelId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaTunnelCertificate, Swift.Error> {
-        return AsyncThrowingStream<BetaTunnelCertificate, Swift.Error> { (continuation: AsyncThrowingStream<BetaTunnelCertificate, Swift.Error>.Continuation) in
+    static func listBetaTunnelsCertificatesPaginated(
+        config: ClientConfig,
+        tunnelId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaTunnelCertificate, Swift.Error> {
+        AsyncThrowingStream<BetaTunnelCertificate, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaTunnelCertificate,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaTunnelsCertificates(config: config, tunnelId: tunnelId, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaTunnelsCertificates(
+                            config: config,
+                            tunnelId: tunnelId,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicVersion: anthropicVersion,
+                            anthropicBeta: anthropicBeta,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -76,25 +151,58 @@ extension BetaTunnelsCertificatesMethods {
         }
     }
 
-    public struct ListBetaTunnelsCertificatesPage {
+    struct ListBetaTunnelsCertificatesPage {
         public let data: BetaListTunnelCertificatesResponse
         public let items: [BetaTunnelCertificate]
         public let hasMore: Bool
     }
 
-    public static func listBetaTunnelsCertificatesPages(config: ClientConfig, tunnelId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaTunnelsCertificatesPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaTunnelsCertificatesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaTunnelsCertificatesPage, Swift.Error>.Continuation) in
+    static func listBetaTunnelsCertificatesPages(
+        config: ClientConfig,
+        tunnelId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaTunnelsCertificatesPage, Swift.Error> {
+        AsyncThrowingStream<ListBetaTunnelsCertificatesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaTunnelsCertificatesPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaTunnelsCertificates(config: config, tunnelId: tunnelId, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaTunnelsCertificates(
+                            config: config,
+                            tunnelId: tunnelId,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicVersion: anthropicVersion,
+                            anthropicBeta: anthropicBeta,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaTunnelsCertificatesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaTunnelsCertificatesPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
