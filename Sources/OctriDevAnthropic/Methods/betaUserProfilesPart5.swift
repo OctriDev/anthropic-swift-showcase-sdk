@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaUserProfilesMethods {
-    public struct UpdateBetaUserProfilesOptions: Codable {
+public extension BetaUserProfilesMethods {
+    struct UpdateBetaUserProfilesOptions: Codable {
         public var userProfileId: String
         public var anthropicVersion: String?
         public var anthropicBeta: [AnthropicBeta]?
@@ -22,7 +22,8 @@ extension BetaUserProfilesMethods {
         }
     }
 
-    /// Updates the supplied fields on a user profile while leaving omitted fields unchanged. Use `metadata` to merge key-value pairs, and provide a complete RFC 3339 timestamp for `external_user_onboarded_at` if setting it.
+    /// Updates the supplied fields on a user profile while leaving omitted fields unchanged. Use `metadata` to merge
+    /// key-value pairs, and provide a complete RFC 3339 timestamp for `external_user_onboarded_at` if setting it.
     ///
     /// - Parameters:
     /// - userProfileId: Path parameter user_profile_id
@@ -40,12 +41,42 @@ extension BetaUserProfilesMethods {
     ///   time. Omit to leave unchanged; once set, the value cannot be cleared and
     ///   `null` is rejected. Must be a complete RFC 3339 timestamp no more than 1
     ///   minute in the future.
-    public static func updateBetaUserProfiles(config: ClientConfig, options: UpdateBetaUserProfilesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
+    static func updateBetaUserProfiles(
+        config: ClientConfig,
+        options: UpdateBetaUserProfilesOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
         let requestBody = UpdateBetaUserProfilesRequestBody(options: options)
 
-        return try (await sdkRequest("POST", ["/v1/user_profiles/", sdkEncodePathSegment(sdkWireString(options.userProfileId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaUserProfiles", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/user_profiles/", sdkEncodePathSegment(sdkWireString(options.userProfileId)), "?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "updateBetaUserProfiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

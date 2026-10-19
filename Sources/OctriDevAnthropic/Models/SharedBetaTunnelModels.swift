@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaTunnel domain models
+/// SharedBetaTunnel domain models
 /// An MCP tunnel.
 public struct BetaTunnel: Codable {
     /// Required `string` value serialized in the `type` wire field.
@@ -29,46 +29,79 @@ public struct BetaTunnel: Codable {
         case archivedAt = "archived_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTunnel {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.domain) else {
-            throw SdkValidationError(field: "domain", code: "required", message: "Validation failed for 'domain': value is required")
-        }
-        guard container.contains(.displayName) else {
-            throw SdkValidationError(field: "display_name", code: "required", message: "Validation failed for 'display_name': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.archivedAt) else {
-            throw SdkValidationError(field: "archived_at", code: "required", message: "Validation failed for 'archived_at': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.domain = try container.sdkDecodeRequired(.domain)
-        self.displayName = try container.sdkDecodeNullable(.displayName)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
-            try sdkValidateRawEnum("type", self.type, BetaTunnelType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTunnel {
-    public init(type: BetaTunnelType, id: String, domain: String, displayName: String?, createdAt: BetaTimestamp, archivedAt: BetaTimestamp?) throws {
+public extension BetaTunnel {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.domain) else {
+            throw SdkValidationError(
+                field: "domain",
+                code: "required",
+                message: "Validation failed for 'domain': value is required"
+            )
+        }
+        guard container.contains(.displayName) else {
+            throw SdkValidationError(
+                field: "display_name",
+                code: "required",
+                message: "Validation failed for 'display_name': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.archivedAt) else {
+            throw SdkValidationError(
+                field: "archived_at",
+                code: "required",
+                message: "Validation failed for 'archived_at': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        domain = try container.sdkDecodeRequired(.domain)
+        displayName = try container.sdkDecodeNullable(.displayName)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        try sdkValidateRawEnum("type", type, BetaTunnelType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTunnel {
+    init(
+        type: BetaTunnelType,
+        id: String,
+        domain: String,
+        displayName: String?,
+        createdAt: BetaTimestamp,
+        archivedAt: BetaTimestamp?
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.domain, self.displayName) = (domain, displayName)
         (self.createdAt, self.archivedAt) = (createdAt, archivedAt)
-            try sdkValidateRawEnum("type", self.type, BetaTunnelType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTunnelType.allCases.map(\.rawValue))
     }
 }
 
@@ -87,33 +120,47 @@ public struct BetaTunnelToken: Codable {
         case tunnelToken = "tunnel_token"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTunnelToken {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.tunnelToken) else {
-            throw SdkValidationError(field: "tunnel_token", code: "required", message: "Validation failed for 'tunnel_token': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.tunnelToken = try container.sdkDecodeRequired(.tunnelToken)
-            try sdkValidateRawEnum("type", self.type, BetaTunnelTokenType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTunnelToken {
-    public init(type: BetaTunnelTokenType, id: String, tunnelToken: String) throws {
+public extension BetaTunnelToken {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.tunnelToken) else {
+            throw SdkValidationError(
+                field: "tunnel_token",
+                code: "required",
+                message: "Validation failed for 'tunnel_token': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        tunnelToken = try container.sdkDecodeRequired(.tunnelToken)
+        try sdkValidateRawEnum("type", type, BetaTunnelTokenType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTunnelToken {
+    init(type: BetaTunnelTokenType, id: String, tunnelToken: String) throws {
         (self.type, self.id) = (type, id)
         self.tunnelToken = tunnelToken
-            try sdkValidateRawEnum("type", self.type, BetaTunnelTokenType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTunnelTokenType.allCases.map(\.rawValue))
     }
 }
 
@@ -145,51 +192,89 @@ public struct BetaTunnelCertificate: Codable {
         case archivedAt = "archived_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTunnelCertificate {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.tunnelId) else {
-            throw SdkValidationError(field: "tunnel_id", code: "required", message: "Validation failed for 'tunnel_id': value is required")
-        }
-        guard container.contains(.fingerprint) else {
-            throw SdkValidationError(field: "fingerprint", code: "required", message: "Validation failed for 'fingerprint': value is required")
-        }
-        guard container.contains(.expiresAt) else {
-            throw SdkValidationError(field: "expires_at", code: "required", message: "Validation failed for 'expires_at': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.archivedAt) else {
-            throw SdkValidationError(field: "archived_at", code: "required", message: "Validation failed for 'archived_at': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.tunnelId = try container.sdkDecodeRequired(.tunnelId)
-        self.fingerprint = try container.sdkDecodeRequired(.fingerprint)
-        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
-            try sdkValidateRawEnum("type", self.type, BetaTunnelCertificateType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTunnelCertificate {
-    public init(type: BetaTunnelCertificateType, id: String, tunnelId: String, fingerprint: String, expiresAt: BetaTimestamp?, createdAt: BetaTimestamp, archivedAt: BetaTimestamp?) throws {
+public extension BetaTunnelCertificate {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.tunnelId) else {
+            throw SdkValidationError(
+                field: "tunnel_id",
+                code: "required",
+                message: "Validation failed for 'tunnel_id': value is required"
+            )
+        }
+        guard container.contains(.fingerprint) else {
+            throw SdkValidationError(
+                field: "fingerprint",
+                code: "required",
+                message: "Validation failed for 'fingerprint': value is required"
+            )
+        }
+        guard container.contains(.expiresAt) else {
+            throw SdkValidationError(
+                field: "expires_at",
+                code: "required",
+                message: "Validation failed for 'expires_at': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.archivedAt) else {
+            throw SdkValidationError(
+                field: "archived_at",
+                code: "required",
+                message: "Validation failed for 'archived_at': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        tunnelId = try container.sdkDecodeRequired(.tunnelId)
+        fingerprint = try container.sdkDecodeRequired(.fingerprint)
+        expiresAt = try container.sdkDecodeNullable(.expiresAt)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        try sdkValidateRawEnum("type", type, BetaTunnelCertificateType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTunnelCertificate {
+    init(
+        type: BetaTunnelCertificateType,
+        id: String,
+        tunnelId: String,
+        fingerprint: String,
+        expiresAt: BetaTimestamp?,
+        createdAt: BetaTimestamp,
+        archivedAt: BetaTimestamp?
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.tunnelId, self.fingerprint) = (tunnelId, fingerprint)
         (self.expiresAt, self.createdAt) = (expiresAt, createdAt)
         self.archivedAt = archivedAt
-            try sdkValidateRawEnum("type", self.type, BetaTunnelCertificateType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTunnelCertificateType.allCases.map(\.rawValue))
     }
 }
 

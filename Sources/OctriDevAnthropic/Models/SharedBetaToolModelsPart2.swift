@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaTool domain models
+/// SharedBetaTool domain models
 /// Typed representation of the `BetaToolSearchToolRegex_20251119` API schema.
 public struct BetaToolSearchToolRegex20251119: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -29,34 +29,51 @@ public struct BetaToolSearchToolRegex20251119: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaToolSearchToolRegex20251119 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, BetaToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaToolSearchToolRegex20251119 {
-    public init(name: BetaToolSearchToolRegex20251119Name, type: BetaToolSearchToolRegex20251119Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaToolSearchToolRegex20251119CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
+public extension BetaToolSearchToolRegex20251119 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, BetaToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaToolSearchToolRegex20251119 {
+    init(
+        name: BetaToolSearchToolRegex20251119Name,
+        type: BetaToolSearchToolRegex20251119Type,
+        allowedCallers: [BetaAllowedCaller]? = nil,
+        cacheControl: BetaToolSearchToolRegex20251119CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-            try sdkValidateRawEnum("name", self.name, BetaToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, BetaToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
     }
 }
 
@@ -72,30 +89,56 @@ public struct BetaToolUsesTrigger: Codable {
         case value
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaToolUsesTrigger {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.value = try container.sdkDecodeRequired(.value)
-            try sdkValidateRawEnum("type", self.type, BetaToolUsesTriggerType.allCases.map(\.rawValue))
-            try validateRange("value", Double(self.value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaToolUsesTrigger {
-    public init(type: BetaToolUsesTriggerType, value: Int) throws {
+public extension BetaToolUsesTrigger {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        value = try container.sdkDecodeRequired(.value)
+        try sdkValidateRawEnum("type", type, BetaToolUsesTriggerType.allCases.map(\.rawValue))
+        try validateRange(
+            "value",
+            Double(value),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension BetaToolUsesTrigger {
+    init(type: BetaToolUsesTriggerType, value: Int) throws {
         (self.type, self.value) = (type, value)
-            try sdkValidateRawEnum("type", self.type, BetaToolUsesTriggerType.allCases.map(\.rawValue))
-            try validateRange("value", Double(self.value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try sdkValidateRawEnum("type", self.type, BetaToolUsesTriggerType.allCases.map(\.rawValue))
+        try validateRange(
+            "value",
+            Double(self.value),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -106,7 +149,6 @@ public indirect enum BetaToolCacheControl {
 }
 
 extension BetaToolCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -114,12 +156,16 @@ extension BetaToolCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -130,8 +176,8 @@ extension BetaToolCacheControl: Codable {
 extension BetaToolCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -162,30 +208,40 @@ public struct BetaToolChoiceTool: Codable {
         case disableParallelToolUse = "disable_parallel_tool_use"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaToolChoiceTool {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
-            try sdkValidateRawEnum("type", self.type, BetaToolChoiceToolType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaToolChoiceTool {
-    public init(name: String, type: BetaToolChoiceToolType, disableParallelToolUse: Bool? = nil) throws {
+public extension BetaToolChoiceTool {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
+        try sdkValidateRawEnum("type", type, BetaToolChoiceToolType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaToolChoiceTool {
+    init(name: String, type: BetaToolChoiceToolType, disableParallelToolUse: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         self.disableParallelToolUse = disableParallelToolUse
-            try sdkValidateRawEnum("type", self.type, BetaToolChoiceToolType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaToolChoiceToolType.allCases.map(\.rawValue))
     }
 }
 
@@ -201,30 +257,56 @@ public struct BetaToolUsesKeep: Codable {
         case value
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaToolUsesKeep {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.value = try container.sdkDecodeRequired(.value)
-            try sdkValidateRawEnum("type", self.type, BetaToolUsesKeepType.allCases.map(\.rawValue))
-            try validateRange("value", Double(self.value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaToolUsesKeep {
-    public init(type: BetaToolUsesKeepType, value: Int) throws {
+public extension BetaToolUsesKeep {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        value = try container.sdkDecodeRequired(.value)
+        try sdkValidateRawEnum("type", type, BetaToolUsesKeepType.allCases.map(\.rawValue))
+        try validateRange(
+            "value",
+            Double(value),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension BetaToolUsesKeep {
+    init(type: BetaToolUsesKeepType, value: Int) throws {
         (self.type, self.value) = (type, value)
-            try sdkValidateRawEnum("type", self.type, BetaToolUsesKeepType.allCases.map(\.rawValue))
-            try validateRange("value", Double(self.value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try sdkValidateRawEnum("type", self.type, BetaToolUsesKeepType.allCases.map(\.rawValue))
+        try validateRange(
+            "value",
+            Double(self.value),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -232,13 +314,17 @@ extension BetaToolUsesKeep {
 public struct BetaToolSearchToolBM2520251119Type: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let toolSearchToolBm2520251119 = BetaToolSearchToolBM2520251119Type(rawValue: "tool_search_tool_bm25_20251119")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let toolSearchToolBm2520251119 =
+        BetaToolSearchToolBM2520251119Type(rawValue: "tool_search_tool_bm25_20251119")
     public static let toolSearchToolBm25 = BetaToolSearchToolBM2520251119Type(rawValue: "tool_search_tool_bm25")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -251,7 +337,10 @@ public struct BetaToolSearchToolBM2520251119Type: RawRepresentable, Hashable, Co
 public struct BetaToolSearchToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let invalidToolInput = BetaToolSearchToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = BetaToolSearchToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = BetaToolSearchToolResultErrorCode(rawValue: "too_many_requests")
@@ -259,7 +348,7 @@ public struct BetaToolSearchToolResultErrorCode: RawRepresentable, Hashable, Cod
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -290,13 +379,17 @@ public enum BetaToolChoiceAnyType: String, CaseIterable, Codable {
 public struct BetaToolSearchToolRegex20251119Type: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let toolSearchToolRegex20251119 = BetaToolSearchToolRegex20251119Type(rawValue: "tool_search_tool_regex_20251119")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let toolSearchToolRegex20251119 =
+        BetaToolSearchToolRegex20251119Type(rawValue: "tool_search_tool_regex_20251119")
     public static let toolSearchToolRegex = BetaToolSearchToolRegex20251119Type(rawValue: "tool_search_tool_regex")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// VersionsBetaTrue domain models
+/// VersionsBetaTrue domain models
 /// Typed representation of the `BetaListSkillVersionsResponse` API schema.
 public struct BetaListSkillVersionsResponse: Codable {
     /// List of skills.
@@ -17,25 +17,35 @@ public struct BetaListSkillVersionsResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListSkillVersionsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListSkillVersionsResponse {
-    public init(data: [BetaSkillVersion], nextPage: String?) {
+public extension BetaListSkillVersionsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaListSkillVersionsResponse {
+    init(data: [BetaSkillVersion], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -50,21 +60,27 @@ public struct BetaBodyCreateSkillVersionV1SkillsSkillIdVersionsPost: Codable {
         case files
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaBodyCreateSkillVersionV1SkillsSkillIdVersionsPost {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.files) else {
-            throw SdkValidationError(field: "files", code: "required", message: "Validation failed for 'files': value is required")
-        }
-        self.files = try container.sdkDecodeRequired(.files)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaBodyCreateSkillVersionV1SkillsSkillIdVersionsPost {
-    public init(files: [Data]) {
+public extension BetaBodyCreateSkillVersionV1SkillsSkillIdVersionsPost {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.files) else {
+            throw SdkValidationError(
+                field: "files",
+                code: "required",
+                message: "Validation failed for 'files': value is required"
+            )
+        }
+        files = try container.sdkDecodeRequired(.files)
+    }
+}
+
+public extension BetaBodyCreateSkillVersionV1SkillsSkillIdVersionsPost {
+    init(files: [Data]) {
         self.files = files
     }
 }
@@ -81,22 +97,28 @@ public struct BetaManagedAgentsListAgentVersions: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsListAgentVersions {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsListAgentVersions {
-    public init(data: [BetaManagedAgentsAgent], nextPage: String? = nil) {
+public extension BetaManagedAgentsListAgentVersions {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    }
+}
+
+public extension BetaManagedAgentsListAgentVersions {
+    init(data: [BetaManagedAgentsAgent], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

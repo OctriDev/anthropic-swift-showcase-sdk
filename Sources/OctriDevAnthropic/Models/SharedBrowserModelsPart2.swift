@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBrowser domain models
+/// SharedBrowser domain models
 /// ``type``'s config overrides.
 public struct BrowserTypeConfig: Codable {
     /// Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
@@ -18,20 +18,20 @@ public struct BrowserTypeConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserTypeConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserTypeConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserTypeConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserTypeConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -51,20 +51,20 @@ public struct BrowserMouseMoveConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserMouseMoveConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserMouseMoveConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserMouseMoveConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserMouseMoveConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -84,20 +84,20 @@ public struct BrowserScrollToConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserScrollToConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserScrollToConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserScrollToConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserScrollToConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -118,32 +118,42 @@ public struct BrowserStateChangeTabOpened: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BrowserStateChangeTabOpened {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.tabId) else {
-            throw SdkValidationError(field: "tab_id", code: "required", message: "Validation failed for 'tab_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.tabId = try container.sdkDecodeRequired(.tabId)
-        self.type = try container.sdkDecodeRequired(.type)
-            try validateLength("tab_id", self.tabId, min: 1, max: 4096)
-            try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
-            try sdkValidateRawEnum("type", self.type, BrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BrowserStateChangeTabOpened {
-    public init(tabId: String, type: BrowserStateChangeTabOpenedType) throws {
+public extension BrowserStateChangeTabOpened {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.tabId) else {
+            throw SdkValidationError(
+                field: "tab_id",
+                code: "required",
+                message: "Validation failed for 'tab_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        tabId = try container.sdkDecodeRequired(.tabId)
+        type = try container.sdkDecodeRequired(.type)
+        try validateLength("tab_id", tabId, min: 1, max: 4096)
+        try sdkValidatePattern("tab_id", tabId, sdkPattern1e612264d68c)
+        try sdkValidateRawEnum("type", type, BrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BrowserStateChangeTabOpened {
+    init(tabId: String, type: BrowserStateChangeTabOpenedType) throws {
         (self.tabId, self.type) = (tabId, type)
-            try validateLength("tab_id", self.tabId, min: 1, max: 4096)
-            try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
-            try sdkValidateRawEnum("type", self.type, BrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
+        try validateLength("tab_id", self.tabId, min: 1, max: 4096)
+        try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
+        try sdkValidateRawEnum("type", self.type, BrowserStateChangeTabOpenedType.allCases.map(\.rawValue))
     }
 }
 
@@ -161,20 +171,20 @@ public struct BrowserScreenshotConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserScreenshotConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserScreenshotConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserScreenshotConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserScreenshotConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -194,20 +204,20 @@ public struct BrowserCloseTabConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserCloseTabConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserCloseTabConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserCloseTabConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserCloseTabConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -227,20 +237,20 @@ public struct BrowserKeyConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserKeyConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserKeyConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserKeyConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserKeyConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -260,20 +270,20 @@ public struct BrowserSwitchTabConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserSwitchTabConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserSwitchTabConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserSwitchTabConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserSwitchTabConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -382,55 +392,87 @@ public struct BrowserToolsetConfigs: Codable {
     }
 
     init() {
-        (self.closeTab, self.doubleClick, self.fileUpload, self.find, self.formInput) = (nil, nil, nil, nil, nil)
-        (self.getPageText, self.holdKey, self.hover, self.javascriptExec, self.key) = (nil, nil, nil, nil, nil)
-        (self.leftClick, self.leftClickDrag, self.leftMouseDown, self.leftMouseUp, self.listTabs) = (nil, nil, nil, nil, nil)
-        (self.middleClick, self.mouseMove, self.navigate, self.newTab, self.readConsole) = (nil, nil, nil, nil, nil)
-        (self.readNetwork, self.readPage, self.rightClick, self.screenshot, self.scroll) = (nil, nil, nil, nil, nil)
-        (self.scrollTo, self.switchTab, self.tripleClick, self.type, self.wait) = (nil, nil, nil, nil, nil)
-        self.zoom = nil
+        (closeTab, doubleClick, fileUpload, find, formInput) = (nil, nil, nil, nil, nil)
+        (getPageText, holdKey, hover, javascriptExec, key) = (nil, nil, nil, nil, nil)
+        (leftClick, leftClickDrag, leftMouseDown, leftMouseUp, listTabs) = (nil, nil, nil, nil, nil)
+        (middleClick, mouseMove, navigate, newTab, readConsole) = (nil, nil, nil, nil, nil)
+        (readNetwork, readPage, rightClick, screenshot, scroll) = (nil, nil, nil, nil, nil)
+        (scrollTo, switchTab, tripleClick, type, wait) = (nil, nil, nil, nil, nil)
+        zoom = nil
     }
 }
 
-extension BrowserToolsetConfigs {
-    public init(from decoder: Decoder) throws {
+public extension BrowserToolsetConfigs {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.closeTab = try container.sdkDecodeIfPresent(.closeTab)
-        self.doubleClick = try container.sdkDecodeIfPresent(.doubleClick)
-        self.fileUpload = try container.sdkDecodeIfPresent(.fileUpload)
-        self.find = try container.sdkDecodeIfPresent(.find)
-        self.formInput = try container.sdkDecodeIfPresent(.formInput)
-        self.getPageText = try container.sdkDecodeIfPresent(.getPageText)
-        self.holdKey = try container.sdkDecodeIfPresent(.holdKey)
-        self.hover = try container.sdkDecodeIfPresent(.hover)
-        self.javascriptExec = try container.sdkDecodeIfPresent(.javascriptExec)
-        self.key = try container.sdkDecodeIfPresent(.key)
-        self.leftClick = try container.sdkDecodeIfPresent(.leftClick)
-        self.leftClickDrag = try container.sdkDecodeIfPresent(.leftClickDrag)
-        self.leftMouseDown = try container.sdkDecodeIfPresent(.leftMouseDown)
-        self.leftMouseUp = try container.sdkDecodeIfPresent(.leftMouseUp)
-        self.listTabs = try container.sdkDecodeIfPresent(.listTabs)
-        self.middleClick = try container.sdkDecodeIfPresent(.middleClick)
-        self.mouseMove = try container.sdkDecodeIfPresent(.mouseMove)
-        self.navigate = try container.sdkDecodeIfPresent(.navigate)
-        self.newTab = try container.sdkDecodeIfPresent(.newTab)
-        self.readConsole = try container.sdkDecodeIfPresent(.readConsole)
-        self.readNetwork = try container.sdkDecodeIfPresent(.readNetwork)
-        self.readPage = try container.sdkDecodeIfPresent(.readPage)
-        self.rightClick = try container.sdkDecodeIfPresent(.rightClick)
-        self.screenshot = try container.sdkDecodeIfPresent(.screenshot)
-        self.scroll = try container.sdkDecodeIfPresent(.scroll)
-        self.scrollTo = try container.sdkDecodeIfPresent(.scrollTo)
-        self.switchTab = try container.sdkDecodeIfPresent(.switchTab)
-        self.tripleClick = try container.sdkDecodeIfPresent(.tripleClick)
-        self.type = try container.sdkDecodeIfPresent(.type)
-        self.wait = try container.sdkDecodeIfPresent(.wait)
-        self.zoom = try container.sdkDecodeIfPresent(.zoom)
+        closeTab = try container.sdkDecodeIfPresent(.closeTab)
+        doubleClick = try container.sdkDecodeIfPresent(.doubleClick)
+        fileUpload = try container.sdkDecodeIfPresent(.fileUpload)
+        find = try container.sdkDecodeIfPresent(.find)
+        formInput = try container.sdkDecodeIfPresent(.formInput)
+        getPageText = try container.sdkDecodeIfPresent(.getPageText)
+        holdKey = try container.sdkDecodeIfPresent(.holdKey)
+        hover = try container.sdkDecodeIfPresent(.hover)
+        javascriptExec = try container.sdkDecodeIfPresent(.javascriptExec)
+        key = try container.sdkDecodeIfPresent(.key)
+        leftClick = try container.sdkDecodeIfPresent(.leftClick)
+        leftClickDrag = try container.sdkDecodeIfPresent(.leftClickDrag)
+        leftMouseDown = try container.sdkDecodeIfPresent(.leftMouseDown)
+        leftMouseUp = try container.sdkDecodeIfPresent(.leftMouseUp)
+        listTabs = try container.sdkDecodeIfPresent(.listTabs)
+        middleClick = try container.sdkDecodeIfPresent(.middleClick)
+        mouseMove = try container.sdkDecodeIfPresent(.mouseMove)
+        navigate = try container.sdkDecodeIfPresent(.navigate)
+        newTab = try container.sdkDecodeIfPresent(.newTab)
+        readConsole = try container.sdkDecodeIfPresent(.readConsole)
+        readNetwork = try container.sdkDecodeIfPresent(.readNetwork)
+        readPage = try container.sdkDecodeIfPresent(.readPage)
+        rightClick = try container.sdkDecodeIfPresent(.rightClick)
+        screenshot = try container.sdkDecodeIfPresent(.screenshot)
+        scroll = try container.sdkDecodeIfPresent(.scroll)
+        scrollTo = try container.sdkDecodeIfPresent(.scrollTo)
+        switchTab = try container.sdkDecodeIfPresent(.switchTab)
+        tripleClick = try container.sdkDecodeIfPresent(.tripleClick)
+        type = try container.sdkDecodeIfPresent(.type)
+        wait = try container.sdkDecodeIfPresent(.wait)
+        zoom = try container.sdkDecodeIfPresent(.zoom)
     }
 }
 
-extension BrowserToolsetConfigs {
-    public init(closeTab: BrowserCloseTabConfig? = nil, doubleClick: BrowserDoubleClickConfig? = nil, fileUpload: BrowserFileUploadConfig? = nil, find: BrowserFindConfig? = nil, formInput: BrowserFormInputConfig? = nil, getPageText: BrowserGetPageTextConfig? = nil, holdKey: BrowserHoldKeyConfig? = nil, hover: BrowserHoverConfig? = nil, javascriptExec: BrowserJavascriptExecConfig? = nil, key: BrowserKeyConfig? = nil, leftClick: BrowserLeftClickConfig? = nil, leftClickDrag: BrowserLeftClickDragConfig? = nil, leftMouseDown: BrowserLeftMouseDownConfig? = nil, leftMouseUp: BrowserLeftMouseUpConfig? = nil, listTabs: BrowserListTabsConfig? = nil, middleClick: BrowserMiddleClickConfig? = nil, mouseMove: BrowserMouseMoveConfig? = nil, navigate: BrowserNavigateConfig? = nil, newTab: BrowserNewTabConfig? = nil, readConsole: BrowserReadConsoleConfig? = nil, readNetwork: BrowserReadNetworkConfig? = nil, readPage: BrowserReadPageConfig? = nil, rightClick: BrowserRightClickConfig? = nil, screenshot: BrowserScreenshotConfig? = nil, scroll: BrowserScrollConfig? = nil, scrollTo: BrowserScrollToConfig? = nil, switchTab: BrowserSwitchTabConfig? = nil, tripleClick: BrowserTripleClickConfig? = nil, type: BrowserTypeConfig? = nil, wait: BrowserWaitConfig? = nil, zoom: BrowserZoomConfig? = nil) {
+public extension BrowserToolsetConfigs {
+    init(
+        closeTab: BrowserCloseTabConfig? = nil,
+        doubleClick: BrowserDoubleClickConfig? = nil,
+        fileUpload: BrowserFileUploadConfig? = nil,
+        find: BrowserFindConfig? = nil,
+        formInput: BrowserFormInputConfig? = nil,
+        getPageText: BrowserGetPageTextConfig? = nil,
+        holdKey: BrowserHoldKeyConfig? = nil,
+        hover: BrowserHoverConfig? = nil,
+        javascriptExec: BrowserJavascriptExecConfig? = nil,
+        key: BrowserKeyConfig? = nil,
+        leftClick: BrowserLeftClickConfig? = nil,
+        leftClickDrag: BrowserLeftClickDragConfig? = nil,
+        leftMouseDown: BrowserLeftMouseDownConfig? = nil,
+        leftMouseUp: BrowserLeftMouseUpConfig? = nil,
+        listTabs: BrowserListTabsConfig? = nil,
+        middleClick: BrowserMiddleClickConfig? = nil,
+        mouseMove: BrowserMouseMoveConfig? = nil,
+        navigate: BrowserNavigateConfig? = nil,
+        newTab: BrowserNewTabConfig? = nil,
+        readConsole: BrowserReadConsoleConfig? = nil,
+        readNetwork: BrowserReadNetworkConfig? = nil,
+        readPage: BrowserReadPageConfig? = nil,
+        rightClick: BrowserRightClickConfig? = nil,
+        screenshot: BrowserScreenshotConfig? = nil,
+        scroll: BrowserScrollConfig? = nil,
+        scrollTo: BrowserScrollToConfig? = nil,
+        switchTab: BrowserSwitchTabConfig? = nil,
+        tripleClick: BrowserTripleClickConfig? = nil,
+        type: BrowserTypeConfig? = nil,
+        wait: BrowserWaitConfig? = nil,
+        zoom: BrowserZoomConfig? = nil
+    ) {
         self.init()
         (self.closeTab, self.doubleClick) = (closeTab, doubleClick)
         (self.fileUpload, self.find) = (fileUpload, find)
@@ -465,20 +507,20 @@ public struct BrowserRightClickConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserRightClickConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserRightClickConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserRightClickConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserRightClickConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -498,20 +540,20 @@ public struct BrowserScrollConfig: Codable {
     }
 
     init() {
-        (self.deferLoading, self.enabled) = (nil, nil)
+        (deferLoading, enabled) = (nil, nil)
     }
 }
 
-extension BrowserScrollConfig {
-    public init(from decoder: Decoder) throws {
+public extension BrowserScrollConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BrowserScrollConfig {
-    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+public extension BrowserScrollConfig {
+    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -539,5 +581,7 @@ public struct BrowserStateTabEntry: Codable {
         case active
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }

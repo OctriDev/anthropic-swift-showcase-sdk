@@ -3,7 +3,7 @@
 
 import Foundation
 
-// BatchesBetaTrue domain models
+/// BatchesBetaTrue domain models
 /// Typed representation of the `BetaMessageBatchIndividualRequestParams` API schema.
 public struct BetaMessageBatchIndividualRequestParams: Codable {
     /// Developer-provided ID created for each request in a Message Batch. Useful for matching results to requests,
@@ -19,30 +19,40 @@ public struct BetaMessageBatchIndividualRequestParams: Codable {
         case params
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMessageBatchIndividualRequestParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.customId) else {
-            throw SdkValidationError(field: "custom_id", code: "required", message: "Validation failed for 'custom_id': value is required")
-        }
-        guard container.contains(.params) else {
-            throw SdkValidationError(field: "params", code: "required", message: "Validation failed for 'params': value is required")
-        }
-        self.customId = try container.sdkDecodeRequired(.customId)
-        self.params = try container.sdkDecodeRequired(.params)
-            try validateLength("custom_id", self.customId, min: 1, max: 64)
-            try sdkValidatePattern("custom_id", self.customId, sdkPatternbe606a9bf988)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMessageBatchIndividualRequestParams {
-    public init(customId: String, params: BetaCreateMessageParams) throws {
+public extension BetaMessageBatchIndividualRequestParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.customId) else {
+            throw SdkValidationError(
+                field: "custom_id",
+                code: "required",
+                message: "Validation failed for 'custom_id': value is required"
+            )
+        }
+        guard container.contains(.params) else {
+            throw SdkValidationError(
+                field: "params",
+                code: "required",
+                message: "Validation failed for 'params': value is required"
+            )
+        }
+        customId = try container.sdkDecodeRequired(.customId)
+        params = try container.sdkDecodeRequired(.params)
+        try validateLength("custom_id", customId, min: 1, max: 64)
+        try sdkValidatePattern("custom_id", customId, sdkPatternbe606a9bf988)
+    }
+}
+
+public extension BetaMessageBatchIndividualRequestParams {
+    init(customId: String, params: BetaCreateMessageParams) throws {
         (self.customId, self.params) = (customId, params)
-            try validateLength("custom_id", self.customId, min: 1, max: 64)
-            try sdkValidatePattern("custom_id", self.customId, sdkPatternbe606a9bf988)
+        try validateLength("custom_id", self.customId, min: 1, max: 64)
+        try sdkValidatePattern("custom_id", self.customId, sdkPatternbe606a9bf988)
     }
 }
 
@@ -55,24 +65,30 @@ public struct BetaCreateMessageBatchParams: Codable {
         case requests
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaCreateMessageBatchParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.requests) else {
-            throw SdkValidationError(field: "requests", code: "required", message: "Validation failed for 'requests': value is required")
-        }
-        self.requests = try container.sdkDecodeRequired(.requests)
-            try validateItems("requests", self.requests, min: 1, max: 100000)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaCreateMessageBatchParams {
-    public init(requests: [BetaMessageBatchIndividualRequestParams]) throws {
+public extension BetaCreateMessageBatchParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.requests) else {
+            throw SdkValidationError(
+                field: "requests",
+                code: "required",
+                message: "Validation failed for 'requests': value is required"
+            )
+        }
+        requests = try container.sdkDecodeRequired(.requests)
+        try validateItems("requests", requests, min: 1, max: 100_000)
+    }
+}
+
+public extension BetaCreateMessageBatchParams {
+    init(requests: [BetaMessageBatchIndividualRequestParams]) throws {
         self.requests = requests
-            try validateItems("requests", self.requests, min: 1, max: 100000)
+        try validateItems("requests", self.requests, min: 1, max: 100_000)
     }
 }
 
@@ -94,33 +110,51 @@ public struct BetaListResponseMessageBatch: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListResponseMessageBatch {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.firstId) else {
-            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.lastId) else {
-            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.firstId = try container.sdkDecodeNullable(.firstId)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.lastId = try container.sdkDecodeNullable(.lastId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListResponseMessageBatch {
-    public init(data: [BetaMessageBatch], firstId: String?, hasMore: Bool, lastId: String?) {
+public extension BetaListResponseMessageBatch {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.firstId) else {
+            throw SdkValidationError(
+                field: "first_id",
+                code: "required",
+                message: "Validation failed for 'first_id': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.lastId) else {
+            throw SdkValidationError(
+                field: "last_id",
+                code: "required",
+                message: "Validation failed for 'last_id': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        firstId = try container.sdkDecodeNullable(.firstId)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        lastId = try container.sdkDecodeNullable(.lastId)
+    }
+}
+
+public extension BetaListResponseMessageBatch {
+    init(data: [BetaMessageBatch], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }

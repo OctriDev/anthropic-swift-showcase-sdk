@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaDreamsMethods {
-    /// Archives a Dream job. Provide the Dream's identifier to archive that job. Use GET /v1/dreams/{dream_id}?beta=true to retrieve the Dream and inspect its archive timestamp.
+public extension BetaDreamsMethods {
+    /// Archives a Dream job. Provide the Dream's identifier to archive that job. Use GET
+    /// /v1/dreams/{dream_id}?beta=true to retrieve the Dream and inspect its archive timestamp.
     ///
     /// - Parameters:
     /// - dreamId: Path parameter dream_id
@@ -16,11 +17,43 @@ extension BetaDreamsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func archiveBetaDreams(config: ClientConfig, dreamId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        return try (await sdkRequest("POST", ["/v1/dreams/", sdkEncodePathSegment(sdkWireString(dreamId)), "/archive?beta=true"].joined(), config: config, decoder: .json, operationId: "archiveBetaDreams", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaDreamingErrorResponse.self, "401": BetaDreamingErrorResponse.self, "403": BetaDreamingErrorResponse.self, "404": BetaDreamingErrorResponse.self, "408": BetaDreamingErrorResponse.self, "409": BetaDreamingErrorResponse.self, "412": BetaDreamingErrorResponse.self, "413": BetaDreamingErrorResponse.self, "429": BetaDreamingErrorResponse.self, "431": BetaDreamingErrorResponse.self, "499": BetaDreamingErrorResponse.self, "500": BetaDreamingErrorResponse.self, "501": BetaDreamingErrorResponse.self, "503": BetaDreamingErrorResponse.self, "504": BetaDreamingErrorResponse.self])).data
+    static func archiveBetaDreams(
+        config: ClientConfig,
+        dreamId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        try await (sdkRequest(
+            "POST",
+            ["/v1/dreams/", sdkEncodePathSegment(sdkWireString(dreamId)), "/archive?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "archiveBetaDreams",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaDreamingErrorResponse.self,
+                "401": BetaDreamingErrorResponse.self,
+                "403": BetaDreamingErrorResponse.self,
+                "404": BetaDreamingErrorResponse.self,
+                "408": BetaDreamingErrorResponse.self,
+                "409": BetaDreamingErrorResponse.self,
+                "412": BetaDreamingErrorResponse.self,
+                "413": BetaDreamingErrorResponse.self,
+                "429": BetaDreamingErrorResponse.self,
+                "431": BetaDreamingErrorResponse.self,
+                "499": BetaDreamingErrorResponse.self,
+                "500": BetaDreamingErrorResponse.self,
+                "501": BetaDreamingErrorResponse.self,
+                "503": BetaDreamingErrorResponse.self,
+                "504": BetaDreamingErrorResponse.self,
+            ]
+        )).data
     }
 }

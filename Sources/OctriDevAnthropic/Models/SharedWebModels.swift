@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedWeb domain models
+/// SharedWeb domain models
 /// Typed representation of the `WebSearchTool_20250305` API schema.
 public struct WebSearchTool20250305: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -41,42 +41,63 @@ public struct WebSearchTool20250305: Codable {
         case userLocation = "user_location"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WebSearchTool20250305 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-        self.userLocation = try container.sdkDecodeIfPresent(.userLocation)
-            try sdkValidateRawEnum("name", self.name, WebSearchTool20250305Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebSearchTool20250305Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension WebSearchTool20250305 {
-    public init(name: WebSearchTool20250305Name, type: WebSearchTool20250305Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebSearchTool20250305CacheControl? = nil, deferLoading: Bool? = nil, maxUses: Int? = nil, strict: Bool? = nil, userLocation: UserLocation? = nil) throws {
+public extension WebSearchTool20250305 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        userLocation = try container.sdkDecodeIfPresent(.userLocation)
+        try sdkValidateRawEnum("name", name, WebSearchTool20250305Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, WebSearchTool20250305Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension WebSearchTool20250305 {
+    init(
+        name: WebSearchTool20250305Name,
+        type: WebSearchTool20250305Type,
+        allowedCallers: [AllowedCaller]? = nil,
+        allowedDomains: [String]? = nil,
+        blockedDomains: [String]? = nil,
+        cacheControl: WebSearchTool20250305CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        maxUses: Int? = nil,
+        strict: Bool? = nil,
+        userLocation: UserLocation? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.deferLoading, self.maxUses) = (deferLoading, maxUses)
         (self.strict, self.userLocation) = (strict, userLocation)
-            try sdkValidateRawEnum("name", self.name, WebSearchTool20250305Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebSearchTool20250305Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, WebSearchTool20250305Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, WebSearchTool20250305Type.allCases.map(\.rawValue))
     }
 }
 
@@ -87,7 +108,6 @@ public indirect enum WebSearchTool20250305CacheControl {
 }
 
 extension WebSearchTool20250305CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -95,12 +115,16 @@ extension WebSearchTool20250305CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -111,8 +135,8 @@ extension WebSearchTool20250305CacheControl: Codable {
 extension WebSearchTool20250305CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -164,42 +188,63 @@ public struct WebSearchTool20260209: Codable {
         case userLocation = "user_location"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WebSearchTool20260209 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-        self.userLocation = try container.sdkDecodeIfPresent(.userLocation)
-            try sdkValidateRawEnum("name", self.name, WebSearchTool20260209Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebSearchTool20260209Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension WebSearchTool20260209 {
-    public init(name: WebSearchTool20260209Name, type: WebSearchTool20260209Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebSearchTool20260209CacheControl? = nil, deferLoading: Bool? = nil, maxUses: Int? = nil, strict: Bool? = nil, userLocation: UserLocation? = nil) throws {
+public extension WebSearchTool20260209 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        userLocation = try container.sdkDecodeIfPresent(.userLocation)
+        try sdkValidateRawEnum("name", name, WebSearchTool20260209Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, WebSearchTool20260209Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension WebSearchTool20260209 {
+    init(
+        name: WebSearchTool20260209Name,
+        type: WebSearchTool20260209Type,
+        allowedCallers: [AllowedCaller]? = nil,
+        allowedDomains: [String]? = nil,
+        blockedDomains: [String]? = nil,
+        cacheControl: WebSearchTool20260209CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        maxUses: Int? = nil,
+        strict: Bool? = nil,
+        userLocation: UserLocation? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.deferLoading, self.maxUses) = (deferLoading, maxUses)
         (self.strict, self.userLocation) = (strict, userLocation)
-            try sdkValidateRawEnum("name", self.name, WebSearchTool20260209Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebSearchTool20260209Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, WebSearchTool20260209Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, WebSearchTool20260209Type.allCases.map(\.rawValue))
     }
 }
 
@@ -210,7 +255,6 @@ public indirect enum WebSearchTool20260209CacheControl {
 }
 
 extension WebSearchTool20260209CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -218,12 +262,16 @@ extension WebSearchTool20260209CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -234,8 +282,8 @@ extension WebSearchTool20260209CacheControl: Codable {
 extension WebSearchTool20260209CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -291,44 +339,66 @@ public struct WebFetchTool20260209: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WebFetchTool20260209 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.citations = try container.sdkDecodeIfPresent(.citations)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
-        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, WebFetchTool20260209Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebFetchTool20260209Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension WebFetchTool20260209 {
-    public init(name: WebFetchTool20260209Name, type: WebFetchTool20260209Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebFetchTool20260209CacheControl? = nil, citations: RequestCitationsConfig? = nil, deferLoading: Bool? = nil, maxContentTokens: Int? = nil, maxUses: Int? = nil, strict: Bool? = nil) throws {
+public extension WebFetchTool20260209 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        citations = try container.sdkDecodeIfPresent(.citations)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
+        maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, WebFetchTool20260209Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, WebFetchTool20260209Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension WebFetchTool20260209 {
+    init(
+        name: WebFetchTool20260209Name,
+        type: WebFetchTool20260209Type,
+        allowedCallers: [AllowedCaller]? = nil,
+        allowedDomains: [String]? = nil,
+        blockedDomains: [String]? = nil,
+        cacheControl: WebFetchTool20260209CacheControl? = nil,
+        citations: RequestCitationsConfig? = nil,
+        deferLoading: Bool? = nil,
+        maxContentTokens: Int? = nil,
+        maxUses: Int? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.citations, self.deferLoading) = (citations, deferLoading)
         (self.maxContentTokens, self.maxUses) = (maxContentTokens, maxUses)
         self.strict = strict
-            try sdkValidateRawEnum("name", self.name, WebFetchTool20260209Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebFetchTool20260209Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, WebFetchTool20260209Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, WebFetchTool20260209Type.allCases.map(\.rawValue))
     }
 }
 
@@ -375,44 +445,66 @@ public struct WebSearchTool20260318: Codable {
         case userLocation = "user_location"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WebSearchTool20260318 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        self.responseInclusion = try container.sdkDecodeIfPresent(.responseInclusion)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-        self.userLocation = try container.sdkDecodeIfPresent(.userLocation)
-            try sdkValidateRawEnum("name", self.name, WebSearchTool20260318Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebSearchTool20260318Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension WebSearchTool20260318 {
-    public init(name: WebSearchTool20260318Name, type: WebSearchTool20260318Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebSearchTool20260318CacheControl? = nil, deferLoading: Bool? = nil, maxUses: Int? = nil, responseInclusion: WebSearchTool20260318ResponseInclusion? = nil, strict: Bool? = nil, userLocation: UserLocation? = nil) throws {
+public extension WebSearchTool20260318 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        responseInclusion = try container.sdkDecodeIfPresent(.responseInclusion)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        userLocation = try container.sdkDecodeIfPresent(.userLocation)
+        try sdkValidateRawEnum("name", name, WebSearchTool20260318Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, WebSearchTool20260318Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension WebSearchTool20260318 {
+    init(
+        name: WebSearchTool20260318Name,
+        type: WebSearchTool20260318Type,
+        allowedCallers: [AllowedCaller]? = nil,
+        allowedDomains: [String]? = nil,
+        blockedDomains: [String]? = nil,
+        cacheControl: WebSearchTool20260318CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        maxUses: Int? = nil,
+        responseInclusion: WebSearchTool20260318ResponseInclusion? = nil,
+        strict: Bool? = nil,
+        userLocation: UserLocation? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.deferLoading, self.maxUses) = (deferLoading, maxUses)
         (self.responseInclusion, self.strict) = (responseInclusion, strict)
         self.userLocation = userLocation
-            try sdkValidateRawEnum("name", self.name, WebSearchTool20260318Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, WebSearchTool20260318Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, WebSearchTool20260318Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, WebSearchTool20260318Type.allCases.map(\.rawValue))
     }
 }
 
@@ -423,7 +515,6 @@ public indirect enum WebFetchTool20260209CacheControl {
 }
 
 extension WebFetchTool20260209CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -431,12 +522,16 @@ extension WebFetchTool20260209CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -447,8 +542,8 @@ extension WebFetchTool20260209CacheControl: Codable {
 extension WebFetchTool20260209CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -504,5 +599,7 @@ public struct WebFetchTool20250910: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }

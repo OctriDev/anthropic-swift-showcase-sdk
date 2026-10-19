@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Resources domain models
+/// Resources domain models
 public indirect enum BetaManagedAgentsGetSessionResource {
     case betaManagedAgentsGitHubRepositoryResource(BetaManagedAgentsGitHubRepositoryResource)
     case betaManagedAgentsFileResource(BetaManagedAgentsFileResource)
@@ -13,7 +13,6 @@ public indirect enum BetaManagedAgentsGetSessionResource {
 }
 
 extension BetaManagedAgentsGetSessionResource: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension BetaManagedAgentsGetSessionResource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -38,10 +41,12 @@ extension BetaManagedAgentsGetSessionResource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "github_repository":
-        return .betaManagedAgentsGitHubRepositoryResource(try BetaManagedAgentsGitHubRepositoryResource(from: decoder))
-        case "file": return .betaManagedAgentsFileResource(try BetaManagedAgentsFileResource(from: decoder))
-        case "memory_store": return .betaManagedAgentsMemoryStoreResource(try BetaManagedAgentsMemoryStoreResource(from: decoder))
-        default: return nil
+            try .betaManagedAgentsGitHubRepositoryResource(BetaManagedAgentsGitHubRepositoryResource(from: decoder))
+        case "file": try .betaManagedAgentsFileResource(BetaManagedAgentsFileResource(from: decoder))
+        case "memory_store": try .betaManagedAgentsMemoryStoreResource(
+                BetaManagedAgentsMemoryStoreResource(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -67,7 +72,6 @@ public indirect enum BetaManagedAgentsUpdateSessionResource {
 }
 
 extension BetaManagedAgentsUpdateSessionResource: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -75,12 +79,16 @@ extension BetaManagedAgentsUpdateSessionResource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -92,10 +100,12 @@ extension BetaManagedAgentsUpdateSessionResource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "github_repository":
-        return .betaManagedAgentsGitHubRepositoryResource(try BetaManagedAgentsGitHubRepositoryResource(from: decoder))
-        case "file": return .betaManagedAgentsFileResource(try BetaManagedAgentsFileResource(from: decoder))
-        case "memory_store": return .betaManagedAgentsMemoryStoreResource(try BetaManagedAgentsMemoryStoreResource(from: decoder))
-        default: return nil
+            try .betaManagedAgentsGitHubRepositoryResource(BetaManagedAgentsGitHubRepositoryResource(from: decoder))
+        case "file": try .betaManagedAgentsFileResource(BetaManagedAgentsFileResource(from: decoder))
+        case "memory_store": try .betaManagedAgentsMemoryStoreResource(
+                BetaManagedAgentsMemoryStoreResource(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -122,24 +132,30 @@ public struct BetaManagedAgentsUpdateSessionResourceParams: Codable {
         case authorizationToken = "authorization_token"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsUpdateSessionResourceParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.authorizationToken) else {
-            throw SdkValidationError(field: "authorization_token", code: "required", message: "Validation failed for 'authorization_token': value is required")
-        }
-        self.authorizationToken = try container.sdkDecodeRequired(.authorizationToken)
-            try validateLength("authorization_token", self.authorizationToken, min: 1, max: 4096)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsUpdateSessionResourceParams {
-    public init(authorizationToken: String) throws {
+public extension BetaManagedAgentsUpdateSessionResourceParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.authorizationToken) else {
+            throw SdkValidationError(
+                field: "authorization_token",
+                code: "required",
+                message: "Validation failed for 'authorization_token': value is required"
+            )
+        }
+        authorizationToken = try container.sdkDecodeRequired(.authorizationToken)
+        try validateLength("authorization_token", authorizationToken, min: 1, max: 4096)
+    }
+}
+
+public extension BetaManagedAgentsUpdateSessionResourceParams {
+    init(authorizationToken: String) throws {
         self.authorizationToken = authorizationToken
-            try validateLength("authorization_token", self.authorizationToken, min: 1, max: 4096)
+        try validateLength("authorization_token", self.authorizationToken, min: 1, max: 4096)
     }
 }
 
@@ -155,39 +171,54 @@ public struct BetaManagedAgentsDeleteSessionResource: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsDeleteSessionResource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsDeleteSessionResource {
-    public init(type: BetaManagedAgentsDeleteSessionResourceType, id: String) {
+public extension BetaManagedAgentsDeleteSessionResource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+    }
+}
+
+public extension BetaManagedAgentsDeleteSessionResource {
+    init(type: BetaManagedAgentsDeleteSessionResourceType, id: String) {
         (self.type, self.id) = (type, id)
     }
 }
 
 /// Required enumerated value serialized in the `type` wire field.
-public struct BetaManagedAgentsDeleteSessionResourceType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsDeleteSessionResourceType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let sessionResourceDeleted = BetaManagedAgentsDeleteSessionResourceType(rawValue: "session_resource_deleted")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let sessionResourceDeleted =
+        BetaManagedAgentsDeleteSessionResourceType(rawValue: "session_resource_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

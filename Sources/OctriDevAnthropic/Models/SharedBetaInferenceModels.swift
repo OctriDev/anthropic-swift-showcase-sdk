@@ -3,19 +3,22 @@
 
 import Foundation
 
-// SharedBetaInference domain models
+/// SharedBetaInference domain models
 /// Typed representation of the `BetaInferenceGeoFilter` API schema.
 public struct BetaInferenceGeoFilter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let global = BetaInferenceGeoFilter(rawValue: "global")
     public static let notAvailable = BetaInferenceGeoFilter(rawValue: "not_available")
     public static let us = BetaInferenceGeoFilter(rawValue: "us")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -28,13 +31,16 @@ public struct BetaInferenceGeoFilter: RawRepresentable, Hashable, Codable, Senda
 public struct BetaInferenceGeo: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let global = BetaInferenceGeo(rawValue: "global")
     public static let us = BetaInferenceGeo(rawValue: "us")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

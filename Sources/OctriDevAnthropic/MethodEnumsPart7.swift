@@ -20,29 +20,29 @@ struct UpdateBetaDeploymentsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(self.agent, forKey: SdkCodingKey("agent"))
-        try keyedContainer.encodeIfPresent(self.environmentId, forKey: SdkCodingKey("environment_id"))
-        try keyedContainer.encodeIfPresent(self.vaultIds, forKey: SdkCodingKey("vault_ids"))
-        try keyedContainer.encodeIfPresent(self.initialEvents, forKey: SdkCodingKey("initial_events"))
-        try keyedContainer.encodeIfPresent(self.resources, forKey: SdkCodingKey("resources"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(self.schedule, forKey: SdkCodingKey("schedule"))
-        try keyedContainer.encodeIfPresent(self.budget, forKey: SdkCodingKey("budget"))
+        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(agent, forKey: SdkCodingKey("agent"))
+        try keyedContainer.encodeIfPresent(environmentId, forKey: SdkCodingKey("environment_id"))
+        try keyedContainer.encodeIfPresent(vaultIds, forKey: SdkCodingKey("vault_ids"))
+        try keyedContainer.encodeIfPresent(initialEvents, forKey: SdkCodingKey("initial_events"))
+        try keyedContainer.encodeIfPresent(resources, forKey: SdkCodingKey("resources"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(schedule, forKey: SdkCodingKey("schedule"))
+        try keyedContainer.encodeIfPresent(budget, forKey: SdkCodingKey("budget"))
     }
 
     init(options: BetaDeploymentsMethods.UpdateBetaDeploymentsOptions) {
-        self.name = options.name
-        self.description = options.description
-        self.agent = options.agent
-        self.environmentId = options.environmentId
-        self.vaultIds = options.vaultIds
-        self.initialEvents = options.initialEvents
-        self.resources = options.resources
-        self.metadata = options.metadata
-        self.schedule = options.schedule
-        self.budget = options.budget
+        name = options.name
+        description = options.description
+        agent = options.agent
+        environmentId = options.environmentId
+        vaultIds = options.vaultIds
+        initialEvents = options.initialEvents
+        resources = options.resources
+        metadata = options.metadata
+        schedule = options.schedule
+        budget = options.budget
     }
 }
 
@@ -52,8 +52,8 @@ struct CreateBetaVaultsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.displayName, forKey: SdkCodingKey("display_name"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encode(displayName, forKey: SdkCodingKey("display_name"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
     }
 }
 
@@ -63,8 +63,8 @@ struct UpdateBetaVaultsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.displayName, forKey: SdkCodingKey("display_name"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(displayName, forKey: SdkCodingKey("display_name"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
     }
 }
 
@@ -75,9 +75,9 @@ struct CreateBetaVaultsCredentialsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.auth, forKey: SdkCodingKey("auth"))
-        try keyedContainer.encodeIfPresent(self.displayName, forKey: SdkCodingKey("display_name"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encode(auth, forKey: SdkCodingKey("auth"))
+        try keyedContainer.encodeIfPresent(displayName, forKey: SdkCodingKey("display_name"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
     }
 }
 
@@ -88,15 +88,15 @@ struct UpdateBetaVaultsCredentialsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.displayName, forKey: SdkCodingKey("display_name"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(self.auth, forKey: SdkCodingKey("auth"))
+        try keyedContainer.encodeIfPresent(displayName, forKey: SdkCodingKey("display_name"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(auth, forKey: SdkCodingKey("auth"))
     }
 
     init(options: BetaVaultsCredentialsMethods.UpdateBetaVaultsCredentialsOptions) {
-        self.displayName = options.displayName
-        self.metadata = options.metadata
-        self.auth = options.auth
+        displayName = options.displayName
+        metadata = options.metadata
+        auth = options.auth
     }
 }
 
@@ -106,8 +106,8 @@ struct CreateBetaMemoryStoresMemoriesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.path, forKey: SdkCodingKey("path"))
-        try keyedContainer.encode(self.content, forKey: SdkCodingKey("content"))
+        try keyedContainer.encode(path, forKey: SdkCodingKey("path"))
+        try keyedContainer.encode(content, forKey: SdkCodingKey("content"))
     }
 }
 
@@ -118,15 +118,15 @@ struct UpdateBetaMemoryStoresMemoriesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.content, forKey: SdkCodingKey("content"))
-        try keyedContainer.encodeIfPresent(self.path, forKey: SdkCodingKey("path"))
-        try keyedContainer.encodeIfPresent(self.precondition, forKey: SdkCodingKey("precondition"))
+        try keyedContainer.encodeIfPresent(content, forKey: SdkCodingKey("content"))
+        try keyedContainer.encodeIfPresent(path, forKey: SdkCodingKey("path"))
+        try keyedContainer.encodeIfPresent(precondition, forKey: SdkCodingKey("precondition"))
     }
 
     init(options: BetaMemoryStoresMemoriesMethods.UpdateBetaMemoryStoresMemoriesOptions) {
-        self.content = options.content
-        self.path = options.path
-        self.precondition = options.precondition
+        content = options.content
+        path = options.path
+        precondition = options.precondition
     }
 }
 
@@ -137,9 +137,9 @@ struct CreateBetaMemoryStoresRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
     }
 }
 
@@ -150,9 +150,9 @@ struct UpdateBetaMemoryStoresRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
     }
 }
 
@@ -165,11 +165,11 @@ struct CreateBetaUserProfilesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.externalId, forKey: SdkCodingKey("external_id"))
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.accessType, forKey: SdkCodingKey("access_type"))
-        try keyedContainer.encodeIfPresent(self.externalUserOnboardedAt, forKey: SdkCodingKey("external_user_onboarded_at"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(externalId, forKey: SdkCodingKey("external_id"))
+        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(accessType, forKey: SdkCodingKey("access_type"))
+        try keyedContainer.encodeIfPresent(externalUserOnboardedAt, forKey: SdkCodingKey("external_user_onboarded_at"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
     }
 }
 
@@ -182,19 +182,19 @@ struct UpdateBetaUserProfilesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.externalId, forKey: SdkCodingKey("external_id"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.accessType, forKey: SdkCodingKey("access_type"))
-        try keyedContainer.encodeIfPresent(self.externalUserOnboardedAt, forKey: SdkCodingKey("external_user_onboarded_at"))
+        try keyedContainer.encodeIfPresent(externalId, forKey: SdkCodingKey("external_id"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(accessType, forKey: SdkCodingKey("access_type"))
+        try keyedContainer.encodeIfPresent(externalUserOnboardedAt, forKey: SdkCodingKey("external_user_onboarded_at"))
     }
 
     init(options: BetaUserProfilesMethods.UpdateBetaUserProfilesOptions) {
-        self.externalId = options.externalId
-        self.metadata = options.metadata
-        self.name = options.name
-        self.accessType = options.accessType
-        self.externalUserOnboardedAt = options.externalUserOnboardedAt
+        externalId = options.externalId
+        metadata = options.metadata
+        name = options.name
+        accessType = options.accessType
+        externalUserOnboardedAt = options.externalUserOnboardedAt
     }
 }
 
@@ -203,6 +203,6 @@ struct CreateBetaTunnelsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.displayName, forKey: SdkCodingKey("display_name"))
+        try keyedContainer.encodeIfPresent(displayName, forKey: SdkCodingKey("display_name"))
     }
 }

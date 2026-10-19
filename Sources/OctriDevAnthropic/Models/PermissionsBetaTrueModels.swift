@@ -3,7 +3,7 @@
 
 import Foundation
 
-// PermissionsBetaTrue domain models
+/// PermissionsBetaTrue domain models
 public indirect enum BetaRbacRolePermissionResource {
     case betaOrganizationPermissionResource(BetaOrganizationPermissionResource)
     case betaConnectorToolPermissionResource(BetaConnectorToolPermissionResource)
@@ -15,7 +15,6 @@ public indirect enum BetaRbacRolePermissionResource {
 }
 
 extension BetaRbacRolePermissionResource: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -23,12 +22,16 @@ extension BetaRbacRolePermissionResource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,12 +42,18 @@ extension BetaRbacRolePermissionResource: Codable {
 extension BetaRbacRolePermissionResource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "organization": return .betaOrganizationPermissionResource(try BetaOrganizationPermissionResource(from: decoder))
-        case "connector_tool": return .betaConnectorToolPermissionResource(try BetaConnectorToolPermissionResource(from: decoder))
-        case "connector_scope": return .betaConnectorScopePermissionResource(try BetaConnectorScopePermissionResource(from: decoder))
-        case "connector": return .betaConnectorPermissionResource(try BetaConnectorPermissionResource(from: decoder))
-        case "all_connectors": return .betaAllConnectorsPermissionResource(try BetaAllConnectorsPermissionResource(from: decoder))
-        default: return nil
+        case "organization": try .betaOrganizationPermissionResource(BetaOrganizationPermissionResource(from: decoder))
+        case "connector_tool": try .betaConnectorToolPermissionResource(
+                BetaConnectorToolPermissionResource(from: decoder)
+            )
+        case "connector_scope": try .betaConnectorScopePermissionResource(
+                BetaConnectorScopePermissionResource(from: decoder)
+            )
+        case "connector": try .betaConnectorPermissionResource(BetaConnectorPermissionResource(from: decoder))
+        case "all_connectors": try .betaAllConnectorsPermissionResource(
+                BetaAllConnectorsPermissionResource(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -75,28 +84,38 @@ public struct BetaOrganizationPermissionResource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaOrganizationPermissionResource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.organizationId) else {
-            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.organizationId = try container.sdkDecodeRequired(.organizationId)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaOrganizationPermissionResourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaOrganizationPermissionResource {
-    public init(organizationId: String, type: BetaOrganizationPermissionResourceType) throws {
+public extension BetaOrganizationPermissionResource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.organizationId) else {
+            throw SdkValidationError(
+                field: "organization_id",
+                code: "required",
+                message: "Validation failed for 'organization_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        organizationId = try container.sdkDecodeRequired(.organizationId)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaOrganizationPermissionResourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaOrganizationPermissionResource {
+    init(organizationId: String, type: BetaOrganizationPermissionResourceType) throws {
         (self.organizationId, self.type) = (organizationId, type)
-            try sdkValidateRawEnum("type", self.type, BetaOrganizationPermissionResourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaOrganizationPermissionResourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -112,28 +131,38 @@ public struct BetaConnectorPermissionResource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaConnectorPermissionResource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.connectorId) else {
-            throw SdkValidationError(field: "connector_id", code: "required", message: "Validation failed for 'connector_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.connectorId = try container.sdkDecodeRequired(.connectorId)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaConnectorPermissionResourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaConnectorPermissionResource {
-    public init(connectorId: String, type: BetaConnectorPermissionResourceType) throws {
+public extension BetaConnectorPermissionResource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.connectorId) else {
+            throw SdkValidationError(
+                field: "connector_id",
+                code: "required",
+                message: "Validation failed for 'connector_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        connectorId = try container.sdkDecodeRequired(.connectorId)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaConnectorPermissionResourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaConnectorPermissionResource {
+    init(connectorId: String, type: BetaConnectorPermissionResourceType) throws {
         (self.connectorId, self.type) = (connectorId, type)
-            try sdkValidateRawEnum("type", self.type, BetaConnectorPermissionResourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaConnectorPermissionResourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -157,33 +186,47 @@ public struct BetaRbacRolePermission: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRbacRolePermission {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.action) else {
-            throw SdkValidationError(field: "action", code: "required", message: "Validation failed for 'action': value is required")
-        }
-        guard container.contains(.resource) else {
-            throw SdkValidationError(field: "resource", code: "required", message: "Validation failed for 'resource': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.action = try container.sdkDecodeRequired(.action)
-        self.resource = try container.sdkDecodeRequired(.resource)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaRbacRolePermissionType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRbacRolePermission {
-    public init(action: String, resource: BetaRbacRolePermissionResource, type: BetaRbacRolePermissionType) throws {
+public extension BetaRbacRolePermission {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.action) else {
+            throw SdkValidationError(
+                field: "action",
+                code: "required",
+                message: "Validation failed for 'action': value is required"
+            )
+        }
+        guard container.contains(.resource) else {
+            throw SdkValidationError(
+                field: "resource",
+                code: "required",
+                message: "Validation failed for 'resource': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        action = try container.sdkDecodeRequired(.action)
+        resource = try container.sdkDecodeRequired(.resource)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaRbacRolePermissionType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRbacRolePermission {
+    init(action: String, resource: BetaRbacRolePermissionResource, type: BetaRbacRolePermissionType) throws {
         (self.action, self.resource) = (action, resource)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaRbacRolePermissionType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRbacRolePermissionType.allCases.map(\.rawValue))
     }
 }
 
@@ -205,33 +248,47 @@ public struct BetaConnectorToolPermissionResource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaConnectorToolPermissionResource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.connectorId) else {
-            throw SdkValidationError(field: "connector_id", code: "required", message: "Validation failed for 'connector_id': value is required")
-        }
-        guard container.contains(.toolName) else {
-            throw SdkValidationError(field: "tool_name", code: "required", message: "Validation failed for 'tool_name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.connectorId = try container.sdkDecodeRequired(.connectorId)
-        self.toolName = try container.sdkDecodeRequired(.toolName)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaConnectorToolPermissionResourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaConnectorToolPermissionResource {
-    public init(connectorId: String, toolName: String, type: BetaConnectorToolPermissionResourceType) throws {
+public extension BetaConnectorToolPermissionResource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.connectorId) else {
+            throw SdkValidationError(
+                field: "connector_id",
+                code: "required",
+                message: "Validation failed for 'connector_id': value is required"
+            )
+        }
+        guard container.contains(.toolName) else {
+            throw SdkValidationError(
+                field: "tool_name",
+                code: "required",
+                message: "Validation failed for 'tool_name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        connectorId = try container.sdkDecodeRequired(.connectorId)
+        toolName = try container.sdkDecodeRequired(.toolName)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaConnectorToolPermissionResourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaConnectorToolPermissionResource {
+    init(connectorId: String, toolName: String, type: BetaConnectorToolPermissionResourceType) throws {
         (self.connectorId, self.toolName) = (connectorId, toolName)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaConnectorToolPermissionResourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaConnectorToolPermissionResourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -250,29 +307,43 @@ public struct BetaRbacRolePermissionList: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRbacRolePermissionList {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRbacRolePermissionList {
-    public init(data: [BetaRbacRolePermission], hasMore: Bool, nextPage: String?) {
+public extension BetaRbacRolePermissionList {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaRbacRolePermissionList {
+    init(data: [BetaRbacRolePermission], hasMore: Bool, nextPage: String?) {
         (self.data, self.hasMore) = (data, hasMore)
         self.nextPage = nextPage
     }
@@ -287,24 +358,30 @@ public struct BetaAllConnectorsPermissionResource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAllConnectorsPermissionResource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaAllConnectorsPermissionResourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAllConnectorsPermissionResource {
-    public init(type: BetaAllConnectorsPermissionResourceType) throws {
+public extension BetaAllConnectorsPermissionResource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaAllConnectorsPermissionResourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaAllConnectorsPermissionResource {
+    init(type: BetaAllConnectorsPermissionResourceType) throws {
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaAllConnectorsPermissionResourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaAllConnectorsPermissionResourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -326,33 +403,47 @@ public struct BetaConnectorScopePermissionResource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaConnectorScopePermissionResource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.connectorId) else {
-            throw SdkValidationError(field: "connector_id", code: "required", message: "Validation failed for 'connector_id': value is required")
-        }
-        guard container.contains(.scope) else {
-            throw SdkValidationError(field: "scope", code: "required", message: "Validation failed for 'scope': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.connectorId = try container.sdkDecodeRequired(.connectorId)
-        self.scope = try container.sdkDecodeRequired(.scope)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaConnectorScopePermissionResourceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaConnectorScopePermissionResource {
-    public init(connectorId: String, scope: String, type: BetaConnectorScopePermissionResourceType) throws {
+public extension BetaConnectorScopePermissionResource {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.connectorId) else {
+            throw SdkValidationError(
+                field: "connector_id",
+                code: "required",
+                message: "Validation failed for 'connector_id': value is required"
+            )
+        }
+        guard container.contains(.scope) else {
+            throw SdkValidationError(
+                field: "scope",
+                code: "required",
+                message: "Validation failed for 'scope': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        connectorId = try container.sdkDecodeRequired(.connectorId)
+        scope = try container.sdkDecodeRequired(.scope)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaConnectorScopePermissionResourceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaConnectorScopePermissionResource {
+    init(connectorId: String, scope: String, type: BetaConnectorScopePermissionResourceType) throws {
         (self.connectorId, self.scope) = (connectorId, scope)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaConnectorScopePermissionResourceType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaConnectorScopePermissionResourceType.allCases.map(\.rawValue))
     }
 }
 

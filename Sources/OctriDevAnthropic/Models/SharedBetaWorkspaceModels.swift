@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaWorkspace domain models
+/// SharedBetaWorkspace domain models
 /// Typed representation of the `BetaWorkspaceMemberSchema` API schema.
 public struct BetaWorkspaceMemberSchema: Codable {
     /// Object type. For Workspace Members, this is always `"workspace_member"`.
@@ -22,37 +22,60 @@ public struct BetaWorkspaceMemberSchema: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWorkspaceMemberSchema {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
-            try sdkValidateRawEnum("type", self.type, BetaWorkspaceMemberSchemaType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWorkspaceMemberSchema {
-    public init(type: BetaWorkspaceMemberSchemaType, userId: String, workspaceId: String, workspaceRole: BetaWorkspaceRoleSchema) throws {
+public extension BetaWorkspaceMemberSchema {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceRole) else {
+            throw SdkValidationError(
+                field: "workspace_role",
+                code: "required",
+                message: "Validation failed for 'workspace_role': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        userId = try container.sdkDecodeRequired(.userId)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+        try sdkValidateRawEnum("type", type, BetaWorkspaceMemberSchemaType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWorkspaceMemberSchema {
+    init(
+        type: BetaWorkspaceMemberSchemaType,
+        userId: String,
+        workspaceId: String,
+        workspaceRole: BetaWorkspaceRoleSchema
+    ) throws {
         (self.type, self.userId) = (type, userId)
         (self.workspaceId, self.workspaceRole) = (workspaceId, workspaceRole)
-            try sdkValidateRawEnum("type", self.type, BetaWorkspaceMemberSchemaType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWorkspaceMemberSchemaType.allCases.map(\.rawValue))
     }
 }
 
@@ -101,36 +124,49 @@ public struct BetaWorkspace: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWorkspace {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        self.compartmentId = try container.sdkDecodeRequired(.compartmentId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.dataResidency = try container.sdkDecodeRequired(.dataResidency)
-        self.displayColor = try container.sdkDecodeRequired(.displayColor)
-        self.externalKeyId = try container.sdkDecodeNullable(.externalKeyId)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.tags = try container.sdkDecodeRequired(.tags)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaWorkspaceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWorkspace {
-    public init(archivedAt: Date?, compartmentId: String, createdAt: Date, dataResidency: BetaDataResidency, displayColor: String, externalKeyId: String?, id: String, name: String, tags: [String: String], type: BetaWorkspaceType) throws {
+public extension BetaWorkspace {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        compartmentId = try container.sdkDecodeRequired(.compartmentId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        dataResidency = try container.sdkDecodeRequired(.dataResidency)
+        displayColor = try container.sdkDecodeRequired(.displayColor)
+        externalKeyId = try container.sdkDecodeNullable(.externalKeyId)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        tags = try container.sdkDecodeRequired(.tags)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaWorkspaceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWorkspace {
+    init(
+        archivedAt: Date?,
+        compartmentId: String,
+        createdAt: Date,
+        dataResidency: BetaDataResidency,
+        displayColor: String,
+        externalKeyId: String?,
+        id: String,
+        name: String,
+        tags: [String: String],
+        type: BetaWorkspaceType
+    ) throws {
         (self.archivedAt, self.compartmentId) = (archivedAt, compartmentId)
         (self.createdAt, self.dataResidency) = (createdAt, dataResidency)
         (self.displayColor, self.externalKeyId) = (displayColor, externalKeyId)
         (self.id, self.name) = (id, name)
         (self.tags, self.type) = (tags, type)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaWorkspaceType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaWorkspaceType.allCases.map(\.rawValue))
     }
 }
 
@@ -174,7 +210,10 @@ public enum BetaWorkspaceType: String, CaseIterable, Codable {
 public struct BetaWorkspaceRoleSchema: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let workspaceAdmin = BetaWorkspaceRoleSchema(rawValue: "workspace_admin")
     public static let workspaceBilling = BetaWorkspaceRoleSchema(rawValue: "workspace_billing")
     public static let workspaceDeveloper = BetaWorkspaceRoleSchema(rawValue: "workspace_developer")
@@ -183,7 +222,7 @@ public struct BetaWorkspaceRoleSchema: RawRepresentable, Hashable, Codable, Send
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
