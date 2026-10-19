@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedFile domain models
+// SharedFile domain models
 /// Typed representation of the `FileImageSource` API schema.
 public struct FileImageSource: Codable {
     /// Required `string` value serialized in the `file_id` wire field.
@@ -16,38 +16,28 @@ public struct FileImageSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension FileImageSource {
-    init(from decoder: Decoder) throws {
+extension FileImageSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        fileId = try container.sdkDecodeRequired(.fileId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, FileImageSourceType.allCases.map(\.rawValue))
+        self.fileId = try container.sdkDecodeRequired(.fileId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, FileImageSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension FileImageSource {
-    init(fileId: String, type: FileImageSourceType) throws {
+extension FileImageSource {
+    public init(fileId: String, type: FileImageSourceType) throws {
         (self.fileId, self.type) = (fileId, type)
-        try sdkValidateRawEnum("type", self.type, FileImageSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, FileImageSourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -63,38 +53,28 @@ public struct FileDocumentSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension FileDocumentSource {
-    init(from decoder: Decoder) throws {
+extension FileDocumentSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        fileId = try container.sdkDecodeRequired(.fileId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, FileDocumentSourceType.allCases.map(\.rawValue))
+        self.fileId = try container.sdkDecodeRequired(.fileId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, FileDocumentSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension FileDocumentSource {
-    init(fileId: String, type: FileDocumentSourceType) throws {
+extension FileDocumentSource {
+    public init(fileId: String, type: FileDocumentSourceType) throws {
         (self.fileId, self.type) = (fileId, type)
-        try sdkValidateRawEnum("type", self.type, FileDocumentSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, FileDocumentSourceType.allCases.map(\.rawValue))
     }
 }
 

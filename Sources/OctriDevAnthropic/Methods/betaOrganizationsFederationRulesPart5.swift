@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsFederationRulesMethods {
-    struct UpdateBetaOrganizationsFederationRulesOptions: Codable {
+extension BetaOrganizationsFederationRulesMethods {
+    public struct UpdateBetaOrganizationsFederationRulesOptions: Codable {
         public var federationRuleId: String
         public var anthropicBeta: [AnthropicBeta]?
         public var anthropicVersion: String?
@@ -26,18 +26,7 @@ public extension BetaOrganizationsFederationRulesMethods {
         }
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Partially
-    /// update a federation rule. `issuer_id` is immutable. `match` and `target` are replaced as whole objects when set.
-    /// Referenced service accounts and workspaces must exist in your organization; invalid references are rejected with
-    /// a 400 error. Archived rules cannot be updated; this returns 400. Create a new rule instead. Rules on well-known
-    /// shared issuers (GitHub Actions, GitLab, Buildkite, Terraform Cloud, Google) must constrain tenant identity via
-    /// an identity-bearing claim, a tenant-pinning subject prefix (such as `repo:YOUR_ORG/...`), or a CEL condition
-    /// referencing one of those identity claims (e.g. `claims.repository_owner`). On these issuers the requirement is
-    /// re-checked on every update; if an existing rule's stored match does not yet constrain tenant identity, any
-    /// update (even a rename or description change) must also supply a conforming `match` in the same request. OAuth
-    /// callers may only manage rules whose `oauth_scope` is `workspace:developer` or `workspace:inference`; other
-    /// scopes require a Console session.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Partially update a federation rule. `issuer_id` is immutable. `match` and `target` are replaced as whole objects when set. Referenced service accounts and workspaces must exist in your organization; invalid references are rejected with a 400 error. Archived rules cannot be updated; this returns 400. Create a new rule instead. Rules on well-known shared issuers (GitHub Actions, GitLab, Buildkite, Terraform Cloud, Google) must constrain tenant identity via an identity-bearing claim, a tenant-pinning subject prefix (such as `repo:YOUR_ORG/...`), or a CEL condition referencing one of those identity claims (e.g. `claims.repository_owner`). On these issuers the requirement is re-checked on every update; if an existing rule's stored match does not yet constrain tenant identity, any update (even a rename or description change) must also supply a conforming `match` in the same request. OAuth callers may only manage rules whose `oauth_scope` is `workspace:developer` or `workspace:inference`; other scopes require a Console session.
     ///
     /// - Parameters:
     /// - federationRuleId: ID of the federation rule to update.
@@ -73,47 +62,12 @@ public extension BetaOrganizationsFederationRulesMethods {
     ///   previous one is removed). Rejected with 400 if the rule is enabled for more
     ///   than one workspace; use the
     ///   `/federation_rules/{federation_rule_id}/workspaces` sub-resource instead.
-    static func updateBetaOrganizationsFederationRules(
-        config: ClientConfig,
-        options: UpdateBetaOrganizationsFederationRulesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaFederationRule {
+    public static func updateBetaOrganizationsFederationRules(config: ClientConfig, options: UpdateBetaOrganizationsFederationRulesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaFederationRule {
         let requestBody = UpdateBetaOrganizationsFederationRulesRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            [
-                "/v1/organizations/federation_rules/",
-                sdkEncodePathSegment(sdkWireString(options.federationRuleId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaOrganizationsFederationRules",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/federation_rules/", sdkEncodePathSegment(sdkWireString(options.federationRuleId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaOrganizationsFederationRules", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

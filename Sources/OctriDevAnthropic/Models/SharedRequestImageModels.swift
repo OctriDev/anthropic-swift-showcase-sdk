@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedRequestImage domain models
+// SharedRequestImage domain models
 public indirect enum RequestImageBlockSource {
     case base64ImageSource(Base64ImageSource)
     case uRlImageSource(URLImageSource)
@@ -13,6 +13,7 @@ public indirect enum RequestImageBlockSource {
 }
 
 extension RequestImageBlockSource: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension RequestImageBlockSource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,10 +37,10 @@ extension RequestImageBlockSource: Codable {
 extension RequestImageBlockSource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "base64": try .base64ImageSource(Base64ImageSource(from: decoder))
-        case "url": try .uRlImageSource(URLImageSource(from: decoder))
-        case "file": try .fileImageSource(FileImageSource(from: decoder))
-        default: nil
+        case "base64": return .base64ImageSource(try Base64ImageSource(from: decoder))
+        case "url": return .uRlImageSource(try URLImageSource(from: decoder))
+        case "file": return .fileImageSource(try FileImageSource(from: decoder))
+        default: return nil
         }
     }
 }
@@ -75,19 +72,19 @@ public struct RequestImageTransformations: Codable {
     }
 
     init() {
-        oversizedImage = nil
+        self.oversizedImage = nil
     }
 }
 
-public extension RequestImageTransformations {
-    init(from decoder: Decoder) throws {
+extension RequestImageTransformations {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        oversizedImage = try container.sdkDecodeIfPresent(.oversizedImage)
+        self.oversizedImage = try container.sdkDecodeIfPresent(.oversizedImage)
     }
 }
 
-public extension RequestImageTransformations {
-    init(oversizedImage: RequestImageTransformationsOversizedImage? = nil) {
+extension RequestImageTransformations {
+    public init(oversizedImage: RequestImageTransformationsOversizedImage? = nil) {
         self.init()
         self.oversizedImage = oversizedImage
     }
@@ -100,6 +97,7 @@ public indirect enum RequestImageBlockCacheControl {
 }
 
 extension RequestImageBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -107,16 +105,12 @@ extension RequestImageBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -127,8 +121,8 @@ extension RequestImageBlockCacheControl: Codable {
 extension RequestImageBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -163,46 +157,31 @@ public struct RequestImageBlock: Codable {
         case transformations
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestImageBlock {
-    init(from decoder: Decoder) throws {
+extension RequestImageBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.source) else {
-            throw SdkValidationError(
-                field: "source",
-                code: "required",
-                message: "Validation failed for 'source': value is required"
-            )
+            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        source = try container.sdkDecodeRequired(.source)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        transformations = try container.sdkDecodeIfPresent(.transformations)
-        try sdkValidateRawEnum("type", type, RequestImageBlockType.allCases.map(\.rawValue))
+        self.source = try container.sdkDecodeRequired(.source)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.transformations = try container.sdkDecodeIfPresent(.transformations)
+            try sdkValidateRawEnum("type", self.type, RequestImageBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestImageBlock {
-    init(
-        source: RequestImageBlockSource,
-        type: RequestImageBlockType,
-        cacheControl: RequestImageBlockCacheControl? = nil,
-        transformations: RequestImageTransformations? = nil
-    ) throws {
+extension RequestImageBlock {
+    public init(source: RequestImageBlockSource, type: RequestImageBlockType, cacheControl: RequestImageBlockCacheControl? = nil, transformations: RequestImageTransformations? = nil) throws {
         (self.source, self.type) = (source, type)
         (self.cacheControl, self.transformations) = (cacheControl, transformations)
-        try sdkValidateRawEnum("type", self.type, RequestImageBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestImageBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -210,20 +189,16 @@ public extension RequestImageBlock {
 /// scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"`
 /// instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that
 /// fit, so you can scale the image deliberately — your image is never silently scaled down.
-public struct RequestImageTransformationsOversizedImage: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct RequestImageTransformationsOversizedImage: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let downsize = RequestImageTransformationsOversizedImage(rawValue: "downsize")
     public static let error = RequestImageTransformationsOversizedImage(rawValue: "error")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,15 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsWorkspacesServiceAccountsMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Add a
-    /// service account to a workspace with the given `workspace_role`. The role determines what the service account can
-    /// do in the workspace and which workspace-scoped permissions it can be granted when authenticating through
-    /// federation. Every service account is already an implicit `workspace_user` member of the default workspace;
-    /// adding it explicitly assigns a chosen role. If the service account is already an explicit member of the
-    /// workspace, its `workspace_role` is replaced with the value supplied here. Archived workspaces return 400.
-    /// Archived service accounts cannot be added and are rejected.
+extension BetaOrganizationsWorkspacesServiceAccountsMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Add a service account to a workspace with the given `workspace_role`. The role determines what the service account can do in the workspace and which workspace-scoped permissions it can be granted when authenticating through federation. Every service account is already an implicit `workspace_user` member of the default workspace; adding it explicitly assigns a chosen role. If the service account is already an explicit member of the workspace, its `workspace_role` is replaced with the value supplied here. Archived workspaces return 400. Archived service accounts cannot be added and are rejected.
     ///
     /// - Parameters:
     /// - workspaceId: ID of the workspace.
@@ -26,54 +19,12 @@ public extension BetaOrganizationsWorkspacesServiceAccountsMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func createBetaOrganizationsWorkspacesServiceAccounts(
-        config: ClientConfig,
-        workspaceId: String,
-        serviceAccountId: String,
-        workspaceRole: BetaNoBillingWorkspaceRoleSchema,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaServiceAccountWorkspaceMember {
-        let requestBody = CreateBetaOrganizationsWorkspacesServiceAccountsRequestBody(
-            serviceAccountId: serviceAccountId,
-            workspaceRole: workspaceRole
-        )
+    public static func createBetaOrganizationsWorkspacesServiceAccounts(config: ClientConfig, workspaceId: String, serviceAccountId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMember {
+        let requestBody = CreateBetaOrganizationsWorkspacesServiceAccountsRequestBody(serviceAccountId: serviceAccountId, workspaceRole: workspaceRole)
 
-        return try await (sdkRequest(
-            "POST",
-            [
-                "/v1/organizations/workspaces/",
-                sdkEncodePathSegment(sdkWireString(workspaceId)),
-                "/service_accounts?beta=true",
-            ].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaOrganizationsWorkspacesServiceAccounts",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/service_accounts?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsWorkspacesServiceAccounts", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

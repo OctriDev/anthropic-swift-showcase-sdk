@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaSkillsVersionsMethods {
-    /// Creates a new version for the Skill identified by `skill_id`, using the uploaded files as its contents. Include
-    /// a `SKILL.md` file at the root of a single top-level directory in the multipart upload. The response includes the
-    /// created version's identifier, name, description, and creation timestamp.
+extension BetaSkillsVersionsMethods {
+    /// Creates a new version for the Skill identified by `skill_id`, using the uploaded files as its contents. Include a `SKILL.md` file at the root of a single top-level directory in the multipart upload. The response includes the created version's identifier, name, description, and creation timestamp.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -28,53 +26,17 @@ public extension BetaSkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func createBetaSkillsVersions(
-        config: ClientConfig,
-        skillId: String,
-        files: [SdkUploadFile],
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSkillVersion {
+    public static func createBetaSkillsVersions(config: ClientConfig, skillId: String, files: [SdkUploadFile], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkillVersion {
         var multipartParts: [SdkMultipartField] = []
         for item in files {
             multipartParts.append(.file("files", item))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions?beta=true"].joined(),
-            config: config,
-            rawBody: multipart.data,
-            contentType: multipart.contentType,
-            decoder: .json,
-            operationId: "createBetaSkillsVersions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions?beta=true"].joined(), config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "createBetaSkillsVersions", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

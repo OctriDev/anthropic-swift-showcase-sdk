@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaEnvironmentsMethods {
-    struct UpdateBetaEnvironmentsOptions: Codable {
+extension BetaEnvironmentsMethods {
+    public struct UpdateBetaEnvironmentsOptions: Codable {
         public var environmentId: String
         public var anthropicBeta: [AnthropicBeta]?
         public var anthropicVersion: String?
@@ -23,9 +23,7 @@ public extension BetaEnvironmentsMethods {
         }
     }
 
-    /// Updates the configuration and settings of an existing environment. Supply only the fields you want to change:
-    /// omitted fields remain unchanged, while `description: null` clears the description. Use `scope` to choose whether
-    /// the environment is visible across the organization or only to its owning account.
+    /// Updates the configuration and settings of an existing environment. Supply only the fields you want to change: omitted fields remain unchanged, while `description: null` clears the description. Use `scope` to choose whether the environment is visible across the organization or only to its owning account.
     ///
     /// Update an existing environment's configuration.
     ///
@@ -50,44 +48,13 @@ public extension BetaEnvironmentsMethods {
     /// - scope: The visibility scope for this environment. 'organization' makes the
     ///   environment visible to all accounts. 'account' restricts visibility to the
     ///   owning account only.
-    static func updateBetaEnvironments(
-        config: ClientConfig,
-        options: UpdateBetaEnvironmentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaEnvironment {
+    public static func updateBetaEnvironments(config: ClientConfig, options: UpdateBetaEnvironmentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
         let requestBody = UpdateBetaEnvironmentsRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/environments/", sdkEncodePathSegment(sdkWireString(options.environmentId)), "?beta=true"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaEnvironments",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(options.environmentId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaEnvironments", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

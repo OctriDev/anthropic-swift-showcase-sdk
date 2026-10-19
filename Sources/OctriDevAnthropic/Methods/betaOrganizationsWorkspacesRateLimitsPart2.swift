@@ -6,11 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsWorkspacesRateLimitsMethods {
-    /// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a
-    /// workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET
-    /// /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a
-    /// single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
+extension BetaOrganizationsWorkspacesRateLimitsMethods {
+    /// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
     ///
     /// - Parameters:
     /// - workspaceId: The ID of the workspace.
@@ -22,59 +19,17 @@ public extension BetaOrganizationsWorkspacesRateLimitsMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsWorkspacesRateLimits(
-        config: ClientConfig,
-        workspaceId: String,
-        groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspaceRateLimitListResponse {
-        try await (sdkRequest(
-            "GET",
-            [
-                "/v1/organizations/workspaces/",
-                sdkEncodePathSegment(sdkWireString(workspaceId)),
-                "/rate_limits?beta=true",
-            ].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("group_type", value: groupType),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("page", value: page),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsWorkspacesRateLimits",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func listBetaOrganizationsWorkspacesRateLimits(config: ClientConfig, workspaceId: String, groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspaceRateLimitListResponse {
+        return try (await sdkRequest("GET", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/rate_limits?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("group_type", value: groupType),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+        ], decoder: .json, operationId: "listBetaOrganizationsWorkspacesRateLimits", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a
-    /// workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET
-    /// /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a
-    /// single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
+    /// List rate-limit overrides configured for a workspace. Returns only the groups and limiter types that have a workspace-level override. Groups without overrides inherit the organization limits and are not listed; use `GET /v1/organizations/rate_limits` to see those. When `limit` is omitted, every matching entry is returned in a single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
     ///
     /// - Parameters:
     /// - workspaceId: The ID of the workspace.
@@ -86,42 +41,17 @@ public extension BetaOrganizationsWorkspacesRateLimitsMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsWorkspacesRateLimitsPaginated(
-        config: ClientConfig,
-        workspaceId: String,
-        groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error> {
-        AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaWorkspaceRateLimit,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsWorkspacesRateLimitsPaginated(config: ClientConfig, workspaceId: String, groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error> {
+        return AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error> { (continuation: AsyncThrowingStream<BetaWorkspaceRateLimit, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsWorkspacesRateLimits(
-                            config: config,
-                            workspaceId: workspaceId,
-                            groupType: groupType,
-                            limit: limit,
-                            page: pageCursor,
-                            anthropicVersion: anthropicVersion,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsWorkspacesRateLimits(config: config, workspaceId: workspaceId, groupType: groupType, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -134,57 +64,25 @@ public extension BetaOrganizationsWorkspacesRateLimitsMethods {
         }
     }
 
-    struct ListBetaOrganizationsWorkspacesRateLimitsPage {
+    public struct ListBetaOrganizationsWorkspacesRateLimitsPage {
         public let data: BetaWorkspaceRateLimitListResponse
         public let items: [BetaWorkspaceRateLimit]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsWorkspacesRateLimitsPages(
-        config: ClientConfig,
-        workspaceId: String,
-        groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsWorkspacesRateLimitsPage, Swift.Error> {
-        AsyncThrowingStream<
-            ListBetaOrganizationsWorkspacesRateLimitsPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsWorkspacesRateLimitsPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsWorkspacesRateLimitsPages(config: ClientConfig, workspaceId: String, groupType: ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsWorkspacesRateLimitsPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaOrganizationsWorkspacesRateLimitsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsWorkspacesRateLimitsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsWorkspacesRateLimits(
-                            config: config,
-                            workspaceId: workspaceId,
-                            groupType: groupType,
-                            limit: limit,
-                            page: pageCursor,
-                            anthropicVersion: anthropicVersion,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsWorkspacesRateLimits(config: config, workspaceId: workspaceId, groupType: groupType, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsWorkspacesRateLimitsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsWorkspacesRateLimitsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

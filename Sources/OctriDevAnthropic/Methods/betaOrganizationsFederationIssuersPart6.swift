@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsFederationIssuersMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Archive a
-    /// federation issuer. Idempotent; re-archiving returns the issuer with its original `archived_at`. Rejected with
-    /// 400 if any live (non-archived) federation rule still references the issuer; archive those rules first (a rule's
-    /// issuer cannot be changed), or recreate them against another issuer.
+extension BetaOrganizationsFederationIssuersMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Archive a federation issuer. Idempotent; re-archiving returns the issuer with its original `archived_at`. Rejected with 400 if any live (non-archived) federation rule still references the issuer; archive those rules first (a rule's issuer cannot be changed), or recreate them against another issuer.
     ///
     /// - Parameters:
     /// - federationIssuerId: ID of the federation issuer to archive.
@@ -21,46 +17,10 @@ public extension BetaOrganizationsFederationIssuersMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func archiveBetaOrganizationsFederationIssuers(
-        config: ClientConfig,
-        federationIssuerId: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaFederationIssuer {
-        try await (sdkRequest(
-            "POST",
-            [
-                "/v1/organizations/federation_issuers/",
-                sdkEncodePathSegment(sdkWireString(federationIssuerId)),
-                "/archive?beta=true",
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "archiveBetaOrganizationsFederationIssuers",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func archiveBetaOrganizationsFederationIssuers(config: ClientConfig, federationIssuerId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFederationIssuer {
+        return try (await sdkRequest("POST", ["/v1/organizations/federation_issuers/", sdkEncodePathSegment(sdkWireString(federationIssuerId)), "/archive?beta=true"].joined(), config: config, decoder: .json, operationId: "archiveBetaOrganizationsFederationIssuers", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

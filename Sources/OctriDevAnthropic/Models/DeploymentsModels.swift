@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Deployments domain models
+// Deployments domain models
 /// Request parameters for updating a `deployment`. Omit a field to preserve its current value.
 public struct BetaManagedAgentsUpdateDeploymentParams: Codable {
     /// Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
@@ -46,46 +46,35 @@ public struct BetaManagedAgentsUpdateDeploymentParams: Codable {
     }
 
     init() {
-        (name, description, agent, environmentId, vaultIds) = (nil, nil, nil, nil, nil)
-        (initialEvents, resources, metadata, schedule, budget) = (nil, nil, nil, nil, nil)
+        (self.name, self.description, self.agent, self.environmentId, self.vaultIds) = (nil, nil, nil, nil, nil)
+        (self.initialEvents, self.resources, self.metadata, self.schedule, self.budget) = (nil, nil, nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsUpdateDeploymentParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUpdateDeploymentParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.sdkDecodeIfPresent(.name)
-        description = try container.sdkDecodeIfPresent(.description)
-        agent = try container.sdkDecodeIfPresent(.agent)
-        environmentId = try container.sdkDecodeIfPresent(.environmentId)
-        vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
-        initialEvents = try container.sdkDecodeIfPresent(.initialEvents)
-        resources = try container.sdkDecodeIfPresent(.resources)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
-        schedule = try container.sdkDecodeIfPresent(.schedule)
-        budget = try container.sdkDecodeIfPresent(.budget)
-        if let value = name {
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.agent = try container.sdkDecodeIfPresent(.agent)
+        self.environmentId = try container.sdkDecodeIfPresent(.environmentId)
+        self.vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
+        self.initialEvents = try container.sdkDecodeIfPresent(.initialEvents)
+        self.resources = try container.sdkDecodeIfPresent(.resources)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.schedule = try container.sdkDecodeIfPresent(.schedule)
+        self.budget = try container.sdkDecodeIfPresent(.budget)
+        if let value = self.name {
             try validateLength("name", value, min: nil, max: 256)
         }
-        if let value = environmentId {
+        if let value = self.environmentId {
             try validateLength("environment_id", value, min: nil, max: 128)
         }
     }
 }
 
-public extension BetaManagedAgentsUpdateDeploymentParams {
-    init(
-        name: String? = nil,
-        description: String? = nil,
-        agent: BetaManagedAgentsAgentUnionParams? = nil,
-        environmentId: String? = nil,
-        vaultIds: [String]? = nil,
-        initialEvents: [BetaManagedAgentsDeploymentInitialEventParams]? = nil,
-        resources: [BetaManagedAgentsSessionResourceParams]? = nil,
-        metadata: [String: String?]? = nil,
-        schedule: BetaManagedAgentsScheduleParams? = nil,
-        budget: BetaManagedAgentsBudget? = nil
-    ) throws {
+extension BetaManagedAgentsUpdateDeploymentParams {
+    public init(name: String? = nil, description: String? = nil, agent: BetaManagedAgentsAgentUnionParams? = nil, environmentId: String? = nil, vaultIds: [String]? = nil, initialEvents: [BetaManagedAgentsDeploymentInitialEventParams]? = nil, resources: [BetaManagedAgentsSessionResourceParams]? = nil, metadata: [String: String?]? = nil, schedule: BetaManagedAgentsScheduleParams? = nil, budget: BetaManagedAgentsBudget? = nil) throws {
         self.init()
         (self.name, self.description) = (name, description)
         (self.agent, self.environmentId) = (agent, environmentId)

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaCloud domain models
+// SharedBetaCloud domain models
 public indirect enum BetaCloudConfigNetworking {
     case betaUnrestrictedNetwork(BetaUnrestrictedNetwork)
     case betaLimitedNetwork(BetaLimitedNetwork)
@@ -12,6 +12,7 @@ public indirect enum BetaCloudConfigNetworking {
 }
 
 extension BetaCloudConfigNetworking: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension BetaCloudConfigNetworking: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension BetaCloudConfigNetworking: Codable {
 extension BetaCloudConfigNetworking {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "unrestricted": try .betaUnrestrictedNetwork(BetaUnrestrictedNetwork(from: decoder))
-        case "limited": try .betaLimitedNetwork(BetaLimitedNetwork(from: decoder))
-        default: nil
+        case "unrestricted": return .betaUnrestrictedNetwork(try BetaUnrestrictedNetwork(from: decoder))
+        case "limited": return .betaLimitedNetwork(try BetaLimitedNetwork(from: decoder))
+        default: return nil
         }
     }
 }
@@ -65,6 +62,7 @@ public indirect enum BetaCloudConfigParamsNetworking {
 }
 
 extension BetaCloudConfigParamsNetworking: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -72,16 +70,12 @@ extension BetaCloudConfigParamsNetworking: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -92,9 +86,9 @@ extension BetaCloudConfigParamsNetworking: Codable {
 extension BetaCloudConfigParamsNetworking {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "unrestricted": try .betaUnrestrictedNetwork(BetaUnrestrictedNetwork(from: decoder))
-        case "limited": try .betaLimitedNetworkParams(BetaLimitedNetworkParams(from: decoder))
-        default: nil
+        case "unrestricted": return .betaUnrestrictedNetwork(try BetaUnrestrictedNetwork(from: decoder))
+        case "limited": return .betaLimitedNetworkParams(try BetaLimitedNetworkParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -125,47 +119,33 @@ public struct BetaCloudConfig: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCloudConfig {
-    init(from decoder: Decoder) throws {
+extension BetaCloudConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.networking) else {
-            throw SdkValidationError(
-                field: "networking",
-                code: "required",
-                message: "Validation failed for 'networking': value is required"
-            )
+            throw SdkValidationError(field: "networking", code: "required", message: "Validation failed for 'networking': value is required")
         }
         guard container.contains(.packages) else {
-            throw SdkValidationError(
-                field: "packages",
-                code: "required",
-                message: "Validation failed for 'packages': value is required"
-            )
+            throw SdkValidationError(field: "packages", code: "required", message: "Validation failed for 'packages': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        networking = try container.sdkDecodeRequired(.networking)
-        packages = try container.sdkDecodeRequired(.packages)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCloudConfigType.allCases.map(\.rawValue))
+        self.networking = try container.sdkDecodeRequired(.networking)
+        self.packages = try container.sdkDecodeRequired(.packages)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCloudConfigType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCloudConfig {
-    init(networking: BetaCloudConfigNetworking, packages: BetaPackages, type: BetaCloudConfigType) throws {
+extension BetaCloudConfig {
+    public init(networking: BetaCloudConfigNetworking, packages: BetaPackages, type: BetaCloudConfigType) throws {
         (self.networking, self.packages) = (networking, packages)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaCloudConfigType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCloudConfigType.allCases.map(\.rawValue))
     }
 }
 
@@ -186,37 +166,27 @@ public struct BetaCloudConfigParams: Codable {
         case packages
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCloudConfigParams {
-    init(from decoder: Decoder) throws {
+extension BetaCloudConfigParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        networking = try container.sdkDecodeIfPresent(.networking)
-        packages = try container.sdkDecodeIfPresent(.packages)
-        try sdkValidateRawEnum("type", type, BetaCloudConfigParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.networking = try container.sdkDecodeIfPresent(.networking)
+        self.packages = try container.sdkDecodeIfPresent(.packages)
+            try sdkValidateRawEnum("type", self.type, BetaCloudConfigParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCloudConfigParams {
-    init(
-        type: BetaCloudConfigParamsType,
-        networking: BetaCloudConfigParamsNetworking? = nil,
-        packages: BetaPackagesParams? = nil
-    ) throws {
+extension BetaCloudConfigParams {
+    public init(type: BetaCloudConfigParamsType, networking: BetaCloudConfigParamsNetworking? = nil, packages: BetaPackagesParams? = nil) throws {
         (self.type, self.networking) = (type, networking)
         self.packages = packages
-        try sdkValidateRawEnum("type", self.type, BetaCloudConfigParamsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCloudConfigParamsType.allCases.map(\.rawValue))
     }
 }
 

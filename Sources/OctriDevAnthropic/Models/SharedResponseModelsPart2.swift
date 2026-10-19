@@ -3,121 +3,53 @@
 
 import Foundation
 
-/// SharedResponse domain models
-public extension ResponseContentBlockLocationCitation {
-    init(from decoder: Decoder) throws {
+// SharedResponse domain models
+extension ResponseContentBlockLocationCitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(
-                field: "cited_text",
-                code: "required",
-                message: "Validation failed for 'cited_text': value is required"
-            )
+            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
         }
         guard container.contains(.documentIndex) else {
-            throw SdkValidationError(
-                field: "document_index",
-                code: "required",
-                message: "Validation failed for 'document_index': value is required"
-            )
+            throw SdkValidationError(field: "document_index", code: "required", message: "Validation failed for 'document_index': value is required")
         }
         guard container.contains(.documentTitle) else {
-            throw SdkValidationError(
-                field: "document_title",
-                code: "required",
-                message: "Validation failed for 'document_title': value is required"
-            )
+            throw SdkValidationError(field: "document_title", code: "required", message: "Validation failed for 'document_title': value is required")
         }
         guard container.contains(.endBlockIndex) else {
-            throw SdkValidationError(
-                field: "end_block_index",
-                code: "required",
-                message: "Validation failed for 'end_block_index': value is required"
-            )
+            throw SdkValidationError(field: "end_block_index", code: "required", message: "Validation failed for 'end_block_index': value is required")
         }
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.startBlockIndex) else {
-            throw SdkValidationError(
-                field: "start_block_index",
-                code: "required",
-                message: "Validation failed for 'start_block_index': value is required"
-            )
+            throw SdkValidationError(field: "start_block_index", code: "required", message: "Validation failed for 'start_block_index': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        citedText = try container.sdkDecodeRequired(.citedText)
-        documentIndex = try container.sdkDecodeRequired(.documentIndex)
-        documentTitle = try container.sdkDecodeNullable(.documentTitle)
-        endBlockIndex = try container.sdkDecodeRequired(.endBlockIndex)
-        fileId = try container.sdkDecodeNullable(.fileId)
-        startBlockIndex = try container.sdkDecodeRequired(.startBlockIndex)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "document_index",
-            Double(documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_block_index",
-            Double(startBlockIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, ResponseContentBlockLocationCitationType.allCases.map(\.rawValue))
+        self.citedText = try container.sdkDecodeRequired(.citedText)
+        self.documentIndex = try container.sdkDecodeRequired(.documentIndex)
+        self.documentTitle = try container.sdkDecodeNullable(.documentTitle)
+        self.endBlockIndex = try container.sdkDecodeRequired(.endBlockIndex)
+        self.fileId = try container.sdkDecodeNullable(.fileId)
+        self.startBlockIndex = try container.sdkDecodeRequired(.startBlockIndex)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_block_index", Double(self.startBlockIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, ResponseContentBlockLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-public extension ResponseContentBlockLocationCitation {
-    init(
-        citedText: String,
-        documentIndex: Int,
-        documentTitle: String?,
-        endBlockIndex: Int,
-        fileId: String?,
-        startBlockIndex: Int,
-        type: ResponseContentBlockLocationCitationType
-    ) throws {
+extension ResponseContentBlockLocationCitation {
+    public init(citedText: String, documentIndex: Int, documentTitle: String?, endBlockIndex: Int, fileId: String?, startBlockIndex: Int, type: ResponseContentBlockLocationCitationType) throws {
         (self.citedText, self.documentIndex) = (citedText, documentIndex)
         (self.documentTitle, self.endBlockIndex) = (documentTitle, endBlockIndex)
         (self.fileId, self.startBlockIndex) = (fileId, startBlockIndex)
         self.type = type
-        try validateRange(
-            "document_index",
-            Double(self.documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_block_index",
-            Double(self.startBlockIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, ResponseContentBlockLocationCitationType.allCases.map(\.rawValue))
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_block_index", Double(self.startBlockIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, ResponseContentBlockLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -148,125 +80,55 @@ public struct ResponsePageLocationCitation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ResponsePageLocationCitation {
-    init(from decoder: Decoder) throws {
+extension ResponsePageLocationCitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(
-                field: "cited_text",
-                code: "required",
-                message: "Validation failed for 'cited_text': value is required"
-            )
+            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
         }
         guard container.contains(.documentIndex) else {
-            throw SdkValidationError(
-                field: "document_index",
-                code: "required",
-                message: "Validation failed for 'document_index': value is required"
-            )
+            throw SdkValidationError(field: "document_index", code: "required", message: "Validation failed for 'document_index': value is required")
         }
         guard container.contains(.documentTitle) else {
-            throw SdkValidationError(
-                field: "document_title",
-                code: "required",
-                message: "Validation failed for 'document_title': value is required"
-            )
+            throw SdkValidationError(field: "document_title", code: "required", message: "Validation failed for 'document_title': value is required")
         }
         guard container.contains(.endPageNumber) else {
-            throw SdkValidationError(
-                field: "end_page_number",
-                code: "required",
-                message: "Validation failed for 'end_page_number': value is required"
-            )
+            throw SdkValidationError(field: "end_page_number", code: "required", message: "Validation failed for 'end_page_number': value is required")
         }
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.startPageNumber) else {
-            throw SdkValidationError(
-                field: "start_page_number",
-                code: "required",
-                message: "Validation failed for 'start_page_number': value is required"
-            )
+            throw SdkValidationError(field: "start_page_number", code: "required", message: "Validation failed for 'start_page_number': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        citedText = try container.sdkDecodeRequired(.citedText)
-        documentIndex = try container.sdkDecodeRequired(.documentIndex)
-        documentTitle = try container.sdkDecodeNullable(.documentTitle)
-        endPageNumber = try container.sdkDecodeRequired(.endPageNumber)
-        fileId = try container.sdkDecodeNullable(.fileId)
-        startPageNumber = try container.sdkDecodeRequired(.startPageNumber)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "document_index",
-            Double(documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_page_number",
-            Double(startPageNumber),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, ResponsePageLocationCitationType.allCases.map(\.rawValue))
+        self.citedText = try container.sdkDecodeRequired(.citedText)
+        self.documentIndex = try container.sdkDecodeRequired(.documentIndex)
+        self.documentTitle = try container.sdkDecodeNullable(.documentTitle)
+        self.endPageNumber = try container.sdkDecodeRequired(.endPageNumber)
+        self.fileId = try container.sdkDecodeNullable(.fileId)
+        self.startPageNumber = try container.sdkDecodeRequired(.startPageNumber)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_page_number", Double(self.startPageNumber), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, ResponsePageLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-public extension ResponsePageLocationCitation {
-    init(
-        citedText: String,
-        documentIndex: Int,
-        documentTitle: String?,
-        endPageNumber: Int,
-        fileId: String?,
-        startPageNumber: Int,
-        type: ResponsePageLocationCitationType
-    ) throws {
+extension ResponsePageLocationCitation {
+    public init(citedText: String, documentIndex: Int, documentTitle: String?, endPageNumber: Int, fileId: String?, startPageNumber: Int, type: ResponsePageLocationCitationType) throws {
         (self.citedText, self.documentIndex) = (citedText, documentIndex)
         (self.documentTitle, self.endPageNumber) = (documentTitle, endPageNumber)
         (self.fileId, self.startPageNumber) = (fileId, startPageNumber)
         self.type = type
-        try validateRange(
-            "document_index",
-            Double(self.documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_page_number",
-            Double(self.startPageNumber),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, ResponsePageLocationCitationType.allCases.map(\.rawValue))
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_page_number", Double(self.startPageNumber), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, ResponsePageLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -282,38 +144,28 @@ public struct ResponseContainerUploadBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ResponseContainerUploadBlock {
-    init(from decoder: Decoder) throws {
+extension ResponseContainerUploadBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        fileId = try container.sdkDecodeRequired(.fileId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ResponseContainerUploadBlockType.allCases.map(\.rawValue))
+        self.fileId = try container.sdkDecodeRequired(.fileId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ResponseContainerUploadBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension ResponseContainerUploadBlock {
-    init(fileId: String, type: ResponseContainerUploadBlockType) throws {
+extension ResponseContainerUploadBlock {
+    public init(fileId: String, type: ResponseContainerUploadBlockType) throws {
         (self.fileId, self.type) = (fileId, type)
-        try sdkValidateRawEnum("type", self.type, ResponseContainerUploadBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ResponseContainerUploadBlockType.allCases.map(\.rawValue))
     }
 }
 

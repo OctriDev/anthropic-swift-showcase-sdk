@@ -3,22 +3,19 @@
 
 import Foundation
 
-/// SharedBetaThinking domain models
+// SharedBetaThinking domain models
 /// Typed representation of the `BetaThinkingDisplayMode` API schema.
 public struct BetaThinkingDisplayMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let summarized = BetaThinkingDisplayMode(rawValue: "summarized")
     public static let omitted = BetaThinkingDisplayMode(rawValue: "omitted")
     public static let updates = BetaThinkingDisplayMode(rawValue: "updates")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

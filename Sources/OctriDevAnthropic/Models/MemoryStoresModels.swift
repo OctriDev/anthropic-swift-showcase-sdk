@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// MemoryStores domain models
+// MemoryStores domain models
 public indirect enum BetaManagedAgentsDeleteMemoryStoreResponse {
     case betaManagedAgentsDeletedMemoryStore(BetaManagedAgentsDeletedMemoryStore)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaManagedAgentsDeleteMemoryStoreResponse {
 }
 
 extension BetaManagedAgentsDeleteMemoryStoreResponse: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaManagedAgentsDeleteMemoryStoreResponse: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -38,10 +35,8 @@ extension BetaManagedAgentsDeleteMemoryStoreResponse: Codable {
 extension BetaManagedAgentsDeleteMemoryStoreResponse {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store_deleted": try .betaManagedAgentsDeletedMemoryStore(
-                BetaManagedAgentsDeletedMemoryStore(from: decoder)
-            )
-        default: nil
+        case "memory_store_deleted": return .betaManagedAgentsDeletedMemoryStore(try BetaManagedAgentsDeletedMemoryStore(from: decoder))
+        default: return nil
         }
     }
 }
@@ -63,6 +58,7 @@ public indirect enum BetaManagedAgentsGetMemoryStoreResponse {
 }
 
 extension BetaManagedAgentsGetMemoryStoreResponse: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -70,16 +66,12 @@ extension BetaManagedAgentsGetMemoryStoreResponse: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -90,8 +82,8 @@ extension BetaManagedAgentsGetMemoryStoreResponse: Codable {
 extension BetaManagedAgentsGetMemoryStoreResponse {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store": try .betaManagedAgentsMemoryStore(BetaManagedAgentsMemoryStore(from: decoder))
-        default: nil
+        case "memory_store": return .betaManagedAgentsMemoryStore(try BetaManagedAgentsMemoryStore(from: decoder))
+        default: return nil
         }
     }
 }
@@ -113,6 +105,7 @@ public indirect enum BetaManagedAgentsUpdateMemoryStoreResponse {
 }
 
 extension BetaManagedAgentsUpdateMemoryStoreResponse: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -120,16 +113,12 @@ extension BetaManagedAgentsUpdateMemoryStoreResponse: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -140,8 +129,8 @@ extension BetaManagedAgentsUpdateMemoryStoreResponse: Codable {
 extension BetaManagedAgentsUpdateMemoryStoreResponse {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store": try .betaManagedAgentsMemoryStore(BetaManagedAgentsMemoryStore(from: decoder))
-        default: nil
+        case "memory_store": return .betaManagedAgentsMemoryStore(try BetaManagedAgentsMemoryStore(from: decoder))
+        default: return nil
         }
     }
 }
@@ -174,21 +163,21 @@ public struct BetaManagedAgentsUpdateMemoryStoreRequestBody: Codable {
     }
 
     init() {
-        (name, description, metadata) = (nil, nil, nil)
+        (self.name, self.description, self.metadata) = (nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsUpdateMemoryStoreRequestBody {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUpdateMemoryStoreRequestBody {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.sdkDecodeIfPresent(.name)
-        description = try container.sdkDecodeIfPresent(.description)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
     }
 }
 
-public extension BetaManagedAgentsUpdateMemoryStoreRequestBody {
-    init(name: String? = nil, description: String? = nil, metadata: [String: String?]? = nil) {
+extension BetaManagedAgentsUpdateMemoryStoreRequestBody {
+    public init(name: String? = nil, description: String? = nil, metadata: [String: String?]? = nil) {
         self.init()
         (self.name, self.description) = (name, description)
         self.metadata = metadata
@@ -208,38 +197,28 @@ public struct BetaManagedAgentsDeletedMemoryStore: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsDeletedMemoryStore {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsDeletedMemoryStore {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsDeletedMemoryStoreType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsDeletedMemoryStoreType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsDeletedMemoryStore {
-    init(type: BetaManagedAgentsDeletedMemoryStoreType, id: String) throws {
+extension BetaManagedAgentsDeletedMemoryStore {
+    public init(type: BetaManagedAgentsDeletedMemoryStoreType, id: String) throws {
         (self.type, self.id) = (type, id)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsDeletedMemoryStoreType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsDeletedMemoryStoreType.allCases.map(\.rawValue))
     }
 }
 

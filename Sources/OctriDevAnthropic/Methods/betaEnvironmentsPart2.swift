@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaEnvironmentsMethods {
-    struct CreateBetaEnvironmentsOptions: Codable {
+extension BetaEnvironmentsMethods {
+    public struct CreateBetaEnvironmentsOptions: Codable {
         public var name: String
         public var anthropicBeta: [AnthropicBeta]?
         public var anthropicVersion: String?
@@ -44,46 +44,15 @@ public extension BetaEnvironmentsMethods {
     ///   environment visible to all accounts. 'account' restricts visibility to the
     ///   owning account only. Only applicable for self-hosted environments. If not
     ///   specified, defaults based on organization type.
-    static func createBetaEnvironments(
-        config: ClientConfig,
-        options: CreateBetaEnvironmentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaEnvironment {
+    public static func createBetaEnvironments(config: ClientConfig, options: CreateBetaEnvironmentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
         try validateLength("name", options.name, min: 1, max: 256)
 
         let requestBody = CreateBetaEnvironmentsRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/environments?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaEnvironments",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/environments?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaEnvironments", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ArtifactsBetaTrue domain models
+// ArtifactsBetaTrue domain models
 /// Artifact-creation activity for one (`artifact_type`, `is_shared`) bucket on a given day. Artifacts form a small
 /// finite cube — the canonical MIME type (8 values incl. `other`) crossed with shared-vs-private — so the response
 /// is the full set of non-empty buckets, not a ranked/paginated list. Claude Code and Cowork artifacts report under
@@ -50,73 +50,41 @@ public struct BetaAnalyticsArtifactActivity: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsArtifactActivity {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsArtifactActivity {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.artifactType) else {
-            throw SdkValidationError(
-                field: "artifact_type",
-                code: "required",
-                message: "Validation failed for 'artifact_type': value is required"
-            )
+            throw SdkValidationError(field: "artifact_type", code: "required", message: "Validation failed for 'artifact_type': value is required")
         }
         guard container.contains(.artifactsCreatedCount) else {
-            throw SdkValidationError(
-                field: "artifacts_created_count",
-                code: "required",
-                message: "Validation failed for 'artifacts_created_count': value is required"
-            )
+            throw SdkValidationError(field: "artifacts_created_count", code: "required", message: "Validation failed for 'artifacts_created_count': value is required")
         }
         guard container.contains(.distinctUserCount) else {
-            throw SdkValidationError(
-                field: "distinct_user_count",
-                code: "required",
-                message: "Validation failed for 'distinct_user_count': value is required"
-            )
+            throw SdkValidationError(field: "distinct_user_count", code: "required", message: "Validation failed for 'distinct_user_count': value is required")
         }
         guard container.contains(.isShared) else {
-            throw SdkValidationError(
-                field: "is_shared",
-                code: "required",
-                message: "Validation failed for 'is_shared': value is required"
-            )
+            throw SdkValidationError(field: "is_shared", code: "required", message: "Validation failed for 'is_shared': value is required")
         }
         guard container.contains(.publishedArtifactsCreatedCount) else {
-            throw SdkValidationError(
-                field: "published_artifacts_created_count",
-                code: "required",
-                message: "Validation failed for 'published_artifacts_created_count': value is required"
-            )
+            throw SdkValidationError(field: "published_artifacts_created_count", code: "required", message: "Validation failed for 'published_artifacts_created_count': value is required")
         }
-        artifactType = try container.sdkDecodeRequired(.artifactType)
-        artifactsCreatedCount = try container.sdkDecodeRequired(.artifactsCreatedCount)
-        distinctUserCount = try container.sdkDecodeRequired(.distinctUserCount)
-        isShared = try container.sdkDecodeRequired(.isShared)
-        publishedArtifactsCreatedCount = try container.sdkDecodeRequired(.publishedArtifactsCreatedCount)
-        product = try container.sdkDecodeIfPresent(.product)
-        rbacGroupId = try container.sdkDecodeIfPresent(.rbacGroupId)
-        rbacGroupName = try container.sdkDecodeIfPresent(.rbacGroupName)
-        userId = try container.sdkDecodeIfPresent(.userId)
+        self.artifactType = try container.sdkDecodeRequired(.artifactType)
+        self.artifactsCreatedCount = try container.sdkDecodeRequired(.artifactsCreatedCount)
+        self.distinctUserCount = try container.sdkDecodeRequired(.distinctUserCount)
+        self.isShared = try container.sdkDecodeRequired(.isShared)
+        self.publishedArtifactsCreatedCount = try container.sdkDecodeRequired(.publishedArtifactsCreatedCount)
+        self.product = try container.sdkDecodeIfPresent(.product)
+        self.rbacGroupId = try container.sdkDecodeIfPresent(.rbacGroupId)
+        self.rbacGroupName = try container.sdkDecodeIfPresent(.rbacGroupName)
+        self.userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-public extension BetaAnalyticsArtifactActivity {
-    init(
-        artifactType: String,
-        artifactsCreatedCount: Int,
-        distinctUserCount: Int,
-        isShared: Bool,
-        publishedArtifactsCreatedCount: Int,
-        product: String? = nil,
-        rbacGroupId: String? = nil,
-        rbacGroupName: String? = nil,
-        userId: String? = nil
-    ) {
+extension BetaAnalyticsArtifactActivity {
+    public init(artifactType: String, artifactsCreatedCount: Int, distinctUserCount: Int, isShared: Bool, publishedArtifactsCreatedCount: Int, product: String? = nil, rbacGroupId: String? = nil, rbacGroupName: String? = nil, userId: String? = nil) {
         (self.artifactType, self.artifactsCreatedCount) = (artifactType, artifactsCreatedCount)
         (self.distinctUserCount, self.isShared) = (distinctUserCount, isShared)
         (self.publishedArtifactsCreatedCount, self.product) = (publishedArtifactsCreatedCount, product)
@@ -140,35 +108,25 @@ public struct BetaAnalyticsArtifactsResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsArtifactsResponse {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsArtifactsResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaAnalyticsArtifactsResponse {
-    init(data: [BetaAnalyticsArtifactActivity], nextPage: String?) {
+extension BetaAnalyticsArtifactsResponse {
+    public init(data: [BetaAnalyticsArtifactActivity], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

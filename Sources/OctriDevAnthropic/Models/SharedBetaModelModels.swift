@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaModel domain models
+// SharedBetaModel domain models
 /// Model capability information.
 public struct BetaModelCapabilities: Codable {
     /// Whether the model supports the Batch API.
@@ -37,38 +37,26 @@ public struct BetaModelCapabilities: Codable {
         case thinking
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaModelCapabilities {
-    init(from decoder: Decoder) throws {
+extension BetaModelCapabilities {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        batch = try container.sdkDecodeRequired(.batch)
-        citations = try container.sdkDecodeRequired(.citations)
-        codeExecution = try container.sdkDecodeRequired(.codeExecution)
-        contextManagement = try container.sdkDecodeRequired(.contextManagement)
-        effort = try container.sdkDecodeRequired(.effort)
-        imageInput = try container.sdkDecodeRequired(.imageInput)
-        pdfInput = try container.sdkDecodeRequired(.pdfInput)
-        structuredOutputs = try container.sdkDecodeRequired(.structuredOutputs)
-        thinking = try container.sdkDecodeRequired(.thinking)
+        self.batch = try container.sdkDecodeRequired(.batch)
+        self.citations = try container.sdkDecodeRequired(.citations)
+        self.codeExecution = try container.sdkDecodeRequired(.codeExecution)
+        self.contextManagement = try container.sdkDecodeRequired(.contextManagement)
+        self.effort = try container.sdkDecodeRequired(.effort)
+        self.imageInput = try container.sdkDecodeRequired(.imageInput)
+        self.pdfInput = try container.sdkDecodeRequired(.pdfInput)
+        self.structuredOutputs = try container.sdkDecodeRequired(.structuredOutputs)
+        self.thinking = try container.sdkDecodeRequired(.thinking)
     }
 }
 
-public extension BetaModelCapabilities {
-    init(
-        batch: BetaCapabilitySupport,
-        citations: BetaCapabilitySupport,
-        codeExecution: BetaCapabilitySupport,
-        contextManagement: BetaContextManagementCapability,
-        effort: BetaEffortCapability,
-        imageInput: BetaCapabilitySupport,
-        pdfInput: BetaCapabilitySupport,
-        structuredOutputs: BetaCapabilitySupport,
-        thinking: BetaThinkingCapability
-    ) {
+extension BetaModelCapabilities {
+    public init(batch: BetaCapabilitySupport, citations: BetaCapabilitySupport, codeExecution: BetaCapabilitySupport, contextManagement: BetaContextManagementCapability, effort: BetaEffortCapability, imageInput: BetaCapabilitySupport, pdfInput: BetaCapabilitySupport, structuredOutputs: BetaCapabilitySupport, thinking: BetaThinkingCapability) {
         (self.batch, self.citations) = (batch, citations)
         (self.codeExecution, self.contextManagement) = (codeExecution, contextManagement)
         (self.effort, self.imageInput) = (effort, imageInput)
@@ -110,44 +98,33 @@ public struct BetaModelInfo: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaModelInfo {
-    init(from decoder: Decoder) throws {
+extension BetaModelInfo {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        allowedFallbackModels = try container.sdkDecodeNullable(.allowedFallbackModels)
-        capabilities = try container.sdkDecodeNullable(.capabilities)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        displayName = try container.sdkDecodeRequired(.displayName)
-        id = try container.sdkDecodeRequired(.id)
-        maxInputTokens = try container.sdkDecodeNullable(.maxInputTokens)
-        maxTokens = try container.sdkDecodeNullable(.maxTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaModelInfoType.allCases.map(\.rawValue))
+        self.allowedFallbackModels = try container.sdkDecodeNullable(.allowedFallbackModels)
+        self.capabilities = try container.sdkDecodeNullable(.capabilities)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.displayName = try container.sdkDecodeRequired(.displayName)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.maxInputTokens = try container.sdkDecodeNullable(.maxInputTokens)
+        self.maxTokens = try container.sdkDecodeNullable(.maxTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaModelInfoType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaModelInfo {
-    init(
-        allowedFallbackModels: [String]?,
-        capabilities: BetaModelCapabilities?,
-        createdAt: Date,
-        displayName: String,
-        id: String,
-        maxInputTokens: Int?,
-        maxTokens: Int?,
-        type: BetaModelInfoType
-    ) throws {
+extension BetaModelInfo {
+    public init(allowedFallbackModels: [String]?, capabilities: BetaModelCapabilities?, createdAt: Date, displayName: String, id: String, maxInputTokens: Int?, maxTokens: Int?, type: BetaModelInfoType) throws {
         (self.allowedFallbackModels, self.capabilities) = (allowedFallbackModels, capabilities)
         (self.createdAt, self.displayName) = (createdAt, displayName)
         (self.id, self.maxInputTokens) = (id, maxInputTokens)
         (self.maxTokens, self.type) = (maxTokens, type)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum("type", self.type, BetaModelInfoType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaModelInfoType.allCases.map(\.rawValue))
     }
 }
 

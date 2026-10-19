@@ -6,14 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsSpendLimitIncreaseRequestsMethods {
-    /// Approves a pending spend limit increase request and creates a per-user spend limit for the requester. Supply
-    /// `amount` as a non-negative integer decimal string in minor units; `period` defaults to the period the member was
-    /// blocked on, and the requester is emailed unless `suppress_notification` is set.
+extension BetaOrganizationsSpendLimitIncreaseRequestsMethods {
+    /// Approves a pending spend limit increase request and creates a per-user spend limit for the requester. Supply `amount` as a non-negative integer decimal string in minor units; `period` defaults to the period the member was blocked on, and the requester is emailed unless `suppress_notification` is set.
     ///
-    /// Approve a pending spend limit increase request. Writes a per-user spend limit at `amount` for the requester and
-    /// transitions the request to `approved`. `period` defaults to the period the member was blocked on. Anthropic
-    /// emails the requester unless `suppress_notification` is set.
+    /// Approve a pending spend limit increase request. Writes a per-user spend limit at `amount` for the requester and transitions the request to `approved`. `period` defaults to the period the member was blocked on. Anthropic emails the requester unless `suppress_notification` is set.
     ///
     /// - Parameters:
     /// - spendLimitIncreaseRequestId: ID of the spend limit increase request.
@@ -22,50 +18,9 @@ public extension BetaOrganizationsSpendLimitIncreaseRequestsMethods {
     /// - period: Optional API value serialized in the `period` wire field.
     /// - suppressNotification: Optional `boolean` value serialized in the
     ///   `suppress_notification` wire field.
-    static func approveBetaOrganizationsSpendLimitIncreaseRequests(
-        config: ClientConfig,
-        spendLimitIncreaseRequestId: String,
-        amount: String,
-        period: SdkOptional<BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0>? = nil,
-        suppressNotification: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaApproveSpendLimitIncreaseRequestResponse {
-        let requestBody = ApproveBetaOrganizationsSpendLimitIncreaseRequestsRequestBody(
-            amount: amount,
-            period: period,
-            suppressNotification: suppressNotification
-        )
+    public static func approveBetaOrganizationsSpendLimitIncreaseRequests(config: ClientConfig, spendLimitIncreaseRequestId: String, amount: String, period: SdkOptional<BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0>? = nil, suppressNotification: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaApproveSpendLimitIncreaseRequestResponse {
+        let requestBody = ApproveBetaOrganizationsSpendLimitIncreaseRequestsRequestBody(amount: amount, period: period, suppressNotification: suppressNotification)
 
-        return try await (sdkRequest(
-            "POST",
-            [
-                "/v1/organizations/spend_limit_increase_requests/",
-                sdkEncodePathSegment(sdkWireString(spendLimitIncreaseRequestId)),
-                "/approve?beta=true",
-            ].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "approveBetaOrganizationsSpendLimitIncreaseRequests",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/spend_limit_increase_requests/", sdkEncodePathSegment(sdkWireString(spendLimitIncreaseRequestId)), "/approve?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "approveBetaOrganizationsSpendLimitIncreaseRequests", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

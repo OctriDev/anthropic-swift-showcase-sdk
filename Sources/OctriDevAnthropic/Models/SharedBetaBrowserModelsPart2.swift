@@ -3,17 +3,17 @@
 
 import Foundation
 
-/// SharedBetaBrowser domain models
-public extension BetaBrowserScrollConfig {
-    init(from decoder: Decoder) throws {
+// SharedBetaBrowser domain models
+extension BetaBrowserScrollConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserScrollConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserScrollConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -33,20 +33,20 @@ public struct BetaBrowserDoubleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserDoubleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserDoubleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserDoubleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserDoubleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -66,20 +66,20 @@ public struct BetaBrowserNavigateConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserNavigateConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserNavigateConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserNavigateConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserNavigateConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -92,6 +92,7 @@ public indirect enum BetaBrowserToolset20260801CacheControl {
 }
 
 extension BetaBrowserToolset20260801CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -99,16 +100,12 @@ extension BetaBrowserToolset20260801CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -119,8 +116,8 @@ extension BetaBrowserToolset20260801CacheControl: Codable {
 extension BetaBrowserToolset20260801CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -157,58 +154,44 @@ public struct BetaBrowserStateTabEntry: Codable {
         case active
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBrowserStateTabEntry {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserStateTabEntry {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.tabId) else {
-            throw SdkValidationError(
-                field: "tab_id",
-                code: "required",
-                message: "Validation failed for 'tab_id': value is required"
-            )
+            throw SdkValidationError(field: "tab_id", code: "required", message: "Validation failed for 'tab_id': value is required")
         }
         guard container.contains(.title) else {
-            throw SdkValidationError(
-                field: "title",
-                code: "required",
-                message: "Validation failed for 'title': value is required"
-            )
+            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        tabId = try container.sdkDecodeRequired(.tabId)
-        title = try container.sdkDecodeRequired(.title)
-        url = try container.sdkDecodeRequired(.url)
-        active = try container.sdkDecodeIfPresent(.active)
-        try validateLength("tab_id", tabId, min: 1, max: 4096)
-        try sdkValidatePattern("tab_id", tabId, sdkPattern1e612264d68c)
-        try validateLength("title", title, min: nil, max: 4096)
-        try sdkValidatePattern("title", title, sdkPattern1e612264d68c)
-        try validateLength("url", url, min: nil, max: 4096)
-        try sdkValidatePattern("url", url, sdkPattern1e612264d68c)
+        self.tabId = try container.sdkDecodeRequired(.tabId)
+        self.title = try container.sdkDecodeRequired(.title)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.active = try container.sdkDecodeIfPresent(.active)
+            try validateLength("tab_id", self.tabId, min: 1, max: 4096)
+            try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
+            try validateLength("title", self.title, min: nil, max: 4096)
+            try sdkValidatePattern("title", self.title, sdkPattern1e612264d68c)
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
     }
 }
 
-public extension BetaBrowserStateTabEntry {
-    init(tabId: String, title: String, url: String, active: Bool? = nil) throws {
+extension BetaBrowserStateTabEntry {
+    public init(tabId: String, title: String, url: String, active: Bool? = nil) throws {
         (self.tabId, self.title) = (tabId, title)
         (self.url, self.active) = (url, active)
-        try validateLength("tab_id", self.tabId, min: 1, max: 4096)
-        try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
-        try validateLength("title", self.title, min: nil, max: 4096)
-        try sdkValidatePattern("title", self.title, sdkPattern1e612264d68c)
-        try validateLength("url", self.url, min: nil, max: 4096)
-        try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+            try validateLength("tab_id", self.tabId, min: 1, max: 4096)
+            try sdkValidatePattern("tab_id", self.tabId, sdkPattern1e612264d68c)
+            try validateLength("title", self.title, min: nil, max: 4096)
+            try sdkValidatePattern("title", self.title, sdkPattern1e612264d68c)
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
     }
 }
 
@@ -226,20 +209,20 @@ public struct BetaBrowserKeyConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserKeyConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserKeyConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserKeyConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserKeyConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -269,67 +252,47 @@ public struct BetaBrowserStateChangeDownloadCompleted: Codable {
         case sizeBytes = "size_bytes"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBrowserStateChangeDownloadCompleted {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserStateChangeDownloadCompleted {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.downloadId) else {
-            throw SdkValidationError(
-                field: "download_id",
-                code: "required",
-                message: "Validation failed for 'download_id': value is required"
-            )
+            throw SdkValidationError(field: "download_id", code: "required", message: "Validation failed for 'download_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        downloadId = try container.sdkDecodeRequired(.downloadId)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        path = try container.sdkDecodeIfPresent(.path)
-        sizeBytes = try container.sdkDecodeIfPresent(.sizeBytes)
-        try validateLength("download_id", downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", type, BetaBrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
-        try validateLength("url", url, min: nil, max: 4096)
-        try sdkValidatePattern("url", url, sdkPattern1e612264d68c)
-        if let value = path {
+        self.downloadId = try container.sdkDecodeRequired(.downloadId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.path = try container.sdkDecodeIfPresent(.path)
+        self.sizeBytes = try container.sdkDecodeIfPresent(.sizeBytes)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+        if let value = self.path {
             try sdkValidatePattern("path", value, sdkPattern1e612264d68c)
         }
     }
 }
 
-public extension BetaBrowserStateChangeDownloadCompleted {
-    init(
-        downloadId: String,
-        type: BetaBrowserStateChangeDownloadCompletedType,
-        url: String,
-        path: String? = nil,
-        sizeBytes: Int? = nil
-    ) throws {
+extension BetaBrowserStateChangeDownloadCompleted {
+    public init(downloadId: String, type: BetaBrowserStateChangeDownloadCompletedType, url: String, path: String? = nil, sizeBytes: Int? = nil) throws {
         (self.downloadId, self.type) = (downloadId, type)
         (self.url, self.path) = (url, path)
         self.sizeBytes = sizeBytes
-        try validateLength("download_id", self.downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
-        try validateLength("url", self.url, min: nil, max: 4096)
-        try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
         if let value = self.path {
             try sdkValidatePattern("path", value, sdkPattern1e612264d68c)
         }
@@ -354,59 +317,45 @@ public struct BetaBrowserStateChangeDownloadFailed: Codable {
         case error
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBrowserStateChangeDownloadFailed {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserStateChangeDownloadFailed {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.downloadId) else {
-            throw SdkValidationError(
-                field: "download_id",
-                code: "required",
-                message: "Validation failed for 'download_id': value is required"
-            )
+            throw SdkValidationError(field: "download_id", code: "required", message: "Validation failed for 'download_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        downloadId = try container.sdkDecodeRequired(.downloadId)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        error = try container.sdkDecodeIfPresent(.error)
-        try validateLength("download_id", downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", type, BetaBrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
-        try validateLength("url", url, min: nil, max: 4096)
-        try sdkValidatePattern("url", url, sdkPattern1e612264d68c)
-        if let value = error {
+        self.downloadId = try container.sdkDecodeRequired(.downloadId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.error = try container.sdkDecodeIfPresent(.error)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+        if let value = self.error {
             try sdkValidatePattern("error", value, sdkPattern1e612264d68c)
         }
     }
 }
 
-public extension BetaBrowserStateChangeDownloadFailed {
-    init(downloadId: String, type: BetaBrowserStateChangeDownloadFailedType, url: String, error: String? = nil) throws {
+extension BetaBrowserStateChangeDownloadFailed {
+    public init(downloadId: String, type: BetaBrowserStateChangeDownloadFailedType, url: String, error: String? = nil) throws {
         (self.downloadId, self.type) = (downloadId, type)
         (self.url, self.error) = (url, error)
-        try validateLength("download_id", self.downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
-        try validateLength("url", self.url, min: nil, max: 4096)
-        try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BetaBrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
         if let value = self.error {
             try sdkValidatePattern("error", value, sdkPattern1e612264d68c)
         }
@@ -427,20 +376,20 @@ public struct BetaBrowserListTabsConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserListTabsConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserListTabsConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserListTabsConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserListTabsConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -460,20 +409,20 @@ public struct BetaBrowserZoomConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaBrowserZoomConfig {
-    init(from decoder: Decoder) throws {
+extension BetaBrowserZoomConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaBrowserZoomConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaBrowserZoomConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -582,12 +531,12 @@ public struct BetaBrowserToolsetConfigs: Codable {
     }
 
     init() {
-        (closeTab, doubleClick, fileUpload, find, formInput) = (nil, nil, nil, nil, nil)
-        (getPageText, holdKey, hover, javascriptExec, key) = (nil, nil, nil, nil, nil)
-        (leftClick, leftClickDrag, leftMouseDown, leftMouseUp, listTabs) = (nil, nil, nil, nil, nil)
-        (middleClick, mouseMove, navigate, newTab, readConsole) = (nil, nil, nil, nil, nil)
-        (readNetwork, readPage, rightClick, screenshot, scroll) = (nil, nil, nil, nil, nil)
-        (scrollTo, switchTab, tripleClick, type, wait) = (nil, nil, nil, nil, nil)
-        zoom = nil
+        (self.closeTab, self.doubleClick, self.fileUpload, self.find, self.formInput) = (nil, nil, nil, nil, nil)
+        (self.getPageText, self.holdKey, self.hover, self.javascriptExec, self.key) = (nil, nil, nil, nil, nil)
+        (self.leftClick, self.leftClickDrag, self.leftMouseDown, self.leftMouseUp, self.listTabs) = (nil, nil, nil, nil, nil)
+        (self.middleClick, self.mouseMove, self.navigate, self.newTab, self.readConsole) = (nil, nil, nil, nil, nil)
+        (self.readNetwork, self.readPage, self.rightClick, self.screenshot, self.scroll) = (nil, nil, nil, nil, nil)
+        (self.scrollTo, self.switchTab, self.tripleClick, self.type, self.wait) = (nil, nil, nil, nil, nil)
+        self.zoom = nil
     }
 }

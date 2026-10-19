@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// StreamBetaTrue domain models
+// StreamBetaTrue domain models
 public indirect enum BetaManagedAgentsEventDeltaEventDelta {
     case betaManagedAgentsEventDeltaEventContentDelta(BetaManagedAgentsEventDeltaEventContentDelta)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaManagedAgentsEventDeltaEventDelta {
 }
 
 extension BetaManagedAgentsEventDeltaEventDelta: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaManagedAgentsEventDeltaEventDelta: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,10 +36,8 @@ extension BetaManagedAgentsEventDeltaEventDelta {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "content_delta":
-            try .betaManagedAgentsEventDeltaEventContentDelta(
-                BetaManagedAgentsEventDeltaEventContentDelta(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEventDeltaEventContentDelta(try BetaManagedAgentsEventDeltaEventContentDelta(from: decoder))
+        default: return nil
         }
     }
 }
@@ -65,6 +60,7 @@ public indirect enum BetaManagedAgentsEventStartEventEvent {
 }
 
 extension BetaManagedAgentsEventStartEventEvent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -72,16 +68,12 @@ extension BetaManagedAgentsEventStartEventEvent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -93,14 +85,12 @@ extension BetaManagedAgentsEventStartEventEvent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "agent.message":
-            try .betaManagedAgentsEventStartEventAgentMessagePreview(
-                BetaManagedAgentsEventStartEventAgentMessagePreview(from: decoder)
-            )
+        return .betaManagedAgentsEventStartEventAgentMessagePreview(try BetaManagedAgentsEventStartEventAgentMessagePreview(from: decoder))
         case "agent.thinking":
-            try .betaManagedAgentsEventStartEventAgentThinkingPreview(
-                BetaManagedAgentsEventStartEventAgentThinkingPreview(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEventStartEventAgentThinkingPreview(
+            try BetaManagedAgentsEventStartEventAgentThinkingPreview(from: decoder)
+        )
+        default: return nil
         }
     }
 }
@@ -159,6 +149,7 @@ public indirect enum BetaManagedAgentsStreamSessionEvents {
 }
 
 extension BetaManagedAgentsStreamSessionEvents: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -166,28 +157,16 @@ extension BetaManagedAgentsStreamSessionEvents: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
-        if let value = try Self.decodeGroup2(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup2(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
-        if try encodeGroup2(to: encoder) {
-            return
-        }
-        if try encodeGroup3(to: encoder) {
-            return
-        }
-        if try encodeGroup4(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup3(to: encoder) { return }
+        if try encodeGroup4(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -198,59 +177,39 @@ extension BetaManagedAgentsStreamSessionEvents: Codable {
 extension BetaManagedAgentsStreamSessionEvents {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": try .betaManagedAgentsUserMessageEvent(BetaManagedAgentsUserMessageEvent(from: decoder))
-        case "user.interrupt": try .betaManagedAgentsUserInterruptEvent(
-                BetaManagedAgentsUserInterruptEvent(from: decoder)
-            )
+        case "user.message": return .betaManagedAgentsUserMessageEvent(try BetaManagedAgentsUserMessageEvent(from: decoder))
+        case "user.interrupt": return .betaManagedAgentsUserInterruptEvent(try BetaManagedAgentsUserInterruptEvent(from: decoder))
         case "user.tool_confirmation":
-            try .betaManagedAgentsUserToolConfirmationEvent(BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
+        return .betaManagedAgentsUserToolConfirmationEvent(try BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
         case "user.custom_tool_result":
-            try .betaManagedAgentsUserCustomToolResultEvent(BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
+        return .betaManagedAgentsUserCustomToolResultEvent(try BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
         case "agent.custom_tool_use":
-            try .betaManagedAgentsAgentCustomToolUseEvent(BetaManagedAgentsAgentCustomToolUseEvent(from: decoder))
-        case "agent.message": try .betaManagedAgentsAgentMessageEvent(BetaManagedAgentsAgentMessageEvent(from: decoder))
-        case "agent.thinking": try .betaManagedAgentsAgentThinkingEvent(
-                BetaManagedAgentsAgentThinkingEvent(from: decoder)
-            )
-        case "agent.mcp_tool_use": try .betaManagedAgentsAgentMcpToolUseEvent(
-                BetaManagedAgentsAgentMcpToolUseEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentCustomToolUseEvent(try BetaManagedAgentsAgentCustomToolUseEvent(from: decoder))
+        case "agent.message": return .betaManagedAgentsAgentMessageEvent(try BetaManagedAgentsAgentMessageEvent(from: decoder))
+        case "agent.thinking": return .betaManagedAgentsAgentThinkingEvent(try BetaManagedAgentsAgentThinkingEvent(from: decoder))
+        case "agent.mcp_tool_use": return .betaManagedAgentsAgentMcpToolUseEvent(try BetaManagedAgentsAgentMcpToolUseEvent(from: decoder))
         case "agent.mcp_tool_result":
-            try .betaManagedAgentsAgentMcpToolResultEvent(BetaManagedAgentsAgentMcpToolResultEvent(from: decoder))
-        case "agent.tool_use": try .betaManagedAgentsAgentToolUseEvent(
-                BetaManagedAgentsAgentToolUseEvent(from: decoder)
-            )
-        case "agent.tool_result": try .betaManagedAgentsAgentToolResultEvent(
-                BetaManagedAgentsAgentToolResultEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentMcpToolResultEvent(try BetaManagedAgentsAgentMcpToolResultEvent(from: decoder))
+        case "agent.tool_use": return .betaManagedAgentsAgentToolUseEvent(try BetaManagedAgentsAgentToolUseEvent(from: decoder))
+        case "agent.tool_result": return .betaManagedAgentsAgentToolResultEvent(try BetaManagedAgentsAgentToolResultEvent(from: decoder))
         case "agent.thread_message_received":
-            try .betaManagedAgentsAgentThreadMessageReceivedEvent(
-                BetaManagedAgentsAgentThreadMessageReceivedEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentThreadMessageReceivedEvent(try BetaManagedAgentsAgentThreadMessageReceivedEvent(from: decoder))
         case "agent.thread_message_sent":
-            try .betaManagedAgentsAgentThreadMessageSentEvent(
-                BetaManagedAgentsAgentThreadMessageSentEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentThreadMessageSentEvent(try BetaManagedAgentsAgentThreadMessageSentEvent(from: decoder))
         case "agent.thread_context_compacted":
-            try .betaManagedAgentsAgentThreadContextCompactedEvent(
-                BetaManagedAgentsAgentThreadContextCompactedEvent(from: decoder)
-            )
-        case "session.error": try .betaManagedAgentsSessionErrorEvent(BetaManagedAgentsSessionErrorEvent(from: decoder))
+        return .betaManagedAgentsAgentThreadContextCompactedEvent(try BetaManagedAgentsAgentThreadContextCompactedEvent(from: decoder))
+        case "session.error": return .betaManagedAgentsSessionErrorEvent(try BetaManagedAgentsSessionErrorEvent(from: decoder))
         case "session.status_rescheduled":
-            try .betaManagedAgentsSessionStatusRescheduledEvent(
-                BetaManagedAgentsSessionStatusRescheduledEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionStatusRescheduledEvent(try BetaManagedAgentsSessionStatusRescheduledEvent(from: decoder))
         case "session.status_running":
-            try .betaManagedAgentsSessionStatusRunningEvent(BetaManagedAgentsSessionStatusRunningEvent(from: decoder))
+        return .betaManagedAgentsSessionStatusRunningEvent(try BetaManagedAgentsSessionStatusRunningEvent(from: decoder))
         case "session.status_idle":
-            try .betaManagedAgentsSessionStatusIdleEvent(BetaManagedAgentsSessionStatusIdleEvent(from: decoder))
+        return .betaManagedAgentsSessionStatusIdleEvent(try BetaManagedAgentsSessionStatusIdleEvent(from: decoder))
         case "session.status_terminated":
-            try .betaManagedAgentsSessionStatusTerminatedEvent(
-                BetaManagedAgentsSessionStatusTerminatedEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionStatusTerminatedEvent(try BetaManagedAgentsSessionStatusTerminatedEvent(from: decoder))
         case "session.thread_created":
-            try .betaManagedAgentsSessionThreadCreatedEvent(BetaManagedAgentsSessionThreadCreatedEvent(from: decoder))
-        default: nil
+        return .betaManagedAgentsSessionThreadCreatedEvent(try BetaManagedAgentsSessionThreadCreatedEvent(from: decoder))
+        default: return nil
         }
     }
 }
@@ -259,55 +218,35 @@ extension BetaManagedAgentsStreamSessionEvents {
     static func decodeGroup2(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "span.outcome_evaluation_start":
-            try .betaManagedAgentsSpanOutcomeEvaluationStartEvent(
-                BetaManagedAgentsSpanOutcomeEvaluationStartEvent(from: decoder)
-            )
+        return .betaManagedAgentsSpanOutcomeEvaluationStartEvent(try BetaManagedAgentsSpanOutcomeEvaluationStartEvent(from: decoder))
         case "span.outcome_evaluation_end":
-            try .betaManagedAgentsSpanOutcomeEvaluationEndEvent(
-                BetaManagedAgentsSpanOutcomeEvaluationEndEvent(from: decoder)
-            )
+        return .betaManagedAgentsSpanOutcomeEvaluationEndEvent(try BetaManagedAgentsSpanOutcomeEvaluationEndEvent(from: decoder))
         case "span.model_request_start":
-            try .betaManagedAgentsSpanModelRequestStartEvent(BetaManagedAgentsSpanModelRequestStartEvent(from: decoder))
+        return .betaManagedAgentsSpanModelRequestStartEvent(try BetaManagedAgentsSpanModelRequestStartEvent(from: decoder))
         case "span.model_request_end":
-            try .betaManagedAgentsSpanModelRequestEndEvent(BetaManagedAgentsSpanModelRequestEndEvent(from: decoder))
+        return .betaManagedAgentsSpanModelRequestEndEvent(try BetaManagedAgentsSpanModelRequestEndEvent(from: decoder))
         case "span.outcome_evaluation_ongoing":
-            try .betaManagedAgentsSpanOutcomeEvaluationOngoingEvent(
-                BetaManagedAgentsSpanOutcomeEvaluationOngoingEvent(from: decoder)
-            )
+        return .betaManagedAgentsSpanOutcomeEvaluationOngoingEvent(try BetaManagedAgentsSpanOutcomeEvaluationOngoingEvent(from: decoder))
         case "user.define_outcome":
-            try .betaManagedAgentsUserDefineOutcomeEvent(BetaManagedAgentsUserDefineOutcomeEvent(from: decoder))
-        case "session.deleted": try .betaManagedAgentsSessionDeletedEvent(
-                BetaManagedAgentsSessionDeletedEvent(from: decoder)
-            )
+        return .betaManagedAgentsUserDefineOutcomeEvent(try BetaManagedAgentsUserDefineOutcomeEvent(from: decoder))
+        case "session.deleted": return .betaManagedAgentsSessionDeletedEvent(try BetaManagedAgentsSessionDeletedEvent(from: decoder))
         case "session.thread_status_running":
-            try .betaManagedAgentsSessionThreadStatusRunningEvent(
-                BetaManagedAgentsSessionThreadStatusRunningEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionThreadStatusRunningEvent(try BetaManagedAgentsSessionThreadStatusRunningEvent(from: decoder))
         case "session.thread_status_idle":
-            try .betaManagedAgentsSessionThreadStatusIdleEvent(
-                BetaManagedAgentsSessionThreadStatusIdleEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionThreadStatusIdleEvent(try BetaManagedAgentsSessionThreadStatusIdleEvent(from: decoder))
         case "session.thread_status_terminated":
-            try .betaManagedAgentsSessionThreadStatusTerminatedEvent(
-                BetaManagedAgentsSessionThreadStatusTerminatedEvent(from: decoder)
-            )
-        case "user.tool_result": try .betaManagedAgentsUserToolResultEvent(
-                BetaManagedAgentsUserToolResultEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionThreadStatusTerminatedEvent(try BetaManagedAgentsSessionThreadStatusTerminatedEvent(from: decoder))
+        case "user.tool_result": return .betaManagedAgentsUserToolResultEvent(try BetaManagedAgentsUserToolResultEvent(from: decoder))
         case "session.thread_status_rescheduled":
-            try .betaManagedAgentsSessionThreadStatusRescheduledEvent(
-                BetaManagedAgentsSessionThreadStatusRescheduledEvent(from: decoder)
-            )
-        case "session.updated": try .betaManagedAgentsSessionUpdatedEvent(
-                BetaManagedAgentsSessionUpdatedEvent(from: decoder)
-            )
-        case "event_start": try .betaManagedAgentsEventStartEvent(BetaManagedAgentsEventStartEvent(from: decoder))
-        case "event_delta": try .betaManagedAgentsEventDeltaEvent(BetaManagedAgentsEventDeltaEvent(from: decoder))
-        case "system.message": try .betaManagedAgentsSystemMessageEvent(
-                BetaManagedAgentsSystemMessageEvent(from: decoder)
-            )
-        case "session.usage": try .betaManagedAgentsSessionUsageEvent(BetaManagedAgentsSessionUsageEvent(from: decoder))
-        default: nil
+        return .betaManagedAgentsSessionThreadStatusRescheduledEvent(
+            try BetaManagedAgentsSessionThreadStatusRescheduledEvent(from: decoder)
+        )
+        case "session.updated": return .betaManagedAgentsSessionUpdatedEvent(try BetaManagedAgentsSessionUpdatedEvent(from: decoder))
+        case "event_start": return .betaManagedAgentsEventStartEvent(try BetaManagedAgentsEventStartEvent(from: decoder))
+        case "event_delta": return .betaManagedAgentsEventDeltaEvent(try BetaManagedAgentsEventDeltaEvent(from: decoder))
+        case "system.message": return .betaManagedAgentsSystemMessageEvent(try BetaManagedAgentsSystemMessageEvent(from: decoder))
+        case "session.usage": return .betaManagedAgentsSessionUsageEvent(try BetaManagedAgentsSessionUsageEvent(from: decoder))
+        default: return nil
         }
     }
 }
@@ -428,6 +367,7 @@ public indirect enum BetaManagedAgentsStreamSessionThreadEvents {
 }
 
 extension BetaManagedAgentsStreamSessionThreadEvents: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -435,28 +375,16 @@ extension BetaManagedAgentsStreamSessionThreadEvents: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
-        if let value = try Self.decodeGroup2(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup2(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
-        if try encodeGroup2(to: encoder) {
-            return
-        }
-        if try encodeGroup3(to: encoder) {
-            return
-        }
-        if try encodeGroup4(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup3(to: encoder) { return }
+        if try encodeGroup4(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -467,59 +395,39 @@ extension BetaManagedAgentsStreamSessionThreadEvents: Codable {
 extension BetaManagedAgentsStreamSessionThreadEvents {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": try .betaManagedAgentsUserMessageEvent(BetaManagedAgentsUserMessageEvent(from: decoder))
-        case "user.interrupt": try .betaManagedAgentsUserInterruptEvent(
-                BetaManagedAgentsUserInterruptEvent(from: decoder)
-            )
+        case "user.message": return .betaManagedAgentsUserMessageEvent(try BetaManagedAgentsUserMessageEvent(from: decoder))
+        case "user.interrupt": return .betaManagedAgentsUserInterruptEvent(try BetaManagedAgentsUserInterruptEvent(from: decoder))
         case "user.tool_confirmation":
-            try .betaManagedAgentsUserToolConfirmationEvent(BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
+        return .betaManagedAgentsUserToolConfirmationEvent(try BetaManagedAgentsUserToolConfirmationEvent(from: decoder))
         case "user.custom_tool_result":
-            try .betaManagedAgentsUserCustomToolResultEvent(BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
+        return .betaManagedAgentsUserCustomToolResultEvent(try BetaManagedAgentsUserCustomToolResultEvent(from: decoder))
         case "agent.custom_tool_use":
-            try .betaManagedAgentsAgentCustomToolUseEvent(BetaManagedAgentsAgentCustomToolUseEvent(from: decoder))
-        case "agent.message": try .betaManagedAgentsAgentMessageEvent(BetaManagedAgentsAgentMessageEvent(from: decoder))
-        case "agent.thinking": try .betaManagedAgentsAgentThinkingEvent(
-                BetaManagedAgentsAgentThinkingEvent(from: decoder)
-            )
-        case "agent.mcp_tool_use": try .betaManagedAgentsAgentMcpToolUseEvent(
-                BetaManagedAgentsAgentMcpToolUseEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentCustomToolUseEvent(try BetaManagedAgentsAgentCustomToolUseEvent(from: decoder))
+        case "agent.message": return .betaManagedAgentsAgentMessageEvent(try BetaManagedAgentsAgentMessageEvent(from: decoder))
+        case "agent.thinking": return .betaManagedAgentsAgentThinkingEvent(try BetaManagedAgentsAgentThinkingEvent(from: decoder))
+        case "agent.mcp_tool_use": return .betaManagedAgentsAgentMcpToolUseEvent(try BetaManagedAgentsAgentMcpToolUseEvent(from: decoder))
         case "agent.mcp_tool_result":
-            try .betaManagedAgentsAgentMcpToolResultEvent(BetaManagedAgentsAgentMcpToolResultEvent(from: decoder))
-        case "agent.tool_use": try .betaManagedAgentsAgentToolUseEvent(
-                BetaManagedAgentsAgentToolUseEvent(from: decoder)
-            )
-        case "agent.tool_result": try .betaManagedAgentsAgentToolResultEvent(
-                BetaManagedAgentsAgentToolResultEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentMcpToolResultEvent(try BetaManagedAgentsAgentMcpToolResultEvent(from: decoder))
+        case "agent.tool_use": return .betaManagedAgentsAgentToolUseEvent(try BetaManagedAgentsAgentToolUseEvent(from: decoder))
+        case "agent.tool_result": return .betaManagedAgentsAgentToolResultEvent(try BetaManagedAgentsAgentToolResultEvent(from: decoder))
         case "agent.thread_message_received":
-            try .betaManagedAgentsAgentThreadMessageReceivedEvent(
-                BetaManagedAgentsAgentThreadMessageReceivedEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentThreadMessageReceivedEvent(try BetaManagedAgentsAgentThreadMessageReceivedEvent(from: decoder))
         case "agent.thread_message_sent":
-            try .betaManagedAgentsAgentThreadMessageSentEvent(
-                BetaManagedAgentsAgentThreadMessageSentEvent(from: decoder)
-            )
+        return .betaManagedAgentsAgentThreadMessageSentEvent(try BetaManagedAgentsAgentThreadMessageSentEvent(from: decoder))
         case "agent.thread_context_compacted":
-            try .betaManagedAgentsAgentThreadContextCompactedEvent(
-                BetaManagedAgentsAgentThreadContextCompactedEvent(from: decoder)
-            )
-        case "session.error": try .betaManagedAgentsSessionErrorEvent(BetaManagedAgentsSessionErrorEvent(from: decoder))
+        return .betaManagedAgentsAgentThreadContextCompactedEvent(try BetaManagedAgentsAgentThreadContextCompactedEvent(from: decoder))
+        case "session.error": return .betaManagedAgentsSessionErrorEvent(try BetaManagedAgentsSessionErrorEvent(from: decoder))
         case "session.status_rescheduled":
-            try .betaManagedAgentsSessionStatusRescheduledEvent(
-                BetaManagedAgentsSessionStatusRescheduledEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionStatusRescheduledEvent(try BetaManagedAgentsSessionStatusRescheduledEvent(from: decoder))
         case "session.status_running":
-            try .betaManagedAgentsSessionStatusRunningEvent(BetaManagedAgentsSessionStatusRunningEvent(from: decoder))
+        return .betaManagedAgentsSessionStatusRunningEvent(try BetaManagedAgentsSessionStatusRunningEvent(from: decoder))
         case "session.status_idle":
-            try .betaManagedAgentsSessionStatusIdleEvent(BetaManagedAgentsSessionStatusIdleEvent(from: decoder))
+        return .betaManagedAgentsSessionStatusIdleEvent(try BetaManagedAgentsSessionStatusIdleEvent(from: decoder))
         case "session.status_terminated":
-            try .betaManagedAgentsSessionStatusTerminatedEvent(
-                BetaManagedAgentsSessionStatusTerminatedEvent(from: decoder)
-            )
+        return .betaManagedAgentsSessionStatusTerminatedEvent(try BetaManagedAgentsSessionStatusTerminatedEvent(from: decoder))
         case "session.thread_created":
-            try .betaManagedAgentsSessionThreadCreatedEvent(BetaManagedAgentsSessionThreadCreatedEvent(from: decoder))
-        default: nil
+        return .betaManagedAgentsSessionThreadCreatedEvent(try BetaManagedAgentsSessionThreadCreatedEvent(from: decoder))
+        default: return nil
         }
     }
 }

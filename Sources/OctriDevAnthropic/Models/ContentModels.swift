@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Content domain models
+// Content domain models
 public indirect enum ContentBlockDeltaEventDelta {
     case textContentBlockDelta(TextContentBlockDelta)
     case inputJsonContentBlockDelta(InputJsonContentBlockDelta)
@@ -15,6 +15,7 @@ public indirect enum ContentBlockDeltaEventDelta {
 }
 
 extension ContentBlockDeltaEventDelta: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -22,16 +23,12 @@ extension ContentBlockDeltaEventDelta: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -42,12 +39,12 @@ extension ContentBlockDeltaEventDelta: Codable {
 extension ContentBlockDeltaEventDelta {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text_delta": try .textContentBlockDelta(TextContentBlockDelta(from: decoder))
-        case "input_json_delta": try .inputJsonContentBlockDelta(InputJsonContentBlockDelta(from: decoder))
-        case "citations_delta": try .citationsDelta(CitationsDelta(from: decoder))
-        case "thinking_delta": try .thinkingContentBlockDelta(ThinkingContentBlockDelta(from: decoder))
-        case "signature_delta": try .signatureContentBlockDelta(SignatureContentBlockDelta(from: decoder))
-        default: nil
+        case "text_delta": return .textContentBlockDelta(try TextContentBlockDelta(from: decoder))
+        case "input_json_delta": return .inputJsonContentBlockDelta(try InputJsonContentBlockDelta(from: decoder))
+        case "citations_delta": return .citationsDelta(try CitationsDelta(from: decoder))
+        case "thinking_delta": return .thinkingContentBlockDelta(try ThinkingContentBlockDelta(from: decoder))
+        case "signature_delta": return .signatureContentBlockDelta(try SignatureContentBlockDelta(from: decoder))
+        default: return nil
         }
     }
 }
@@ -84,6 +81,7 @@ public indirect enum ContentBlockStartEventContentBlock {
 }
 
 extension ContentBlockStartEventContentBlock: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -91,16 +89,12 @@ extension ContentBlockStartEventContentBlock: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -111,30 +105,22 @@ extension ContentBlockStartEventContentBlock: Codable {
 extension ContentBlockStartEventContentBlock {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": try .responseTextBlock(ResponseTextBlock(from: decoder))
-        case "thinking": try .responseThinkingBlock(ResponseThinkingBlock(from: decoder))
-        case "redacted_thinking": try .responseRedactedThinkingBlock(ResponseRedactedThinkingBlock(from: decoder))
-        case "tool_use": try .responseToolUseBlock(ResponseToolUseBlock(from: decoder))
-        case "server_tool_use": try .responseServerToolUseBlock(ResponseServerToolUseBlock(from: decoder))
-        case "web_search_tool_result": try .responseWebSearchToolResultBlock(
-                ResponseWebSearchToolResultBlock(from: decoder)
-            )
-        case "web_fetch_tool_result": try .responseWebFetchToolResultBlock(
-                ResponseWebFetchToolResultBlock(from: decoder)
-            )
+        case "text": return .responseTextBlock(try ResponseTextBlock(from: decoder))
+        case "thinking": return .responseThinkingBlock(try ResponseThinkingBlock(from: decoder))
+        case "redacted_thinking": return .responseRedactedThinkingBlock(try ResponseRedactedThinkingBlock(from: decoder))
+        case "tool_use": return .responseToolUseBlock(try ResponseToolUseBlock(from: decoder))
+        case "server_tool_use": return .responseServerToolUseBlock(try ResponseServerToolUseBlock(from: decoder))
+        case "web_search_tool_result": return .responseWebSearchToolResultBlock(try ResponseWebSearchToolResultBlock(from: decoder))
+        case "web_fetch_tool_result": return .responseWebFetchToolResultBlock(try ResponseWebFetchToolResultBlock(from: decoder))
         case "code_execution_tool_result":
-            try .responseCodeExecutionToolResultBlock(ResponseCodeExecutionToolResultBlock(from: decoder))
+        return .responseCodeExecutionToolResultBlock(try ResponseCodeExecutionToolResultBlock(from: decoder))
         case "bash_code_execution_tool_result":
-            try .responseBashCodeExecutionToolResultBlock(ResponseBashCodeExecutionToolResultBlock(from: decoder))
+        return .responseBashCodeExecutionToolResultBlock(try ResponseBashCodeExecutionToolResultBlock(from: decoder))
         case "text_editor_code_execution_tool_result":
-            try .responseTextEditorCodeExecutionToolResultBlock(
-                ResponseTextEditorCodeExecutionToolResultBlock(from: decoder)
-            )
-        case "tool_search_tool_result": try .responseToolSearchToolResultBlock(
-                ResponseToolSearchToolResultBlock(from: decoder)
-            )
-        case "container_upload": try .responseContainerUploadBlock(ResponseContainerUploadBlock(from: decoder))
-        default: nil
+        return .responseTextEditorCodeExecutionToolResultBlock(try ResponseTextEditorCodeExecutionToolResultBlock(from: decoder))
+        case "tool_search_tool_result": return .responseToolSearchToolResultBlock(try ResponseToolSearchToolResultBlock(from: decoder))
+        case "container_upload": return .responseContainerUploadBlock(try ResponseContainerUploadBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -175,47 +161,33 @@ public struct ContentBlockStartEvent: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ContentBlockStartEvent {
-    init(from decoder: Decoder) throws {
+extension ContentBlockStartEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.contentBlock) else {
-            throw SdkValidationError(
-                field: "content_block",
-                code: "required",
-                message: "Validation failed for 'content_block': value is required"
-            )
+            throw SdkValidationError(field: "content_block", code: "required", message: "Validation failed for 'content_block': value is required")
         }
         guard container.contains(.index) else {
-            throw SdkValidationError(
-                field: "index",
-                code: "required",
-                message: "Validation failed for 'index': value is required"
-            )
+            throw SdkValidationError(field: "index", code: "required", message: "Validation failed for 'index': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        contentBlock = try container.sdkDecodeRequired(.contentBlock)
-        index = try container.sdkDecodeRequired(.index)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ContentBlockStartEventType.allCases.map(\.rawValue))
+        self.contentBlock = try container.sdkDecodeRequired(.contentBlock)
+        self.index = try container.sdkDecodeRequired(.index)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ContentBlockStartEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension ContentBlockStartEvent {
-    init(contentBlock: ContentBlockStartEventContentBlock, index: Int, type: ContentBlockStartEventType) throws {
+extension ContentBlockStartEvent {
+    public init(contentBlock: ContentBlockStartEventContentBlock, index: Int, type: ContentBlockStartEventType) throws {
         (self.contentBlock, self.index) = (contentBlock, index)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, ContentBlockStartEventType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ContentBlockStartEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -234,47 +206,33 @@ public struct ContentBlockDeltaEvent: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ContentBlockDeltaEvent {
-    init(from decoder: Decoder) throws {
+extension ContentBlockDeltaEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.delta) else {
-            throw SdkValidationError(
-                field: "delta",
-                code: "required",
-                message: "Validation failed for 'delta': value is required"
-            )
+            throw SdkValidationError(field: "delta", code: "required", message: "Validation failed for 'delta': value is required")
         }
         guard container.contains(.index) else {
-            throw SdkValidationError(
-                field: "index",
-                code: "required",
-                message: "Validation failed for 'index': value is required"
-            )
+            throw SdkValidationError(field: "index", code: "required", message: "Validation failed for 'index': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        delta = try container.sdkDecodeRequired(.delta)
-        index = try container.sdkDecodeRequired(.index)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ContentBlockDeltaEventType.allCases.map(\.rawValue))
+        self.delta = try container.sdkDecodeRequired(.delta)
+        self.index = try container.sdkDecodeRequired(.index)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ContentBlockDeltaEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension ContentBlockDeltaEvent {
-    init(delta: ContentBlockDeltaEventDelta, index: Int, type: ContentBlockDeltaEventType) throws {
+extension ContentBlockDeltaEvent {
+    public init(delta: ContentBlockDeltaEventDelta, index: Int, type: ContentBlockDeltaEventType) throws {
         (self.delta, self.index) = (delta, index)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, ContentBlockDeltaEventType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ContentBlockDeltaEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -290,38 +248,28 @@ public struct ContentBlockStopEvent: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ContentBlockStopEvent {
-    init(from decoder: Decoder) throws {
+extension ContentBlockStopEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.index) else {
-            throw SdkValidationError(
-                field: "index",
-                code: "required",
-                message: "Validation failed for 'index': value is required"
-            )
+            throw SdkValidationError(field: "index", code: "required", message: "Validation failed for 'index': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        index = try container.sdkDecodeRequired(.index)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ContentBlockStopEventType.allCases.map(\.rawValue))
+        self.index = try container.sdkDecodeRequired(.index)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ContentBlockStopEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension ContentBlockStopEvent {
-    init(index: Int, type: ContentBlockStopEventType) throws {
+extension ContentBlockStopEvent {
+    public init(index: Int, type: ContentBlockStopEventType) throws {
         (self.index, self.type) = (index, type)
-        try sdkValidateRawEnum("type", self.type, ContentBlockStopEventType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ContentBlockStopEventType.allCases.map(\.rawValue))
     }
 }
 

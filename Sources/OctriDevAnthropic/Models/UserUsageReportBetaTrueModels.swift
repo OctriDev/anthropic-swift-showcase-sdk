@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// UserUsageReportBetaTrue domain models
+// UserUsageReportBetaTrue domain models
 /// Typed representation of the `BetaAnalyticsUsageUsersResponse` API schema.
 public struct BetaAnalyticsUsageUsersResponse: Codable {
     /// Rows for this page, ranked by `order_by` in the `order` direction. One row per user, or several per user
@@ -32,65 +32,37 @@ public struct BetaAnalyticsUsageUsersResponse: Codable {
         case organizationId = "organization_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsUsageUsersResponse {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsUsageUsersResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.dataRefreshedAt) else {
-            throw SdkValidationError(
-                field: "data_refreshed_at",
-                code: "required",
-                message: "Validation failed for 'data_refreshed_at': value is required"
-            )
+            throw SdkValidationError(field: "data_refreshed_at", code: "required", message: "Validation failed for 'data_refreshed_at': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
         guard container.contains(.organizationId) else {
-            throw SdkValidationError(
-                field: "organization_id",
-                code: "required",
-                message: "Validation failed for 'organization_id': value is required"
-            )
+            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        dataRefreshedAt = try container.sdkDecodeNullable(.dataRefreshedAt)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
-        organizationId = try container.sdkDecodeRequired(.organizationId)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.dataRefreshedAt = try container.sdkDecodeNullable(.dataRefreshedAt)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.organizationId = try container.sdkDecodeRequired(.organizationId)
     }
 }
 
-public extension BetaAnalyticsUsageUsersResponse {
-    init(
-        data: [BetaAnalyticsUsageUsersItem],
-        dataRefreshedAt: Date?,
-        hasMore: Bool,
-        nextPage: String?,
-        organizationId: String
-    ) {
+extension BetaAnalyticsUsageUsersResponse {
+    public init(data: [BetaAnalyticsUsageUsersItem], dataRefreshedAt: Date?, hasMore: Bool, nextPage: String?, organizationId: String) {
         (self.data, self.dataRefreshedAt) = (data, dataRefreshedAt)
         (self.hasMore, self.nextPage) = (hasMore, nextPage)
         self.organizationId = organizationId
@@ -170,54 +142,34 @@ public struct BetaAnalyticsUsageUsersItem: Codable {
         case uncachedInputTokens = "uncached_input_tokens"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsUsageUsersItem {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsUsageUsersItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        actor = try container.sdkDecodeRequired(.actor)
-        cacheCreation = try container.sdkDecodeRequired(.cacheCreation)
-        cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
-        contextWindow = try container.sdkDecodeNullable(.contextWindow)
-        endingAt = try container.sdkDecodeNullable(.endingAt)
-        inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
-        model = try container.sdkDecodeNullable(.model)
-        outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        product = try container.sdkDecodeNullable(.product)
-        rbacGroupId = try container.sdkDecodeNullable(.rbacGroupId)
-        requests = try container.sdkDecodeNullable(.requests)
-        serverToolUse = try container.sdkDecodeRequired(.serverToolUse)
-        slackChannelId = try container.sdkDecodeNullable(.slackChannelId)
-        speed = try container.sdkDecodeNullable(.speed)
-        startingAt = try container.sdkDecodeNullable(.startingAt)
-        totalTokens = try container.sdkDecodeRequired(.totalTokens)
-        uncachedInputTokens = try container.sdkDecodeRequired(.uncachedInputTokens)
+        self.actor = try container.sdkDecodeRequired(.actor)
+        self.cacheCreation = try container.sdkDecodeRequired(.cacheCreation)
+        self.cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
+        self.contextWindow = try container.sdkDecodeNullable(.contextWindow)
+        self.endingAt = try container.sdkDecodeNullable(.endingAt)
+        self.inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
+        self.model = try container.sdkDecodeNullable(.model)
+        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        self.product = try container.sdkDecodeNullable(.product)
+        self.rbacGroupId = try container.sdkDecodeNullable(.rbacGroupId)
+        self.requests = try container.sdkDecodeNullable(.requests)
+        self.serverToolUse = try container.sdkDecodeRequired(.serverToolUse)
+        self.slackChannelId = try container.sdkDecodeNullable(.slackChannelId)
+        self.speed = try container.sdkDecodeNullable(.speed)
+        self.startingAt = try container.sdkDecodeNullable(.startingAt)
+        self.totalTokens = try container.sdkDecodeRequired(.totalTokens)
+        self.uncachedInputTokens = try container.sdkDecodeRequired(.uncachedInputTokens)
     }
 }
 
-public extension BetaAnalyticsUsageUsersItem {
-    init(
-        actor: BetaAnalyticsUserActor,
-        cacheCreation: BetaCacheCreation,
-        cacheReadInputTokens: Int,
-        contextWindow: BetaMessagesUsageReportContextWindow?,
-        endingAt: Date?,
-        inferenceGeo: BetaInferenceGeo?,
-        model: String?,
-        outputTokens: Int,
-        product: String?,
-        rbacGroupId: String?,
-        requests: Int?,
-        serverToolUse: BetaServerToolUse,
-        slackChannelId: String?,
-        speed: BetaAnalyticsUsageUsersItemSpeedVariant0?,
-        startingAt: Date?,
-        totalTokens: Int,
-        uncachedInputTokens: Int
-    ) {
+extension BetaAnalyticsUsageUsersItem {
+    public init(actor: BetaAnalyticsUserActor, cacheCreation: BetaCacheCreation, cacheReadInputTokens: Int, contextWindow: BetaMessagesUsageReportContextWindow?, endingAt: Date?, inferenceGeo: BetaInferenceGeo?, model: String?, outputTokens: Int, product: String?, rbacGroupId: String?, requests: Int?, serverToolUse: BetaServerToolUse, slackChannelId: String?, speed: BetaAnalyticsUsageUsersItemSpeedVariant0?, startingAt: Date?, totalTokens: Int, uncachedInputTokens: Int) {
         (self.actor, self.cacheCreation) = (actor, cacheCreation)
         (self.cacheReadInputTokens, self.contextWindow) = (cacheReadInputTokens, contextWindow)
         (self.endingAt, self.inferenceGeo) = (endingAt, inferenceGeo)
@@ -231,20 +183,16 @@ public extension BetaAnalyticsUsageUsersItem {
 }
 
 /// Required enumerated value serialized in the `speed` wire field.
-public struct BetaAnalyticsUsageUsersItemSpeedVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaAnalyticsUsageUsersItemSpeedVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let fast = BetaAnalyticsUsageUsersItemSpeedVariant0(rawValue: "fast")
     public static let standard = BetaAnalyticsUsageUsersItemSpeedVariant0(rawValue: "standard")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -257,10 +205,7 @@ public struct BetaAnalyticsUsageUsersItemSpeedVariant0: RawRepresentable, Hashab
 public struct BetaAnalyticsUsageUsersOrderBy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let outputTokens = BetaAnalyticsUsageUsersOrderBy(rawValue: "output_tokens")
     public static let requests = BetaAnalyticsUsageUsersOrderBy(rawValue: "requests")
     public static let totalTokens = BetaAnalyticsUsageUsersOrderBy(rawValue: "total_tokens")
@@ -268,7 +213,7 @@ public struct BetaAnalyticsUsageUsersOrderBy: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

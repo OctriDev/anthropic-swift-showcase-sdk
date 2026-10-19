@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaManagedAgents domain models
+// SharedBetaManagedAgents domain models
 /// Required enumerated value serialized in the `type` wire field.
 public enum BetaManagedAgentsMcpOauthAuthResponseType: String, CaseIterable, Codable {
     case mcpOauth = "mcp_oauth"
@@ -96,21 +96,17 @@ public enum BetaManagedAgentsBashToolConfigParamsType: String, CaseIterable, Cod
 
 /// The kind of mutation a `memory_version` records. Every non-no-op mutation to a memory appends exactly one
 /// version row with one of these values.
-public struct BetaManagedAgentsMemoryVersionOperation: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaManagedAgentsMemoryVersionOperation: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let created = BetaManagedAgentsMemoryVersionOperation(rawValue: "created")
     public static let modified = BetaManagedAgentsMemoryVersionOperation(rawValue: "modified")
     public static let deleted = BetaManagedAgentsMemoryVersionOperation(rawValue: "deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -285,15 +281,12 @@ public enum BetaManagedAgentsAnthropicSkillParamsType: String, CaseIterable, Cod
 public struct BetaManagedAgentsSessionAgentType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let agent = BetaManagedAgentsSessionAgentType(rawValue: "agent")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

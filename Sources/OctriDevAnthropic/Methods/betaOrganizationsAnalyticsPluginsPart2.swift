@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsAnalyticsPluginsMethods {
-    struct ListBetaOrganizationsAnalyticsPluginsOptions: Codable {
+extension BetaOrganizationsAnalyticsPluginsMethods {
+    public struct ListBetaOrganizationsAnalyticsPluginsOptions: Codable {
         public var date: String?
         public var startingDate: String?
         public var endingDate: String?
@@ -21,14 +21,7 @@ public extension BetaOrganizationsAnalyticsPluginsMethods {
         public init() {}
     }
 
-    /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the
-    /// organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an
-    /// aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client
-    /// did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and
-    /// to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork /
-    /// Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
-    /// Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode
-    /// like `/skills`.
+    /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork / Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode like `/skills`.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get plugin usage for. Data
@@ -82,11 +75,7 @@ public extension BetaOrganizationsAnalyticsPluginsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    static func listBetaOrganizationsAnalyticsPlugins(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsPluginsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsPluginsResponse {
+    public static func listBetaOrganizationsAnalyticsPlugins(config: ClientConfig, options: ListBetaOrganizationsAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsPluginsResponse {
         if let groupBy = options.groupBy {
             try validateItems("group_by[]", groupBy, max: 100)
         }
@@ -95,53 +84,20 @@ public extension BetaOrganizationsAnalyticsPluginsMethods {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/analytics/plugins?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("date", value: options.date),
-                SdkQueryParameter("starting_date", value: options.startingDate),
-                SdkQueryParameter("ending_date", value: options.endingDate),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-                SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
-                SdkQueryParameter("order_by", value: options.orderBy),
-                SdkQueryParameter("order", value: options.order),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsAnalyticsPlugins",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/analytics/plugins?beta=true", config: config, query: [
+            SdkQueryParameter("date", value: options.date),
+            SdkQueryParameter("starting_date", value: options.startingDate),
+            SdkQueryParameter("ending_date", value: options.endingDate),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+            SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
+            SdkQueryParameter("order_by", value: options.orderBy),
+            SdkQueryParameter("order", value: options.order),
+        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsPlugins", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the
-    /// organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an
-    /// aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client
-    /// did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and
-    /// to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork /
-    /// Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
-    /// Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode
-    /// like `/skills`.
+    /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork / Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode like `/skills`.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get plugin usage for. Data
@@ -195,37 +151,20 @@ public extension BetaOrganizationsAnalyticsPluginsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    static func listBetaOrganizationsAnalyticsPluginsPaginated(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsPluginsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
+    public static func listBetaOrganizationsAnalyticsPluginsPaginated(config: ClientConfig, options: ListBetaOrganizationsAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaAnalyticsPluginActivity,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsPlugins(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsPlugins(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -238,52 +177,28 @@ public extension BetaOrganizationsAnalyticsPluginsMethods {
         }
     }
 
-    struct ListBetaOrganizationsAnalyticsPluginsPage {
+    public struct ListBetaOrganizationsAnalyticsPluginsPage {
         public let data: BetaAnalyticsPluginsResponse
         public let items: [BetaAnalyticsPluginActivity]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsAnalyticsPluginsPages(
-        config: ClientConfig,
-        options: ListBetaOrganizationsAnalyticsPluginsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsPluginsPage, Swift.Error> {
+    public static func listBetaOrganizationsAnalyticsPluginsPages(config: ClientConfig, options: ListBetaOrganizationsAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsPluginsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsPluginsPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsPluginsPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<ListBetaOrganizationsAnalyticsPluginsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsAnalyticsPluginsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsPlugins(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsPlugins(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsAnalyticsPluginsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsAnalyticsPluginsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

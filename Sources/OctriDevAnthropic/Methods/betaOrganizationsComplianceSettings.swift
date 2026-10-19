@@ -7,57 +7,18 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaOrganizationsComplianceSettingsMethods {
-    /// Retrieve your organization's Compliance Settings. Compliance Settings is a singleton resource: there is exactly
-    /// one per organization, addressed without an identifier. The `state` field reflects whether the Compliance API is
-    /// enabled. An organization with a parent organization reads the state inherited from the parent's configuration.
+    /// Retrieve your organization's Compliance Settings. Compliance Settings is a singleton resource: there is exactly one per organization, addressed without an identifier. The `state` field reflects whether the Compliance API is enabled. An organization with a parent organization reads the state inherited from the parent's configuration.
     ///
     /// - Parameters:
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsComplianceSettings(
-        config: ClientConfig,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaComplianceSettings {
-        try await (sdkRequest(
-            "GET",
-            "/v1/organizations/compliance_settings?beta=true",
-            config: config,
-            decoder: .json,
-            operationId: "listBetaOrganizationsComplianceSettings",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func listBetaOrganizationsComplianceSettings(config: ClientConfig, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaComplianceSettings {
+        return try (await sdkRequest("GET", "/v1/organizations/compliance_settings?beta=true", config: config, decoder: .json, operationId: "listBetaOrganizationsComplianceSettings", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
-
-    /// Update your organization's Compliance Settings. Setting `state` to `enabled` turns on the Compliance API and
-    /// begins capturing organization activity events. Setting it to `disabled` turns both off. `state` reflects whether
-    /// the Compliance API is enabled. A request that sets `state` to its current value succeeds and leaves the resource
-    /// unchanged. A `disabled` request stays in effect until a later `enabled` request or the organization's next
-    /// provisioning action that enables Access Transparency: enabling Access Transparency also enables the Compliance
-    /// API, which serves its activity events, so such provisioning (including re-runs) re-enables the Compliance API
-    /// even after a `disabled` request. Automated provisioning never disables compliance settings.
+    /// Update your organization's Compliance Settings. Setting `state` to `enabled` turns on the Compliance API and begins capturing organization activity events. Setting it to `disabled` turns both off. `state` reflects whether the Compliance API is enabled. A request that sets `state` to its current value succeeds and leaves the resource unchanged. A `disabled` request stays in effect until a later `enabled` request or the organization's next provisioning action that enables Access Transparency: enabling Access Transparency also enables the Compliance API, which serves its activity events, so such provisioning (including re-runs) re-enables the Compliance API even after a `disabled` request. Automated provisioning never disables compliance settings.
     ///
     /// - Parameters:
     /// - state: Desired state. Accepts the string shorthand "enabled" or "disabled"
@@ -66,43 +27,11 @@ public enum BetaOrganizationsComplianceSettingsMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func createBetaOrganizationsComplianceSettings(
-        config: ClientConfig,
-        state: BetaComplianceSettingsUpdateParamsState,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaComplianceSettings {
+    public static func createBetaOrganizationsComplianceSettings(config: ClientConfig, state: BetaComplianceSettingsUpdateParamsState, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaComplianceSettings {
         let requestBody = CreateBetaOrganizationsComplianceSettingsRequestBody(state: state)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/organizations/compliance_settings?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaOrganizationsComplianceSettings",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/organizations/compliance_settings?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsComplianceSettings", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

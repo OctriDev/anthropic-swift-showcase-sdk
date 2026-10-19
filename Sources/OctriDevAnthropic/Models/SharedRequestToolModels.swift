@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedRequestTool domain models
+// SharedRequestTool domain models
 public indirect enum RequestToolResultBlockContentItem {
     case requestTextBlock(RequestTextBlock)
     case requestImageBlock(RequestImageBlock)
@@ -16,6 +16,7 @@ public indirect enum RequestToolResultBlockContentItem {
 }
 
 extension RequestToolResultBlockContentItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -23,16 +24,12 @@ extension RequestToolResultBlockContentItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -43,13 +40,13 @@ extension RequestToolResultBlockContentItem: Codable {
 extension RequestToolResultBlockContentItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": try .requestTextBlock(RequestTextBlock(from: decoder))
-        case "image": try .requestImageBlock(RequestImageBlock(from: decoder))
-        case "search_result": try .requestSearchResultBlock(RequestSearchResultBlock(from: decoder))
-        case "document": try .requestDocumentBlock(RequestDocumentBlock(from: decoder))
-        case "tool_reference": try .requestToolReferenceBlock(RequestToolReferenceBlock(from: decoder))
-        case "browser_state": try .requestBrowserStateBlock(RequestBrowserStateBlock(from: decoder))
-        default: nil
+        case "text": return .requestTextBlock(try RequestTextBlock(from: decoder))
+        case "image": return .requestImageBlock(try RequestImageBlock(from: decoder))
+        case "search_result": return .requestSearchResultBlock(try RequestSearchResultBlock(from: decoder))
+        case "document": return .requestDocumentBlock(try RequestDocumentBlock(from: decoder))
+        case "tool_reference": return .requestToolReferenceBlock(try RequestToolReferenceBlock(from: decoder))
+        case "browser_state": return .requestBrowserStateBlock(try RequestBrowserStateBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -77,6 +74,7 @@ public indirect enum RequestToolSearchToolResultBlockContent {
 }
 
 extension RequestToolSearchToolResultBlockContent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -84,16 +82,12 @@ extension RequestToolSearchToolResultBlockContent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -104,12 +98,10 @@ extension RequestToolSearchToolResultBlockContent: Codable {
 extension RequestToolSearchToolResultBlockContent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "tool_search_tool_result_error": try .requestToolSearchToolResultError(
-                RequestToolSearchToolResultError(from: decoder)
-            )
+        case "tool_search_tool_result_error": return .requestToolSearchToolResultError(try RequestToolSearchToolResultError(from: decoder))
         case "tool_search_tool_search_result":
-            try .requestToolSearchToolSearchResultBlock(RequestToolSearchToolSearchResultBlock(from: decoder))
-        default: nil
+        return .requestToolSearchToolSearchResultBlock(try RequestToolSearchToolSearchResultBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -134,6 +126,7 @@ public indirect enum RequestToolUseBlockCaller {
 }
 
 extension RequestToolUseBlockCaller: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -141,16 +134,12 @@ extension RequestToolUseBlockCaller: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -161,10 +150,10 @@ extension RequestToolUseBlockCaller: Codable {
 extension RequestToolUseBlockCaller {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "direct": try .directCaller(DirectCaller(from: decoder))
-        case "code_execution_20250825": try .serverToolCaller(ServerToolCaller(from: decoder))
-        case "code_execution_20260120": try .serverToolCaller20260120(ServerToolCaller20260120(from: decoder))
-        default: nil
+        case "direct": return .directCaller(try DirectCaller(from: decoder))
+        case "code_execution_20250825": return .serverToolCaller(try ServerToolCaller(from: decoder))
+        case "code_execution_20260120": return .serverToolCaller20260120(try ServerToolCaller20260120(from: decoder))
+        default: return nil
         }
     }
 }
@@ -205,53 +194,36 @@ public struct RequestToolResultBlock: Codable {
         case toolsetName = "toolset_name"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestToolResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestToolResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        content = try container.sdkDecodeIfPresent(.content)
-        isError = try container.sdkDecodeIfPresent(.isError)
-        toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
-        try sdkValidatePattern("tool_use_id", toolUseId, sdkPatterna828669d9fe5)
-        try sdkValidateRawEnum("type", type, RequestToolResultBlockType.allCases.map(\.rawValue))
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.content = try container.sdkDecodeIfPresent(.content)
+        self.isError = try container.sdkDecodeIfPresent(.isError)
+        self.toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
+            try sdkValidateRawEnum("type", self.type, RequestToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestToolResultBlock {
-    init(
-        toolUseId: String,
-        type: RequestToolResultBlockType,
-        cacheControl: RequestToolResultBlockCacheControl? = nil,
-        content: RequestToolResultBlockContent? = nil,
-        isError: Bool? = nil,
-        toolsetName: String? = nil
-    ) throws {
+extension RequestToolResultBlock {
+    public init(toolUseId: String, type: RequestToolResultBlockType, cacheControl: RequestToolResultBlockCacheControl? = nil, content: RequestToolResultBlockContent? = nil, isError: Bool? = nil, toolsetName: String? = nil) throws {
         (self.toolUseId, self.type) = (toolUseId, type)
         (self.cacheControl, self.content) = (cacheControl, content)
         (self.isError, self.toolsetName) = (isError, toolsetName)
-        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
-        try sdkValidateRawEnum("type", self.type, RequestToolResultBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPatterna828669d9fe5)
+            try sdkValidateRawEnum("type", self.type, RequestToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -282,72 +254,46 @@ public struct RequestToolUseBlock: Codable {
         case toolsetName = "toolset_name"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestToolUseBlock {
-    init(from decoder: Decoder) throws {
+extension RequestToolUseBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.input) else {
-            throw SdkValidationError(
-                field: "input",
-                code: "required",
-                message: "Validation failed for 'input': value is required"
-            )
+            throw SdkValidationError(field: "input", code: "required", message: "Validation failed for 'input': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        input = try container.sdkDecodeRequired(.input)
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        caller = try container.sdkDecodeIfPresent(.caller)
-        toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
-        try sdkValidatePattern("id", id, sdkPatterna828669d9fe5)
-        try validateLength("name", name, min: 1, max: 200)
-        try sdkValidateRawEnum("type", type, RequestToolUseBlockType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.input = try container.sdkDecodeRequired(.input)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.caller = try container.sdkDecodeIfPresent(.caller)
+        self.toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
+            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+            try validateLength("name", self.name, min: 1, max: 200)
+            try sdkValidateRawEnum("type", self.type, RequestToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestToolUseBlock {
-    init(
-        id: String,
-        input: [String: JSONValue],
-        name: String,
-        type: RequestToolUseBlockType,
-        cacheControl: RequestToolUseBlockCacheControl? = nil,
-        caller: RequestToolUseBlockCaller? = nil,
-        toolsetName: String? = nil
-    ) throws {
+extension RequestToolUseBlock {
+    public init(id: String, input: [String: JSONValue], name: String, type: RequestToolUseBlockType, cacheControl: RequestToolUseBlockCacheControl? = nil, caller: RequestToolUseBlockCaller? = nil, toolsetName: String? = nil) throws {
         (self.id, self.input) = (id, input)
         (self.name, self.type) = (name, type)
         (self.cacheControl, self.caller) = (cacheControl, caller)
         self.toolsetName = toolsetName
-        try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-        try validateLength("name", self.name, min: 1, max: 200)
-        try sdkValidateRawEnum("type", self.type, RequestToolUseBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+            try validateLength("name", self.name, min: 1, max: 200)
+            try sdkValidateRawEnum("type", self.type, RequestToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -358,6 +304,7 @@ public indirect enum RequestToolSearchToolResultBlockCacheControl {
 }
 
 extension RequestToolSearchToolResultBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -365,16 +312,12 @@ extension RequestToolSearchToolResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -385,8 +328,8 @@ extension RequestToolSearchToolResultBlockCacheControl: Codable {
 extension RequestToolSearchToolResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -408,6 +351,7 @@ public indirect enum RequestToolReferenceBlockCacheControl {
 }
 
 extension RequestToolReferenceBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -415,16 +359,12 @@ extension RequestToolReferenceBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -435,8 +375,8 @@ extension RequestToolReferenceBlockCacheControl: Codable {
 extension RequestToolReferenceBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -458,6 +398,7 @@ public indirect enum RequestToolUseBlockCacheControl {
 }
 
 extension RequestToolUseBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -465,16 +406,12 @@ extension RequestToolUseBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -485,8 +422,8 @@ extension RequestToolUseBlockCacheControl: Codable {
 extension RequestToolUseBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -516,44 +453,30 @@ public struct RequestToolSearchToolResultError: Codable {
         case errorMessage = "error_message"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestToolSearchToolResultError {
-    init(from decoder: Decoder) throws {
+extension RequestToolSearchToolResultError {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errorCode) else {
-            throw SdkValidationError(
-                field: "error_code",
-                code: "required",
-                message: "Validation failed for 'error_code': value is required"
-            )
+            throw SdkValidationError(field: "error_code", code: "required", message: "Validation failed for 'error_code': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        errorCode = try container.sdkDecodeRequired(.errorCode)
-        type = try container.sdkDecodeRequired(.type)
-        errorMessage = try container.sdkDecodeIfPresent(.errorMessage)
-        try sdkValidateRawEnum("type", type, RequestToolSearchToolResultErrorType.allCases.map(\.rawValue))
+        self.errorCode = try container.sdkDecodeRequired(.errorCode)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.errorMessage = try container.sdkDecodeIfPresent(.errorMessage)
+            try sdkValidateRawEnum("type", self.type, RequestToolSearchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestToolSearchToolResultError {
-    init(
-        errorCode: ToolSearchToolResultErrorCode,
-        type: RequestToolSearchToolResultErrorType,
-        errorMessage: String? = nil
-    ) throws {
+extension RequestToolSearchToolResultError {
+    public init(errorCode: ToolSearchToolResultErrorCode, type: RequestToolSearchToolResultErrorType, errorMessage: String? = nil) throws {
         (self.errorCode, self.type) = (errorCode, type)
         self.errorMessage = errorMessage
-        try sdkValidateRawEnum("type", self.type, RequestToolSearchToolResultErrorType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestToolSearchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -569,37 +492,27 @@ public struct RequestToolSearchToolSearchResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestToolSearchToolSearchResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestToolSearchToolSearchResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.toolReferences) else {
-            throw SdkValidationError(
-                field: "tool_references",
-                code: "required",
-                message: "Validation failed for 'tool_references': value is required"
-            )
+            throw SdkValidationError(field: "tool_references", code: "required", message: "Validation failed for 'tool_references': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        toolReferences = try container.sdkDecodeRequired(.toolReferences)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, RequestToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
+        self.toolReferences = try container.sdkDecodeRequired(.toolReferences)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, RequestToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestToolSearchToolSearchResultBlock {
-    init(toolReferences: [RequestToolReferenceBlock], type: RequestToolSearchToolSearchResultBlockType) throws {
+extension RequestToolSearchToolSearchResultBlock {
+    public init(toolReferences: [RequestToolReferenceBlock], type: RequestToolSearchToolSearchResultBlockType) throws {
         (self.toolReferences, self.type) = (toolReferences, type)
-        try sdkValidateRawEnum("type", self.type, RequestToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
     }
 }

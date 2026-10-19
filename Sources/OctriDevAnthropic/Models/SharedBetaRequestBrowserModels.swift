@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaRequestBrowser domain models
+// SharedBetaRequestBrowser domain models
 public indirect enum BetaRequestBrowserStateBlockStateChangesItem {
     case betaBrowserStateChangeTabOpened(BetaBrowserStateChangeTabOpened)
     case betaBrowserStateChangeDownloadStarted(BetaBrowserStateChangeDownloadStarted)
@@ -14,6 +14,7 @@ public indirect enum BetaRequestBrowserStateBlockStateChangesItem {
 }
 
 extension BetaRequestBrowserStateBlockStateChangesItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,16 +22,12 @@ extension BetaRequestBrowserStateBlockStateChangesItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -41,16 +38,12 @@ extension BetaRequestBrowserStateBlockStateChangesItem: Codable {
 extension BetaRequestBrowserStateBlockStateChangesItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "tab_opened": try .betaBrowserStateChangeTabOpened(BetaBrowserStateChangeTabOpened(from: decoder))
-        case "download_started": try .betaBrowserStateChangeDownloadStarted(
-                BetaBrowserStateChangeDownloadStarted(from: decoder)
-            )
+        case "tab_opened": return .betaBrowserStateChangeTabOpened(try BetaBrowserStateChangeTabOpened(from: decoder))
+        case "download_started": return .betaBrowserStateChangeDownloadStarted(try BetaBrowserStateChangeDownloadStarted(from: decoder))
         case "download_completed":
-            try .betaBrowserStateChangeDownloadCompleted(BetaBrowserStateChangeDownloadCompleted(from: decoder))
-        case "download_failed": try .betaBrowserStateChangeDownloadFailed(
-                BetaBrowserStateChangeDownloadFailed(from: decoder)
-            )
-        default: nil
+        return .betaBrowserStateChangeDownloadCompleted(try BetaBrowserStateChangeDownloadCompleted(from: decoder))
+        case "download_failed": return .betaBrowserStateChangeDownloadFailed(try BetaBrowserStateChangeDownloadFailed(from: decoder))
+        default: return nil
         }
     }
 }
@@ -75,6 +68,7 @@ public indirect enum BetaRequestBrowserStateBlockCacheControl {
 }
 
 extension BetaRequestBrowserStateBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -82,16 +76,12 @@ extension BetaRequestBrowserStateBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -102,8 +92,8 @@ extension BetaRequestBrowserStateBlockCacheControl: Codable {
 extension BetaRequestBrowserStateBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -141,51 +131,36 @@ public struct BetaRequestBrowserStateBlock: Codable {
         case stateChanges = "state_changes"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRequestBrowserStateBlock {
-    init(from decoder: Decoder) throws {
+extension BetaRequestBrowserStateBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.tabs) else {
-            throw SdkValidationError(
-                field: "tabs",
-                code: "required",
-                message: "Validation failed for 'tabs': value is required"
-            )
+            throw SdkValidationError(field: "tabs", code: "required", message: "Validation failed for 'tabs': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        tabs = try container.sdkDecodeRequired(.tabs)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        stateChanges = try container.sdkDecodeIfPresent(.stateChanges)
-        try validateItems("tabs", tabs, min: nil, max: 100)
-        try sdkValidateRawEnum("type", type, BetaRequestBrowserStateBlockType.allCases.map(\.rawValue))
-        if let value = stateChanges {
+        self.tabs = try container.sdkDecodeRequired(.tabs)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.stateChanges = try container.sdkDecodeIfPresent(.stateChanges)
+            try validateItems("tabs", self.tabs, min: nil, max: 100)
+            try sdkValidateRawEnum("type", self.type, BetaRequestBrowserStateBlockType.allCases.map(\.rawValue))
+        if let value = self.stateChanges {
             try validateItems("state_changes", value, min: 1, max: 200)
         }
     }
 }
 
-public extension BetaRequestBrowserStateBlock {
-    init(
-        tabs: [BetaBrowserStateTabEntry],
-        type: BetaRequestBrowserStateBlockType,
-        cacheControl: BetaRequestBrowserStateBlockCacheControl? = nil,
-        stateChanges: [BetaRequestBrowserStateBlockStateChangesItem]? = nil
-    ) throws {
+extension BetaRequestBrowserStateBlock {
+    public init(tabs: [BetaBrowserStateTabEntry], type: BetaRequestBrowserStateBlockType, cacheControl: BetaRequestBrowserStateBlockCacheControl? = nil, stateChanges: [BetaRequestBrowserStateBlockStateChangesItem]? = nil) throws {
         (self.tabs, self.type) = (tabs, type)
         (self.cacheControl, self.stateChanges) = (cacheControl, stateChanges)
-        try validateItems("tabs", self.tabs, min: nil, max: 100)
-        try sdkValidateRawEnum("type", self.type, BetaRequestBrowserStateBlockType.allCases.map(\.rawValue))
+            try validateItems("tabs", self.tabs, min: nil, max: 100)
+            try sdkValidateRawEnum("type", self.type, BetaRequestBrowserStateBlockType.allCases.map(\.rawValue))
         if let value = self.stateChanges {
             try validateItems("state_changes", value, min: 1, max: 200)
         }

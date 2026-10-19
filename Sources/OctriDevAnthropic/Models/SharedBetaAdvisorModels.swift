@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaAdvisor domain models
+// SharedBetaAdvisor domain models
 /// Token usage for an advisor sub-inference iteration.
 public struct BetaAdvisorMessageIterationUsage: Codable {
     /// Breakdown of cached tokens by TTL
@@ -31,163 +31,65 @@ public struct BetaAdvisorMessageIterationUsage: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAdvisorMessageIterationUsage {
-    init(from decoder: Decoder) throws {
+extension BetaAdvisorMessageIterationUsage {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.cacheCreation) else {
-            throw SdkValidationError(
-                field: "cache_creation",
-                code: "required",
-                message: "Validation failed for 'cache_creation': value is required"
-            )
+            throw SdkValidationError(field: "cache_creation", code: "required", message: "Validation failed for 'cache_creation': value is required")
         }
         guard container.contains(.cacheCreationInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_creation_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_creation_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_creation_input_tokens", code: "required", message: "Validation failed for 'cache_creation_input_tokens': value is required")
         }
         guard container.contains(.cacheReadInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_read_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_read_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_read_input_tokens", code: "required", message: "Validation failed for 'cache_read_input_tokens': value is required")
         }
         guard container.contains(.inputTokens) else {
-            throw SdkValidationError(
-                field: "input_tokens",
-                code: "required",
-                message: "Validation failed for 'input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "input_tokens", code: "required", message: "Validation failed for 'input_tokens': value is required")
         }
         guard container.contains(.model) else {
-            throw SdkValidationError(
-                field: "model",
-                code: "required",
-                message: "Validation failed for 'model': value is required"
-            )
+            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
         }
         guard container.contains(.outputTokens) else {
-            throw SdkValidationError(
-                field: "output_tokens",
-                code: "required",
-                message: "Validation failed for 'output_tokens': value is required"
-            )
+            throw SdkValidationError(field: "output_tokens", code: "required", message: "Validation failed for 'output_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
-        cacheCreationInputTokens = try container.sdkDecodeRequired(.cacheCreationInputTokens)
-        cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
-        inputTokens = try container.sdkDecodeRequired(.inputTokens)
-        model = try container.sdkDecodeRequired(.model)
-        outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "cache_creation_input_tokens",
-            Double(cacheCreationInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cache_read_input_tokens",
-            Double(cacheReadInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "input_tokens",
-            Double(inputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "output_tokens",
-            Double(outputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaAdvisorMessageIterationUsageType.allCases.map(\.rawValue))
+        self.cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
+        self.cacheCreationInputTokens = try container.sdkDecodeRequired(.cacheCreationInputTokens)
+        self.cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
+        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("cache_creation_input_tokens", Double(self.cacheCreationInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cache_read_input_tokens", Double(self.cacheReadInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaAdvisorMessageIterationUsageType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaAdvisorMessageIterationUsage {
-    init(
-        cacheCreation: BetaCacheCreation?,
-        cacheCreationInputTokens: Int,
-        cacheReadInputTokens: Int,
-        inputTokens: Int,
-        model: Model,
-        outputTokens: Int,
-        type: BetaAdvisorMessageIterationUsageType
-    ) throws {
+extension BetaAdvisorMessageIterationUsage {
+    public init(cacheCreation: BetaCacheCreation?, cacheCreationInputTokens: Int, cacheReadInputTokens: Int, inputTokens: Int, model: Model, outputTokens: Int, type: BetaAdvisorMessageIterationUsageType) throws {
         (self.cacheCreation, self.cacheCreationInputTokens) = (cacheCreation, cacheCreationInputTokens)
         (self.cacheReadInputTokens, self.inputTokens) = (cacheReadInputTokens, inputTokens)
         (self.model, self.outputTokens) = (model, outputTokens)
         self.type = type
-        try validateRange(
-            "cache_creation_input_tokens",
-            Double(self.cacheCreationInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cache_read_input_tokens",
-            Double(self.cacheReadInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "input_tokens",
-            Double(self.inputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "output_tokens",
-            Double(self.outputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaAdvisorMessageIterationUsageType.allCases.map(\.rawValue))
+            try validateRange("cache_creation_input_tokens", Double(self.cacheCreationInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cache_read_input_tokens", Double(self.cacheReadInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaAdvisorMessageIterationUsageType.allCases.map(\.rawValue))
     }
 }
+
+
+
+
 
 /// Typed representation of the `BetaAdvisorTool_20260301` API schema.
 public struct BetaAdvisorTool20260301: Codable {
@@ -232,70 +134,45 @@ public struct BetaAdvisorTool20260301: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAdvisorTool20260301 {
-    init(from decoder: Decoder) throws {
+extension BetaAdvisorTool20260301 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.model) else {
-            throw SdkValidationError(
-                field: "model",
-                code: "required",
-                message: "Validation failed for 'model': value is required"
-            )
+            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        model = try container.sdkDecodeRequired(.model)
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        caching = try container.sdkDecodeIfPresent(.caching)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxTokens = try container.sdkDecodeIfPresent(.maxTokens)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaAdvisorTool20260301Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaAdvisorTool20260301Type.allCases.map(\.rawValue))
+        self.model = try container.sdkDecodeRequired(.model)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.caching = try container.sdkDecodeIfPresent(.caching)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxTokens = try container.sdkDecodeIfPresent(.maxTokens)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaAdvisorTool20260301Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaAdvisorTool20260301Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaAdvisorTool20260301 {
-    init(
-        model: Model,
-        name: BetaAdvisorTool20260301Name,
-        type: BetaAdvisorTool20260301Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaAdvisorTool20260301CacheControl? = nil,
-        caching: BetaAdvisorTool20260301Caching? = nil,
-        deferLoading: Bool? = nil,
-        maxTokens: Int? = nil,
-        maxUses: Int? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaAdvisorTool20260301 {
+    public init(model: Model, name: BetaAdvisorTool20260301Name, type: BetaAdvisorTool20260301Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaAdvisorTool20260301CacheControl? = nil, caching: BetaAdvisorTool20260301Caching? = nil, deferLoading: Bool? = nil, maxTokens: Int? = nil, maxUses: Int? = nil, strict: Bool? = nil) throws {
         (self.model, self.name) = (model, name)
         (self.type, self.allowedCallers) = (type, allowedCallers)
         (self.cacheControl, self.caching) = (cacheControl, caching)
         (self.deferLoading, self.maxTokens) = (deferLoading, maxTokens)
         (self.maxUses, self.strict) = (maxUses, strict)
-        try sdkValidateRawEnum("name", self.name, BetaAdvisorTool20260301Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaAdvisorTool20260301Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaAdvisorTool20260301Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaAdvisorTool20260301Type.allCases.map(\.rawValue))
     }
 }
 
@@ -306,6 +183,7 @@ public indirect enum BetaAdvisorTool20260301Caching {
 }
 
 extension BetaAdvisorTool20260301Caching: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -313,16 +191,12 @@ extension BetaAdvisorTool20260301Caching: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -333,8 +207,8 @@ extension BetaAdvisorTool20260301Caching: Codable {
 extension BetaAdvisorTool20260301Caching {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -356,6 +230,7 @@ public indirect enum BetaAdvisorTool20260301CacheControl {
 }
 
 extension BetaAdvisorTool20260301CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -363,16 +238,12 @@ extension BetaAdvisorTool20260301CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -383,8 +254,8 @@ extension BetaAdvisorTool20260301CacheControl: Codable {
 extension BetaAdvisorTool20260301CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -457,10 +328,7 @@ public enum BetaAdvisorMessageIterationUsageType: String, CaseIterable, Codable 
 public struct BetaAdvisorToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let maxUsesExceeded = BetaAdvisorToolResultErrorCode(rawValue: "max_uses_exceeded")
     public static let promptTooLong = BetaAdvisorToolResultErrorCode(rawValue: "prompt_too_long")
     public static let tooManyRequests = BetaAdvisorToolResultErrorCode(rawValue: "too_many_requests")
@@ -471,7 +339,7 @@ public struct BetaAdvisorToolResultErrorCode: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

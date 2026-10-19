@@ -6,19 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsTunnelsMethods {
-    /// Rotates a tunnel's token, invalidating the previous token for new connections and returning a fresh value.
-    /// Established connections remain active, but connectors restarted after rotation must use the new token; provide
-    /// `reason` to record operational context. This operation is closing down and will be removed after the migration
-    /// window; use the replacement tunnel endpoint for new integrations.
+extension BetaOrganizationsTunnelsMethods {
+    /// Rotates a tunnel's token, invalidating the previous token for new connections and returning a fresh value. Established connections remain active, but connectors restarted after rotation must use the new token; provide `reason` to record operational context. This operation is closing down and will be removed after the migration window; use the replacement tunnel endpoint for new integrations.
     ///
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Invalidate the tunnel's current token for new connections and return a fresh value.
-    /// Established connections are not severed by rotation; a connector restarted after rotation must use the new
-    /// value. An optional `reason` is captured for operational context.
+    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Invalidate the tunnel's current token for new connections and return a fresh value. Established connections are not severed by rotation; a connector restarted after rotation must use the new value. An optional `reason` is captured for operational context.
     ///
     /// - Parameters:
     /// - tunnelId: ID of the Tunnel.
@@ -29,45 +20,10 @@ public extension BetaOrganizationsTunnelsMethods {
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func rotateBetaOrganizationsTunnelsToken(
-        config: ClientConfig,
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        body: BetaRotateTunnelTokenParams? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelToken {
-        try await (sdkRequest(
-            "POST",
-            ["/v1/organizations/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/rotate_token?beta=true"]
-                .joined(),
-            config: config,
-            rawBody: (body.map { try sdkEncodeBody($0, contentType: "application/json") }),
-            decoder: .json,
-            operationId: "rotateBetaOrganizationsTunnelsToken",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func rotateBetaOrganizationsTunnelsToken(config: ClientConfig, tunnelId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, body: BetaRotateTunnelTokenParams? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelToken {
+        return try (await sdkRequest("POST", ["/v1/organizations/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/rotate_token?beta=true"].joined(), config: config, rawBody: (try body.map { try sdkEncodeBody($0, contentType: "application/json") }), decoder: .json, operationId: "rotateBetaOrganizationsTunnelsToken", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaEffort domain models
+// SharedBetaEffort domain models
 /// Effort (reasoning_effort) capability details.
 public struct BetaEffortCapability: Codable {
     /// Whether the model supports high effort level.
@@ -28,74 +28,41 @@ public struct BetaEffortCapability: Codable {
         case xhigh
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaEffortCapability {
-    init(from decoder: Decoder) throws {
+extension BetaEffortCapability {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.high) else {
-            throw SdkValidationError(
-                field: "high",
-                code: "required",
-                message: "Validation failed for 'high': value is required"
-            )
+            throw SdkValidationError(field: "high", code: "required", message: "Validation failed for 'high': value is required")
         }
         guard container.contains(.low) else {
-            throw SdkValidationError(
-                field: "low",
-                code: "required",
-                message: "Validation failed for 'low': value is required"
-            )
+            throw SdkValidationError(field: "low", code: "required", message: "Validation failed for 'low': value is required")
         }
         guard container.contains(.max) else {
-            throw SdkValidationError(
-                field: "max",
-                code: "required",
-                message: "Validation failed for 'max': value is required"
-            )
+            throw SdkValidationError(field: "max", code: "required", message: "Validation failed for 'max': value is required")
         }
         guard container.contains(.medium) else {
-            throw SdkValidationError(
-                field: "medium",
-                code: "required",
-                message: "Validation failed for 'medium': value is required"
-            )
+            throw SdkValidationError(field: "medium", code: "required", message: "Validation failed for 'medium': value is required")
         }
         guard container.contains(.supported) else {
-            throw SdkValidationError(
-                field: "supported",
-                code: "required",
-                message: "Validation failed for 'supported': value is required"
-            )
+            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
         }
         guard container.contains(.xhigh) else {
-            throw SdkValidationError(
-                field: "xhigh",
-                code: "required",
-                message: "Validation failed for 'xhigh': value is required"
-            )
+            throw SdkValidationError(field: "xhigh", code: "required", message: "Validation failed for 'xhigh': value is required")
         }
-        high = try container.sdkDecodeRequired(.high)
-        low = try container.sdkDecodeRequired(.low)
+        self.high = try container.sdkDecodeRequired(.high)
+        self.low = try container.sdkDecodeRequired(.low)
         self.max = try container.sdkDecodeRequired(.max)
-        medium = try container.sdkDecodeRequired(.medium)
-        supported = try container.sdkDecodeRequired(.supported)
-        xhigh = try container.sdkDecodeNullable(.xhigh)
+        self.medium = try container.sdkDecodeRequired(.medium)
+        self.supported = try container.sdkDecodeRequired(.supported)
+        self.xhigh = try container.sdkDecodeNullable(.xhigh)
     }
 }
 
-public extension BetaEffortCapability {
-    init(
-        high: BetaCapabilitySupport,
-        low: BetaCapabilitySupport,
-        max: BetaCapabilitySupport,
-        medium: BetaCapabilitySupport,
-        supported: Bool,
-        xhigh: BetaCapabilitySupport?
-    ) {
+extension BetaEffortCapability {
+    public init(high: BetaCapabilitySupport, low: BetaCapabilitySupport, max: BetaCapabilitySupport, medium: BetaCapabilitySupport, supported: Bool, xhigh: BetaCapabilitySupport?) {
         (self.high, self.low) = (high, low)
         (self.max, self.medium) = (max, medium)
         (self.supported, self.xhigh) = (supported, xhigh)
@@ -106,10 +73,7 @@ public extension BetaEffortCapability {
 public struct BetaEffortLevel: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let low = BetaEffortLevel(rawValue: "low")
     public static let medium = BetaEffortLevel(rawValue: "medium")
     public static let high = BetaEffortLevel(rawValue: "high")
@@ -118,7 +82,7 @@ public struct BetaEffortLevel: RawRepresentable, Hashable, Codable, Sendable, Sd
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

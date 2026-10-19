@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaAnalytics domain models
+// SharedBetaAnalytics domain models
 /// A user in the organization, identified by tagged id and email address.
 public struct BetaAnalyticsUser: Codable {
     /// Email address of the user
@@ -19,47 +19,33 @@ public struct BetaAnalyticsUser: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsUser {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsUser {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(
-                field: "email_address",
-                code: "required",
-                message: "Validation failed for 'email_address': value is required"
-            )
+            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaAnalyticsUserType.allCases.map(\.rawValue))
+        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaAnalyticsUserType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaAnalyticsUser {
-    init(emailAddress: String, id: String, type: BetaAnalyticsUserType) throws {
+extension BetaAnalyticsUser {
+    public init(emailAddress: String, id: String, type: BetaAnalyticsUserType) throws {
         (self.emailAddress, self.id) = (emailAddress, id)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaAnalyticsUserType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaAnalyticsUserType.allCases.map(\.rawValue))
     }
 }
 
@@ -93,64 +79,42 @@ public struct BetaAnalyticsUserActor: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsUserActor {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsUserActor {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.deleted) else {
-            throw SdkValidationError(
-                field: "deleted",
-                code: "required",
-                message: "Validation failed for 'deleted': value is required"
-            )
+            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
         }
         guard container.contains(.email) else {
-            throw SdkValidationError(
-                field: "email",
-                code: "required",
-                message: "Validation failed for 'email': value is required"
-            )
+            throw SdkValidationError(field: "email", code: "required", message: "Validation failed for 'email': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
-        deleted = try container.sdkDecodeRequired(.deleted)
-        email = try container.sdkDecodeNullable(.email)
-        name = try container.sdkDecodeNullable(.name)
-        type = try container.sdkDecodeRequired(.type)
-        userId = try container.sdkDecodeRequired(.userId)
-        try sdkValidateRawEnum("type", type, BetaAnalyticsUserActorType.allCases.map(\.rawValue))
+        self.deleted = try container.sdkDecodeRequired(.deleted)
+        self.email = try container.sdkDecodeNullable(.email)
+        self.name = try container.sdkDecodeNullable(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.userId = try container.sdkDecodeRequired(.userId)
+            try sdkValidateRawEnum("type", self.type, BetaAnalyticsUserActorType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaAnalyticsUserActor {
-    init(deleted: Bool, email: String?, name: String?, type: BetaAnalyticsUserActorType, userId: String) throws {
+extension BetaAnalyticsUserActor {
+    public init(deleted: Bool, email: String?, name: String?, type: BetaAnalyticsUserActorType, userId: String) throws {
         (self.deleted, self.email) = (deleted, email)
         (self.name, self.type) = (name, type)
         self.userId = userId
-        try sdkValidateRawEnum("type", self.type, BetaAnalyticsUserActorType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaAnalyticsUserActorType.allCases.map(\.rawValue))
     }
 }
 
@@ -158,16 +122,13 @@ public extension BetaAnalyticsUserActor {
 public struct BetaAnalyticsSortOrder: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let asc = BetaAnalyticsSortOrder(rawValue: "asc")
     public static let desc = BetaAnalyticsSortOrder(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -180,10 +141,7 @@ public struct BetaAnalyticsSortOrder: RawRepresentable, Hashable, Codable, Senda
 public struct BetaAnalyticsProductFilter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let chat = BetaAnalyticsProductFilter(rawValue: "chat")
     public static let claudeTag = BetaAnalyticsProductFilter(rawValue: "claude-tag")
     public static let claudeCode = BetaAnalyticsProductFilter(rawValue: "claude_code")
@@ -194,7 +152,7 @@ public struct BetaAnalyticsProductFilter: RawRepresentable, Hashable, Codable, S
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -207,17 +165,14 @@ public struct BetaAnalyticsProductFilter: RawRepresentable, Hashable, Codable, S
 public struct BetaAnalyticsCostType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let codeExecution = BetaAnalyticsCostType(rawValue: "code_execution")
     public static let tokens = BetaAnalyticsCostType(rawValue: "tokens")
     public static let webSearch = BetaAnalyticsCostType(rawValue: "web_search")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

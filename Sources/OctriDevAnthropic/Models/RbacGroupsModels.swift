@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// RbacGroups domain models
+// RbacGroups domain models
 /// Typed representation of the `BetaDeleteRbacGroupResponse` API schema.
 public struct BetaDeleteRbacGroupResponse: Codable {
     /// ID of the RBAC Group.
@@ -16,38 +16,28 @@ public struct BetaDeleteRbacGroupResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDeleteRbacGroupResponse {
-    init(from decoder: Decoder) throws {
+extension BetaDeleteRbacGroupResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaDeleteRbacGroupResponseType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaDeleteRbacGroupResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaDeleteRbacGroupResponse {
-    init(id: String, type: BetaDeleteRbacGroupResponseType) throws {
+extension BetaDeleteRbacGroupResponse {
+    public init(id: String, type: BetaDeleteRbacGroupResponseType) throws {
         (self.id, self.type) = (id, type)
-        try sdkValidateRawEnum("type", self.type, BetaDeleteRbacGroupResponseType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaDeleteRbacGroupResponseType.allCases.map(\.rawValue))
     }
 }
 
@@ -61,19 +51,19 @@ public struct BetaUpdateRbacGroupParams: Codable {
     }
 
     init() {
-        name = nil
+        self.name = nil
     }
 }
 
-public extension BetaUpdateRbacGroupParams {
-    init(from decoder: Decoder) throws {
+extension BetaUpdateRbacGroupParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.sdkDecodeIfPresent(.name)
+        self.name = try container.sdkDecodeIfPresent(.name)
     }
 }
 
-public extension BetaUpdateRbacGroupParams {
-    init(name: String? = nil) {
+extension BetaUpdateRbacGroupParams {
+    public init(name: String? = nil) {
         self.init()
         self.name = name
     }

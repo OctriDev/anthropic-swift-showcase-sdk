@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaFederation domain models
+// SharedBetaFederation domain models
 public indirect enum BetaFederationIssuerJwks {
     case betaJwksDiscovery(BetaJwksDiscovery)
     case betaJwksExplicitUrl(BetaJwksExplicitUrl)
@@ -13,6 +13,7 @@ public indirect enum BetaFederationIssuerJwks {
 }
 
 extension BetaFederationIssuerJwks: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension BetaFederationIssuerJwks: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,10 +37,10 @@ extension BetaFederationIssuerJwks: Codable {
 extension BetaFederationIssuerJwks {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "discovery": try .betaJwksDiscovery(BetaJwksDiscovery(from: decoder))
-        case "explicit_url": try .betaJwksExplicitUrl(BetaJwksExplicitUrl(from: decoder))
-        case "inline": try .betaJwksInline(BetaJwksInline(from: decoder))
-        default: nil
+        case "discovery": return .betaJwksDiscovery(try BetaJwksDiscovery(from: decoder))
+        case "explicit_url": return .betaJwksExplicitUrl(try BetaJwksExplicitUrl(from: decoder))
+        case "inline": return .betaJwksInline(try BetaJwksInline(from: decoder))
+        default: return nil
         }
     }
 }
@@ -135,63 +132,40 @@ public struct BetaFederationRule: Codable {
         case workspaceIds = "workspace_ids"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFederationRule {
-    init(from decoder: Decoder) throws {
+extension BetaFederationRule {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        appliesToAllWorkspaces = try container.sdkDecodeRequired(.appliesToAllWorkspaces)
-        archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        archivedByActorId = try container.sdkDecodeNullable(.archivedByActorId)
-        attributes = try container.sdkDecodeNullable(.attributes)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
-        description = try container.sdkDecodeNullable(.description)
-        id = try container.sdkDecodeRequired(.id)
-        issuerId = try container.sdkDecodeRequired(.issuerId)
-        issuerName = try container.sdkDecodeNullable(.issuerName)
-        match = try container.sdkDecodeRequired(.match)
-        name = try container.sdkDecodeRequired(.name)
-        oauthScope = try container.sdkDecodeRequired(.oauthScope)
-        target = try container.sdkDecodeRequired(.target)
-        tokenLifetimeSeconds = try container.sdkDecodeRequired(.tokenLifetimeSeconds)
-        type = try container.sdkDecodeRequired(.type)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        updatedByActorId = try container.sdkDecodeNullable(.updatedByActorId)
-        workspaceId = try container.sdkDecodeNullable(.workspaceId)
-        workspaceIds = try container.sdkDecodeRequired(.workspaceIds)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaFederationRuleType.allCases.map(\.rawValue))
-        try sdkValidateDateTime("updated_at", sdkWireString(updatedAt))
+        self.appliesToAllWorkspaces = try container.sdkDecodeRequired(.appliesToAllWorkspaces)
+        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        self.archivedByActorId = try container.sdkDecodeNullable(.archivedByActorId)
+        self.attributes = try container.sdkDecodeNullable(.attributes)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
+        self.description = try container.sdkDecodeNullable(.description)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.issuerId = try container.sdkDecodeRequired(.issuerId)
+        self.issuerName = try container.sdkDecodeNullable(.issuerName)
+        self.match = try container.sdkDecodeRequired(.match)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.oauthScope = try container.sdkDecodeRequired(.oauthScope)
+        self.target = try container.sdkDecodeRequired(.target)
+        self.tokenLifetimeSeconds = try container.sdkDecodeRequired(.tokenLifetimeSeconds)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.updatedByActorId = try container.sdkDecodeNullable(.updatedByActorId)
+        self.workspaceId = try container.sdkDecodeNullable(.workspaceId)
+        self.workspaceIds = try container.sdkDecodeRequired(.workspaceIds)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaFederationRuleType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
-public extension BetaFederationRule {
-    init(
-        appliesToAllWorkspaces: Bool,
-        archivedAt: Date?,
-        archivedByActorId: String?,
-        attributes: [String: String]?,
-        createdAt: Date,
-        createdByActorId: String?,
-        description: String?,
-        id: String,
-        issuerId: String,
-        issuerName: String?,
-        match: BetaRuleMatch,
-        name: String,
-        oauthScope: String,
-        target: BetaServiceAccountTarget,
-        tokenLifetimeSeconds: Int,
-        type: BetaFederationRuleType,
-        updatedAt: Date,
-        updatedByActorId: String?,
-        workspaceId: String?,
-        workspaceIds: [String]
-    ) throws {
+extension BetaFederationRule {
+    public init(appliesToAllWorkspaces: Bool, archivedAt: Date?, archivedByActorId: String?, attributes: [String: String]?, createdAt: Date, createdByActorId: String?, description: String?, id: String, issuerId: String, issuerName: String?, match: BetaRuleMatch, name: String, oauthScope: String, target: BetaServiceAccountTarget, tokenLifetimeSeconds: Int, type: BetaFederationRuleType, updatedAt: Date, updatedByActorId: String?, workspaceId: String?, workspaceIds: [String]) throws {
         (self.appliesToAllWorkspaces, self.archivedAt) = (appliesToAllWorkspaces, archivedAt)
         (self.archivedByActorId, self.attributes) = (archivedByActorId, attributes)
         (self.createdAt, self.createdByActorId) = (createdAt, createdByActorId)
@@ -202,9 +176,9 @@ public extension BetaFederationRule {
         (self.tokenLifetimeSeconds, self.type) = (tokenLifetimeSeconds, type)
         (self.updatedAt, self.updatedByActorId) = (updatedAt, updatedByActorId)
         (self.workspaceId, self.workspaceIds) = (workspaceId, workspaceIds)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum("type", self.type, BetaFederationRuleType.allCases.map(\.rawValue))
-        try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaFederationRuleType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
@@ -268,53 +242,35 @@ public struct BetaFederationIssuer: Codable {
         case updatedByActorId = "updated_by_actor_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFederationIssuer {
-    init(from decoder: Decoder) throws {
+extension BetaFederationIssuer {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        archivedByActorId = try container.sdkDecodeNullable(.archivedByActorId)
-        checkJti = try container.sdkDecodeRequired(.checkJti)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
-        id = try container.sdkDecodeRequired(.id)
-        issuerUrl = try container.sdkDecodeRequired(.issuerUrl)
-        jwks = try container.sdkDecodeRequired(.jwks)
-        jwksPollingDisabledAt = try container.sdkDecodeNullable(.jwksPollingDisabledAt)
-        maxJwtLifetimeSeconds = try container.sdkDecodeRequired(.maxJwtLifetimeSeconds)
-        name = try container.sdkDecodeRequired(.name)
-        pollStatus = try container.sdkDecodeNullable(.pollStatus)
-        type = try container.sdkDecodeRequired(.type)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        updatedByActorId = try container.sdkDecodeNullable(.updatedByActorId)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaFederationIssuerType.allCases.map(\.rawValue))
-        try sdkValidateDateTime("updated_at", sdkWireString(updatedAt))
+        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        self.archivedByActorId = try container.sdkDecodeNullable(.archivedByActorId)
+        self.checkJti = try container.sdkDecodeRequired(.checkJti)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.issuerUrl = try container.sdkDecodeRequired(.issuerUrl)
+        self.jwks = try container.sdkDecodeRequired(.jwks)
+        self.jwksPollingDisabledAt = try container.sdkDecodeNullable(.jwksPollingDisabledAt)
+        self.maxJwtLifetimeSeconds = try container.sdkDecodeRequired(.maxJwtLifetimeSeconds)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.pollStatus = try container.sdkDecodeNullable(.pollStatus)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.updatedByActorId = try container.sdkDecodeNullable(.updatedByActorId)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaFederationIssuerType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
-public extension BetaFederationIssuer {
-    init(
-        archivedAt: Date?,
-        archivedByActorId: String?,
-        checkJti: Bool,
-        createdAt: Date,
-        createdByActorId: String?,
-        id: String,
-        issuerUrl: String,
-        jwks: BetaFederationIssuerJwks,
-        jwksPollingDisabledAt: Date?,
-        maxJwtLifetimeSeconds: Int,
-        name: String,
-        pollStatus: BetaIssuerPollStatus?,
-        type: BetaFederationIssuerType,
-        updatedAt: Date,
-        updatedByActorId: String?
-    ) throws {
+extension BetaFederationIssuer {
+    public init(archivedAt: Date?, archivedByActorId: String?, checkJti: Bool, createdAt: Date, createdByActorId: String?, id: String, issuerUrl: String, jwks: BetaFederationIssuerJwks, jwksPollingDisabledAt: Date?, maxJwtLifetimeSeconds: Int, name: String, pollStatus: BetaIssuerPollStatus?, type: BetaFederationIssuerType, updatedAt: Date, updatedByActorId: String?) throws {
         (self.archivedAt, self.archivedByActorId) = (archivedAt, archivedByActorId)
         (self.checkJti, self.createdAt) = (checkJti, createdAt)
         (self.createdByActorId, self.id) = (createdByActorId, id)
@@ -323,9 +279,9 @@ public extension BetaFederationIssuer {
         (self.maxJwtLifetimeSeconds, self.name) = (maxJwtLifetimeSeconds, name)
         (self.pollStatus, self.type) = (pollStatus, type)
         (self.updatedAt, self.updatedByActorId) = (updatedAt, updatedByActorId)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum("type", self.type, BetaFederationIssuerType.allCases.map(\.rawValue))
-        try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaFederationIssuerType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaSkill domain models
+// SharedBetaSkill domain models
 /// Typed representation of the `BetaSkillSource` API schema.
 public struct BetaSkillSource: Codable {
     /// Where the Skill comes from. Possible values: * `"custom"`: authored by the platform user; private to their
@@ -15,27 +15,21 @@ public struct BetaSkillSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSkillSource {
-    init(from decoder: Decoder) throws {
+extension BetaSkillSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
+        self.type = try container.sdkDecodeRequired(.type)
     }
 }
 
-public extension BetaSkillSource {
-    init(type: BetaSkillSourceType) {
+extension BetaSkillSource {
+    public init(type: BetaSkillSourceType) {
         self.type = type
     }
 }
@@ -66,81 +60,48 @@ public struct BetaSkillVersion: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSkillVersion {
-    init(from decoder: Decoder) throws {
+extension BetaSkillVersion {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.description) else {
-            throw SdkValidationError(
-                field: "description",
-                code: "required",
-                message: "Validation failed for 'description': value is required"
-            )
+            throw SdkValidationError(field: "description", code: "required", message: "Validation failed for 'description': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.skillId) else {
-            throw SdkValidationError(
-                field: "skill_id",
-                code: "required",
-                message: "Validation failed for 'skill_id': value is required"
-            )
+            throw SdkValidationError(field: "skill_id", code: "required", message: "Validation failed for 'skill_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        description = try container.sdkDecodeRequired(.description)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        skillId = try container.sdkDecodeRequired(.skillId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaSkillVersionType.allCases.map(\.rawValue))
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.description = try container.sdkDecodeRequired(.description)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.skillId = try container.sdkDecodeRequired(.skillId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaSkillVersionType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaSkillVersion {
-    init(
-        createdAt: Date,
-        description: String,
-        id: String,
-        name: String,
-        skillId: String,
-        type: BetaSkillVersionType
-    ) throws {
+extension BetaSkillVersion {
+    public init(createdAt: Date, description: String, id: String, name: String, skillId: String, type: BetaSkillVersionType) throws {
         (self.createdAt, self.description) = (createdAt, description)
         (self.id, self.name) = (id, name)
         (self.skillId, self.type) = (skillId, type)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum("type", self.type, BetaSkillVersionType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaSkillVersionType.allCases.map(\.rawValue))
     }
 }
 
@@ -175,93 +136,55 @@ public struct BetaSkill: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSkill {
-    init(from decoder: Decoder) throws {
+extension BetaSkill {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.displayName) else {
-            throw SdkValidationError(
-                field: "display_name",
-                code: "required",
-                message: "Validation failed for 'display_name': value is required"
-            )
+            throw SdkValidationError(field: "display_name", code: "required", message: "Validation failed for 'display_name': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.latestVersionId) else {
-            throw SdkValidationError(
-                field: "latest_version_id",
-                code: "required",
-                message: "Validation failed for 'latest_version_id': value is required"
-            )
+            throw SdkValidationError(field: "latest_version_id", code: "required", message: "Validation failed for 'latest_version_id': value is required")
         }
         guard container.contains(.source) else {
-            throw SdkValidationError(
-                field: "source",
-                code: "required",
-                message: "Validation failed for 'source': value is required"
-            )
+            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        displayName = try container.sdkDecodeRequired(.displayName)
-        id = try container.sdkDecodeRequired(.id)
-        latestVersionId = try container.sdkDecodeRequired(.latestVersionId)
-        source = try container.sdkDecodeRequired(.source)
-        type = try container.sdkDecodeRequired(.type)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaSkillType.allCases.map(\.rawValue))
-        try sdkValidateDateTime("updated_at", sdkWireString(updatedAt))
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.displayName = try container.sdkDecodeRequired(.displayName)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.latestVersionId = try container.sdkDecodeRequired(.latestVersionId)
+        self.source = try container.sdkDecodeRequired(.source)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaSkillType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
-public extension BetaSkill {
-    init(
-        createdAt: Date,
-        displayName: String,
-        id: String,
-        latestVersionId: String,
-        source: BetaSkillSource,
-        type: BetaSkillType,
-        updatedAt: Date
-    ) throws {
+extension BetaSkill {
+    public init(createdAt: Date, displayName: String, id: String, latestVersionId: String, source: BetaSkillSource, type: BetaSkillType, updatedAt: Date) throws {
         (self.createdAt, self.displayName) = (createdAt, displayName)
         (self.id, self.latestVersionId) = (id, latestVersionId)
         (self.source, self.type) = (source, type)
         self.updatedAt = updatedAt
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum("type", self.type, BetaSkillType.allCases.map(\.rawValue))
-        try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaSkillType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
@@ -280,43 +203,33 @@ public struct BetaSkillParams: Codable {
         case version
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSkillParams {
-    init(from decoder: Decoder) throws {
+extension BetaSkillParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.skillId) else {
-            throw SdkValidationError(
-                field: "skill_id",
-                code: "required",
-                message: "Validation failed for 'skill_id': value is required"
-            )
+            throw SdkValidationError(field: "skill_id", code: "required", message: "Validation failed for 'skill_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        skillId = try container.sdkDecodeRequired(.skillId)
-        type = try container.sdkDecodeRequired(.type)
-        version = try container.sdkDecodeIfPresent(.version)
-        try validateLength("skill_id", skillId, min: 1, max: 64)
-        if let value = version {
+        self.skillId = try container.sdkDecodeRequired(.skillId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.version = try container.sdkDecodeIfPresent(.version)
+            try validateLength("skill_id", self.skillId, min: 1, max: 64)
+        if let value = self.version {
             try validateLength("version", value, min: 1, max: 64)
         }
     }
 }
 
-public extension BetaSkillParams {
-    init(skillId: String, type: BetaSkillParamsType, version: String? = nil) throws {
+extension BetaSkillParams {
+    public init(skillId: String, type: BetaSkillParamsType, version: String? = nil) throws {
         (self.skillId, self.type) = (skillId, type)
         self.version = version
-        try validateLength("skill_id", self.skillId, min: 1, max: 64)
+            try validateLength("skill_id", self.skillId, min: 1, max: 64)
         if let value = self.version {
             try validateLength("version", value, min: 1, max: 64)
         }
@@ -327,16 +240,13 @@ public extension BetaSkillParams {
 public struct BetaSkillParamsType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let anthropic = BetaSkillParamsType(rawValue: "anthropic")
     public static let custom = BetaSkillParamsType(rawValue: "custom")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -351,10 +261,7 @@ public struct BetaSkillParamsType: RawRepresentable, Hashable, Codable, Sendable
 public struct BetaSkillSourceType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let custom = BetaSkillSourceType(rawValue: "custom")
     public static let anthropic = BetaSkillSourceType(rawValue: "anthropic")
     public static let anthropicExample = BetaSkillSourceType(rawValue: "anthropic_example")
@@ -362,7 +269,7 @@ public struct BetaSkillSourceType: RawRepresentable, Hashable, Codable, Sendable
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

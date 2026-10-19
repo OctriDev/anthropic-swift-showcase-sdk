@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaBash domain models
+// SharedBetaBash domain models
 /// Typed representation of the `BetaBashTool_20250124` API schema.
 public struct BetaBashTool20250124: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -32,56 +32,38 @@ public struct BetaBashTool20250124: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBashTool20250124 {
-    init(from decoder: Decoder) throws {
+extension BetaBashTool20250124 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaBashTool20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaBashTool20250124Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaBashTool20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBashTool20250124Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBashTool20250124 {
-    init(
-        name: BetaBashTool20250124Name,
-        type: BetaBashTool20250124Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaBashTool20250124CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: BetaJsonValue]]? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaBashTool20250124 {
+    public init(name: BetaBashTool20250124Name, type: BetaBashTool20250124Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaBashTool20250124CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-        try sdkValidateRawEnum("name", self.name, BetaBashTool20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaBashTool20250124Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaBashTool20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBashTool20250124Type.allCases.map(\.rawValue))
     }
 }
 
@@ -92,6 +74,7 @@ public indirect enum BetaBashTool20241022CacheControl {
 }
 
 extension BetaBashTool20241022CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -99,16 +82,12 @@ extension BetaBashTool20241022CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -119,8 +98,8 @@ extension BetaBashTool20241022CacheControl: Codable {
 extension BetaBashTool20241022CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -142,6 +121,7 @@ public indirect enum BetaBashTool20250124CacheControl {
 }
 
 extension BetaBashTool20250124CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -149,16 +129,12 @@ extension BetaBashTool20250124CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -169,8 +145,8 @@ extension BetaBashTool20250124CacheControl: Codable {
 extension BetaBashTool20250124CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -184,6 +160,10 @@ extension BetaBashTool20250124CacheControl {
         }
     }
 }
+
+
+
+
 
 /// Typed representation of the `BetaBashTool_20241022` API schema.
 public struct BetaBashTool20241022: Codable {
@@ -213,56 +193,38 @@ public struct BetaBashTool20241022: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBashTool20241022 {
-    init(from decoder: Decoder) throws {
+extension BetaBashTool20241022 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaBashTool20241022Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaBashTool20241022Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaBashTool20241022Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBashTool20241022Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBashTool20241022 {
-    init(
-        name: BetaBashTool20241022Name,
-        type: BetaBashTool20241022Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaBashTool20241022CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: BetaJsonValue]]? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaBashTool20241022 {
+    public init(name: BetaBashTool20241022Name, type: BetaBashTool20241022Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaBashTool20241022CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-        try sdkValidateRawEnum("name", self.name, BetaBashTool20241022Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaBashTool20241022Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaBashTool20241022Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBashTool20241022Type.allCases.map(\.rawValue))
     }
 }
 
@@ -339,24 +301,19 @@ public enum BetaBashTool20241022Type: String, CaseIterable, Codable {
 }
 
 /// Typed representation of the `BetaBashCodeExecutionToolResultErrorCode` API schema.
-public struct BetaBashCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaBashCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = BetaBashCodeExecutionToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = BetaBashCodeExecutionToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = BetaBashCodeExecutionToolResultErrorCode(rawValue: "too_many_requests")
-    public static let executionTimeExceeded =
-        BetaBashCodeExecutionToolResultErrorCode(rawValue: "execution_time_exceeded")
+    public static let executionTimeExceeded = BetaBashCodeExecutionToolResultErrorCode(rawValue: "execution_time_exceeded")
     public static let outputFileTooLarge = BetaBashCodeExecutionToolResultErrorCode(rawValue: "output_file_too_large")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

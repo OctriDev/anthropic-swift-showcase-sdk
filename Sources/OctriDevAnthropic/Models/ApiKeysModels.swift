@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ApiKeys domain models
+// ApiKeys domain models
 /// Typed representation of the `BetaApiKeyUpdateParams` API schema.
 public struct BetaApiKeyUpdateParams: Codable {
     /// Name of the API key.
@@ -17,20 +17,20 @@ public struct BetaApiKeyUpdateParams: Codable {
     }
 
     init() {
-        (name, status) = (nil, nil)
+        (self.name, self.status) = (nil, nil)
     }
 }
 
-public extension BetaApiKeyUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaApiKeyUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.sdkDecodeIfPresent(.name)
-        status = try container.sdkDecodeIfPresent(.status)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.status = try container.sdkDecodeIfPresent(.status)
     }
 }
 
-public extension BetaApiKeyUpdateParams {
-    init(name: String? = nil, status: BetaApiKeyUpdateParamsStatusVariant0? = nil) {
+extension BetaApiKeyUpdateParams {
+    public init(name: String? = nil, status: BetaApiKeyUpdateParamsStatusVariant0? = nil) {
         self.init()
         (self.name, self.status) = (name, status)
     }
@@ -40,17 +40,14 @@ public extension BetaApiKeyUpdateParams {
 public struct BetaApiKeyUpdateParamsStatusVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = BetaApiKeyUpdateParamsStatusVariant0(rawValue: "active")
     public static let archived = BetaApiKeyUpdateParamsStatusVariant0(rawValue: "archived")
     public static let inactive = BetaApiKeyUpdateParamsStatusVariant0(rawValue: "inactive")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsExternalKeysMethods {
-    /// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use
-    /// the `next_page` cursor from the response to fetch subsequent pages.
+extension BetaOrganizationsExternalKeysMethods {
+    /// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use the `next_page` cursor from the response to fetch subsequent pages.
     ///
     /// - Parameters:
     /// - limit: Number of results per page.
@@ -16,54 +15,20 @@ public extension BetaOrganizationsExternalKeysMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsExternalKeys(
-        config: ClientConfig,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaExternalKeyListResponse {
-        if let limit {
+    public static func listBetaOrganizationsExternalKeys(config: ClientConfig, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaExternalKeyListResponse {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/external_keys?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("page", value: page),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsExternalKeys",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/external_keys?beta=true", config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+        ], decoder: .json, operationId: "listBetaOrganizationsExternalKeys", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use
-    /// the `next_page` cursor from the response to fetch subsequent pages.
+    /// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use the `next_page` cursor from the response to fetch subsequent pages.
     ///
     /// - Parameters:
     /// - limit: Number of results per page.
@@ -71,38 +36,17 @@ public extension BetaOrganizationsExternalKeysMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsExternalKeysPaginated(
-        config: ClientConfig,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaExternalKey, Swift.Error> {
-        AsyncThrowingStream<BetaExternalKey, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaExternalKey,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsExternalKeysPaginated(config: ClientConfig, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaExternalKey, Swift.Error> {
+        return AsyncThrowingStream<BetaExternalKey, Swift.Error> { (continuation: AsyncThrowingStream<BetaExternalKey, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsExternalKeys(
-                            config: config,
-                            limit: limit,
-                            page: pageCursor,
-                            anthropicVersion: anthropicVersion,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsExternalKeys(config: config, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -115,53 +59,25 @@ public extension BetaOrganizationsExternalKeysMethods {
         }
     }
 
-    struct ListBetaOrganizationsExternalKeysPage {
+    public struct ListBetaOrganizationsExternalKeysPage {
         public let data: BetaExternalKeyListResponse
         public let items: [BetaExternalKey]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsExternalKeysPages(
-        config: ClientConfig,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsExternalKeysPage, Swift.Error> {
-        AsyncThrowingStream<
-            ListBetaOrganizationsExternalKeysPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsExternalKeysPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsExternalKeysPages(config: ClientConfig, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsExternalKeysPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaOrganizationsExternalKeysPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsExternalKeysPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsExternalKeys(
-                            config: config,
-                            limit: limit,
-                            page: pageCursor,
-                            anthropicVersion: anthropicVersion,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsExternalKeys(config: config, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsExternalKeysPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsExternalKeysPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaInvite domain models
+// SharedBetaInvite domain models
 /// Typed representation of the `BetaInviteSchema` API schema.
 public struct BetaInviteSchema: Codable {
     /// RFC 3339 datetime string indicating when the Invite was accepted, or null.
@@ -38,49 +38,37 @@ public struct BetaInviteSchema: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaInviteSchema {
-    init(from decoder: Decoder) throws {
+extension BetaInviteSchema {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        acceptedAt = try container.sdkDecodeNullable(.acceptedAt)
-        email = try container.sdkDecodeRequired(.email)
-        expiresAt = try container.sdkDecodeRequired(.expiresAt)
-        id = try container.sdkDecodeRequired(.id)
-        invitedAt = try container.sdkDecodeRequired(.invitedAt)
-        rbacGroupIds = try container.sdkDecodeRequired(.rbacGroupIds)
-        role = try container.sdkDecodeRequired(.role)
-        status = try container.sdkDecodeRequired(.status)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("expires_at", sdkWireString(expiresAt))
-        try sdkValidateDateTime("invited_at", sdkWireString(invitedAt))
-        try sdkValidateRawEnum("type", type, BetaInviteSchemaType.allCases.map(\.rawValue))
+        self.acceptedAt = try container.sdkDecodeNullable(.acceptedAt)
+        self.email = try container.sdkDecodeRequired(.email)
+        self.expiresAt = try container.sdkDecodeRequired(.expiresAt)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.invitedAt = try container.sdkDecodeRequired(.invitedAt)
+        self.rbacGroupIds = try container.sdkDecodeRequired(.rbacGroupIds)
+        self.role = try container.sdkDecodeRequired(.role)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateDateTime("invited_at", sdkWireString(self.invitedAt))
+            try sdkValidateRawEnum("type", self.type, BetaInviteSchemaType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaInviteSchema {
-    init(
-        acceptedAt: Date?,
-        email: String,
-        expiresAt: Date,
-        id: String,
-        invitedAt: Date,
-        rbacGroupIds: [String],
-        role: BetaOrganizationRoleSchema,
-        status: BetaInviteStatusSchema,
-        type: BetaInviteSchemaType
-    ) throws {
+extension BetaInviteSchema {
+    public init(acceptedAt: Date?, email: String, expiresAt: Date, id: String, invitedAt: Date, rbacGroupIds: [String], role: BetaOrganizationRoleSchema, status: BetaInviteStatusSchema, type: BetaInviteSchemaType) throws {
         (self.acceptedAt, self.email) = (acceptedAt, email)
         (self.expiresAt, self.id) = (expiresAt, id)
         (self.invitedAt, self.rbacGroupIds) = (invitedAt, rbacGroupIds)
         (self.role, self.status) = (role, status)
         self.type = type
-        try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
-        try sdkValidateDateTime("invited_at", sdkWireString(self.invitedAt))
-        try sdkValidateRawEnum("type", self.type, BetaInviteSchemaType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateDateTime("invited_at", sdkWireString(self.invitedAt))
+            try sdkValidateRawEnum("type", self.type, BetaInviteSchemaType.allCases.map(\.rawValue))
     }
 }
 
@@ -106,10 +94,7 @@ public enum BetaInviteSchemaType: String, CaseIterable, Codable {
 public struct BetaInviteStatusSchema: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let accepted = BetaInviteStatusSchema(rawValue: "accepted")
     public static let deleted = BetaInviteStatusSchema(rawValue: "deleted")
     public static let expired = BetaInviteStatusSchema(rawValue: "expired")
@@ -117,7 +102,7 @@ public struct BetaInviteStatusSchema: RawRepresentable, Hashable, Codable, Senda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

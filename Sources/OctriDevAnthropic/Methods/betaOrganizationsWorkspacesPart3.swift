@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsWorkspacesMethods {
-    /// Updates selected configuration fields for a workspace. Include only the fields you want to change; omitted
-    /// fields remain unchanged. Use `name`, `display_color`, `tags`, `data_residency`, or `external_key_id` as needed.
+extension BetaOrganizationsWorkspacesMethods {
+    /// Updates selected configuration fields for a workspace. Include only the fields you want to change; omitted fields remain unchanged. Use `name`, `display_color`, `tags`, `data_residency`, or `external_key_id` as needed.
     ///
     /// - Parameters:
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
@@ -31,63 +30,20 @@ public extension BetaOrganizationsWorkspacesMethods {
     /// - name: Name of the Workspace.
     /// - tags: User-defined tags as string key-value pairs. Keys may not begin with
     ///   `anthropic`.
-    static func updateBetaOrganizationsWorkspaces(
-        config: ClientConfig,
-        workspaceId: String,
-        anthropicVersion: String? = nil,
-        dataResidency: SdkOptional<BetaDataResidencyUpdateParams>? = nil,
-        displayColor: String? = nil,
-        externalKeyId: String? = nil,
-        name: String? = nil,
-        tags: SdkOptional<[String: String?]>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspace {
-        if let displayColor {
+    public static func updateBetaOrganizationsWorkspaces(config: ClientConfig, workspaceId: String, anthropicVersion: String? = nil, dataResidency: SdkOptional<BetaDataResidencyUpdateParams>? = nil, displayColor: String? = nil, externalKeyId: String? = nil, name: String? = nil, tags: SdkOptional<[String: String?]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
+        if let displayColor = displayColor {
             try validateLength("display_color", displayColor, max: 7)
             try sdkValidatePattern("display_color", displayColor, sdkPatternf01b4765958d)
         }
 
-        if let name {
+        if let name = name {
             try validateLength("name", name, min: 1, max: 40)
         }
 
-        let requestBody = UpdateBetaOrganizationsWorkspacesRequestBody(
-            dataResidency: dataResidency,
-            displayColor: displayColor,
-            externalKeyId: externalKeyId,
-            name: name,
-            tags: tags
-        )
+        let requestBody = UpdateBetaOrganizationsWorkspacesRequestBody(dataResidency: dataResidency, displayColor: displayColor, externalKeyId: externalKeyId, name: name, tags: tags)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "?beta=true"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaOrganizationsWorkspaces",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaOrganizationsWorkspaces", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

@@ -18,25 +18,25 @@ struct CreateBetaSessionsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(agent, forKey: SdkCodingKey("agent"))
-        try keyedContainer.encode(environmentId, forKey: SdkCodingKey("environment_id"))
-        try keyedContainer.encodeIfPresent(title, forKey: SdkCodingKey("title"))
-        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(resources, forKey: SdkCodingKey("resources"))
-        try keyedContainer.encodeIfPresent(vaultIds, forKey: SdkCodingKey("vault_ids"))
-        try keyedContainer.encodeIfPresent(initialEvents, forKey: SdkCodingKey("initial_events"))
-        try keyedContainer.encodeIfPresent(budget, forKey: SdkCodingKey("budget"))
+        try keyedContainer.encode(self.agent, forKey: SdkCodingKey("agent"))
+        try keyedContainer.encode(self.environmentId, forKey: SdkCodingKey("environment_id"))
+        try keyedContainer.encodeIfPresent(self.title, forKey: SdkCodingKey("title"))
+        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(self.resources, forKey: SdkCodingKey("resources"))
+        try keyedContainer.encodeIfPresent(self.vaultIds, forKey: SdkCodingKey("vault_ids"))
+        try keyedContainer.encodeIfPresent(self.initialEvents, forKey: SdkCodingKey("initial_events"))
+        try keyedContainer.encodeIfPresent(self.budget, forKey: SdkCodingKey("budget"))
     }
 
     init(options: BetaSessionsMethods.CreateBetaSessionsOptions) {
-        agent = options.agent
-        environmentId = options.environmentId
-        title = options.title
-        metadata = options.metadata
-        resources = options.resources
-        vaultIds = options.vaultIds
-        initialEvents = options.initialEvents
-        budget = options.budget
+        self.agent = options.agent
+        self.environmentId = options.environmentId
+        self.title = options.title
+        self.metadata = options.metadata
+        self.resources = options.resources
+        self.vaultIds = options.vaultIds
+        self.initialEvents = options.initialEvents
+        self.budget = options.budget
     }
 }
 
@@ -49,19 +49,19 @@ struct UpdateBetaSessionsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(title, forKey: SdkCodingKey("title"))
-        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(vaultIds, forKey: SdkCodingKey("vault_ids"))
-        try keyedContainer.encodeIfPresent(agent, forKey: SdkCodingKey("agent"))
-        try keyedContainer.encodeIfPresent(budget, forKey: SdkCodingKey("budget"))
+        try keyedContainer.encodeIfPresent(self.title, forKey: SdkCodingKey("title"))
+        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(self.vaultIds, forKey: SdkCodingKey("vault_ids"))
+        try keyedContainer.encodeIfPresent(self.agent, forKey: SdkCodingKey("agent"))
+        try keyedContainer.encodeIfPresent(self.budget, forKey: SdkCodingKey("budget"))
     }
 
     init(options: BetaSessionsMethods.UpdateBetaSessionsOptions) {
-        title = options.title
-        metadata = options.metadata
-        vaultIds = options.vaultIds
-        agent = options.agent
-        budget = options.budget
+        self.title = options.title
+        self.metadata = options.metadata
+        self.vaultIds = options.vaultIds
+        self.agent = options.agent
+        self.budget = options.budget
     }
 }
 
@@ -70,7 +70,7 @@ struct CreateBetaSessionsEventsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(events, forKey: SdkCodingKey("events"))
+        try keyedContainer.encode(self.events, forKey: SdkCodingKey("events"))
     }
 }
 
@@ -79,7 +79,7 @@ struct UpdateBetaSessionsResourcesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(authorizationToken, forKey: SdkCodingKey("authorization_token"))
+        try keyedContainer.encode(self.authorizationToken, forKey: SdkCodingKey("authorization_token"))
     }
 }
 
@@ -96,27 +96,27 @@ struct CreateBetaAgentsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(model, forKey: SdkCodingKey("model"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(system, forKey: SdkCodingKey("system"))
-        try keyedContainer.encodeIfPresent(tools, forKey: SdkCodingKey("tools"))
-        try keyedContainer.encodeIfPresent(mcpServers, forKey: SdkCodingKey("mcp_servers"))
-        try keyedContainer.encodeIfPresent(skills, forKey: SdkCodingKey("skills"))
-        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(multiagent, forKey: SdkCodingKey("multiagent"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.model, forKey: SdkCodingKey("model"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.system, forKey: SdkCodingKey("system"))
+        try keyedContainer.encodeIfPresent(self.tools, forKey: SdkCodingKey("tools"))
+        try keyedContainer.encodeIfPresent(self.mcpServers, forKey: SdkCodingKey("mcp_servers"))
+        try keyedContainer.encodeIfPresent(self.skills, forKey: SdkCodingKey("skills"))
+        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(self.multiagent, forKey: SdkCodingKey("multiagent"))
     }
 
     init(options: BetaAgentsMethods.CreateBetaAgentsOptions) {
-        name = options.name
-        model = options.model
-        description = options.description
-        system = options.system
-        tools = options.tools
-        mcpServers = options.mcpServers
-        skills = options.skills
-        metadata = options.metadata
-        multiagent = options.multiagent
+        self.name = options.name
+        self.model = options.model
+        self.description = options.description
+        self.system = options.system
+        self.tools = options.tools
+        self.mcpServers = options.mcpServers
+        self.skills = options.skills
+        self.metadata = options.metadata
+        self.multiagent = options.multiagent
     }
 }
 
@@ -134,29 +134,29 @@ struct UpdateBetaAgentsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(version, forKey: SdkCodingKey("version"))
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(model, forKey: SdkCodingKey("model"))
-        try keyedContainer.encodeIfPresent(system, forKey: SdkCodingKey("system"))
-        try keyedContainer.encodeIfPresent(tools, forKey: SdkCodingKey("tools"))
-        try keyedContainer.encodeIfPresent(mcpServers, forKey: SdkCodingKey("mcp_servers"))
-        try keyedContainer.encodeIfPresent(skills, forKey: SdkCodingKey("skills"))
-        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(multiagent, forKey: SdkCodingKey("multiagent"))
+        try keyedContainer.encodeIfPresent(self.version, forKey: SdkCodingKey("version"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.model, forKey: SdkCodingKey("model"))
+        try keyedContainer.encodeIfPresent(self.system, forKey: SdkCodingKey("system"))
+        try keyedContainer.encodeIfPresent(self.tools, forKey: SdkCodingKey("tools"))
+        try keyedContainer.encodeIfPresent(self.mcpServers, forKey: SdkCodingKey("mcp_servers"))
+        try keyedContainer.encodeIfPresent(self.skills, forKey: SdkCodingKey("skills"))
+        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(self.multiagent, forKey: SdkCodingKey("multiagent"))
     }
 
     init(options: BetaAgentsMethods.UpdateBetaAgentsOptions) {
-        version = options.version
-        name = options.name
-        description = options.description
-        model = options.model
-        system = options.system
-        tools = options.tools
-        mcpServers = options.mcpServers
-        skills = options.skills
-        metadata = options.metadata
-        multiagent = options.multiagent
+        self.version = options.version
+        self.name = options.name
+        self.description = options.description
+        self.model = options.model
+        self.system = options.system
+        self.tools = options.tools
+        self.mcpServers = options.mcpServers
+        self.skills = options.skills
+        self.metadata = options.metadata
+        self.multiagent = options.multiagent
     }
 }
 
@@ -174,28 +174,28 @@ struct CreateBetaDeploymentsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(agent, forKey: SdkCodingKey("agent"))
-        try keyedContainer.encode(environmentId, forKey: SdkCodingKey("environment_id"))
-        try keyedContainer.encode(initialEvents, forKey: SdkCodingKey("initial_events"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(vaultIds, forKey: SdkCodingKey("vault_ids"))
-        try keyedContainer.encodeIfPresent(resources, forKey: SdkCodingKey("resources"))
-        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(schedule, forKey: SdkCodingKey("schedule"))
-        try keyedContainer.encodeIfPresent(budget, forKey: SdkCodingKey("budget"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.agent, forKey: SdkCodingKey("agent"))
+        try keyedContainer.encode(self.environmentId, forKey: SdkCodingKey("environment_id"))
+        try keyedContainer.encode(self.initialEvents, forKey: SdkCodingKey("initial_events"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.vaultIds, forKey: SdkCodingKey("vault_ids"))
+        try keyedContainer.encodeIfPresent(self.resources, forKey: SdkCodingKey("resources"))
+        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(self.schedule, forKey: SdkCodingKey("schedule"))
+        try keyedContainer.encodeIfPresent(self.budget, forKey: SdkCodingKey("budget"))
     }
 
     init(options: BetaDeploymentsMethods.CreateBetaDeploymentsOptions) {
-        name = options.name
-        agent = options.agent
-        environmentId = options.environmentId
-        initialEvents = options.initialEvents
-        description = options.description
-        vaultIds = options.vaultIds
-        resources = options.resources
-        metadata = options.metadata
-        schedule = options.schedule
-        budget = options.budget
+        self.name = options.name
+        self.agent = options.agent
+        self.environmentId = options.environmentId
+        self.initialEvents = options.initialEvents
+        self.description = options.description
+        self.vaultIds = options.vaultIds
+        self.resources = options.resources
+        self.metadata = options.metadata
+        self.schedule = options.schedule
+        self.budget = options.budget
     }
 }

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaMessagesMethods {
-    struct CountBetaMessagesTokensOptions: Codable {
+extension BetaMessagesMethods {
+    public struct CountBetaMessagesTokensOptions: Codable {
         public var messages: [BetaInputMessage]
         public var model: Model
         public var anthropicBeta: [AnthropicBeta]?
@@ -31,9 +31,7 @@ public extension BetaMessagesMethods {
         }
     }
 
-    /// Count the number of tokens in a Message. The Token Count API can be used to count the number of tokens in a
-    /// Message, including tools, images, and documents, without creating it. Learn more about token counting in our
-    /// [user guide](https://platform.claude.com/docs/en/build-with-claude/token-counting)
+    /// Count the number of tokens in a Message. The Token Count API can be used to count the number of tokens in a Message, including tools, images, and documents, without creating it. Learn more about token counting in our [user guide](https://platform.claude.com/docs/en/build-with-claude/token-counting)
     ///
     /// - Parameters:
     /// - messages: Input messages. Our models are trained to operate on alternating
@@ -138,49 +136,18 @@ public extension BetaMessagesMethods {
     ///   model in a subsequent `user` message: ```json [ { "type": "tool_result",
     ///   "tool_use_id": "toolu_01D7FLrfh4GYq7yT1ULFeyMV", "content": "259.75 USD" } ]
     ///   ``` Tools can be used for workflows that include running client-side tools…
-    static func countBetaMessagesTokens(
-        config: ClientConfig,
-        options: CountBetaMessagesTokensOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaCountMessageTokensResponse {
+    public static func countBetaMessagesTokens(config: ClientConfig, options: CountBetaMessagesTokensOptions, requestOptions: RequestOptions? = nil) async throws -> BetaCountMessageTokensResponse {
         if let mcpServers = options.mcpServers {
             try validateItems("mcp_servers", mcpServers, max: 20)
         }
 
         let requestBody = CountBetaMessagesTokensRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/messages/count_tokens?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "countBetaMessagesTokens",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/messages/count_tokens?beta=true", config: config, body: requestBody, decoder: .json, operationId: "countBetaMessagesTokens", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

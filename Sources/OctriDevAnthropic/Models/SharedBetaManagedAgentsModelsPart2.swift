@@ -3,20 +3,16 @@
 
 import Foundation
 
-/// SharedBetaManagedAgents domain models
+// SharedBetaManagedAgents domain models
 extension BetaManagedAgentsCredentialAuth {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "mcp_oauth": try .betaManagedAgentsMcpOauthAuthResponse(
-                BetaManagedAgentsMcpOauthAuthResponse(from: decoder)
-            )
+        case "mcp_oauth": return .betaManagedAgentsMcpOauthAuthResponse(try BetaManagedAgentsMcpOauthAuthResponse(from: decoder))
         case "static_bearer":
-            try .betaManagedAgentsStaticBearerAuthResponse(BetaManagedAgentsStaticBearerAuthResponse(from: decoder))
+        return .betaManagedAgentsStaticBearerAuthResponse(try BetaManagedAgentsStaticBearerAuthResponse(from: decoder))
         case "environment_variable":
-            try .betaManagedAgentsEnvironmentVariableAuthResponse(
-                BetaManagedAgentsEnvironmentVariableAuthResponse(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEnvironmentVariableAuthResponse(try BetaManagedAgentsEnvironmentVariableAuthResponse(from: decoder))
+        default: return nil
         }
     }
 }
@@ -34,15 +30,14 @@ extension BetaManagedAgentsCredentialAuth {
 }
 
 public indirect enum BetaManagedAgentsCredentialNetworkingParams {
-    case betaManagedAgentsUnrestrictedCredentialNetworkingParams(
-        BetaManagedAgentsUnrestrictedCredentialNetworkingParams
-    )
+    case betaManagedAgentsUnrestrictedCredentialNetworkingParams(BetaManagedAgentsUnrestrictedCredentialNetworkingParams)
     case betaManagedAgentsLimitedCredentialNetworkingParams(BetaManagedAgentsLimitedCredentialNetworkingParams)
     /// A member whose `type` names no branch this SDK knows, kept as received.
     case unknown(tag: String, raw: JSONValue)
 }
 
 extension BetaManagedAgentsCredentialNetworkingParams: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -50,16 +45,12 @@ extension BetaManagedAgentsCredentialNetworkingParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -71,14 +62,12 @@ extension BetaManagedAgentsCredentialNetworkingParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "unrestricted":
-            try .betaManagedAgentsUnrestrictedCredentialNetworkingParams(
-                BetaManagedAgentsUnrestrictedCredentialNetworkingParams(from: decoder)
-            )
+        return .betaManagedAgentsUnrestrictedCredentialNetworkingParams(
+            try BetaManagedAgentsUnrestrictedCredentialNetworkingParams(from: decoder)
+        )
         case "limited":
-            try .betaManagedAgentsLimitedCredentialNetworkingParams(
-                BetaManagedAgentsLimitedCredentialNetworkingParams(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsLimitedCredentialNetworkingParams(try BetaManagedAgentsLimitedCredentialNetworkingParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -87,8 +76,7 @@ extension BetaManagedAgentsCredentialNetworkingParams {
     func encodeGroup1(to encoder: Encoder) throws -> Bool {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .betaManagedAgentsUnrestrictedCredentialNetworkingParams(value): try container
-            .encode(value); return true
+        case let .betaManagedAgentsUnrestrictedCredentialNetworkingParams(value): try container.encode(value); return true
         case let .betaManagedAgentsLimitedCredentialNetworkingParams(value): try container.encode(value); return true
         default: return false
         }
@@ -96,15 +84,14 @@ extension BetaManagedAgentsCredentialNetworkingParams {
 }
 
 public indirect enum BetaManagedAgentsCredentialNetworkingResponse {
-    case betaManagedAgentsUnrestrictedCredentialNetworkingResponse(
-        BetaManagedAgentsUnrestrictedCredentialNetworkingResponse
-    )
+    case betaManagedAgentsUnrestrictedCredentialNetworkingResponse(BetaManagedAgentsUnrestrictedCredentialNetworkingResponse)
     case betaManagedAgentsLimitedCredentialNetworkingResponse(BetaManagedAgentsLimitedCredentialNetworkingResponse)
     /// A member whose `type` names no branch this SDK knows, kept as received.
     case unknown(tag: String, raw: JSONValue)
 }
 
 extension BetaManagedAgentsCredentialNetworkingResponse: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -112,16 +99,12 @@ extension BetaManagedAgentsCredentialNetworkingResponse: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -133,14 +116,14 @@ extension BetaManagedAgentsCredentialNetworkingResponse {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "unrestricted":
-            try .betaManagedAgentsUnrestrictedCredentialNetworkingResponse(
-                BetaManagedAgentsUnrestrictedCredentialNetworkingResponse(from: decoder)
-            )
+        return .betaManagedAgentsUnrestrictedCredentialNetworkingResponse(
+            try BetaManagedAgentsUnrestrictedCredentialNetworkingResponse(from: decoder)
+        )
         case "limited":
-            try .betaManagedAgentsLimitedCredentialNetworkingResponse(
-                BetaManagedAgentsLimitedCredentialNetworkingResponse(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsLimitedCredentialNetworkingResponse(
+            try BetaManagedAgentsLimitedCredentialNetworkingResponse(from: decoder)
+        )
+        default: return nil
         }
     }
 }
@@ -149,8 +132,7 @@ extension BetaManagedAgentsCredentialNetworkingResponse {
     func encodeGroup1(to encoder: Encoder) throws -> Bool {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .betaManagedAgentsUnrestrictedCredentialNetworkingResponse(value): try container
-            .encode(value); return true
+        case let .betaManagedAgentsUnrestrictedCredentialNetworkingResponse(value): try container.encode(value); return true
         case let .betaManagedAgentsLimitedCredentialNetworkingResponse(value): try container.encode(value); return true
         default: return false
         }
@@ -166,6 +148,7 @@ public indirect enum BetaManagedAgentsDeploymentInitialEvent {
 }
 
 extension BetaManagedAgentsDeploymentInitialEvent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -173,16 +156,12 @@ extension BetaManagedAgentsDeploymentInitialEvent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -194,16 +173,12 @@ extension BetaManagedAgentsDeploymentInitialEvent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "user.message":
-            try .betaManagedAgentsDeploymentUserMessageEvent(BetaManagedAgentsDeploymentUserMessageEvent(from: decoder))
+        return .betaManagedAgentsDeploymentUserMessageEvent(try BetaManagedAgentsDeploymentUserMessageEvent(from: decoder))
         case "user.define_outcome":
-            try .betaManagedAgentsDeploymentUserDefineOutcomeEvent(
-                BetaManagedAgentsDeploymentUserDefineOutcomeEvent(from: decoder)
-            )
+        return .betaManagedAgentsDeploymentUserDefineOutcomeEvent(try BetaManagedAgentsDeploymentUserDefineOutcomeEvent(from: decoder))
         case "system.message":
-            try .betaManagedAgentsDeploymentSystemMessageEvent(
-                BetaManagedAgentsDeploymentSystemMessageEvent(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsDeploymentSystemMessageEvent(try BetaManagedAgentsDeploymentSystemMessageEvent(from: decoder))
+        default: return nil
         }
     }
 }
@@ -229,6 +204,7 @@ public indirect enum BetaManagedAgentsDeploymentInitialEventParams {
 }
 
 extension BetaManagedAgentsDeploymentInitialEventParams: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -236,16 +212,12 @@ extension BetaManagedAgentsDeploymentInitialEventParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -256,16 +228,12 @@ extension BetaManagedAgentsDeploymentInitialEventParams: Codable {
 extension BetaManagedAgentsDeploymentInitialEventParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": try .betaManagedAgentsUserMessageEventParams(
-                BetaManagedAgentsUserMessageEventParams(from: decoder)
-            )
+        case "user.message": return .betaManagedAgentsUserMessageEventParams(try BetaManagedAgentsUserMessageEventParams(from: decoder))
         case "user.define_outcome":
-            try .betaManagedAgentsUserDefineOutcomeEventParams(
-                BetaManagedAgentsUserDefineOutcomeEventParams(from: decoder)
-            )
+        return .betaManagedAgentsUserDefineOutcomeEventParams(try BetaManagedAgentsUserDefineOutcomeEventParams(from: decoder))
         case "system.message":
-            try .betaManagedAgentsSystemMessageEventParams(BetaManagedAgentsSystemMessageEventParams(from: decoder))
-        default: nil
+        return .betaManagedAgentsSystemMessageEventParams(try BetaManagedAgentsSystemMessageEventParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -290,6 +258,7 @@ public indirect enum BetaManagedAgentsDeploymentPausedReason {
 }
 
 extension BetaManagedAgentsDeploymentPausedReason: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -297,16 +266,12 @@ extension BetaManagedAgentsDeploymentPausedReason: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -318,13 +283,9 @@ extension BetaManagedAgentsDeploymentPausedReason {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "manual":
-            try .betaManagedAgentsManualDeploymentPausedReason(
-                BetaManagedAgentsManualDeploymentPausedReason(from: decoder)
-            )
-        case "error": try .betaManagedAgentsErrorDeploymentPausedReason(
-                BetaManagedAgentsErrorDeploymentPausedReason(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsManualDeploymentPausedReason(try BetaManagedAgentsManualDeploymentPausedReason(from: decoder))
+        case "error": return .betaManagedAgentsErrorDeploymentPausedReason(try BetaManagedAgentsErrorDeploymentPausedReason(from: decoder))
+        default: return nil
         }
     }
 }
@@ -341,51 +302,30 @@ extension BetaManagedAgentsDeploymentPausedReason {
 }
 
 public indirect enum BetaManagedAgentsDeploymentPausedReasonError {
-    case betaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(
-        BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError
-    )
-    case betaManagedAgentsAgentArchivedDeploymentPausedReasonError(
-        BetaManagedAgentsAgentArchivedDeploymentPausedReasonError
-    )
-    case betaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(
-        BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError
-    )
-    case betaManagedAgentsVaultNotFoundDeploymentPausedReasonError(
-        BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError
-    )
-    case betaManagedAgentsFileNotFoundDeploymentPausedReasonError(
-        BetaManagedAgentsFileNotFoundDeploymentPausedReasonError
-    )
+    case betaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError)
+    case betaManagedAgentsAgentArchivedDeploymentPausedReasonError(BetaManagedAgentsAgentArchivedDeploymentPausedReasonError)
+    case betaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError)
+    case betaManagedAgentsVaultNotFoundDeploymentPausedReasonError(BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError)
+    case betaManagedAgentsFileNotFoundDeploymentPausedReasonError(BetaManagedAgentsFileNotFoundDeploymentPausedReasonError)
     case betaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(
         BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError
     )
-    case betaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(
-        BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError
-    )
-    case betaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(
-        BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError
-    )
-    case betaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(
-        BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError
-    )
-    case betaManagedAgentsSkillNotFoundDeploymentPausedReasonError(
-        BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError
-    )
-    case betaManagedAgentsVaultArchivedDeploymentPausedReasonError(
-        BetaManagedAgentsVaultArchivedDeploymentPausedReasonError
-    )
+    case betaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError)
+    case betaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError)
+    case betaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError)
+    case betaManagedAgentsSkillNotFoundDeploymentPausedReasonError(BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError)
+    case betaManagedAgentsVaultArchivedDeploymentPausedReasonError(BetaManagedAgentsVaultArchivedDeploymentPausedReasonError)
     case betaManagedAgentsUnknownDeploymentPausedReasonError(BetaManagedAgentsUnknownDeploymentPausedReasonError)
     case betaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(
         BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765
     )
-    case betaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(
-        BetaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError
-    )
+    case betaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(BetaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError)
     /// A member whose `type` names no branch this SDK knows, kept as received.
     case unknown(tag: String, raw: JSONValue)
 }
 
 extension BetaManagedAgentsDeploymentPausedReasonError: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -393,19 +333,13 @@ extension BetaManagedAgentsDeploymentPausedReasonError: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
-        if try encodeGroup2(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup2(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -417,62 +351,60 @@ extension BetaManagedAgentsDeploymentPausedReasonError {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "environment_archived_error":
-            try .betaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(
-                BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(
+            try BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(from: decoder)
+        )
         case "agent_archived_error":
-            try .betaManagedAgentsAgentArchivedDeploymentPausedReasonError(
-                BetaManagedAgentsAgentArchivedDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsAgentArchivedDeploymentPausedReasonError(
+            try BetaManagedAgentsAgentArchivedDeploymentPausedReasonError(from: decoder)
+        )
         case "environment_not_found_error":
-            try .betaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(
-                BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(
+            try BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(from: decoder)
+        )
         case "vault_not_found_error":
-            try .betaManagedAgentsVaultNotFoundDeploymentPausedReasonError(
-                BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsVaultNotFoundDeploymentPausedReasonError(
+            try BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError(from: decoder)
+        )
         case "file_not_found_error":
-            try .betaManagedAgentsFileNotFoundDeploymentPausedReasonError(
-                BetaManagedAgentsFileNotFoundDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsFileNotFoundDeploymentPausedReasonError(
+            try BetaManagedAgentsFileNotFoundDeploymentPausedReasonError(from: decoder)
+        )
         case "session_resource_not_found_error":
-            try .betaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(
-                BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(
+            try BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(from: decoder)
+        )
         case "workspace_archived_error":
-            try .betaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(
-                BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(
+            try BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(from: decoder)
+        )
         case "organization_disabled_error":
-            try .betaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(
-                BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(
+            try BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(from: decoder)
+        )
         case "memory_store_archived_error":
-            try .betaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(
-                BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(
+            try BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(from: decoder)
+        )
         case "skill_not_found_error":
-            try .betaManagedAgentsSkillNotFoundDeploymentPausedReasonError(
-                BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsSkillNotFoundDeploymentPausedReasonError(
+            try BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError(from: decoder)
+        )
         case "vault_archived_error":
-            try .betaManagedAgentsVaultArchivedDeploymentPausedReasonError(
-                BetaManagedAgentsVaultArchivedDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsVaultArchivedDeploymentPausedReasonError(
+            try BetaManagedAgentsVaultArchivedDeploymentPausedReasonError(from: decoder)
+        )
         case "unknown_error":
-            try .betaManagedAgentsUnknownDeploymentPausedReasonError(
-                BetaManagedAgentsUnknownDeploymentPausedReasonError(from: decoder)
-            )
+        return .betaManagedAgentsUnknownDeploymentPausedReasonError(try BetaManagedAgentsUnknownDeploymentPausedReasonError(from: decoder))
         case "self_hosted_resources_unsupported_error":
-            try .betaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(
-                BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(from: decoder)
-            )
+        return .betaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(
+            try BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(from: decoder)
+        )
         case "mcp_egress_blocked_error":
-            try .betaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(
-                BetaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(
+            try BetaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(from: decoder)
+        )
+        default: return nil
         }
     }
 }
@@ -481,28 +413,17 @@ extension BetaManagedAgentsDeploymentPausedReasonError {
     func encodeGroup1(to encoder: Encoder) throws -> Bool {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .betaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsAgentArchivedDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsVaultNotFoundDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsFileNotFoundDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsSkillNotFoundDeploymentPausedReasonError(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsVaultArchivedDeploymentPausedReasonError(value): try container
-            .encode(value); return true
+        case let .betaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsAgentArchivedDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsVaultNotFoundDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsFileNotFoundDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsOrganizationDisabledDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsSkillNotFoundDeploymentPausedReasonError(value): try container.encode(value); return true
+        case let .betaManagedAgentsVaultArchivedDeploymentPausedReasonError(value): try container.encode(value); return true
         case let .betaManagedAgentsUnknownDeploymentPausedReasonError(value): try container.encode(value); return true
         default: return false
         }
@@ -513,10 +434,8 @@ extension BetaManagedAgentsDeploymentPausedReasonError {
     func encodeGroup2(to encoder: Encoder) throws -> Bool {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .betaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(value): try container
-            .encode(value); return true
-        case let .betaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(value): try container
-            .encode(value); return true
+        case let .betaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausX02929e4765(value): try container.encode(value); return true
+        case let .betaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError(value): try container.encode(value); return true
         default: return false
         }
     }
@@ -532,6 +451,7 @@ public indirect enum BetaManagedAgentsDocumentSource {
 }
 
 extension BetaManagedAgentsDocumentSource: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -539,16 +459,12 @@ extension BetaManagedAgentsDocumentSource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)

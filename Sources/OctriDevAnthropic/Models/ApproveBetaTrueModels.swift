@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ApproveBetaTrue domain models
+// ApproveBetaTrue domain models
 public indirect enum BetaApproveSpendLimitIncreaseRequestResponseResolvedBy {
     case betaUserActorSchema(BetaUserActorSchema)
     case betaScopedApiKeyActorSchema(BetaScopedApiKeyActorSchema)
@@ -12,6 +12,7 @@ public indirect enum BetaApproveSpendLimitIncreaseRequestResponseResolvedBy {
 }
 
 extension BetaApproveSpendLimitIncreaseRequestResponseResolvedBy: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension BetaApproveSpendLimitIncreaseRequestResponseResolvedBy: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension BetaApproveSpendLimitIncreaseRequestResponseResolvedBy: Codable {
 extension BetaApproveSpendLimitIncreaseRequestResponseResolvedBy {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user_actor": try .betaUserActorSchema(BetaUserActorSchema(from: decoder))
-        case "scoped_api_key_actor": try .betaScopedApiKeyActorSchema(BetaScopedApiKeyActorSchema(from: decoder))
-        default: nil
+        case "user_actor": return .betaUserActorSchema(try BetaUserActorSchema(from: decoder))
+        case "scoped_api_key_actor": return .betaScopedApiKeyActorSchema(try BetaScopedApiKeyActorSchema(from: decoder))
+        default: return nil
         }
     }
 }
@@ -72,37 +69,33 @@ public struct BetaApproveSpendLimitIncreaseRequestParams: Codable {
         case suppressNotification = "suppress_notification"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaApproveSpendLimitIncreaseRequestParams {
-    init(from decoder: Decoder) throws {
+extension BetaApproveSpendLimitIncreaseRequestParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
+            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
         }
-        amount = try container.sdkDecodeRequired(.amount)
-        period = try container.sdkDecodeIfPresent(.period)
-        suppressNotification = try container.sdkDecodeIfPresent(.suppressNotification)
+        self.amount = try container.sdkDecodeRequired(.amount)
+        self.period = try container.sdkDecodeIfPresent(.period)
+        self.suppressNotification = try container.sdkDecodeIfPresent(.suppressNotification)
     }
 }
 
-public extension BetaApproveSpendLimitIncreaseRequestParams {
-    init(
-        amount: String,
-        period: BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0? = nil,
-        suppressNotification: Bool? = nil
-    ) {
+extension BetaApproveSpendLimitIncreaseRequestParams {
+    public init(amount: String, period: BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0? = nil, suppressNotification: Bool? = nil) {
         (self.amount, self.period) = (amount, period)
         self.suppressNotification = suppressNotification
     }
 }
+
+
+
+
+
+
 
 /// Typed representation of the `BetaApproveSpendLimitIncreaseRequestResponse` API schema.
 public struct BetaApproveSpendLimitIncreaseRequestResponse: Codable {
@@ -141,72 +134,51 @@ public struct BetaApproveSpendLimitIncreaseRequestResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaApproveSpendLimitIncreaseRequestResponse {
-    init(from decoder: Decoder) throws {
+extension BetaApproveSpendLimitIncreaseRequestResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        actor = try container.sdkDecodeRequired(.actor)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        id = try container.sdkDecodeRequired(.id)
-        period = try container.sdkDecodeRequired(.period)
-        resolvedAt = try container.sdkDecodeNullable(.resolvedAt)
-        resolvedBy = try container.sdkDecodeNullable(.resolvedBy)
-        spendLimit = try container.sdkDecodeRequired(.spendLimit)
-        spendSummary = try container.sdkDecodeNullable(.spendSummary)
-        status = try container.sdkDecodeRequired(.status)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaApproveSpendLimitIncreaseRequestResponseType.allCases.map(\.rawValue))
+        self.actor = try container.sdkDecodeRequired(.actor)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.period = try container.sdkDecodeRequired(.period)
+        self.resolvedAt = try container.sdkDecodeNullable(.resolvedAt)
+        self.resolvedBy = try container.sdkDecodeNullable(.resolvedBy)
+        self.spendLimit = try container.sdkDecodeRequired(.spendLimit)
+        self.spendSummary = try container.sdkDecodeNullable(.spendSummary)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaApproveSpendLimitIncreaseRequestResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaApproveSpendLimitIncreaseRequestResponse {
-    init(
-        actor: BetaUserActorSchema,
-        createdAt: Date,
-        id: String,
-        period: BetaApproveSpendLimitIncreaseRequestResponsePeriod,
-        resolvedAt: Date?,
-        resolvedBy: BetaApproveSpendLimitIncreaseRequestResponseResolvedBy?,
-        spendLimit: BetaSpendLimit,
-        spendSummary: BetaSpendSummary?,
-        status: BetaApproveSpendLimitIncreaseRequestResponseStatus,
-        type: BetaApproveSpendLimitIncreaseRequestResponseType
-    ) throws {
+extension BetaApproveSpendLimitIncreaseRequestResponse {
+    public init(actor: BetaUserActorSchema, createdAt: Date, id: String, period: BetaApproveSpendLimitIncreaseRequestResponsePeriod, resolvedAt: Date?, resolvedBy: BetaApproveSpendLimitIncreaseRequestResponseResolvedBy?, spendLimit: BetaSpendLimit, spendSummary: BetaSpendSummary?, status: BetaApproveSpendLimitIncreaseRequestResponseStatus, type: BetaApproveSpendLimitIncreaseRequestResponseType) throws {
         (self.actor, self.createdAt) = (actor, createdAt)
         (self.id, self.period) = (id, period)
         (self.resolvedAt, self.resolvedBy) = (resolvedAt, resolvedBy)
         (self.spendLimit, self.spendSummary) = (spendLimit, spendSummary)
         (self.status, self.type) = (status, type)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaApproveSpendLimitIncreaseRequestResponseType.allCases.map(\.rawValue)
-        )
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaApproveSpendLimitIncreaseRequestResponseType.allCases.map(\.rawValue))
     }
 }
 
 /// Optional enumerated value serialized in the `period` wire field.
-public struct BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let daily = BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0(rawValue: "daily")
     public static let monthly = BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0(rawValue: "monthly")
     public static let weekly = BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -216,21 +188,17 @@ public struct BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0: RawRepre
 }
 
 /// Required enumerated value serialized in the `period` wire field.
-public struct BetaApproveSpendLimitIncreaseRequestResponsePeriod: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaApproveSpendLimitIncreaseRequestResponsePeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let daily = BetaApproveSpendLimitIncreaseRequestResponsePeriod(rawValue: "daily")
     public static let monthly = BetaApproveSpendLimitIncreaseRequestResponsePeriod(rawValue: "monthly")
     public static let weekly = BetaApproveSpendLimitIncreaseRequestResponsePeriod(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -258,21 +226,17 @@ public enum BetaApproveSpendLimitIncreaseRequestResponseType: String, CaseIterab
 }
 
 /// Required enumerated value serialized in the `status` wire field.
-public struct BetaApproveSpendLimitIncreaseRequestResponseStatus: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaApproveSpendLimitIncreaseRequestResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let approved = BetaApproveSpendLimitIncreaseRequestResponseStatus(rawValue: "approved")
     public static let denied = BetaApproveSpendLimitIncreaseRequestResponseStatus(rawValue: "denied")
     public static let pending = BetaApproveSpendLimitIncreaseRequestResponseStatus(rawValue: "pending")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

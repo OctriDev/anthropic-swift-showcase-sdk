@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SkillsVersionsMethods {
-    /// Lists versions of a specific skill. Use `page` to continue from the previous response's `next_page` token and
-    /// `limit` to control the number of results per page.
+extension SkillsVersionsMethods {
+    /// Lists versions of a specific skill. Use `page` to continue from the previous response's `next_page` token and `limit` to control the number of results per page.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -24,53 +23,17 @@ public extension SkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listSkillsVersions(
-        config: ClientConfig,
-        skillId: String,
-        page: String? = nil,
-        limit: Int? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListSkillVersionsResponse {
-        try await (sdkRequest(
-            "GET",
-            ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("page", value: page),
-                SdkQueryParameter("limit", value: limit),
-            ],
-            decoder: .json,
-            operationId: "listSkillsVersions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": ErrorResponse.self,
-                "401": ErrorResponse.self,
-                "403": ErrorResponse.self,
-                "404": ErrorResponse.self,
-                "408": ErrorResponse.self,
-                "409": ErrorResponse.self,
-                "412": ErrorResponse.self,
-                "413": ErrorResponse.self,
-                "429": ErrorResponse.self,
-                "431": ErrorResponse.self,
-                "499": ErrorResponse.self,
-                "500": ErrorResponse.self,
-                "501": ErrorResponse.self,
-                "503": ErrorResponse.self,
-                "504": ErrorResponse.self,
-                "529": ErrorResponse.self,
-            ]
-        )).data
+    public static func listSkillsVersions(config: ClientConfig, skillId: String, page: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListSkillVersionsResponse {
+        return try (await sdkRequest("GET", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions"].joined(), config: config, query: [
+            SdkQueryParameter("page", value: page),
+            SdkQueryParameter("limit", value: limit),
+        ], decoder: .json, operationId: "listSkillsVersions", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
     }
 
-    /// Lists versions of a specific skill. Use `page` to continue from the previous response's `next_page` token and
-    /// `limit` to control the number of results per page.
+    /// Lists versions of a specific skill. Use `page` to continue from the previous response's `next_page` token and `limit` to control the number of results per page.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -86,42 +49,17 @@ public extension SkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listSkillsVersionsPaginated(
-        config: ClientConfig,
-        skillId: String,
-        page: String? = nil,
-        limit: Int? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<SkillVersion, Swift.Error> {
-        AsyncThrowingStream<SkillVersion, Swift.Error> { (continuation: AsyncThrowingStream<
-            SkillVersion,
-            Swift.Error
-        >.Continuation) in
+    public static func listSkillsVersionsPaginated(config: ClientConfig, skillId: String, page: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<SkillVersion, Swift.Error> {
+        return AsyncThrowingStream<SkillVersion, Swift.Error> { (continuation: AsyncThrowingStream<SkillVersion, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listSkillsVersions(
-                            config: config,
-                            skillId: skillId,
-                            page: pageCursor,
-                            limit: limit,
-                            anthropicVersion: anthropicVersion,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listSkillsVersions(config: config, skillId: skillId, page: pageCursor, limit: limit, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -134,54 +72,25 @@ public extension SkillsVersionsMethods {
         }
     }
 
-    struct ListSkillsVersionsPage {
+    public struct ListSkillsVersionsPage {
         public let data: ListSkillVersionsResponse
         public let items: [SkillVersion]
         public let hasMore: Bool
     }
 
-    static func listSkillsVersionsPages(
-        config: ClientConfig,
-        skillId: String,
-        page: String? = nil,
-        limit: Int? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListSkillsVersionsPage, Swift.Error> {
-        AsyncThrowingStream<ListSkillsVersionsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListSkillsVersionsPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listSkillsVersionsPages(config: ClientConfig, skillId: String, page: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListSkillsVersionsPage, Swift.Error> {
+        return AsyncThrowingStream<ListSkillsVersionsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListSkillsVersionsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listSkillsVersions(
-                            config: config,
-                            skillId: skillId,
-                            page: pageCursor,
-                            limit: limit,
-                            anthropicVersion: anthropicVersion,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listSkillsVersions(config: config, skillId: skillId, page: pageCursor, limit: limit, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListSkillsVersionsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListSkillsVersionsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

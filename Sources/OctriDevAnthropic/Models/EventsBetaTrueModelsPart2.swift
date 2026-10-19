@@ -3,22 +3,13 @@
 
 import Foundation
 
-/// EventsBetaTrue domain models
-public extension BetaManagedAgentsUserToolResultEventParams {
-    init(
-        type: BetaManagedAgentsUserToolResultEventParamsType,
-        toolUseId: String,
-        content: [BetaManagedAgentsToolResultContentBlock]? = nil,
-        isError: Bool? = nil
-    ) throws {
+// EventsBetaTrue domain models
+extension BetaManagedAgentsUserToolResultEventParams {
+    public init(type: BetaManagedAgentsUserToolResultEventParamsType, toolUseId: String, content: [BetaManagedAgentsToolResultContentBlock]? = nil, isError: Bool? = nil) throws {
         (self.type, self.toolUseId) = (type, toolUseId)
         (self.content, self.isError) = (content, isError)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsUserToolResultEventParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("tool_use_id", self.toolUseId, min: 1, max: 128)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserToolResultEventParamsType.allCases.map(\.rawValue))
+            try validateLength("tool_use_id", self.toolUseId, min: 1, max: 128)
     }
 }
 
@@ -35,20 +26,20 @@ public struct BetaManagedAgentsListSessionEvents: Codable {
     }
 
     init() {
-        (data, nextPage) = (nil, nil)
+        (self.data, self.nextPage) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsListSessionEvents {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsListSessionEvents {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        data = try container.sdkDecodeIfPresent(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeIfPresent(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaManagedAgentsListSessionEvents {
-    init(data: [BetaManagedAgentsSessionEvent]? = nil, nextPage: String? = nil) {
+extension BetaManagedAgentsListSessionEvents {
+    public init(data: [BetaManagedAgentsSessionEvent]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }
@@ -67,20 +58,20 @@ public struct BetaManagedAgentsListSessionThreadEvents: Codable {
     }
 
     init() {
-        (data, nextPage) = (nil, nil)
+        (self.data, self.nextPage) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsListSessionThreadEvents {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsListSessionThreadEvents {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        data = try container.sdkDecodeIfPresent(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeIfPresent(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaManagedAgentsListSessionThreadEvents {
-    init(data: [BetaManagedAgentsSessionEvent]? = nil, nextPage: String? = nil) {
+extension BetaManagedAgentsListSessionThreadEvents {
+    public init(data: [BetaManagedAgentsSessionEvent]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }
@@ -96,19 +87,19 @@ public struct BetaManagedAgentsSendSessionEvents: Codable {
     }
 
     init() {
-        data = nil
+        self.data = nil
     }
 }
 
-public extension BetaManagedAgentsSendSessionEvents {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsSendSessionEvents {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        data = try container.sdkDecodeIfPresent(.data)
+        self.data = try container.sdkDecodeIfPresent(.data)
     }
 }
 
-public extension BetaManagedAgentsSendSessionEvents {
-    init(data: [BetaManagedAgentsInputEvent]? = nil) {
+extension BetaManagedAgentsSendSessionEvents {
+    public init(data: [BetaManagedAgentsInputEvent]? = nil) {
         self.init()
         self.data = data
     }
@@ -123,27 +114,21 @@ public struct BetaManagedAgentsSendSessionEventsParams: Codable {
         case events
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsSendSessionEventsParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsSendSessionEventsParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.events) else {
-            throw SdkValidationError(
-                field: "events",
-                code: "required",
-                message: "Validation failed for 'events': value is required"
-            )
+            throw SdkValidationError(field: "events", code: "required", message: "Validation failed for 'events': value is required")
         }
-        events = try container.sdkDecodeRequired(.events)
+        self.events = try container.sdkDecodeRequired(.events)
     }
 }
 
-public extension BetaManagedAgentsSendSessionEventsParams {
-    init(events: [BetaManagedAgentsEventParams]) {
+extension BetaManagedAgentsSendSessionEventsParams {
+    public init(events: [BetaManagedAgentsEventParams]) {
         self.events = events
     }
 }
@@ -167,56 +152,33 @@ public struct BetaManagedAgentsUserCustomToolResultEventParams: Codable {
         case isError = "is_error"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsUserCustomToolResultEventParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUserCustomToolResultEventParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.customToolUseId) else {
-            throw SdkValidationError(
-                field: "custom_tool_use_id",
-                code: "required",
-                message: "Validation failed for 'custom_tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "custom_tool_use_id", code: "required", message: "Validation failed for 'custom_tool_use_id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        customToolUseId = try container.sdkDecodeRequired(.customToolUseId)
-        content = try container.sdkDecodeIfPresent(.content)
-        isError = try container.sdkDecodeIfPresent(.isError)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsUserCustomToolResultEventParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("custom_tool_use_id", customToolUseId, min: 1, max: 128)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.customToolUseId = try container.sdkDecodeRequired(.customToolUseId)
+        self.content = try container.sdkDecodeIfPresent(.content)
+        self.isError = try container.sdkDecodeIfPresent(.isError)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserCustomToolResultEventParamsType.allCases.map(\.rawValue))
+            try validateLength("custom_tool_use_id", self.customToolUseId, min: 1, max: 128)
     }
 }
 
-public extension BetaManagedAgentsUserCustomToolResultEventParams {
-    init(
-        type: BetaManagedAgentsUserCustomToolResultEventParamsType,
-        customToolUseId: String,
-        content: [BetaManagedAgentsToolResultContentBlock]? = nil,
-        isError: Bool? = nil
-    ) throws {
+extension BetaManagedAgentsUserCustomToolResultEventParams {
+    public init(type: BetaManagedAgentsUserCustomToolResultEventParamsType, customToolUseId: String, content: [BetaManagedAgentsToolResultContentBlock]? = nil, isError: Bool? = nil) throws {
         (self.type, self.customToolUseId) = (type, customToolUseId)
         (self.content, self.isError) = (content, isError)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsUserCustomToolResultEventParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("custom_tool_use_id", self.customToolUseId, min: 1, max: 128)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserCustomToolResultEventParamsType.allCases.map(\.rawValue))
+            try validateLength("custom_tool_use_id", self.customToolUseId, min: 1, max: 128)
     }
 }
 
@@ -233,35 +195,25 @@ public struct BetaManagedAgentsUserInterruptEventParams: Codable {
         case sessionThreadId = "session_thread_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsUserInterruptEventParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUserInterruptEventParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        sessionThreadId = try container.sdkDecodeIfPresent(.sessionThreadId)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsUserInterruptEventParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.sessionThreadId = try container.sdkDecodeIfPresent(.sessionThreadId)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserInterruptEventParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsUserInterruptEventParams {
-    init(type: BetaManagedAgentsUserInterruptEventParamsType, sessionThreadId: String? = nil) throws {
+extension BetaManagedAgentsUserInterruptEventParams {
+    public init(type: BetaManagedAgentsUserInterruptEventParamsType, sessionThreadId: String? = nil) throws {
         (self.type, self.sessionThreadId) = (type, sessionThreadId)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsUserInterruptEventParamsType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsUserInterruptEventParamsType.allCases.map(\.rawValue))
     }
 }
 

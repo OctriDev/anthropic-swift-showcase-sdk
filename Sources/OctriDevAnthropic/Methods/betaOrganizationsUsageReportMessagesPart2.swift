@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsUsageReportMessagesMethods {
-    struct ListBetaOrganizationsUsageReportMessagesOptions: Codable {
+extension BetaOrganizationsUsageReportMessagesMethods {
+    public struct ListBetaOrganizationsUsageReportMessagesOptions: Codable {
         public var startingAt: Date
         public var limit: Int?
         public var page: String?
@@ -31,9 +31,7 @@ public extension BetaOrganizationsUsageReportMessagesMethods {
         }
     }
 
-    /// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339
-    /// timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the
-    /// results. Use the response's `next_page` token as `page` to continue through results.
+    /// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the results. Use the response's `next_page` token as `page` to continue through results.
     ///
     /// - Parameters:
     /// - startingAt: Time buckets that start on or after this RFC 3339 timestamp
@@ -68,70 +66,32 @@ public extension BetaOrganizationsUsageReportMessagesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsUsageReportMessages(
-        config: ClientConfig,
-        options: ListBetaOrganizationsUsageReportMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaGetMessagesUsageReportResponse {
+    public static func listBetaOrganizationsUsageReportMessages(config: ClientConfig, options: ListBetaOrganizationsUsageReportMessagesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaGetMessagesUsageReportResponse {
         try sdkValidateDateTime("starting_at", options.startingAt)
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/usage_report/messages?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("starting_at", value: options.startingAt),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("ending_at", value: options.endingAt),
-                SdkQueryParameter("api_key_ids[]", values: options.apiKeyIds, style: "form", explode: true),
-                SdkQueryParameter("workspace_ids[]", values: options.workspaceIds, style: "form", explode: true),
-                SdkQueryParameter("account_ids[]", values: options.accountIds, style: "form", explode: true),
-                SdkQueryParameter(
-                    "service_account_ids[]",
-                    values: options.serviceAccountIds,
-                    style: "form",
-                    explode: true
-                ),
-                SdkQueryParameter("models[]", values: options.models, style: "form", explode: true),
-                SdkQueryParameter("service_tiers[]", values: options.serviceTiers, style: "form", explode: true),
-                SdkQueryParameter("context_window[]", values: options.contextWindow, style: "form", explode: true),
-                SdkQueryParameter("inference_geos[]", values: options.inferenceGeos, style: "form", explode: true),
-                SdkQueryParameter("speeds[]", values: options.speeds, style: "form", explode: true),
-                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-                SdkQueryParameter("bucket_width", value: options.bucketWidth),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsUsageReportMessages",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/usage_report/messages?beta=true", config: config, query: [
+            SdkQueryParameter("starting_at", value: options.startingAt),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("ending_at", value: options.endingAt),
+            SdkQueryParameter("api_key_ids[]", values: options.apiKeyIds, style: "form", explode: true),
+            SdkQueryParameter("workspace_ids[]", values: options.workspaceIds, style: "form", explode: true),
+            SdkQueryParameter("account_ids[]", values: options.accountIds, style: "form", explode: true),
+            SdkQueryParameter("service_account_ids[]", values: options.serviceAccountIds, style: "form", explode: true),
+            SdkQueryParameter("models[]", values: options.models, style: "form", explode: true),
+            SdkQueryParameter("service_tiers[]", values: options.serviceTiers, style: "form", explode: true),
+            SdkQueryParameter("context_window[]", values: options.contextWindow, style: "form", explode: true),
+            SdkQueryParameter("inference_geos[]", values: options.inferenceGeos, style: "form", explode: true),
+            SdkQueryParameter("speeds[]", values: options.speeds, style: "form", explode: true),
+            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+            SdkQueryParameter("bucket_width", value: options.bucketWidth),
+        ], decoder: .json, operationId: "listBetaOrganizationsUsageReportMessages", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339
-    /// timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the
-    /// results. Use the response's `next_page` token as `page` to continue through results.
+    /// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the results. Use the response's `next_page` token as `page` to continue through results.
     ///
     /// - Parameters:
     /// - startingAt: Time buckets that start on or after this RFC 3339 timestamp
@@ -166,40 +126,21 @@ public extension BetaOrganizationsUsageReportMessagesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsUsageReportMessagesPaginated(
-        config: ClientConfig,
-        options: ListBetaOrganizationsUsageReportMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error> {
+    public static func listBetaOrganizationsUsageReportMessagesPaginated(config: ClientConfig, options: ListBetaOrganizationsUsageReportMessagesOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaMessagesUsageReportTimeBucket,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error> { (continuation: AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsUsageReportMessages(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsUsageReportMessages(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        if !pageResponse.hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        if !pageResponse.hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -212,52 +153,28 @@ public extension BetaOrganizationsUsageReportMessagesMethods {
         }
     }
 
-    struct ListBetaOrganizationsUsageReportMessagesPage {
+    public struct ListBetaOrganizationsUsageReportMessagesPage {
         public let data: BetaGetMessagesUsageReportResponse
         public let items: [BetaMessagesUsageReportTimeBucket]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsUsageReportMessagesPages(
-        config: ClientConfig,
-        options: ListBetaOrganizationsUsageReportMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsUsageReportMessagesPage, Swift.Error> {
+    public static func listBetaOrganizationsUsageReportMessagesPages(config: ClientConfig, options: ListBetaOrganizationsUsageReportMessagesOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsUsageReportMessagesPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<
-            ListBetaOrganizationsUsageReportMessagesPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsUsageReportMessagesPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<ListBetaOrganizationsUsageReportMessagesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsUsageReportMessagesPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsUsageReportMessages(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsUsageReportMessages(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.hasMore && pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsUsageReportMessagesPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsUsageReportMessagesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

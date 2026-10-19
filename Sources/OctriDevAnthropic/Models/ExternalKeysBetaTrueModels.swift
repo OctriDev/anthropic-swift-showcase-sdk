@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ExternalKeysBetaTrue domain models
+// ExternalKeysBetaTrue domain models
 public indirect enum BetaExternalKeyCreateParamsProviderConfig {
     case betaAwsExternalKeyConfig(BetaAwsExternalKeyConfig)
     case betaGcpExternalKeyConfig(BetaGcpExternalKeyConfig)
@@ -13,6 +13,7 @@ public indirect enum BetaExternalKeyCreateParamsProviderConfig {
 }
 
 extension BetaExternalKeyCreateParamsProviderConfig: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension BetaExternalKeyCreateParamsProviderConfig: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,10 +37,10 @@ extension BetaExternalKeyCreateParamsProviderConfig: Codable {
 extension BetaExternalKeyCreateParamsProviderConfig {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "aws": try .betaAwsExternalKeyConfig(BetaAwsExternalKeyConfig(from: decoder))
-        case "gcp": try .betaGcpExternalKeyConfig(BetaGcpExternalKeyConfig(from: decoder))
-        case "azure": try .betaAzureExternalKeyConfigParams(BetaAzureExternalKeyConfigParams(from: decoder))
-        default: nil
+        case "aws": return .betaAwsExternalKeyConfig(try BetaAwsExternalKeyConfig(from: decoder))
+        case "gcp": return .betaGcpExternalKeyConfig(try BetaGcpExternalKeyConfig(from: decoder))
+        case "azure": return .betaAzureExternalKeyConfigParams(try BetaAzureExternalKeyConfigParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -75,36 +72,26 @@ public struct BetaExternalKeyCreateParams: Codable {
         case geo
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaExternalKeyCreateParams {
-    init(from decoder: Decoder) throws {
+extension BetaExternalKeyCreateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.providerConfig) else {
-            throw SdkValidationError(
-                field: "provider_config",
-                code: "required",
-                message: "Validation failed for 'provider_config': value is required"
-            )
+            throw SdkValidationError(field: "provider_config", code: "required", message: "Validation failed for 'provider_config': value is required")
         }
-        providerConfig = try container.sdkDecodeRequired(.providerConfig)
-        displayName = try container.sdkDecodeIfPresent(.displayName)
-        geo = try container.sdkDecodeIfPresent(.geo)
-        if let value = geo {
+        self.providerConfig = try container.sdkDecodeRequired(.providerConfig)
+        self.displayName = try container.sdkDecodeIfPresent(.displayName)
+        self.geo = try container.sdkDecodeIfPresent(.geo)
+        if let value = self.geo {
             try sdkValidateRawEnum("geo", value, BetaExternalKeyCreateParamsGeo.allCases.map(\.rawValue))
         }
     }
 }
 
-public extension BetaExternalKeyCreateParams {
-    init(
-        providerConfig: BetaExternalKeyCreateParamsProviderConfig,
-        displayName: String? = nil,
-        geo: BetaExternalKeyCreateParamsGeo? = nil
-    ) throws {
+extension BetaExternalKeyCreateParams {
+    public init(providerConfig: BetaExternalKeyCreateParamsProviderConfig, displayName: String? = nil, geo: BetaExternalKeyCreateParamsGeo? = nil) throws {
         (self.providerConfig, self.displayName) = (providerConfig, displayName)
         self.geo = geo
         if let value = self.geo {
@@ -125,35 +112,25 @@ public struct BetaExternalKeyListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaExternalKeyListResponse {
-    init(from decoder: Decoder) throws {
+extension BetaExternalKeyListResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaExternalKeyListResponse {
-    init(data: [BetaExternalKey], nextPage: String?) {
+extension BetaExternalKeyListResponse {
+    public init(data: [BetaExternalKey], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

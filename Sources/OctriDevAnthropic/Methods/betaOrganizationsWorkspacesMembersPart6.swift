@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsWorkspacesMembersMethods {
-    /// Creates a membership for a user in a specified workspace. Supply `user_id` and `workspace_role`; the role must
-    /// be one of the supported non-billing workspace roles. The response contains the new workspace member and its
-    /// assigned role.
+extension BetaOrganizationsWorkspacesMembersMethods {
+    /// Creates a membership for a user in a specified workspace. Supply `user_id` and `workspace_role`; the role must be one of the supported non-billing workspace roles. The response contains the new workspace member and its assigned role.
     ///
     /// - Parameters:
     /// - workspaceId: ID of the Workspace.
@@ -19,49 +17,11 @@ public extension BetaOrganizationsWorkspacesMembersMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func createBetaOrganizationsWorkspacesMembers(
-        config: ClientConfig,
-        workspaceId: String,
-        userId: String,
-        workspaceRole: BetaNoBillingWorkspaceRoleSchema,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspaceMemberSchema {
-        let requestBody = CreateBetaOrganizationsWorkspacesMembersRequestBody(
-            userId: userId,
-            workspaceRole: workspaceRole
-        )
+    public static func createBetaOrganizationsWorkspacesMembers(config: ClientConfig, workspaceId: String, userId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspaceMemberSchema {
+        let requestBody = CreateBetaOrganizationsWorkspacesMembersRequestBody(userId: userId, workspaceRole: workspaceRole)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/members?beta=true"]
-                .joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaOrganizationsWorkspacesMembers",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/members?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsWorkspacesMembers", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

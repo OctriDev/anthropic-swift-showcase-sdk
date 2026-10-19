@@ -3,47 +3,33 @@
 
 import Foundation
 
-/// SharedBeta domain models
-public extension BetaMCPToolset {
-    init(from decoder: Decoder) throws {
+// SharedBeta domain models
+extension BetaMCPToolset {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.mcpServerName) else {
-            throw SdkValidationError(
-                field: "mcp_server_name",
-                code: "required",
-                message: "Validation failed for 'mcp_server_name': value is required"
-            )
+            throw SdkValidationError(field: "mcp_server_name", code: "required", message: "Validation failed for 'mcp_server_name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        mcpServerName = try container.sdkDecodeRequired(.mcpServerName)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        configs = try container.sdkDecodeIfPresent(.configs)
-        defaultConfig = try container.sdkDecodeIfPresent(.defaultConfig)
-        try validateLength("mcp_server_name", mcpServerName, min: 1, max: 255)
-        try sdkValidateRawEnum("type", type, BetaMCPToolsetType.allCases.map(\.rawValue))
+        self.mcpServerName = try container.sdkDecodeRequired(.mcpServerName)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.configs = try container.sdkDecodeIfPresent(.configs)
+        self.defaultConfig = try container.sdkDecodeIfPresent(.defaultConfig)
+            try validateLength("mcp_server_name", self.mcpServerName, min: 1, max: 255)
+            try sdkValidateRawEnum("type", self.type, BetaMCPToolsetType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaMCPToolset {
-    init(
-        mcpServerName: String,
-        type: BetaMCPToolsetType,
-        cacheControl: BetaMCPToolsetCacheControl? = nil,
-        configs: [String: BetaMCPToolConfig]? = nil,
-        defaultConfig: BetaMCPToolDefaultConfig? = nil
-    ) throws {
+extension BetaMCPToolset {
+    public init(mcpServerName: String, type: BetaMCPToolsetType, cacheControl: BetaMCPToolsetCacheControl? = nil, configs: [String: BetaMCPToolConfig]? = nil, defaultConfig: BetaMCPToolDefaultConfig? = nil) throws {
         (self.mcpServerName, self.type) = (mcpServerName, type)
         (self.cacheControl, self.configs) = (cacheControl, configs)
         self.defaultConfig = defaultConfig
-        try validateLength("mcp_server_name", self.mcpServerName, min: 1, max: 255)
-        try sdkValidateRawEnum("type", self.type, BetaMCPToolsetType.allCases.map(\.rawValue))
+            try validateLength("mcp_server_name", self.mcpServerName, min: 1, max: 255)
+            try sdkValidateRawEnum("type", self.type, BetaMCPToolsetType.allCases.map(\.rawValue))
     }
 }
 
@@ -60,38 +46,28 @@ public struct BetaSessionWorkData: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSessionWorkData {
-    init(from decoder: Decoder) throws {
+extension BetaSessionWorkData {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaSessionWorkDataType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaSessionWorkDataType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaSessionWorkData {
-    init(id: String, type: BetaSessionWorkDataType) throws {
+extension BetaSessionWorkData {
+    public init(id: String, type: BetaSessionWorkDataType) throws {
         (self.id, self.type) = (id, type)
-        try sdkValidateRawEnum("type", self.type, BetaSessionWorkDataType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaSessionWorkDataType.allCases.map(\.rawValue))
     }
 }
 
@@ -109,35 +85,25 @@ public struct BetaMonetaryAmount: Codable {
         case amount
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaMonetaryAmount {
-    init(from decoder: Decoder) throws {
+extension BetaMonetaryAmount {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.currency) else {
-            throw SdkValidationError(
-                field: "currency",
-                code: "required",
-                message: "Validation failed for 'currency': value is required"
-            )
+            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
         }
         guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
+            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
         }
-        currency = try container.sdkDecodeRequired(.currency)
-        amount = try container.sdkDecodeRequired(.amount)
+        self.currency = try container.sdkDecodeRequired(.currency)
+        self.amount = try container.sdkDecodeRequired(.amount)
     }
 }
 
-public extension BetaMonetaryAmount {
-    init(currency: BetaCurrency, amount: String) {
+extension BetaMonetaryAmount {
+    public init(currency: BetaCurrency, amount: String) {
         (self.currency, self.amount) = (currency, amount)
     }
 }
@@ -154,38 +120,28 @@ public struct BetaBillingError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaBillingError {
-    init(from decoder: Decoder) throws {
+extension BetaBillingError {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaBillingErrorType.allCases.map(\.rawValue))
+        self.message = try container.sdkDecodeRequired(.message)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaBillingErrorType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaBillingError {
-    init(message: String, type: BetaBillingErrorType) throws {
+extension BetaBillingError {
+    public init(message: String, type: BetaBillingErrorType) throws {
         (self.message, self.type) = (message, type)
-        try sdkValidateRawEnum("type", self.type, BetaBillingErrorType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaBillingErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -229,15 +185,12 @@ public enum Unrestricted: String, CaseIterable, Codable {
 public struct BetaCurrency: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let usd = BetaCurrency(rawValue: "USD")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -250,21 +203,16 @@ public struct BetaCurrency: RawRepresentable, Hashable, Codable, Sendable, SdkWi
 public struct BetaCostReportTokenType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let cacheCreationEphemeral1hInputTokens =
-        BetaCostReportTokenType(rawValue: "cache_creation.ephemeral_1h_input_tokens")
-    public static let cacheCreationEphemeral5mInputTokens =
-        BetaCostReportTokenType(rawValue: "cache_creation.ephemeral_5m_input_tokens")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let cacheCreationEphemeral1hInputTokens = BetaCostReportTokenType(rawValue: "cache_creation.ephemeral_1h_input_tokens")
+    public static let cacheCreationEphemeral5mInputTokens = BetaCostReportTokenType(rawValue: "cache_creation.ephemeral_5m_input_tokens")
     public static let cacheReadInputTokens = BetaCostReportTokenType(rawValue: "cache_read_input_tokens")
     public static let outputTokens = BetaCostReportTokenType(rawValue: "output_tokens")
     public static let uncachedInputTokens = BetaCostReportTokenType(rawValue: "uncached_input_tokens")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -349,10 +297,7 @@ public enum BetaSessionWorkDataType: String, CaseIterable, Codable {
 public struct BetaStopReason: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let endTurn = BetaStopReason(rawValue: "end_turn")
     public static let maxTokens = BetaStopReason(rawValue: "max_tokens")
     public static let stopSequence = BetaStopReason(rawValue: "stop_sequence")
@@ -364,7 +309,7 @@ public struct BetaStopReason: RawRepresentable, Hashable, Codable, Sendable, Sdk
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -503,16 +448,13 @@ public enum BetaURLPDFSourceType: String, CaseIterable, Codable {
 public struct BetaCreatedByType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let serviceAccount = BetaCreatedByType(rawValue: "service_account")
     public static let user = BetaCreatedByType(rawValue: "user")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -561,19 +503,15 @@ public enum BetaInvalidRequestErrorType: String, CaseIterable, Codable {
 public struct BetaNoBillingWorkspaceRoleSchema: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let workspaceAdmin = BetaNoBillingWorkspaceRoleSchema(rawValue: "workspace_admin")
     public static let workspaceDeveloper = BetaNoBillingWorkspaceRoleSchema(rawValue: "workspace_developer")
-    public static let workspaceRestrictedDeveloper =
-        BetaNoBillingWorkspaceRoleSchema(rawValue: "workspace_restricted_developer")
+    public static let workspaceRestrictedDeveloper = BetaNoBillingWorkspaceRoleSchema(rawValue: "workspace_restricted_developer")
     public static let workspaceUser = BetaNoBillingWorkspaceRoleSchema(rawValue: "workspace_user")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -623,16 +561,13 @@ public enum BetaNotFoundErrorType: String, CaseIterable, Codable {
 public struct BetaSpeed: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let standard = BetaSpeed(rawValue: "standard")
     public static let fast = BetaSpeed(rawValue: "fast")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

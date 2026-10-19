@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaManagedAgents domain models
+// SharedBetaManagedAgents domain models
 /// The run was fired by the deployment's cron schedule.
 public struct BetaManagedAgentsScheduleTriggerContext: Codable {
     /// Required enumerated value serialized in the `type` wire field.
@@ -17,38 +17,28 @@ public struct BetaManagedAgentsScheduleTriggerContext: Codable {
         case scheduledAt = "scheduled_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsScheduleTriggerContext {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsScheduleTriggerContext {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.scheduledAt) else {
-            throw SdkValidationError(
-                field: "scheduled_at",
-                code: "required",
-                message: "Validation failed for 'scheduled_at': value is required"
-            )
+            throw SdkValidationError(field: "scheduled_at", code: "required", message: "Validation failed for 'scheduled_at': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        scheduledAt = try container.sdkDecodeRequired(.scheduledAt)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsScheduleTriggerContextType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.scheduledAt = try container.sdkDecodeRequired(.scheduledAt)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsScheduleTriggerContextType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsScheduleTriggerContext {
-    init(type: BetaManagedAgentsScheduleTriggerContextType, scheduledAt: BetaTimestamp) throws {
+extension BetaManagedAgentsScheduleTriggerContext {
+    public init(type: BetaManagedAgentsScheduleTriggerContextType, scheduledAt: BetaTimestamp) throws {
         (self.type, self.scheduledAt) = (type, scheduledAt)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsScheduleTriggerContextType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsScheduleTriggerContextType.allCases.map(\.rawValue))
     }
 }
 
@@ -64,42 +54,28 @@ public struct BetaManagedAgentsDeploymentUserMessageEvent: Codable {
         case content
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsDeploymentUserMessageEvent {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsDeploymentUserMessageEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        content = try container.sdkDecodeRequired(.content)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsDeploymentUserMessageEventType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.content = try container.sdkDecodeRequired(.content)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsDeploymentUserMessageEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsDeploymentUserMessageEvent {
-    init(type: BetaManagedAgentsDeploymentUserMessageEventType, content: [BetaManagedAgentsUserContentBlock]) throws {
+extension BetaManagedAgentsDeploymentUserMessageEvent {
+    public init(type: BetaManagedAgentsDeploymentUserMessageEventType, content: [BetaManagedAgentsUserContentBlock]) throws {
         (self.type, self.content) = (type, content)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsDeploymentUserMessageEventType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsDeploymentUserMessageEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -142,53 +118,33 @@ public struct BetaManagedAgentsSpanOutcomeEvaluationEndEvent: Codable {
         case outcomeId = "outcome_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsSpanOutcomeEvaluationEndEvent {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsSpanOutcomeEvaluationEndEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
-        processedAt = try container.sdkDecodeRequired(.processedAt)
-        outcomeEvaluationStartId = try container.sdkDecodeRequired(.outcomeEvaluationStartId)
-        iteration = try container.sdkDecodeRequired(.iteration)
-        result = try container.sdkDecodeRequired(.result)
-        explanation = try container.sdkDecodeRequired(.explanation)
-        usage = try container.sdkDecodeRequired(.usage)
-        outcomeId = try container.sdkDecodeRequired(.outcomeId)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsSpanOutcomeEvaluationEndEventType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.processedAt = try container.sdkDecodeRequired(.processedAt)
+        self.outcomeEvaluationStartId = try container.sdkDecodeRequired(.outcomeEvaluationStartId)
+        self.iteration = try container.sdkDecodeRequired(.iteration)
+        self.result = try container.sdkDecodeRequired(.result)
+        self.explanation = try container.sdkDecodeRequired(.explanation)
+        self.usage = try container.sdkDecodeRequired(.usage)
+        self.outcomeId = try container.sdkDecodeRequired(.outcomeId)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsSpanOutcomeEvaluationEndEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsSpanOutcomeEvaluationEndEvent {
-    init(
-        type: BetaManagedAgentsSpanOutcomeEvaluationEndEventType,
-        id: String,
-        processedAt: BetaTimestamp,
-        outcomeEvaluationStartId: String,
-        iteration: Int,
-        result: String,
-        explanation: String,
-        usage: BetaManagedAgentsSpanModelUsage,
-        outcomeId: String
-    ) throws {
+extension BetaManagedAgentsSpanOutcomeEvaluationEndEvent {
+    public init(type: BetaManagedAgentsSpanOutcomeEvaluationEndEventType, id: String, processedAt: BetaTimestamp, outcomeEvaluationStartId: String, iteration: Int, result: String, explanation: String, usage: BetaManagedAgentsSpanModelUsage, outcomeId: String) throws {
         (self.type, self.id) = (type, id)
         (self.processedAt, self.outcomeEvaluationStartId) = (processedAt, outcomeEvaluationStartId)
         (self.iteration, self.result) = (iteration, result)
         (self.explanation, self.usage) = (explanation, usage)
         self.outcomeId = outcomeId
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsSpanOutcomeEvaluationEndEventType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsSpanOutcomeEvaluationEndEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -212,64 +168,41 @@ public struct BetaManagedAgentsCustomToolParams: Codable {
         case inputSchema = "input_schema"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsCustomToolParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsCustomToolParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.description) else {
-            throw SdkValidationError(
-                field: "description",
-                code: "required",
-                message: "Validation failed for 'description': value is required"
-            )
+            throw SdkValidationError(field: "description", code: "required", message: "Validation failed for 'description': value is required")
         }
         guard container.contains(.inputSchema) else {
-            throw SdkValidationError(
-                field: "input_schema",
-                code: "required",
-                message: "Validation failed for 'input_schema': value is required"
-            )
+            throw SdkValidationError(field: "input_schema", code: "required", message: "Validation failed for 'input_schema': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        name = try container.sdkDecodeRequired(.name)
-        description = try container.sdkDecodeRequired(.description)
-        inputSchema = try container.sdkDecodeRequired(.inputSchema)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsCustomToolParamsType.allCases.map(\.rawValue))
-        try validateLength("name", name, min: 1, max: 128)
-        try validateLength("description", description, min: 1, max: nil)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.description = try container.sdkDecodeRequired(.description)
+        self.inputSchema = try container.sdkDecodeRequired(.inputSchema)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsCustomToolParamsType.allCases.map(\.rawValue))
+            try validateLength("name", self.name, min: 1, max: 128)
+            try validateLength("description", self.description, min: 1, max: nil)
     }
 }
 
-public extension BetaManagedAgentsCustomToolParams {
-    init(
-        type: BetaManagedAgentsCustomToolParamsType,
-        name: String,
-        description: String,
-        inputSchema: BetaManagedAgentsCustomToolInputSchema
-    ) throws {
+extension BetaManagedAgentsCustomToolParams {
+    public init(type: BetaManagedAgentsCustomToolParamsType, name: String, description: String, inputSchema: BetaManagedAgentsCustomToolInputSchema) throws {
         (self.type, self.name) = (type, name)
         (self.description, self.inputSchema) = (description, inputSchema)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsCustomToolParamsType.allCases.map(\.rawValue))
-        try validateLength("name", self.name, min: 1, max: 128)
-        try validateLength("description", self.description, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsCustomToolParamsType.allCases.map(\.rawValue))
+            try validateLength("name", self.name, min: 1, max: 128)
+            try validateLength("description", self.description, min: 1, max: nil)
     }
 }
 
@@ -283,30 +216,24 @@ public struct BetaManagedAgentsMultiagentSelfParams: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsMultiagentSelfParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsMultiagentSelfParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsMultiagentSelfParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMultiagentSelfParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsMultiagentSelfParams {
-    init(type: BetaManagedAgentsMultiagentSelfParamsType) throws {
+extension BetaManagedAgentsMultiagentSelfParams {
+    public init(type: BetaManagedAgentsMultiagentSelfParamsType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMultiagentSelfParamsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMultiagentSelfParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -322,40 +249,30 @@ public struct BetaManagedAgentsCommitCheckout: Codable {
         case sha
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsCommitCheckout {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsCommitCheckout {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.sha) else {
-            throw SdkValidationError(
-                field: "sha",
-                code: "required",
-                message: "Validation failed for 'sha': value is required"
-            )
+            throw SdkValidationError(field: "sha", code: "required", message: "Validation failed for 'sha': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        sha = try container.sdkDecodeRequired(.sha)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsCommitCheckoutType.allCases.map(\.rawValue))
-        try validateLength("sha", sha, min: 7, max: 64)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.sha = try container.sdkDecodeRequired(.sha)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsCommitCheckoutType.allCases.map(\.rawValue))
+            try validateLength("sha", self.sha, min: 7, max: 64)
     }
 }
 
-public extension BetaManagedAgentsCommitCheckout {
-    init(type: BetaManagedAgentsCommitCheckoutType, sha: String) throws {
+extension BetaManagedAgentsCommitCheckout {
+    public init(type: BetaManagedAgentsCommitCheckoutType, sha: String) throws {
         (self.type, self.sha) = (type, sha)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsCommitCheckoutType.allCases.map(\.rawValue))
-        try validateLength("sha", self.sha, min: 7, max: 64)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsCommitCheckoutType.allCases.map(\.rawValue))
+            try validateLength("sha", self.sha, min: 7, max: 64)
     }
 }
 
@@ -368,38 +285,24 @@ public struct BetaManagedAgentsTokenEndpointAuthNoneResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthNoneResponse {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsTokenEndpointAuthNoneResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsTokenEndpointAuthNoneResponseType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthNoneResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthNoneResponse {
-    init(type: BetaManagedAgentsTokenEndpointAuthNoneResponseType) throws {
+extension BetaManagedAgentsTokenEndpointAuthNoneResponse {
+    public init(type: BetaManagedAgentsTokenEndpointAuthNoneResponseType) throws {
         self.type = type
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsTokenEndpointAuthNoneResponseType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthNoneResponseType.allCases.map(\.rawValue))
     }
 }
 
@@ -418,40 +321,30 @@ public struct BetaManagedAgentsFileResourceConfig: Codable {
         case mountPath = "mount_path"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsFileResourceConfig {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsFileResourceConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        fileId = try container.sdkDecodeRequired(.fileId)
-        mountPath = try container.sdkDecodeIfPresent(.mountPath)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsFileResourceConfigType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.fileId = try container.sdkDecodeRequired(.fileId)
+        self.mountPath = try container.sdkDecodeIfPresent(.mountPath)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsFileResourceConfigType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsFileResourceConfig {
-    init(type: BetaManagedAgentsFileResourceConfigType, fileId: String, mountPath: String? = nil) throws {
+extension BetaManagedAgentsFileResourceConfig {
+    public init(type: BetaManagedAgentsFileResourceConfigType, fileId: String, mountPath: String? = nil) throws {
         (self.type, self.fileId) = (type, fileId)
         self.mountPath = mountPath
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsFileResourceConfigType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsFileResourceConfigType.allCases.map(\.rawValue))
     }
 }
 
@@ -469,46 +362,28 @@ public struct BetaManagedAgentsLimitedCredentialNetworkingParams: Codable {
         case allowedHosts = "allowed_hosts"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsLimitedCredentialNetworkingParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsLimitedCredentialNetworkingParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.allowedHosts) else {
-            throw SdkValidationError(
-                field: "allowed_hosts",
-                code: "required",
-                message: "Validation failed for 'allowed_hosts': value is required"
-            )
+            throw SdkValidationError(field: "allowed_hosts", code: "required", message: "Validation failed for 'allowed_hosts': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        allowedHosts = try container.sdkDecodeRequired(.allowedHosts)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsLimitedCredentialNetworkingParamsType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedHosts = try container.sdkDecodeRequired(.allowedHosts)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsLimitedCredentialNetworkingParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsLimitedCredentialNetworkingParams {
-    init(type: BetaManagedAgentsLimitedCredentialNetworkingParamsType, allowedHosts: [String]) throws {
+extension BetaManagedAgentsLimitedCredentialNetworkingParams {
+    public init(type: BetaManagedAgentsLimitedCredentialNetworkingParamsType, allowedHosts: [String]) throws {
         (self.type, self.allowedHosts) = (type, allowedHosts)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsLimitedCredentialNetworkingParamsType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsLimitedCredentialNetworkingParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -521,30 +396,24 @@ public struct BetaManagedAgentsAlwaysAskPolicy: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsAlwaysAskPolicy {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAlwaysAskPolicy {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsAlwaysAskPolicyType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsAlwaysAskPolicyType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsAlwaysAskPolicy {
-    init(type: BetaManagedAgentsAlwaysAskPolicyType) throws {
+extension BetaManagedAgentsAlwaysAskPolicy {
+    public init(type: BetaManagedAgentsAlwaysAskPolicyType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsAlwaysAskPolicyType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsAlwaysAskPolicyType.allCases.map(\.rawValue))
     }
 }
 
@@ -566,42 +435,31 @@ public struct BetaManagedAgentsGrepToolConfigParams: Codable {
         case permissionPolicy = "permission_policy"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsGrepToolConfigParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsGrepToolConfigParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeIfPresent(.type)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
-        permissionPolicy = try container.sdkDecodeIfPresent(.permissionPolicy)
-        try sdkValidateRawEnum("name", name, BetaManagedAgentsGrepToolConfigParamsName.allCases.map(\.rawValue))
-        if let value = type {
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeIfPresent(.type)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.permissionPolicy = try container.sdkDecodeIfPresent(.permissionPolicy)
+            try sdkValidateRawEnum("name", self.name, BetaManagedAgentsGrepToolConfigParamsName.allCases.map(\.rawValue))
+        if let value = self.type {
             try sdkValidateRawEnum("type", value, BetaManagedAgentsGrepToolConfigParamsType.allCases.map(\.rawValue))
         }
     }
 }
 
-public extension BetaManagedAgentsGrepToolConfigParams {
-    init(
-        name: BetaManagedAgentsGrepToolConfigParamsName,
-        type: BetaManagedAgentsGrepToolConfigParamsType? = nil,
-        enabled: Bool? = nil,
-        permissionPolicy: BetaManagedAgentsPermissionPolicy? = nil
-    ) throws {
+extension BetaManagedAgentsGrepToolConfigParams {
+    public init(name: BetaManagedAgentsGrepToolConfigParamsName, type: BetaManagedAgentsGrepToolConfigParamsType? = nil, enabled: Bool? = nil, permissionPolicy: BetaManagedAgentsPermissionPolicy? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.enabled, self.permissionPolicy) = (enabled, permissionPolicy)
-        try sdkValidateRawEnum("name", self.name, BetaManagedAgentsGrepToolConfigParamsName.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaManagedAgentsGrepToolConfigParamsName.allCases.map(\.rawValue))
         if let value = self.type {
             try sdkValidateRawEnum("type", value, BetaManagedAgentsGrepToolConfigParamsType.allCases.map(\.rawValue))
         }

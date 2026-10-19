@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedCode domain models
+// SharedCode domain models
 /// Typed representation of the `CodeExecutionTool_20250825` API schema.
 public struct CodeExecutionTool20250825: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -29,53 +29,36 @@ public struct CodeExecutionTool20250825: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CodeExecutionTool20250825 {
-    init(from decoder: Decoder) throws {
+extension CodeExecutionTool20250825 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, CodeExecutionTool20250825Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, CodeExecutionTool20250825Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20250825Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20250825Type.allCases.map(\.rawValue))
     }
 }
 
-public extension CodeExecutionTool20250825 {
-    init(
-        name: CodeExecutionTool20250825Name,
-        type: CodeExecutionTool20250825Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: CodeExecutionTool20250825CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension CodeExecutionTool20250825 {
+    public init(name: CodeExecutionTool20250825Name, type: CodeExecutionTool20250825Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: CodeExecutionTool20250825CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, CodeExecutionTool20250825Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, CodeExecutionTool20250825Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20250825Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20250825Type.allCases.map(\.rawValue))
     }
 }
 
@@ -86,6 +69,7 @@ public indirect enum CodeExecutionTool20260120CacheControl {
 }
 
 extension CodeExecutionTool20260120CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -93,16 +77,12 @@ extension CodeExecutionTool20260120CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -113,8 +93,8 @@ extension CodeExecutionTool20260120CacheControl: Codable {
 extension CodeExecutionTool20260120CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -154,53 +134,36 @@ public struct CodeExecutionTool20260521: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CodeExecutionTool20260521 {
-    init(from decoder: Decoder) throws {
+extension CodeExecutionTool20260521 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, CodeExecutionTool20260521Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, CodeExecutionTool20260521Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20260521Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20260521Type.allCases.map(\.rawValue))
     }
 }
 
-public extension CodeExecutionTool20260521 {
-    init(
-        name: CodeExecutionTool20260521Name,
-        type: CodeExecutionTool20260521Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: CodeExecutionTool20260521CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension CodeExecutionTool20260521 {
+    public init(name: CodeExecutionTool20260521Name, type: CodeExecutionTool20260521Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: CodeExecutionTool20260521CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, CodeExecutionTool20260521Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, CodeExecutionTool20260521Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20260521Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20260521Type.allCases.map(\.rawValue))
     }
 }
 
@@ -229,53 +192,36 @@ public struct CodeExecutionTool20260120: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CodeExecutionTool20260120 {
-    init(from decoder: Decoder) throws {
+extension CodeExecutionTool20260120 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, CodeExecutionTool20260120Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, CodeExecutionTool20260120Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20260120Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20260120Type.allCases.map(\.rawValue))
     }
 }
 
-public extension CodeExecutionTool20260120 {
-    init(
-        name: CodeExecutionTool20260120Name,
-        type: CodeExecutionTool20260120Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: CodeExecutionTool20260120CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension CodeExecutionTool20260120 {
+    public init(name: CodeExecutionTool20260120Name, type: CodeExecutionTool20260120Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: CodeExecutionTool20260120CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, CodeExecutionTool20260120Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, CodeExecutionTool20260120Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20260120Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20260120Type.allCases.map(\.rawValue))
     }
 }
 
@@ -304,53 +250,36 @@ public struct CodeExecutionTool20250522: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CodeExecutionTool20250522 {
-    init(from decoder: Decoder) throws {
+extension CodeExecutionTool20250522 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, CodeExecutionTool20250522Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, CodeExecutionTool20250522Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20250522Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20250522Type.allCases.map(\.rawValue))
     }
 }
 
-public extension CodeExecutionTool20250522 {
-    init(
-        name: CodeExecutionTool20250522Name,
-        type: CodeExecutionTool20250522Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: CodeExecutionTool20250522CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension CodeExecutionTool20250522 {
+    public init(name: CodeExecutionTool20250522Name, type: CodeExecutionTool20250522Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: CodeExecutionTool20250522CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, CodeExecutionTool20250522Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, CodeExecutionTool20250522Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, CodeExecutionTool20250522Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, CodeExecutionTool20250522Type.allCases.map(\.rawValue))
     }
 }
 
@@ -361,6 +290,7 @@ public indirect enum CodeExecutionTool20260521CacheControl {
 }
 
 extension CodeExecutionTool20260521CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -368,16 +298,12 @@ extension CodeExecutionTool20260521CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -388,8 +314,8 @@ extension CodeExecutionTool20260521CacheControl: Codable {
 extension CodeExecutionTool20260521CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -411,6 +337,7 @@ public indirect enum CodeExecutionTool20250825CacheControl {
 }
 
 extension CodeExecutionTool20250825CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -418,16 +345,12 @@ extension CodeExecutionTool20250825CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -438,8 +361,8 @@ extension CodeExecutionTool20250825CacheControl: Codable {
 extension CodeExecutionTool20250825CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -461,6 +384,7 @@ public indirect enum CodeExecutionTool20250522CacheControl {
 }
 
 extension CodeExecutionTool20250522CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -468,16 +392,12 @@ extension CodeExecutionTool20250522CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -488,8 +408,8 @@ extension CodeExecutionTool20250522CacheControl: Codable {
 extension CodeExecutionTool20250522CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }

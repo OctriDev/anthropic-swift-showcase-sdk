@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension MessagesMethods {
-    struct CreateMessagesOptions: Codable {
+extension MessagesMethods {
+    public struct CreateMessagesOptions: Codable {
         public var model: Model
         public var messages: [InputMessage]
         public var maxTokens: Int
@@ -37,10 +37,7 @@ public extension MessagesMethods {
         }
     }
 
-    /// Send a structured list of input messages with text and/or image content, and the model will generate the next
-    /// message in the conversation. The Messages API can be used for either single queries or stateless multi-turn
-    /// conversations. Learn more about the Messages API in our [user
-    /// guide](https://platform.claude.com/docs/en/get-started)
+    /// Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation. The Messages API can be used for either single queries or stateless multi-turn conversations. Learn more about the Messages API in our [user guide](https://platform.claude.com/docs/en/get-started)
     ///
     /// - Parameters:
     /// - model: The model that will complete your prompt. See
@@ -175,11 +172,7 @@ public extension MessagesMethods {
     ///   distribution over all the options for each subsequent token in decreasing
     ///   probability order and cut it off once it reaches a particular probability
     ///   specified by `top_p`. Recommended for advanced use cases only.
-    static func createMessages(
-        config: ClientConfig,
-        options: CreateMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Message {
+    public static func createMessages(config: ClientConfig, options: CreateMessagesOptions, requestOptions: RequestOptions? = nil) async throws -> Message {
         try validateRange("max_tokens", Double(options.maxTokens), min: 0)
 
         if let temperature = options.temperature {
@@ -196,37 +189,10 @@ public extension MessagesMethods {
 
         let requestBody = CreateMessagesRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/messages",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createMessages",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": ErrorResponse.self,
-                "401": ErrorResponse.self,
-                "403": ErrorResponse.self,
-                "404": ErrorResponse.self,
-                "408": ErrorResponse.self,
-                "409": ErrorResponse.self,
-                "412": ErrorResponse.self,
-                "413": ErrorResponse.self,
-                "429": ErrorResponse.self,
-                "431": ErrorResponse.self,
-                "499": ErrorResponse.self,
-                "500": ErrorResponse.self,
-                "501": ErrorResponse.self,
-                "503": ErrorResponse.self,
-                "504": ErrorResponse.self,
-                "529": ErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/messages", config: config, body: requestBody, decoder: .json, operationId: "createMessages", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
     }
 }

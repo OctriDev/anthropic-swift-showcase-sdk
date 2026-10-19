@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaRequestSearch domain models
+// SharedBetaRequestSearch domain models
 /// Typed representation of the `BetaRequestSearchResultLocationCitation` API schema.
 public struct BetaRequestSearchResultLocationCitation: Codable {
     /// The full text of the cited block range, concatenated. Always equals the contents of
@@ -37,125 +37,55 @@ public struct BetaRequestSearchResultLocationCitation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRequestSearchResultLocationCitation {
-    init(from decoder: Decoder) throws {
+extension BetaRequestSearchResultLocationCitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(
-                field: "cited_text",
-                code: "required",
-                message: "Validation failed for 'cited_text': value is required"
-            )
+            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
         }
         guard container.contains(.endBlockIndex) else {
-            throw SdkValidationError(
-                field: "end_block_index",
-                code: "required",
-                message: "Validation failed for 'end_block_index': value is required"
-            )
+            throw SdkValidationError(field: "end_block_index", code: "required", message: "Validation failed for 'end_block_index': value is required")
         }
         guard container.contains(.searchResultIndex) else {
-            throw SdkValidationError(
-                field: "search_result_index",
-                code: "required",
-                message: "Validation failed for 'search_result_index': value is required"
-            )
+            throw SdkValidationError(field: "search_result_index", code: "required", message: "Validation failed for 'search_result_index': value is required")
         }
         guard container.contains(.source) else {
-            throw SdkValidationError(
-                field: "source",
-                code: "required",
-                message: "Validation failed for 'source': value is required"
-            )
+            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
         }
         guard container.contains(.startBlockIndex) else {
-            throw SdkValidationError(
-                field: "start_block_index",
-                code: "required",
-                message: "Validation failed for 'start_block_index': value is required"
-            )
+            throw SdkValidationError(field: "start_block_index", code: "required", message: "Validation failed for 'start_block_index': value is required")
         }
         guard container.contains(.title) else {
-            throw SdkValidationError(
-                field: "title",
-                code: "required",
-                message: "Validation failed for 'title': value is required"
-            )
+            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        citedText = try container.sdkDecodeRequired(.citedText)
-        endBlockIndex = try container.sdkDecodeRequired(.endBlockIndex)
-        searchResultIndex = try container.sdkDecodeRequired(.searchResultIndex)
-        source = try container.sdkDecodeRequired(.source)
-        startBlockIndex = try container.sdkDecodeRequired(.startBlockIndex)
-        title = try container.sdkDecodeNullable(.title)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "search_result_index",
-            Double(searchResultIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_block_index",
-            Double(startBlockIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaRequestSearchResultLocationCitationType.allCases.map(\.rawValue))
+        self.citedText = try container.sdkDecodeRequired(.citedText)
+        self.endBlockIndex = try container.sdkDecodeRequired(.endBlockIndex)
+        self.searchResultIndex = try container.sdkDecodeRequired(.searchResultIndex)
+        self.source = try container.sdkDecodeRequired(.source)
+        self.startBlockIndex = try container.sdkDecodeRequired(.startBlockIndex)
+        self.title = try container.sdkDecodeNullable(.title)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("search_result_index", Double(self.searchResultIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_block_index", Double(self.startBlockIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaRequestSearchResultLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaRequestSearchResultLocationCitation {
-    init(
-        citedText: String,
-        endBlockIndex: Int,
-        searchResultIndex: Int,
-        source: String,
-        startBlockIndex: Int,
-        title: String?,
-        type: BetaRequestSearchResultLocationCitationType
-    ) throws {
+extension BetaRequestSearchResultLocationCitation {
+    public init(citedText: String, endBlockIndex: Int, searchResultIndex: Int, source: String, startBlockIndex: Int, title: String?, type: BetaRequestSearchResultLocationCitationType) throws {
         (self.citedText, self.endBlockIndex) = (citedText, endBlockIndex)
         (self.searchResultIndex, self.source) = (searchResultIndex, source)
         (self.startBlockIndex, self.title) = (startBlockIndex, title)
         self.type = type
-        try validateRange(
-            "search_result_index",
-            Double(self.searchResultIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_block_index",
-            Double(self.startBlockIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaRequestSearchResultLocationCitationType.allCases.map(\.rawValue))
+            try validateRange("search_result_index", Double(self.searchResultIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_block_index", Double(self.startBlockIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaRequestSearchResultLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -166,6 +96,7 @@ public indirect enum BetaRequestSearchResultBlockCacheControl {
 }
 
 extension BetaRequestSearchResultBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -173,16 +104,12 @@ extension BetaRequestSearchResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -193,8 +120,8 @@ extension BetaRequestSearchResultBlockCacheControl: Codable {
 extension BetaRequestSearchResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -233,65 +160,40 @@ public struct BetaRequestSearchResultBlock: Codable {
         case citations
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRequestSearchResultBlock {
-    init(from decoder: Decoder) throws {
+extension BetaRequestSearchResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.source) else {
-            throw SdkValidationError(
-                field: "source",
-                code: "required",
-                message: "Validation failed for 'source': value is required"
-            )
+            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
         }
         guard container.contains(.title) else {
-            throw SdkValidationError(
-                field: "title",
-                code: "required",
-                message: "Validation failed for 'title': value is required"
-            )
+            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        source = try container.sdkDecodeRequired(.source)
-        title = try container.sdkDecodeRequired(.title)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        citations = try container.sdkDecodeIfPresent(.citations)
-        try sdkValidateRawEnum("type", type, BetaRequestSearchResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.source = try container.sdkDecodeRequired(.source)
+        self.title = try container.sdkDecodeRequired(.title)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.citations = try container.sdkDecodeIfPresent(.citations)
+            try sdkValidateRawEnum("type", self.type, BetaRequestSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaRequestSearchResultBlock {
-    init(
-        content: [BetaRequestTextBlock],
-        source: String,
-        title: String,
-        type: BetaRequestSearchResultBlockType,
-        cacheControl: BetaRequestSearchResultBlockCacheControl? = nil,
-        citations: BetaRequestCitationsConfig? = nil
-    ) throws {
+extension BetaRequestSearchResultBlock {
+    public init(content: [BetaRequestTextBlock], source: String, title: String, type: BetaRequestSearchResultBlockType, cacheControl: BetaRequestSearchResultBlockCacheControl? = nil, citations: BetaRequestCitationsConfig? = nil) throws {
         (self.content, self.source) = (content, source)
         (self.title, self.type) = (title, type)
         (self.cacheControl, self.citations) = (cacheControl, citations)
-        try sdkValidateRawEnum("type", self.type, BetaRequestSearchResultBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaRequestSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 

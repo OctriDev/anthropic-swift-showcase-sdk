@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// CredentialsBetaTrue domain models
+// CredentialsBetaTrue domain models
 public indirect enum BetaManagedAgentsCredentialCreateAuth {
     case betaManagedAgentsMcpOauthCreateParams(BetaManagedAgentsMcpOauthCreateParams)
     case betaManagedAgentsStaticBearerCreateParams(BetaManagedAgentsStaticBearerCreateParams)
@@ -13,6 +13,7 @@ public indirect enum BetaManagedAgentsCredentialCreateAuth {
 }
 
 extension BetaManagedAgentsCredentialCreateAuth: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension BetaManagedAgentsCredentialCreateAuth: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,16 +37,12 @@ extension BetaManagedAgentsCredentialCreateAuth: Codable {
 extension BetaManagedAgentsCredentialCreateAuth {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "mcp_oauth": try .betaManagedAgentsMcpOauthCreateParams(
-                BetaManagedAgentsMcpOauthCreateParams(from: decoder)
-            )
+        case "mcp_oauth": return .betaManagedAgentsMcpOauthCreateParams(try BetaManagedAgentsMcpOauthCreateParams(from: decoder))
         case "static_bearer":
-            try .betaManagedAgentsStaticBearerCreateParams(BetaManagedAgentsStaticBearerCreateParams(from: decoder))
+        return .betaManagedAgentsStaticBearerCreateParams(try BetaManagedAgentsStaticBearerCreateParams(from: decoder))
         case "environment_variable":
-            try .betaManagedAgentsEnvironmentVariableCreateParams(
-                BetaManagedAgentsEnvironmentVariableCreateParams(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEnvironmentVariableCreateParams(try BetaManagedAgentsEnvironmentVariableCreateParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -75,6 +68,7 @@ public indirect enum BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth {
 }
 
 extension BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -82,16 +76,12 @@ extension BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -102,16 +92,12 @@ extension BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth: Codable {
 extension BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "none": try .betaManagedAgentsTokenEndpointAuthNoneParam(
-                BetaManagedAgentsTokenEndpointAuthNoneParam(from: decoder)
-            )
+        case "none": return .betaManagedAgentsTokenEndpointAuthNoneParam(try BetaManagedAgentsTokenEndpointAuthNoneParam(from: decoder))
         case "client_secret_basic":
-            try .betaManagedAgentsTokenEndpointAuthBasicParam(
-                BetaManagedAgentsTokenEndpointAuthBasicParam(from: decoder)
-            )
+        return .betaManagedAgentsTokenEndpointAuthBasicParam(try BetaManagedAgentsTokenEndpointAuthBasicParam(from: decoder))
         case "client_secret_post":
-            try .betaManagedAgentsTokenEndpointAuthPostParam(BetaManagedAgentsTokenEndpointAuthPostParam(from: decoder))
-        default: nil
+        return .betaManagedAgentsTokenEndpointAuthPostParam(try BetaManagedAgentsTokenEndpointAuthPostParam(from: decoder))
+        default: return nil
         }
     }
 }
@@ -143,55 +129,37 @@ public struct BetaManagedAgentsStaticBearerCreateParams: Codable {
         case mcpServerUrl = "mcp_server_url"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsStaticBearerCreateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsStaticBearerCreateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.token) else {
-            throw SdkValidationError(
-                field: "token",
-                code: "required",
-                message: "Validation failed for 'token': value is required"
-            )
+            throw SdkValidationError(field: "token", code: "required", message: "Validation failed for 'token': value is required")
         }
         guard container.contains(.mcpServerUrl) else {
-            throw SdkValidationError(
-                field: "mcp_server_url",
-                code: "required",
-                message: "Validation failed for 'mcp_server_url': value is required"
-            )
+            throw SdkValidationError(field: "mcp_server_url", code: "required", message: "Validation failed for 'mcp_server_url': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        token = try container.sdkDecodeRequired(.token)
-        mcpServerUrl = try container.sdkDecodeRequired(.mcpServerUrl)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsStaticBearerCreateParamsType.allCases.map(\.rawValue))
-        try validateLength("token", token, min: 1, max: 8192)
-        try validateLength("mcp_server_url", mcpServerUrl, min: 1, max: 2047)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.token = try container.sdkDecodeRequired(.token)
+        self.mcpServerUrl = try container.sdkDecodeRequired(.mcpServerUrl)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsStaticBearerCreateParamsType.allCases.map(\.rawValue))
+            try validateLength("token", self.token, min: 1, max: 8192)
+            try validateLength("mcp_server_url", self.mcpServerUrl, min: 1, max: 2047)
     }
 }
 
-public extension BetaManagedAgentsStaticBearerCreateParams {
-    init(type: BetaManagedAgentsStaticBearerCreateParamsType, token: String, mcpServerUrl: String) throws {
+extension BetaManagedAgentsStaticBearerCreateParams {
+    public init(type: BetaManagedAgentsStaticBearerCreateParamsType, token: String, mcpServerUrl: String) throws {
         (self.type, self.token) = (type, token)
         self.mcpServerUrl = mcpServerUrl
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsStaticBearerCreateParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("token", self.token, min: 1, max: 8192)
-        try validateLength("mcp_server_url", self.mcpServerUrl, min: 1, max: 2047)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsStaticBearerCreateParamsType.allCases.map(\.rawValue))
+            try validateLength("token", self.token, min: 1, max: 8192)
+            try validateLength("mcp_server_url", self.mcpServerUrl, min: 1, max: 2047)
     }
 }
 
@@ -208,20 +176,20 @@ public struct BetaManagedAgentsListCredentialsResponse: Codable {
     }
 
     init() {
-        (data, nextPage) = (nil, nil)
+        (self.data, self.nextPage) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsListCredentialsResponse {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsListCredentialsResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        data = try container.sdkDecodeIfPresent(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeIfPresent(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaManagedAgentsListCredentialsResponse {
-    init(data: [BetaManagedAgentsCredential]? = nil, nextPage: String? = nil) {
+extension BetaManagedAgentsListCredentialsResponse {
+    public init(data: [BetaManagedAgentsCredential]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }
@@ -240,20 +208,20 @@ public struct BetaManagedAgentsInjectionLocationParams: Codable {
     }
 
     init() {
-        (header, body) = (nil, nil)
+        (self.header, self.body) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsInjectionLocationParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsInjectionLocationParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        header = try container.sdkDecodeIfPresent(.header)
-        body = try container.sdkDecodeIfPresent(.body)
+        self.header = try container.sdkDecodeIfPresent(.header)
+        self.body = try container.sdkDecodeIfPresent(.body)
     }
 }
 
-public extension BetaManagedAgentsInjectionLocationParams {
-    init(header: Bool? = nil, body: Bool? = nil) {
+extension BetaManagedAgentsInjectionLocationParams {
+    public init(header: Bool? = nil, body: Bool? = nil) {
         self.init()
         (self.header, self.body) = (header, body)
     }
@@ -280,75 +248,43 @@ public struct BetaManagedAgentsEnvironmentVariableCreateParams: Codable {
         case injectionLocation = "injection_location"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEnvironmentVariableCreateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEnvironmentVariableCreateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.secretName) else {
-            throw SdkValidationError(
-                field: "secret_name",
-                code: "required",
-                message: "Validation failed for 'secret_name': value is required"
-            )
+            throw SdkValidationError(field: "secret_name", code: "required", message: "Validation failed for 'secret_name': value is required")
         }
         guard container.contains(.secretValue) else {
-            throw SdkValidationError(
-                field: "secret_value",
-                code: "required",
-                message: "Validation failed for 'secret_value': value is required"
-            )
+            throw SdkValidationError(field: "secret_value", code: "required", message: "Validation failed for 'secret_value': value is required")
         }
         guard container.contains(.networking) else {
-            throw SdkValidationError(
-                field: "networking",
-                code: "required",
-                message: "Validation failed for 'networking': value is required"
-            )
+            throw SdkValidationError(field: "networking", code: "required", message: "Validation failed for 'networking': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        secretName = try container.sdkDecodeRequired(.secretName)
-        secretValue = try container.sdkDecodeRequired(.secretValue)
-        networking = try container.sdkDecodeRequired(.networking)
-        injectionLocation = try container.sdkDecodeIfPresent(.injectionLocation)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsEnvironmentVariableCreateParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("secret_name", secretName, min: 1, max: 255)
-        try validateLength("secret_value", secretValue, min: 1, max: 4096)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.secretName = try container.sdkDecodeRequired(.secretName)
+        self.secretValue = try container.sdkDecodeRequired(.secretValue)
+        self.networking = try container.sdkDecodeRequired(.networking)
+        self.injectionLocation = try container.sdkDecodeIfPresent(.injectionLocation)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEnvironmentVariableCreateParamsType.allCases.map(\.rawValue))
+            try validateLength("secret_name", self.secretName, min: 1, max: 255)
+            try validateLength("secret_value", self.secretValue, min: 1, max: 4096)
     }
 }
 
-public extension BetaManagedAgentsEnvironmentVariableCreateParams {
-    init(
-        type: BetaManagedAgentsEnvironmentVariableCreateParamsType,
-        secretName: String,
-        secretValue: String,
-        networking: BetaManagedAgentsCredentialNetworkingParams,
-        injectionLocation: BetaManagedAgentsInjectionLocationParams? = nil
-    ) throws {
+extension BetaManagedAgentsEnvironmentVariableCreateParams {
+    public init(type: BetaManagedAgentsEnvironmentVariableCreateParamsType, secretName: String, secretValue: String, networking: BetaManagedAgentsCredentialNetworkingParams, injectionLocation: BetaManagedAgentsInjectionLocationParams? = nil) throws {
         (self.type, self.secretName) = (type, secretName)
         (self.secretValue, self.networking) = (secretValue, networking)
         self.injectionLocation = injectionLocation
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsEnvironmentVariableCreateParamsType.allCases.map(\.rawValue)
-        )
-        try validateLength("secret_name", self.secretName, min: 1, max: 255)
-        try validateLength("secret_value", self.secretValue, min: 1, max: 4096)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEnvironmentVariableCreateParamsType.allCases.map(\.rawValue))
+            try validateLength("secret_name", self.secretName, min: 1, max: 255)
+            try validateLength("secret_value", self.secretValue, min: 1, max: 4096)
     }
 }
 
@@ -376,69 +312,44 @@ public struct BetaManagedAgentsMcpOauthRefreshParams: Codable {
         case resource
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsMcpOauthRefreshParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsMcpOauthRefreshParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.refreshToken) else {
-            throw SdkValidationError(
-                field: "refresh_token",
-                code: "required",
-                message: "Validation failed for 'refresh_token': value is required"
-            )
+            throw SdkValidationError(field: "refresh_token", code: "required", message: "Validation failed for 'refresh_token': value is required")
         }
         guard container.contains(.tokenEndpoint) else {
-            throw SdkValidationError(
-                field: "token_endpoint",
-                code: "required",
-                message: "Validation failed for 'token_endpoint': value is required"
-            )
+            throw SdkValidationError(field: "token_endpoint", code: "required", message: "Validation failed for 'token_endpoint': value is required")
         }
         guard container.contains(.clientId) else {
-            throw SdkValidationError(
-                field: "client_id",
-                code: "required",
-                message: "Validation failed for 'client_id': value is required"
-            )
+            throw SdkValidationError(field: "client_id", code: "required", message: "Validation failed for 'client_id': value is required")
         }
         guard container.contains(.tokenEndpointAuth) else {
-            throw SdkValidationError(
-                field: "token_endpoint_auth",
-                code: "required",
-                message: "Validation failed for 'token_endpoint_auth': value is required"
-            )
+            throw SdkValidationError(field: "token_endpoint_auth", code: "required", message: "Validation failed for 'token_endpoint_auth': value is required")
         }
-        refreshToken = try container.sdkDecodeRequired(.refreshToken)
-        tokenEndpoint = try container.sdkDecodeRequired(.tokenEndpoint)
-        clientId = try container.sdkDecodeRequired(.clientId)
-        tokenEndpointAuth = try container.sdkDecodeRequired(.tokenEndpointAuth)
-        scope = try container.sdkDecodeIfPresent(.scope)
-        resource = try container.sdkDecodeIfPresent(.resource)
-        try validateLength("refresh_token", refreshToken, min: 1, max: 8192)
-        try validateLength("token_endpoint", tokenEndpoint, min: 1, max: 2047)
-        try validateLength("client_id", clientId, min: 1, max: 1024)
+        self.refreshToken = try container.sdkDecodeRequired(.refreshToken)
+        self.tokenEndpoint = try container.sdkDecodeRequired(.tokenEndpoint)
+        self.clientId = try container.sdkDecodeRequired(.clientId)
+        self.tokenEndpointAuth = try container.sdkDecodeRequired(.tokenEndpointAuth)
+        self.scope = try container.sdkDecodeIfPresent(.scope)
+        self.resource = try container.sdkDecodeIfPresent(.resource)
+            try validateLength("refresh_token", self.refreshToken, min: 1, max: 8192)
+            try validateLength("token_endpoint", self.tokenEndpoint, min: 1, max: 2047)
+            try validateLength("client_id", self.clientId, min: 1, max: 1024)
     }
 }
 
-public extension BetaManagedAgentsMcpOauthRefreshParams {
-    init(
-        refreshToken: String,
-        tokenEndpoint: String,
-        clientId: String,
-        tokenEndpointAuth: BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth,
-        scope: String? = nil,
-        resource: String? = nil
-    ) throws {
+extension BetaManagedAgentsMcpOauthRefreshParams {
+    public init(refreshToken: String, tokenEndpoint: String, clientId: String, tokenEndpointAuth: BetaManagedAgentsMcpOauthRefreshParamsTokenEndpointAuth, scope: String? = nil, resource: String? = nil) throws {
         (self.refreshToken, self.tokenEndpoint) = (refreshToken, tokenEndpoint)
         (self.clientId, self.tokenEndpointAuth) = (clientId, tokenEndpointAuth)
         (self.scope, self.resource) = (scope, resource)
-        try validateLength("refresh_token", self.refreshToken, min: 1, max: 8192)
-        try validateLength("token_endpoint", self.tokenEndpoint, min: 1, max: 2047)
-        try validateLength("client_id", self.clientId, min: 1, max: 1024)
+            try validateLength("refresh_token", self.refreshToken, min: 1, max: 8192)
+            try validateLength("token_endpoint", self.tokenEndpoint, min: 1, max: 2047)
+            try validateLength("client_id", self.clientId, min: 1, max: 1024)
     }
 }
 
@@ -454,44 +365,30 @@ public struct BetaManagedAgentsTokenEndpointAuthPostParam: Codable {
         case clientSecret = "client_secret"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthPostParam {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsTokenEndpointAuthPostParam {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.clientSecret) else {
-            throw SdkValidationError(
-                field: "client_secret",
-                code: "required",
-                message: "Validation failed for 'client_secret': value is required"
-            )
+            throw SdkValidationError(field: "client_secret", code: "required", message: "Validation failed for 'client_secret': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        clientSecret = try container.sdkDecodeRequired(.clientSecret)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsTokenEndpointAuthPostParamType.allCases.map(\.rawValue))
-        try validateLength("client_secret", clientSecret, min: 1, max: 512)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.clientSecret = try container.sdkDecodeRequired(.clientSecret)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthPostParamType.allCases.map(\.rawValue))
+            try validateLength("client_secret", self.clientSecret, min: 1, max: 512)
     }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthPostParam {
-    init(type: BetaManagedAgentsTokenEndpointAuthPostParamType, clientSecret: String) throws {
+extension BetaManagedAgentsTokenEndpointAuthPostParam {
+    public init(type: BetaManagedAgentsTokenEndpointAuthPostParamType, clientSecret: String) throws {
         (self.type, self.clientSecret) = (type, clientSecret)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsTokenEndpointAuthPostParamType.allCases.map(\.rawValue)
-        )
-        try validateLength("client_secret", self.clientSecret, min: 1, max: 512)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthPostParamType.allCases.map(\.rawValue))
+            try validateLength("client_secret", self.clientSecret, min: 1, max: 512)
     }
 }
 
@@ -516,60 +413,40 @@ public struct BetaManagedAgentsMcpOauthCreateParams: Codable {
         case refresh
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsMcpOauthCreateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsMcpOauthCreateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.mcpServerUrl) else {
-            throw SdkValidationError(
-                field: "mcp_server_url",
-                code: "required",
-                message: "Validation failed for 'mcp_server_url': value is required"
-            )
+            throw SdkValidationError(field: "mcp_server_url", code: "required", message: "Validation failed for 'mcp_server_url': value is required")
         }
         guard container.contains(.accessToken) else {
-            throw SdkValidationError(
-                field: "access_token",
-                code: "required",
-                message: "Validation failed for 'access_token': value is required"
-            )
+            throw SdkValidationError(field: "access_token", code: "required", message: "Validation failed for 'access_token': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        mcpServerUrl = try container.sdkDecodeRequired(.mcpServerUrl)
-        accessToken = try container.sdkDecodeRequired(.accessToken)
-        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-        refresh = try container.sdkDecodeIfPresent(.refresh)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsMcpOauthCreateParamsType.allCases.map(\.rawValue))
-        try validateLength("mcp_server_url", mcpServerUrl, min: 1, max: 2047)
-        try validateLength("access_token", accessToken, min: 1, max: 8192)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.mcpServerUrl = try container.sdkDecodeRequired(.mcpServerUrl)
+        self.accessToken = try container.sdkDecodeRequired(.accessToken)
+        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+        self.refresh = try container.sdkDecodeIfPresent(.refresh)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMcpOauthCreateParamsType.allCases.map(\.rawValue))
+            try validateLength("mcp_server_url", self.mcpServerUrl, min: 1, max: 2047)
+            try validateLength("access_token", self.accessToken, min: 1, max: 8192)
     }
 }
 
-public extension BetaManagedAgentsMcpOauthCreateParams {
-    init(
-        type: BetaManagedAgentsMcpOauthCreateParamsType,
-        mcpServerUrl: String,
-        accessToken: String,
-        expiresAt: BetaTimestamp? = nil,
-        refresh: BetaManagedAgentsMcpOauthRefreshParams? = nil
-    ) throws {
+extension BetaManagedAgentsMcpOauthCreateParams {
+    public init(type: BetaManagedAgentsMcpOauthCreateParamsType, mcpServerUrl: String, accessToken: String, expiresAt: BetaTimestamp? = nil, refresh: BetaManagedAgentsMcpOauthRefreshParams? = nil) throws {
         (self.type, self.mcpServerUrl) = (type, mcpServerUrl)
         (self.accessToken, self.expiresAt) = (accessToken, expiresAt)
         self.refresh = refresh
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMcpOauthCreateParamsType.allCases.map(\.rawValue))
-        try validateLength("mcp_server_url", self.mcpServerUrl, min: 1, max: 2047)
-        try validateLength("access_token", self.accessToken, min: 1, max: 8192)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMcpOauthCreateParamsType.allCases.map(\.rawValue))
+            try validateLength("mcp_server_url", self.mcpServerUrl, min: 1, max: 2047)
+            try validateLength("access_token", self.accessToken, min: 1, max: 8192)
     }
 }
 
@@ -589,23 +466,17 @@ public struct BetaManagedAgentsCreateCredentialRequestBody: Codable {
         case metadata
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsCreateCredentialRequestBody {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsCreateCredentialRequestBody {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.auth) else {
-            throw SdkValidationError(
-                field: "auth",
-                code: "required",
-                message: "Validation failed for 'auth': value is required"
-            )
+            throw SdkValidationError(field: "auth", code: "required", message: "Validation failed for 'auth': value is required")
         }
-        auth = try container.sdkDecodeRequired(.auth)
-        displayName = try container.sdkDecodeIfPresent(.displayName)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.auth = try container.sdkDecodeRequired(.auth)
+        self.displayName = try container.sdkDecodeIfPresent(.displayName)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
     }
 }

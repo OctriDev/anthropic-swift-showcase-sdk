@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaSessionsResourcesMethods {
-    /// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous
-    /// `next_page` cursor; `limit` can cap the number returned at 1000, and omitting it returns all resources.
+extension BetaSessionsResourcesMethods {
+    /// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous `next_page` cursor; `limit` can cap the number returned at 1000, and omitting it returns all resources.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -20,54 +19,18 @@ public extension BetaSessionsResourcesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaSessionsResources(
-        config: ClientConfig,
-        sessionId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsListSessionResources {
-        try await (sdkRequest(
-            "GET",
-            ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/resources?beta=true"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("page", value: page),
-            ],
-            decoder: .json,
-            operationId: "listBetaSessionsResources",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func listBetaSessionsResources(config: ClientConfig, sessionId: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListSessionResources {
+        return try (await sdkRequest("GET", ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/resources?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+        ], decoder: .json, operationId: "listBetaSessionsResources", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 
-    /// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous
-    /// `next_page` cursor; `limit` can cap the number returned at 1000, and omitting it returns all resources.
+    /// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous `next_page` cursor; `limit` can cap the number returned at 1000, and omitting it returns all resources.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -79,44 +42,17 @@ public extension BetaSessionsResourcesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaSessionsResourcesPaginated(
-        config: ClientConfig,
-        sessionId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error> {
-        AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaManagedAgentsSessionResource,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaSessionsResourcesPaginated(config: ClientConfig, sessionId: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error> {
+        return AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaSessionsResources(
-                            config: config,
-                            sessionId: sessionId,
-                            limit: limit,
-                            page: pageCursor,
-                            anthropicVersion: anthropicVersion,
-                            anthropicBeta: anthropicBeta,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaSessionsResources(config: config, sessionId: sessionId, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -129,56 +65,25 @@ public extension BetaSessionsResourcesMethods {
         }
     }
 
-    struct ListBetaSessionsResourcesPage {
+    public struct ListBetaSessionsResourcesPage {
         public let data: BetaManagedAgentsListSessionResources
         public let items: [BetaManagedAgentsSessionResource]
         public let hasMore: Bool
     }
 
-    static func listBetaSessionsResourcesPages(
-        config: ClientConfig,
-        sessionId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaSessionsResourcesPage, Swift.Error> {
-        AsyncThrowingStream<ListBetaSessionsResourcesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListBetaSessionsResourcesPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaSessionsResourcesPages(config: ClientConfig, sessionId: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaSessionsResourcesPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaSessionsResourcesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaSessionsResourcesPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaSessionsResources(
-                            config: config,
-                            sessionId: sessionId,
-                            limit: limit,
-                            page: pageCursor,
-                            anthropicVersion: anthropicVersion,
-                            anthropicBeta: anthropicBeta,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaSessionsResources(config: config, sessionId: sessionId, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaSessionsResourcesPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaSessionsResourcesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

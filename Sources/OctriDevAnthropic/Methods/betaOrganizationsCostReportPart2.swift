@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsCostReportMethods {
-    struct RetrieveBetaOrganizationsCostReportOptions: Codable {
+extension BetaOrganizationsCostReportMethods {
+    public struct RetrieveBetaOrganizationsCostReportOptions: Codable {
         public var startingAt: Date
         public var limit: Int?
         public var page: String?
@@ -22,9 +22,7 @@ public extension BetaOrganizationsCostReportMethods {
         }
     }
 
-    /// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins
-    /// the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's
-    /// `next_page` token as `page` to continue through results.
+    /// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's `next_page` token as `page` to continue through results.
     ///
     /// - Parameters:
     /// - startingAt: Time buckets that start on or after this RFC 3339 timestamp
@@ -42,60 +40,27 @@ public extension BetaOrganizationsCostReportMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func retrieveBetaOrganizationsCostReport(
-        config: ClientConfig,
-        options: RetrieveBetaOrganizationsCostReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaGetCostReportResponse {
+    public static func retrieveBetaOrganizationsCostReport(config: ClientConfig, options: RetrieveBetaOrganizationsCostReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaGetCostReportResponse {
         try sdkValidateDateTime("starting_at", options.startingAt)
 
         if let limit = options.limit {
             try validateRange("limit", Double(limit), min: 1, max: 31)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/cost_report?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("starting_at", value: options.startingAt),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("ending_at", value: options.endingAt),
-                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-                SdkQueryParameter("bucket_width", value: options.bucketWidth),
-            ],
-            decoder: .json,
-            operationId: "retrieveBetaOrganizationsCostReport",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/cost_report?beta=true", config: config, query: [
+            SdkQueryParameter("starting_at", value: options.startingAt),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("ending_at", value: options.endingAt),
+            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+            SdkQueryParameter("bucket_width", value: options.bucketWidth),
+        ], decoder: .json, operationId: "retrieveBetaOrganizationsCostReport", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins
-    /// the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's
-    /// `next_page` token as `page` to continue through results.
+    /// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's `next_page` token as `page` to continue through results.
     ///
     /// - Parameters:
     /// - startingAt: Time buckets that start on or after this RFC 3339 timestamp
@@ -113,40 +78,21 @@ public extension BetaOrganizationsCostReportMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func retrieveBetaOrganizationsCostReportPaginated(
-        config: ClientConfig,
-        options: RetrieveBetaOrganizationsCostReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error> {
+    public static func retrieveBetaOrganizationsCostReportPaginated(config: ClientConfig, options: RetrieveBetaOrganizationsCostReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaCostReportTimeBucket,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error> { (continuation: AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await retrieveBetaOrganizationsCostReport(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await retrieveBetaOrganizationsCostReport(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        if !pageResponse.hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        if !pageResponse.hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -159,52 +105,28 @@ public extension BetaOrganizationsCostReportMethods {
         }
     }
 
-    struct RetrieveBetaOrganizationsCostReportPage {
+    public struct RetrieveBetaOrganizationsCostReportPage {
         public let data: BetaGetCostReportResponse
         public let items: [BetaCostReportTimeBucket]
         public let hasMore: Bool
     }
 
-    static func retrieveBetaOrganizationsCostReportPages(
-        config: ClientConfig,
-        options: RetrieveBetaOrganizationsCostReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<RetrieveBetaOrganizationsCostReportPage, Swift.Error> {
+    public static func retrieveBetaOrganizationsCostReportPages(config: ClientConfig, options: RetrieveBetaOrganizationsCostReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<RetrieveBetaOrganizationsCostReportPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<
-            RetrieveBetaOrganizationsCostReportPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            RetrieveBetaOrganizationsCostReportPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<RetrieveBetaOrganizationsCostReportPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<RetrieveBetaOrganizationsCostReportPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await retrieveBetaOrganizationsCostReport(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await retrieveBetaOrganizationsCostReport(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.hasMore && pageResponse.nextPage != nil
-                        pageContinuation.yield(RetrieveBetaOrganizationsCostReportPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(RetrieveBetaOrganizationsCostReportPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

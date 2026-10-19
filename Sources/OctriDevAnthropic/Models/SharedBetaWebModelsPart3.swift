@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaWeb domain models
+// SharedBetaWeb domain models
 /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
 public enum BetaWebSearchTool20250305Name: String, CaseIterable, Codable {
     case webSearch = "web_search"
@@ -26,20 +26,16 @@ public enum BetaWebSearchTool20250305Name: String, CaseIterable, Codable {
 /// code_execution call in the same turn. 'full' returns the complete content (default). 'excluded' drops the
 /// nested server_tool_use and result block pair entirely. Results from direct calls, or from code_execution
 /// calls that paused before completing, are always returned in full so they can be sent back on the next turn.
-public struct BetaWebFetchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaWebFetchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let full = BetaWebFetchTool20260318ResponseInclusion(rawValue: "full")
     public static let excluded = BetaWebFetchTool20260318ResponseInclusion(rawValue: "excluded")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -88,10 +84,7 @@ public enum BetaWebSearchTool20260209Type: String, CaseIterable, Codable {
 public struct BetaWebFetchToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = BetaWebFetchToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let urlTooLong = BetaWebFetchToolResultErrorCode(rawValue: "url_too_long")
     public static let urlNotAllowed = BetaWebFetchToolResultErrorCode(rawValue: "url_not_allowed")
@@ -104,7 +97,7 @@ public struct BetaWebFetchToolResultErrorCode: RawRepresentable, Hashable, Codab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -153,20 +146,16 @@ public enum BetaWebFetchTool20260209Name: String, CaseIterable, Codable {
 /// code_execution call in the same turn. 'full' returns the complete content (default). 'excluded' drops the
 /// nested server_tool_use and result block pair entirely. Results from direct calls, or from code_execution
 /// calls that paused before completing, are always returned in full so they can be sent back on the next turn.
-public struct BetaWebSearchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaWebSearchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let full = BetaWebSearchTool20260318ResponseInclusion(rawValue: "full")
     public static let excluded = BetaWebSearchTool20260318ResponseInclusion(rawValue: "excluded")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

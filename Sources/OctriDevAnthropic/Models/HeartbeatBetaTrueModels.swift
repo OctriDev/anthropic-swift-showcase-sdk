@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// HeartbeatBetaTrue domain models
+// HeartbeatBetaTrue domain models
 /// Response after recording a heartbeat for a work item.
 public struct BetaSelfHostedWorkHeartbeatResponse: Codable {
     /// RFC 3339 timestamp of the actual heartbeat from DB
@@ -25,82 +25,50 @@ public struct BetaSelfHostedWorkHeartbeatResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSelfHostedWorkHeartbeatResponse {
-    init(from decoder: Decoder) throws {
+extension BetaSelfHostedWorkHeartbeatResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.lastHeartbeat) else {
-            throw SdkValidationError(
-                field: "last_heartbeat",
-                code: "required",
-                message: "Validation failed for 'last_heartbeat': value is required"
-            )
+            throw SdkValidationError(field: "last_heartbeat", code: "required", message: "Validation failed for 'last_heartbeat': value is required")
         }
         guard container.contains(.leaseExtended) else {
-            throw SdkValidationError(
-                field: "lease_extended",
-                code: "required",
-                message: "Validation failed for 'lease_extended': value is required"
-            )
+            throw SdkValidationError(field: "lease_extended", code: "required", message: "Validation failed for 'lease_extended': value is required")
         }
         guard container.contains(.state) else {
-            throw SdkValidationError(
-                field: "state",
-                code: "required",
-                message: "Validation failed for 'state': value is required"
-            )
+            throw SdkValidationError(field: "state", code: "required", message: "Validation failed for 'state': value is required")
         }
         guard container.contains(.ttlSeconds) else {
-            throw SdkValidationError(
-                field: "ttl_seconds",
-                code: "required",
-                message: "Validation failed for 'ttl_seconds': value is required"
-            )
+            throw SdkValidationError(field: "ttl_seconds", code: "required", message: "Validation failed for 'ttl_seconds': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        lastHeartbeat = try container.sdkDecodeRequired(.lastHeartbeat)
-        leaseExtended = try container.sdkDecodeRequired(.leaseExtended)
-        state = try container.sdkDecodeRequired(.state)
-        ttlSeconds = try container.sdkDecodeRequired(.ttlSeconds)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaSelfHostedWorkHeartbeatResponseType.allCases.map(\.rawValue))
+        self.lastHeartbeat = try container.sdkDecodeRequired(.lastHeartbeat)
+        self.leaseExtended = try container.sdkDecodeRequired(.leaseExtended)
+        self.state = try container.sdkDecodeRequired(.state)
+        self.ttlSeconds = try container.sdkDecodeRequired(.ttlSeconds)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkHeartbeatResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaSelfHostedWorkHeartbeatResponse {
-    init(
-        lastHeartbeat: String,
-        leaseExtended: Bool,
-        state: BetaSelfHostedWorkHeartbeatResponseState,
-        ttlSeconds: Int,
-        type: BetaSelfHostedWorkHeartbeatResponseType
-    ) throws {
+extension BetaSelfHostedWorkHeartbeatResponse {
+    public init(lastHeartbeat: String, leaseExtended: Bool, state: BetaSelfHostedWorkHeartbeatResponseState, ttlSeconds: Int, type: BetaSelfHostedWorkHeartbeatResponseType) throws {
         (self.lastHeartbeat, self.leaseExtended) = (lastHeartbeat, leaseExtended)
         (self.state, self.ttlSeconds) = (state, ttlSeconds)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkHeartbeatResponseType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkHeartbeatResponseType.allCases.map(\.rawValue))
     }
 }
 
 /// Current state of the work item (active/stopping/stopped)
-public struct BetaSelfHostedWorkHeartbeatResponseState: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaSelfHostedWorkHeartbeatResponseState: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let queued = BetaSelfHostedWorkHeartbeatResponseState(rawValue: "queued")
     public static let starting = BetaSelfHostedWorkHeartbeatResponseState(rawValue: "starting")
     public static let active = BetaSelfHostedWorkHeartbeatResponseState(rawValue: "active")
@@ -109,7 +77,7 @@ public struct BetaSelfHostedWorkHeartbeatResponseState: RawRepresentable, Hashab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
