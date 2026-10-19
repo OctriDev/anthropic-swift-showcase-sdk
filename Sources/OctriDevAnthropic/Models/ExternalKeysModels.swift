@@ -3,7 +3,7 @@
 
 import Foundation
 
-// ExternalKeys domain models
+/// ExternalKeys domain models
 public indirect enum BetaExternalKeyUpdateParamsProviderConfig {
     case betaAwsExternalKeyConfig(BetaAwsExternalKeyConfig)
     case betaGcpExternalKeyConfig(BetaGcpExternalKeyConfig)
@@ -13,7 +13,6 @@ public indirect enum BetaExternalKeyUpdateParamsProviderConfig {
 }
 
 extension BetaExternalKeyUpdateParamsProviderConfig: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension BetaExternalKeyUpdateParamsProviderConfig: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension BetaExternalKeyUpdateParamsProviderConfig: Codable {
 extension BetaExternalKeyUpdateParamsProviderConfig {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "aws": return .betaAwsExternalKeyConfig(try BetaAwsExternalKeyConfig(from: decoder))
-        case "gcp": return .betaGcpExternalKeyConfig(try BetaGcpExternalKeyConfig(from: decoder))
-        case "azure": return .betaAzureExternalKeyConfigParams(try BetaAzureExternalKeyConfigParams(from: decoder))
-        default: return nil
+        case "aws": try .betaAwsExternalKeyConfig(BetaAwsExternalKeyConfig(from: decoder))
+        case "gcp": try .betaGcpExternalKeyConfig(BetaGcpExternalKeyConfig(from: decoder))
+        case "azure": try .betaAzureExternalKeyConfigParams(BetaAzureExternalKeyConfigParams(from: decoder))
+        default: nil
         }
     }
 }
@@ -74,21 +77,25 @@ public struct BetaExternalKeyUpdateParams: Codable {
     }
 
     init() {
-        (self.displayName, self.geo, self.providerConfig) = (nil, nil, nil)
+        (displayName, geo, providerConfig) = (nil, nil, nil)
     }
 }
 
-extension BetaExternalKeyUpdateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaExternalKeyUpdateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.displayName = try container.sdkDecodeIfPresent(.displayName)
-        self.geo = try container.sdkDecodeIfPresent(.geo)
-        self.providerConfig = try container.sdkDecodeIfPresent(.providerConfig)
+        displayName = try container.sdkDecodeIfPresent(.displayName)
+        geo = try container.sdkDecodeIfPresent(.geo)
+        providerConfig = try container.sdkDecodeIfPresent(.providerConfig)
     }
 }
 
-extension BetaExternalKeyUpdateParams {
-    public init(displayName: String? = nil, geo: BetaExternalKeyUpdateParamsGeoVariant0? = nil, providerConfig: BetaExternalKeyUpdateParamsProviderConfig? = nil) {
+public extension BetaExternalKeyUpdateParams {
+    init(
+        displayName: String? = nil,
+        geo: BetaExternalKeyUpdateParamsGeoVariant0? = nil,
+        providerConfig: BetaExternalKeyUpdateParamsProviderConfig? = nil
+    ) {
         self.init()
         (self.displayName, self.geo) = (displayName, geo)
         self.providerConfig = providerConfig
@@ -107,28 +114,38 @@ public struct BetaDeleteExternalKeyResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaDeleteExternalKeyResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaDeleteExternalKeyResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaDeleteExternalKeyResponse {
-    public init(id: String, type: BetaDeleteExternalKeyResponseType) throws {
+public extension BetaDeleteExternalKeyResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaDeleteExternalKeyResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaDeleteExternalKeyResponse {
+    init(id: String, type: BetaDeleteExternalKeyResponseType) throws {
         (self.id, self.type) = (id, type)
-            try sdkValidateRawEnum("type", self.type, BetaDeleteExternalKeyResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaDeleteExternalKeyResponseType.allCases.map(\.rawValue))
     }
 }
 

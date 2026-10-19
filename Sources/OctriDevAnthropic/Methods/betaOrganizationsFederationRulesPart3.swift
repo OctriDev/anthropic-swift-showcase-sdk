@@ -6,8 +6,11 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsFederationRulesMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List federation rules in your organization. Optionally filter by issuer with `issuer_id`. Archived rules are excluded unless `include_archived=true`.
+public extension BetaOrganizationsFederationRulesMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List
+    /// federation rules in your organization. Optionally filter by issuer with `issuer_id`. Archived rules are excluded
+    /// unless `include_archived=true`.
     ///
     /// - Parameters:
     /// - limit: Number of results per page.
@@ -20,23 +23,62 @@ extension BetaOrganizationsFederationRulesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsFederationRules(config: ClientConfig, limit: Int? = nil, page: String? = nil, issuerId: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFederationRuleListResponse {
-        if let limit = limit {
+    static func listBetaOrganizationsFederationRules(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        issuerId: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFederationRuleListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/federation_rules?beta=true", config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("issuer_id", value: issuerId),
-            SdkQueryParameter("include_archived", value: includeArchived),
-        ], decoder: .json, operationId: "listBetaOrganizationsFederationRules", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/federation_rules?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("issuer_id", value: issuerId),
+                SdkQueryParameter("include_archived", value: includeArchived),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsFederationRules",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List federation rules in your organization. Optionally filter by issuer with `issuer_id`. Archived rules are excluded unless `include_archived=true`.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List
+    /// federation rules in your organization. Optionally filter by issuer with `issuer_id`. Archived rules are excluded
+    /// unless `include_archived=true`.
     ///
     /// - Parameters:
     /// - limit: Number of results per page.
@@ -49,17 +91,44 @@ extension BetaOrganizationsFederationRulesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsFederationRulesPaginated(config: ClientConfig, limit: Int? = nil, page: String? = nil, issuerId: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaFederationRule, Swift.Error> {
-        return AsyncThrowingStream<BetaFederationRule, Swift.Error> { (continuation: AsyncThrowingStream<BetaFederationRule, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsFederationRulesPaginated(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        issuerId: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaFederationRule, Swift.Error> {
+        AsyncThrowingStream<BetaFederationRule, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaFederationRule,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsFederationRules(config: config, limit: limit, page: pageCursor, issuerId: issuerId, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsFederationRules(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            issuerId: issuerId,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -72,25 +141,59 @@ extension BetaOrganizationsFederationRulesMethods {
         }
     }
 
-    public struct ListBetaOrganizationsFederationRulesPage {
+    struct ListBetaOrganizationsFederationRulesPage {
         public let data: BetaFederationRuleListResponse
         public let items: [BetaFederationRule]
         public let hasMore: Bool
     }
 
-    public static func listBetaOrganizationsFederationRulesPages(config: ClientConfig, limit: Int? = nil, page: String? = nil, issuerId: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsFederationRulesPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaOrganizationsFederationRulesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsFederationRulesPage, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsFederationRulesPages(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        issuerId: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaOrganizationsFederationRulesPage, Swift.Error> {
+        AsyncThrowingStream<
+            ListBetaOrganizationsFederationRulesPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaOrganizationsFederationRulesPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsFederationRules(config: config, limit: limit, page: pageCursor, issuerId: issuerId, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsFederationRules(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            issuerId: issuerId,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsFederationRulesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaOrganizationsFederationRulesPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

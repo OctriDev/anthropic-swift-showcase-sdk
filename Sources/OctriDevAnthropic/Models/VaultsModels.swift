@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Vaults domain models
+/// Vaults domain models
 /// Typed representation of the `BetaManagedAgentsUpdateVaultRequestBody` API schema.
 public struct BetaManagedAgentsUpdateVaultRequestBody: Codable {
     /// Updated human-readable name for the vault. 1-255 characters.
@@ -17,20 +17,20 @@ public struct BetaManagedAgentsUpdateVaultRequestBody: Codable {
     }
 
     init() {
-        (self.displayName, self.metadata) = (nil, nil)
+        (displayName, metadata) = (nil, nil)
     }
 }
 
-extension BetaManagedAgentsUpdateVaultRequestBody {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsUpdateVaultRequestBody {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.displayName = try container.sdkDecodeIfPresent(.displayName)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
+        displayName = try container.sdkDecodeIfPresent(.displayName)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
     }
 }
 
-extension BetaManagedAgentsUpdateVaultRequestBody {
-    public init(displayName: String? = nil, metadata: [String: String?]? = nil) {
+public extension BetaManagedAgentsUpdateVaultRequestBody {
+    init(displayName: String? = nil, metadata: [String: String?]? = nil) {
         self.init()
         (self.displayName, self.metadata) = (displayName, metadata)
     }
@@ -48,25 +48,35 @@ public struct BetaManagedAgentsDeletedVault: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsDeletedVault {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsDeletedVault {
-    public init(type: BetaManagedAgentsDeletedVaultType, id: String) {
+public extension BetaManagedAgentsDeletedVault {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+    }
+}
+
+public extension BetaManagedAgentsDeletedVault {
+    init(type: BetaManagedAgentsDeletedVaultType, id: String) {
         (self.type, self.id) = (type, id)
     }
 }
@@ -75,12 +85,15 @@ extension BetaManagedAgentsDeletedVault {
 public struct BetaManagedAgentsDeletedVaultType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let vaultDeleted = BetaManagedAgentsDeletedVaultType(rawValue: "vault_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

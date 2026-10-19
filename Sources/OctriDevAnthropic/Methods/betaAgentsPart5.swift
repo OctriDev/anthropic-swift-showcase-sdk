@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaAgentsMethods {
-    public struct UpdateBetaAgentsOptions: Codable {
+public extension BetaAgentsMethods {
+    struct UpdateBetaAgentsOptions: Codable {
         public var agentId: String
         public var anthropicVersion: String?
         public var anthropicBeta: [AnthropicBeta]?
@@ -28,7 +28,10 @@ extension BetaAgentsMethods {
         }
     }
 
-    /// Updates the configuration of an existing agent. Send only the fields to change; omitted fields retain their current values, while fields such as `tools`, `mcp_servers`, and `skills` replace their complete existing collections when supplied. Use `version` to guard against concurrent updates, or omit it to apply the update unconditionally.
+    /// Updates the configuration of an existing agent. Send only the fields to change; omitted fields retain their
+    /// current values, while fields such as `tools`, `mcp_servers`, and `skills` replace their complete existing
+    /// collections when supplied. Use `version` to guard against concurrent updates, or omit it to apply the update
+    /// unconditionally.
     ///
     /// - Parameters:
     /// - agentId: Path parameter agent_id
@@ -66,17 +69,47 @@ extension BetaAgentsMethods {
     ///   keys (up to 64 chars each) with values up to 512 chars.
     /// - multiagent: Multiagent orchestration configuration. Full replacement. Omit
     ///   to preserve; send null to clear.
-    public static func updateBetaAgents(config: ClientConfig, options: UpdateBetaAgentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAgent {
+    static func updateBetaAgents(
+        config: ClientConfig,
+        options: UpdateBetaAgentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAgent {
         if let name = options.name {
             try validateLength("name", name, max: 256)
         }
 
         let requestBody = UpdateBetaAgentsRequestBody(options: options)
 
-        return try (await sdkRequest("POST", ["/v1/agents/", sdkEncodePathSegment(sdkWireString(options.agentId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaAgents", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/agents/", sdkEncodePathSegment(sdkWireString(options.agentId)), "?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "updateBetaAgents",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

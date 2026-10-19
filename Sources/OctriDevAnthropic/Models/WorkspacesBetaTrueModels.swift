@@ -3,7 +3,7 @@
 
 import Foundation
 
-// WorkspacesBetaTrue domain models
+/// WorkspacesBetaTrue domain models
 /// Typed representation of the `BetaServiceAccountWorkspaceMemberCreateFromSAParams` API schema.
 public struct BetaServiceAccountWorkspaceMemberCreateFromSAParams: Codable {
     /// Tagged workspace ID to add the service account to.
@@ -16,25 +16,35 @@ public struct BetaServiceAccountWorkspaceMemberCreateFromSAParams: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaServiceAccountWorkspaceMemberCreateFromSAParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
-        }
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaServiceAccountWorkspaceMemberCreateFromSAParams {
-    public init(workspaceId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
+public extension BetaServiceAccountWorkspaceMemberCreateFromSAParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceRole) else {
+            throw SdkValidationError(
+                field: "workspace_role",
+                code: "required",
+                message: "Validation failed for 'workspace_role': value is required"
+            )
+        }
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+    }
+}
+
+public extension BetaServiceAccountWorkspaceMemberCreateFromSAParams {
+    init(workspaceId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
         (self.workspaceId, self.workspaceRole) = (workspaceId, workspaceRole)
     }
 }
@@ -48,21 +58,27 @@ public struct BetaAddFederationRuleWorkspaceParams: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAddFederationRuleWorkspaceParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAddFederationRuleWorkspaceParams {
-    public init(workspaceId: String) {
+public extension BetaAddFederationRuleWorkspaceParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+    }
+}
+
+public extension BetaAddFederationRuleWorkspaceParams {
+    init(workspaceId: String) {
         self.workspaceId = workspaceId
     }
 }
@@ -91,48 +107,81 @@ public struct BetaFederationRuleWorkspace: Codable {
         case workspaceName = "workspace_name"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaFederationRuleWorkspace {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.createdByActorId) else {
-            throw SdkValidationError(field: "created_by_actor_id", code: "required", message: "Validation failed for 'created_by_actor_id': value is required")
-        }
-        guard container.contains(.federationRuleId) else {
-            throw SdkValidationError(field: "federation_rule_id", code: "required", message: "Validation failed for 'federation_rule_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        guard container.contains(.workspaceName) else {
-            throw SdkValidationError(field: "workspace_name", code: "required", message: "Validation failed for 'workspace_name': value is required")
-        }
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
-        self.federationRuleId = try container.sdkDecodeRequired(.federationRuleId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-        self.workspaceName = try container.sdkDecodeNullable(.workspaceName)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaFederationRuleWorkspaceType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaFederationRuleWorkspace {
-    public init(createdAt: Date, createdByActorId: String?, federationRuleId: String, type: BetaFederationRuleWorkspaceType, workspaceId: String, workspaceName: String?) throws {
+public extension BetaFederationRuleWorkspace {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.createdByActorId) else {
+            throw SdkValidationError(
+                field: "created_by_actor_id",
+                code: "required",
+                message: "Validation failed for 'created_by_actor_id': value is required"
+            )
+        }
+        guard container.contains(.federationRuleId) else {
+            throw SdkValidationError(
+                field: "federation_rule_id",
+                code: "required",
+                message: "Validation failed for 'federation_rule_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        guard container.contains(.workspaceName) else {
+            throw SdkValidationError(
+                field: "workspace_name",
+                code: "required",
+                message: "Validation failed for 'workspace_name': value is required"
+            )
+        }
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        createdByActorId = try container.sdkDecodeNullable(.createdByActorId)
+        federationRuleId = try container.sdkDecodeRequired(.federationRuleId)
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        workspaceName = try container.sdkDecodeNullable(.workspaceName)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaFederationRuleWorkspaceType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaFederationRuleWorkspace {
+    init(
+        createdAt: Date,
+        createdByActorId: String?,
+        federationRuleId: String,
+        type: BetaFederationRuleWorkspaceType,
+        workspaceId: String,
+        workspaceName: String?
+    ) throws {
         (self.createdAt, self.createdByActorId) = (createdAt, createdByActorId)
         (self.federationRuleId, self.type) = (federationRuleId, type)
         (self.workspaceId, self.workspaceName) = (workspaceId, workspaceName)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaFederationRuleWorkspaceType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaFederationRuleWorkspaceType.allCases.map(\.rawValue))
     }
 }
 
@@ -143,23 +192,36 @@ public indirect enum BetaDataResidencyCreateParamsAllowedInferenceGeos {
 }
 
 extension BetaDataResidencyCreateParamsAllowedInferenceGeos: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaDataResidencyCreateParamsAllowedInferenceGeos")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaDataResidencyCreateParamsAllowedInferenceGeos"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaDataResidencyCreateParamsAllowedInferenceGeos {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode([BetaAllowedInferenceGeo].self) { return .betaAllowedInferenceGeoList(value) }
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
+        if let value = try? container
+            .decode([BetaAllowedInferenceGeo].self) {
+            return .betaAllowedInferenceGeoList(value)
+        }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode(JSONValue.self) {
+            return .jsonValue(value)
+        }
         return nil
     }
 }
@@ -193,33 +255,51 @@ public struct BetaListResponseWorkspace: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListResponseWorkspace {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.firstId) else {
-            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.lastId) else {
-            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.firstId = try container.sdkDecodeNullable(.firstId)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.lastId = try container.sdkDecodeNullable(.lastId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListResponseWorkspace {
-    public init(data: [BetaWorkspace], firstId: String?, hasMore: Bool, lastId: String?) {
+public extension BetaListResponseWorkspace {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.firstId) else {
+            throw SdkValidationError(
+                field: "first_id",
+                code: "required",
+                message: "Validation failed for 'first_id': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.lastId) else {
+            throw SdkValidationError(
+                field: "last_id",
+                code: "required",
+                message: "Validation failed for 'last_id': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        firstId = try container.sdkDecodeNullable(.firstId)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        lastId = try container.sdkDecodeNullable(.lastId)
+    }
+}
+
+public extension BetaListResponseWorkspace {
+    init(data: [BetaWorkspace], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }
@@ -243,21 +323,25 @@ public struct BetaDataResidencyCreateParams: Codable {
     }
 
     init() {
-        (self.allowedInferenceGeos, self.defaultInferenceGeo, self.workspaceGeo) = (nil, nil, nil)
+        (allowedInferenceGeos, defaultInferenceGeo, workspaceGeo) = (nil, nil, nil)
     }
 }
 
-extension BetaDataResidencyCreateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaDataResidencyCreateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.allowedInferenceGeos = try container.sdkDecodeIfPresent(.allowedInferenceGeos)
-        self.defaultInferenceGeo = try container.sdkDecodeIfPresent(.defaultInferenceGeo)
-        self.workspaceGeo = try container.sdkDecodeIfPresent(.workspaceGeo)
+        allowedInferenceGeos = try container.sdkDecodeIfPresent(.allowedInferenceGeos)
+        defaultInferenceGeo = try container.sdkDecodeIfPresent(.defaultInferenceGeo)
+        workspaceGeo = try container.sdkDecodeIfPresent(.workspaceGeo)
     }
 }
 
-extension BetaDataResidencyCreateParams {
-    public init(allowedInferenceGeos: BetaDataResidencyCreateParamsAllowedInferenceGeos? = nil, defaultInferenceGeo: BetaInferenceGeo? = nil, workspaceGeo: BetaWorkspaceGeo? = nil) {
+public extension BetaDataResidencyCreateParams {
+    init(
+        allowedInferenceGeos: BetaDataResidencyCreateParamsAllowedInferenceGeos? = nil,
+        defaultInferenceGeo: BetaInferenceGeo? = nil,
+        workspaceGeo: BetaWorkspaceGeo? = nil
+    ) {
         self.init()
         (self.allowedInferenceGeos, self.defaultInferenceGeo) = (allowedInferenceGeos, defaultInferenceGeo)
         self.workspaceGeo = workspaceGeo
@@ -290,30 +374,42 @@ public struct BetaWorkspaceCreateParams: Codable {
         case tags
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWorkspaceCreateParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.dataResidency = try container.sdkDecodeIfPresent(.dataResidency)
-        self.displayColor = try container.sdkDecodeIfPresent(.displayColor)
-        self.externalKeyId = try container.sdkDecodeIfPresent(.externalKeyId)
-        self.tags = try container.sdkDecodeIfPresent(.tags)
-            try validateLength("name", self.name, min: 1, max: 40)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWorkspaceCreateParams {
-    public init(name: String, dataResidency: BetaDataResidencyCreateParams? = nil, displayColor: String? = nil, externalKeyId: String? = nil, tags: [String: String]? = nil) throws {
+public extension BetaWorkspaceCreateParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        dataResidency = try container.sdkDecodeIfPresent(.dataResidency)
+        displayColor = try container.sdkDecodeIfPresent(.displayColor)
+        externalKeyId = try container.sdkDecodeIfPresent(.externalKeyId)
+        tags = try container.sdkDecodeIfPresent(.tags)
+        try validateLength("name", name, min: 1, max: 40)
+    }
+}
+
+public extension BetaWorkspaceCreateParams {
+    init(
+        name: String,
+        dataResidency: BetaDataResidencyCreateParams? = nil,
+        displayColor: String? = nil,
+        externalKeyId: String? = nil,
+        tags: [String: String]? = nil
+    ) throws {
         (self.name, self.dataResidency) = (name, dataResidency)
         (self.displayColor, self.externalKeyId) = (displayColor, externalKeyId)
         self.tags = tags
-            try validateLength("name", self.name, min: 1, max: 40)
+        try validateLength("name", self.name, min: 1, max: 40)
     }
 }
 
@@ -329,25 +425,35 @@ public struct BetaFederationRuleWorkspaceListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaFederationRuleWorkspaceListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaFederationRuleWorkspaceListResponse {
-    public init(data: [BetaFederationRuleWorkspace], nextPage: String?) {
+public extension BetaFederationRuleWorkspaceListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaFederationRuleWorkspaceListResponse {
+    init(data: [BetaFederationRuleWorkspace], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -392,12 +498,15 @@ public enum BetaFederationRuleWorkspaceType: String, CaseIterable, Codable {
 public struct BetaWorkspaceGeo: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let us = BetaWorkspaceGeo(rawValue: "us")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

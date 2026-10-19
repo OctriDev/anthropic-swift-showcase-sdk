@@ -9,34 +9,135 @@ public class BetaMessagesBatchesNamespace {
         self.config = config
     }
 
-/// Send a batch of Message creation requests. The Message Batches API can be used to process multiple Messages API requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24 hours to complete. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
-    public func create(requests: [BetaMessageBatchIndividualRequestParams], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicUserProfileId: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaMessageBatch {
-        return try await BetaMessagesBatchesMethods.createBetaMessagesBatches(config: config, requests: requests, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicUserProfileId: anthropicUserProfileId, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Send a batch of Message creation requests. The Message Batches API can be used to process multiple Messages API
+    /// requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24
+    /// hours to complete. Learn more about the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+    public func create(
+        requests: [BetaMessageBatchIndividualRequestParams],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicUserProfileId: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaMessageBatch {
+        try await BetaMessagesBatchesMethods.createBetaMessagesBatches(
+            config: config,
+            requests: requests,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicUserProfileId: anthropicUserProfileId,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// List all Message Batches within a Workspace. Most recently created batches are returned first. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
-    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseMessageBatch {
-        return try await BetaMessagesBatchesMethods.listBetaMessagesBatches(config: config, beforeId: beforeId, afterId: afterId, limit: limit, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// List all Message Batches within a Workspace. Most recently created batches are returned first. Learn more about
+    /// the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+    public func list(
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseMessageBatch {
+        try await BetaMessagesBatchesMethods.listBetaMessagesBatches(
+            config: config,
+            beforeId: beforeId,
+            afterId: afterId,
+            limit: limit,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// This endpoint is idempotent and can be used to poll for Message Batch completion. To access the results of a Message Batch, make a request to the `results_url` field in the response. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
-    public func retrieve(messageBatchId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaMessageBatch {
-        return try await BetaMessagesBatchesMethods.retrieveBetaMessagesBatches(config: config, messageBatchId: messageBatchId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// This endpoint is idempotent and can be used to poll for Message Batch completion. To access the results of a
+    /// Message Batch, make a request to the `results_url` field in the response. Learn more about the Message Batches
+    /// API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+    public func retrieve(
+        messageBatchId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaMessageBatch {
+        try await BetaMessagesBatchesMethods.retrieveBetaMessagesBatches(
+            config: config,
+            messageBatchId: messageBatchId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Delete a Message Batch. Message Batches can only be deleted once they've finished processing. If you'd like to delete an in-progress batch, you must first cancel it. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
-    public func delete(messageBatchId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteMessageBatchResponse {
-        return try await BetaMessagesBatchesMethods.deleteBetaMessagesBatches(config: config, messageBatchId: messageBatchId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Delete a Message Batch. Message Batches can only be deleted once they've finished processing. If you'd like to
+    /// delete an in-progress batch, you must first cancel it. Learn more about the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+    public func delete(
+        messageBatchId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeleteMessageBatchResponse {
+        try await BetaMessagesBatchesMethods.deleteBetaMessagesBatches(
+            config: config,
+            messageBatchId: messageBatchId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Batches may be canceled any time before processing ends. Once cancellation is initiated, the batch enters a `canceling` state, at which time the system may complete any in-progress, non-interruptible requests before finalizing cancellation. The number of canceled requests is specified in `request_counts`. To determine which requests were canceled, check the individual results within the batch. Note that cancellation may not result in any canceled requests if they were non-interruptible. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
-    public func cancel(messageBatchId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaMessageBatch {
-        return try await BetaMessagesBatchesMethods.cancelBetaMessagesBatches(config: config, messageBatchId: messageBatchId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Batches may be canceled any time before processing ends. Once cancellation is initiated, the batch enters a
+    /// `canceling` state, at which time the system may complete any in-progress, non-interruptible requests before
+    /// finalizing cancellation. The number of canceled requests is specified in `request_counts`. To determine which
+    /// requests were canceled, check the individual results within the batch. Note that cancellation may not result in
+    /// any canceled requests if they were non-interruptible. Learn more about the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+    public func cancel(
+        messageBatchId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaMessageBatch {
+        try await BetaMessagesBatchesMethods.cancelBetaMessagesBatches(
+            config: config,
+            messageBatchId: messageBatchId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Streams the results of a Message Batch as a `.jsonl` file. Each line in the file is a JSON object containing the result of a single request in the Message Batch. Results are not guaranteed to be in the same order as requests. Use the `custom_id` field to match results to requests. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
-    public func results(messageBatchId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaMessageBatchIndividualResponse {
-        return try await BetaMessagesBatchesMethods.resultsBetaMessagesBatches(config: config, messageBatchId: messageBatchId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Streams the results of a Message Batch as a `.jsonl` file. Each line in the file is a JSON object containing the
+    /// result of a single request in the Message Batch. Results are not guaranteed to be in the same order as requests.
+    /// Use the `custom_id` field to match results to requests. Learn more about the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+    public func results(
+        messageBatchId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaMessageBatchIndividualResponse {
+        try await BetaMessagesBatchesMethods.resultsBetaMessagesBatches(
+            config: config,
+            messageBatchId: messageBatchId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -48,14 +149,33 @@ public class BetaMessagesNamespace {
         batches = BetaMessagesBatchesNamespace(config: config)
     }
 
-/// Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation. The Messages API can be used for either single queries or stateless multi-turn conversations. Learn more about the Messages API in our [user guide](https://platform.claude.com/docs/en/get-started)
-    public func create(options: BetaMessagesMethods.CreateBetaMessagesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaMessage {
-        return try await BetaMessagesMethods.createBetaMessages(config: config, options: options, requestOptions: requestOptions)
+    /// Send a structured list of input messages with text and/or image content, and the model will generate the next
+    /// message in the conversation. The Messages API can be used for either single queries or stateless multi-turn
+    /// conversations. Learn more about the Messages API in our [user
+    /// guide](https://platform.claude.com/docs/en/get-started)
+    public func create(
+        options: BetaMessagesMethods.CreateBetaMessagesOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaMessage {
+        try await BetaMessagesMethods.createBetaMessages(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Count the number of tokens in a Message. The Token Count API can be used to count the number of tokens in a Message, including tools, images, and documents, without creating it. Learn more about token counting in our [user guide](https://platform.claude.com/docs/en/build-with-claude/token-counting)
-    public func countTokens(options: BetaMessagesMethods.CountBetaMessagesTokensOptions, requestOptions: RequestOptions? = nil) async throws -> BetaCountMessageTokensResponse {
-        return try await BetaMessagesMethods.countBetaMessagesTokens(config: config, options: options, requestOptions: requestOptions)
+    /// Count the number of tokens in a Message. The Token Count API can be used to count the number of tokens in a
+    /// Message, including tools, images, and documents, without creating it. Learn more about token counting in our
+    /// [user guide](https://platform.claude.com/docs/en/build-with-claude/token-counting)
+    public func countTokens(
+        options: BetaMessagesMethods.CountBetaMessagesTokensOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaCountMessageTokensResponse {
+        try await BetaMessagesMethods.countBetaMessagesTokens(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -65,14 +185,46 @@ public class BetaModelsNamespace {
         self.config = config
     }
 
-/// List available models. The Models API response can be used to determine which models are available for use in the API. More recently released models are listed first.
-    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseModelInfo {
-        return try await BetaModelsMethods.listBetaModels(config: config, beforeId: beforeId, afterId: afterId, limit: limit, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// List available models. The Models API response can be used to determine which models are available for use in
+    /// the API. More recently released models are listed first.
+    public func list(
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseModelInfo {
+        try await BetaModelsMethods.listBetaModels(
+            config: config,
+            beforeId: beforeId,
+            afterId: afterId,
+            limit: limit,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Get a specific model. The Models API response can be used to determine information about a specific model or resolve a model alias to a model ID.
-    public func retrieve(modelId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaModelInfo {
-        return try await BetaModelsMethods.retrieveBetaModels(config: config, modelId: modelId, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Get a specific model. The Models API response can be used to determine information about a specific model or
+    /// resolve a model alias to a model ID.
+    public func retrieve(
+        modelId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaModelInfo {
+        try await BetaModelsMethods.retrieveBetaModels(
+            config: config,
+            modelId: modelId,
+            anthropicVersion: anthropicVersion,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -82,34 +234,137 @@ public class BetaFilesNamespace {
         self.config = config
     }
 
-/// Uploads a file and returns its metadata. Send the file as multipart form data in the `file` field; optionally set `expires_in_seconds` to control when the file bytes become unavailable. The uploaded filename uses only the final path component, and a missing or empty filename is replaced with `unnamed` plus the known file extension.
-    public func upload(file: SdkUploadFile, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, expiresInSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFileMetadataSchema {
-        return try await BetaFilesMethods.uploadBetaFiles(config: config, file: file, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, expiresInSeconds: expiresInSeconds, requestOptions: requestOptions)
+    /// Uploads a file and returns its metadata. Send the file as multipart form data in the `file` field; optionally
+    /// set `expires_in_seconds` to control when the file bytes become unavailable. The uploaded filename uses only the
+    /// final path component, and a missing or empty filename is replaced with `unnamed` plus the known file extension.
+    public func upload(
+        file: SdkUploadFile,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        expiresInSeconds: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFileMetadataSchema {
+        try await BetaFilesMethods.uploadBetaFiles(
+            config: config,
+            file: file,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            expiresInSeconds: expiresInSeconds,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists file metadata available to the authenticated user. Use `scope_id` to filter by scope, or `ids[]` to retrieve specific files; `ids[]` cannot be combined with `page` or `limit`, and returns a single page. Use `page` and `limit` to paginate the results.
-    public func list(page: String? = nil, ids: [String]? = nil, limit: Int? = nil, scopeId: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFileListResponse {
-        return try await BetaFilesMethods.listBetaFiles(config: config, page: page, ids: ids, limit: limit, scopeId: scopeId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists file metadata available to the authenticated user. Use `scope_id` to filter by scope, or `ids[]` to
+    /// retrieve specific files; `ids[]` cannot be combined with `page` or `limit`, and returns a single page. Use
+    /// `page` and `limit` to paginate the results.
+    public func list(
+        page: String? = nil,
+        ids: [String]? = nil,
+        limit: Int? = nil,
+        scopeId: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFileListResponse {
+        try await BetaFilesMethods.listBetaFiles(
+            config: config,
+            page: page,
+            ids: ids,
+            limit: limit,
+            scopeId: scopeId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists file metadata available to the authenticated user. Use `scope_id` to filter by scope, or `ids[]` to retrieve specific files; `ids[]` cannot be combined with `page` or `limit`, and returns a single page. Use `page` and `limit` to paginate the results.
-    public func listPaginated(page: String? = nil, ids: [String]? = nil, limit: Int? = nil, scopeId: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaFileMetadataSchema, Swift.Error> {
-        return BetaFilesMethods.listBetaFilesPaginated(config: config, page: page, ids: ids, limit: limit, scopeId: scopeId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists file metadata available to the authenticated user. Use `scope_id` to filter by scope, or `ids[]` to
+    /// retrieve specific files; `ids[]` cannot be combined with `page` or `limit`, and returns a single page. Use
+    /// `page` and `limit` to paginate the results.
+    public func listPaginated(
+        page: String? = nil,
+        ids: [String]? = nil,
+        limit: Int? = nil,
+        scopeId: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaFileMetadataSchema, Swift.Error> {
+        BetaFilesMethods.listBetaFilesPaginated(
+            config: config,
+            page: page,
+            ids: ids,
+            limit: limit,
+            scopeId: scopeId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves metadata for a file by its ID. Use this operation to inspect details such as the file's name, MIME type, size, scope, and expiration time. Provide an API key and, when needed, a Workspace ID that matches the credential's Workspace.
-    public func retrieve(fileId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFileMetadataSchema {
-        return try await BetaFilesMethods.retrieveBetaFiles(config: config, fileId: fileId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves metadata for a file by its ID. Use this operation to inspect details such as the file's name, MIME
+    /// type, size, scope, and expiration time. Provide an API key and, when needed, a Workspace ID that matches the
+    /// credential's Workspace.
+    public func retrieve(
+        fileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFileMetadataSchema {
+        try await BetaFilesMethods.retrieveBetaFiles(
+            config: config,
+            fileId: fileId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a file by its ID. Use this operation when you no longer need the file; deletion removes it from the files available to you. Provide an API key and, when needed, a Workspace ID that matches the credential's Workspace.
-    public func delete(fileId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFileDeleteResponse {
-        return try await BetaFilesMethods.deleteBetaFiles(config: config, fileId: fileId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a file by its ID. Use this operation when you no longer need the file; deletion removes it from the
+    /// files available to you. Provide an API key and, when needed, a Workspace ID that matches the credential's
+    /// Workspace.
+    public func delete(
+        fileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFileDeleteResponse {
+        try await BetaFilesMethods.deleteBetaFiles(
+            config: config,
+            fileId: fileId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the contents of a file by its ID. Use this operation when you need the file bytes rather than its metadata. Provide an API key and, when needed, a Workspace ID that matches the credential's Workspace.
-    public func download(fileId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Data {
-        return try await BetaFilesMethods.downloadBetaFiles(config: config, fileId: fileId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves the contents of a file by its ID. Use this operation when you need the file bytes rather than its
+    /// metadata. Provide an API key and, when needed, a Workspace ID that matches the credential's Workspace.
+    public func download(
+        fileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Data {
+        try await BetaFilesMethods.downloadBetaFiles(
+            config: config,
+            fileId: fileId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -119,34 +374,138 @@ public class BetaSkillsVersionsNamespace {
         self.config = config
     }
 
-/// Creates a new version for the Skill identified by `skill_id`, using the uploaded files as its contents. Include a `SKILL.md` file at the root of a single top-level directory in the multipart upload. The response includes the created version's identifier, name, description, and creation timestamp.
-    public func create(skillId: String, files: [SdkUploadFile], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkillVersion {
-        return try await BetaSkillsVersionsMethods.createBetaSkillsVersions(config: config, skillId: skillId, files: files, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Creates a new version for the Skill identified by `skill_id`, using the uploaded files as its contents. Include
+    /// a `SKILL.md` file at the root of a single top-level directory in the multipart upload. The response includes the
+    /// created version's identifier, name, description, and creation timestamp.
+    public func create(
+        skillId: String,
+        files: [SdkUploadFile],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSkillVersion {
+        try await BetaSkillsVersionsMethods.createBetaSkillsVersions(
+            config: config,
+            skillId: skillId,
+            files: files,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page` token and `limit` to control the number of results per page. Results include version metadata and a token for retrieving the next page when more versions are available.
-    public func list(skillId: String, page: String? = nil, limit: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListSkillVersionsResponse {
-        return try await BetaSkillsVersionsMethods.listBetaSkillsVersions(config: config, skillId: skillId, page: page, limit: limit, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page`
+    /// token and `limit` to control the number of results per page. Results include version metadata and a token for
+    /// retrieving the next page when more versions are available.
+    public func list(
+        skillId: String,
+        page: String? = nil,
+        limit: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListSkillVersionsResponse {
+        try await BetaSkillsVersionsMethods.listBetaSkillsVersions(
+            config: config,
+            skillId: skillId,
+            page: page,
+            limit: limit,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page` token and `limit` to control the number of results per page. Results include version metadata and a token for retrieving the next page when more versions are available.
-    public func listPaginated(skillId: String, page: String? = nil, limit: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSkillVersion, Swift.Error> {
-        return BetaSkillsVersionsMethods.listBetaSkillsVersionsPaginated(config: config, skillId: skillId, page: page, limit: limit, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists the versions associated with a Skill. Use `page` to continue from the previous response's `next_page`
+    /// token and `limit` to control the number of results per page. Results include version metadata and a token for
+    /// retrieving the next page when more versions are available.
+    public func listPaginated(
+        skillId: String,
+        page: String? = nil,
+        limit: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaSkillVersion, Swift.Error> {
+        BetaSkillsVersionsMethods.listBetaSkillsVersionsPaginated(
+            config: config,
+            skillId: skillId,
+            page: page,
+            limit: limit,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a specific version of a Skill. Use `skill_id` to select the Skill and `version` to identify the version by its ID or the literal `latest`; with the `skills-2025-10-02` beta, use its Unix epoch timestamp instead. The response contains the version's metadata, including its name and description.
-    public func retrieve(skillId: String, version: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkillVersion {
-        return try await BetaSkillsVersionsMethods.retrieveBetaSkillsVersions(config: config, skillId: skillId, version: version, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a specific version of a Skill. Use `skill_id` to select the Skill and `version` to identify the
+    /// version by its ID or the literal `latest`; with the `skills-2025-10-02` beta, use its Unix epoch timestamp
+    /// instead. The response contains the version's metadata, including its name and description.
+    public func retrieve(
+        skillId: String,
+        version: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSkillVersion {
+        try await BetaSkillsVersionsMethods.retrieveBetaSkillsVersions(
+            config: config,
+            skillId: skillId,
+            version: version,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a specific version of a Skill using its Skill identifier and version identifier. Use this operation to remove a version when it is no longer needed; the version is identified by its ID, or by its Unix epoch timestamp when using the `skills-2025-10-02` beta. The response confirms deletion with the version identifier.
-    public func delete(skillId: String, version: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeletedSkillVersion {
-        return try await BetaSkillsVersionsMethods.deleteBetaSkillsVersions(config: config, skillId: skillId, version: version, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a specific version of a Skill using its Skill identifier and version identifier. Use this operation to
+    /// remove a version when it is no longer needed; the version is identified by its ID, or by its Unix epoch
+    /// timestamp when using the `skills-2025-10-02` beta. The response confirms deletion with the version identifier.
+    public func delete(
+        skillId: String,
+        version: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeletedSkillVersion {
+        try await BetaSkillsVersionsMethods.deleteBetaSkillsVersions(
+            config: config,
+            skillId: skillId,
+            version: version,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Download a skill version's content as a zip archive.
-    public func download(skillId: String, version: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Data {
-        return try await BetaSkillsVersionsMethods.downloadBetaSkillsVersions(config: config, skillId: skillId, version: version, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Download a skill version's content as a zip archive.
+    public func download(
+        skillId: String,
+        version: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Data {
+        try await BetaSkillsVersionsMethods.downloadBetaSkillsVersions(
+            config: config,
+            skillId: skillId,
+            version: version,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -158,28 +517,112 @@ public class BetaSkillsNamespace {
         versions = BetaSkillsVersionsNamespace(config: config)
     }
 
-/// Creates a new Skill and its initial version from uploaded files. Include a `SKILL.md` file at the root of a single top-level directory; `display_name` can be omitted to derive it from the file's frontmatter. The response includes the created Skill and its latest version identifier.
-    public func create(files: [SdkUploadFile], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkill {
-        return try await BetaSkillsMethods.createBetaSkills(config: config, files: files, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, displayName: displayName, requestOptions: requestOptions)
+    /// Creates a new Skill and its initial version from uploaded files. Include a `SKILL.md` file at the root of a
+    /// single top-level directory; `display_name` can be omitted to derive it from the file's frontmatter. The response
+    /// includes the created Skill and its latest version identifier.
+    public func create(
+        files: [SdkUploadFile],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSkill {
+        try await BetaSkillsMethods.createBetaSkills(
+            config: config,
+            files: files,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            displayName: displayName,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists skills available to the authenticated user. Use `source` to filter the results to custom or Anthropic-created skills, and use the pagination token to retrieve additional pages. Use `page` and `limit` to paginate the results.
-    public func list(page: String? = nil, limit: Int? = nil, source: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListSkillsResponse {
-        return try await BetaSkillsMethods.listBetaSkills(config: config, page: page, limit: limit, source: source, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists skills available to the authenticated user. Use `source` to filter the results to custom or
+    /// Anthropic-created skills, and use the pagination token to retrieve additional pages. Use `page` and `limit` to
+    /// paginate the results.
+    public func list(
+        page: String? = nil,
+        limit: Int? = nil,
+        source: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListSkillsResponse {
+        try await BetaSkillsMethods.listBetaSkills(
+            config: config,
+            page: page,
+            limit: limit,
+            source: source,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists skills available to the authenticated user. Use `source` to filter the results to custom or Anthropic-created skills, and use the pagination token to retrieve additional pages. Use `page` and `limit` to paginate the results.
-    public func listPaginated(page: String? = nil, limit: Int? = nil, source: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSkill, Swift.Error> {
-        return BetaSkillsMethods.listBetaSkillsPaginated(config: config, page: page, limit: limit, source: source, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists skills available to the authenticated user. Use `source` to filter the results to custom or
+    /// Anthropic-created skills, and use the pagination token to retrieve additional pages. Use `page` and `limit` to
+    /// paginate the results.
+    public func listPaginated(
+        page: String? = nil,
+        limit: Int? = nil,
+        source: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaSkill, Swift.Error> {
+        BetaSkillsMethods.listBetaSkillsPaginated(
+            config: config,
+            page: page,
+            limit: limit,
+            source: source,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a Skill by its identifier. Use `skill_id` to select the Skill and, when applicable, `anthropic-workspace-id` to choose the workspace to access. The response includes the Skill's metadata and latest version identifier.
-    public func retrieve(skillId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSkill {
-        return try await BetaSkillsMethods.retrieveBetaSkills(config: config, skillId: skillId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a Skill by its identifier. Use `skill_id` to select the Skill and, when applicable,
+    /// `anthropic-workspace-id` to choose the workspace to access. The response includes the Skill's metadata and
+    /// latest version identifier.
+    public func retrieve(
+        skillId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSkill {
+        try await BetaSkillsMethods.retrieveBetaSkills(
+            config: config,
+            skillId: skillId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a Skill identified by its `skill_id` path parameter. Use this operation when you want to remove a Skill from the selected workspace. The response confirms deletion with the Skill identifier and a deletion type.
-    public func delete(skillId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeletedSkill {
-        return try await BetaSkillsMethods.deleteBetaSkills(config: config, skillId: skillId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a Skill identified by its `skill_id` path parameter. Use this operation when you want to remove a Skill
+    /// from the selected workspace. The response confirms deletion with the Skill identifier and a deletion type.
+    public func delete(
+        skillId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeletedSkill {
+        try await BetaSkillsMethods.deleteBetaSkills(
+            config: config,
+            skillId: skillId,
+            anthropicBeta: anthropicBeta,
+            anthropicVersion: anthropicVersion,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }

@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaVaultsCredentialsMethods {
-    /// Creates a credential in a vault using the supplied authentication configuration. Include `auth` to define how the credential authenticates, and optionally provide `display_name` and `metadata` to label and annotate it. The response returns the created credential without exposing sensitive credential fields.
+public extension BetaVaultsCredentialsMethods {
+    /// Creates a credential in a vault using the supplied authentication configuration. Include `auth` to define how
+    /// the credential authenticates, and optionally provide `display_name` and `metadata` to label and annotate it. The
+    /// response returns the created credential without exposing sensitive credential fields.
     ///
     /// - Parameters:
     /// - vaultId: Path parameter vault_id
@@ -20,13 +22,53 @@ extension BetaVaultsCredentialsMethods {
     /// - displayName: Human-readable name for the credential. Up to 255 characters.
     /// - metadata: Arbitrary key-value metadata to attach to the credential.
     ///   Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
-    public static func createBetaVaultsCredentials(config: ClientConfig, vaultId: String, auth: BetaManagedAgentsCredentialCreateAuth, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredential {
-        let requestBody = CreateBetaVaultsCredentialsRequestBody(auth: auth, displayName: displayName, metadata: metadata)
+    static func createBetaVaultsCredentials(
+        config: ClientConfig,
+        vaultId: String,
+        auth: BetaManagedAgentsCredentialCreateAuth,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredential {
+        let requestBody = CreateBetaVaultsCredentialsRequestBody(
+            auth: auth,
+            displayName: displayName,
+            metadata: metadata
+        )
 
-        return try (await sdkRequest("POST", ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "/credentials?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "createBetaVaultsCredentials", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "/credentials?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaVaultsCredentials",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

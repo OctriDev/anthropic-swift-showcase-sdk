@@ -3,7 +3,7 @@
 
 import Foundation
 
-// ApiKeysBetaTrue domain models
+/// ApiKeysBetaTrue domain models
 /// Typed representation of the `BetaListResponse_ApiKey_` API schema.
 public struct BetaListResponseApiKey: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -22,33 +22,51 @@ public struct BetaListResponseApiKey: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListResponseApiKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.firstId) else {
-            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.lastId) else {
-            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.firstId = try container.sdkDecodeNullable(.firstId)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.lastId = try container.sdkDecodeNullable(.lastId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListResponseApiKey {
-    public init(data: [BetaApiKey], firstId: String?, hasMore: Bool, lastId: String?) {
+public extension BetaListResponseApiKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.firstId) else {
+            throw SdkValidationError(
+                field: "first_id",
+                code: "required",
+                message: "Validation failed for 'first_id': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.lastId) else {
+            throw SdkValidationError(
+                field: "last_id",
+                code: "required",
+                message: "Validation failed for 'last_id': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        firstId = try container.sdkDecodeNullable(.firstId)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        lastId = try container.sdkDecodeNullable(.lastId)
+    }
+}
+
+public extension BetaListResponseApiKey {
+    init(data: [BetaApiKey], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }

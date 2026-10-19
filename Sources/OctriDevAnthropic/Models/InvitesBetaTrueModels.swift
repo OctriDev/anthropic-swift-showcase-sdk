@@ -3,7 +3,7 @@
 
 import Foundation
 
-// InvitesBetaTrue domain models
+/// InvitesBetaTrue domain models
 /// Typed representation of the `BetaCreateInviteParams` API schema.
 public struct BetaCreateInviteParams: Codable {
     /// Email of the User.
@@ -23,33 +23,43 @@ public struct BetaCreateInviteParams: Codable {
         case rbacGroupIds = "rbac_group_ids"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaCreateInviteParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaCreateInviteParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.email) else {
-            throw SdkValidationError(field: "email", code: "required", message: "Validation failed for 'email': value is required")
+            throw SdkValidationError(
+                field: "email",
+                code: "required",
+                message: "Validation failed for 'email': value is required"
+            )
         }
         guard container.contains(.role) else {
-            throw SdkValidationError(field: "role", code: "required", message: "Validation failed for 'role': value is required")
+            throw SdkValidationError(
+                field: "role",
+                code: "required",
+                message: "Validation failed for 'role': value is required"
+            )
         }
-        self.email = try container.sdkDecodeRequired(.email)
-        self.role = try container.sdkDecodeRequired(.role)
-        self.rbacGroupIds = try container.sdkDecodeIfPresent(.rbacGroupIds)
-            try sdkValidateEmail("email", self.email)
-        if let value = self.rbacGroupIds {
+        email = try container.sdkDecodeRequired(.email)
+        role = try container.sdkDecodeRequired(.role)
+        rbacGroupIds = try container.sdkDecodeIfPresent(.rbacGroupIds)
+        try sdkValidateEmail("email", email)
+        if let value = rbacGroupIds {
             try validateItems("rbac_group_ids", value, min: nil, max: 100)
         }
     }
 }
 
-extension BetaCreateInviteParams {
-    public init(email: String, role: BetaCreateInviteParamsRole, rbacGroupIds: [String]? = nil) throws {
+public extension BetaCreateInviteParams {
+    init(email: String, role: BetaCreateInviteParamsRole, rbacGroupIds: [String]? = nil) throws {
         (self.email, self.role) = (email, role)
         self.rbacGroupIds = rbacGroupIds
-            try sdkValidateEmail("email", self.email)
+        try sdkValidateEmail("email", self.email)
         if let value = self.rbacGroupIds {
             try validateItems("rbac_group_ids", value, min: nil, max: 100)
         }
@@ -74,33 +84,51 @@ public struct BetaListResponseInviteSchema: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListResponseInviteSchema {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.firstId) else {
-            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.lastId) else {
-            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.firstId = try container.sdkDecodeNullable(.firstId)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.lastId = try container.sdkDecodeNullable(.lastId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListResponseInviteSchema {
-    public init(data: [BetaInviteSchema], firstId: String?, hasMore: Bool, lastId: String?) {
+public extension BetaListResponseInviteSchema {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.firstId) else {
+            throw SdkValidationError(
+                field: "first_id",
+                code: "required",
+                message: "Validation failed for 'first_id': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.lastId) else {
+            throw SdkValidationError(
+                field: "last_id",
+                code: "required",
+                message: "Validation failed for 'last_id': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        firstId = try container.sdkDecodeNullable(.firstId)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        lastId = try container.sdkDecodeNullable(.lastId)
+    }
+}
+
+public extension BetaListResponseInviteSchema {
+    init(data: [BetaInviteSchema], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }
@@ -112,7 +140,10 @@ extension BetaListResponseInviteSchema {
 public struct BetaCreateInviteParamsRole: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let billing = BetaCreateInviteParamsRole(rawValue: "billing")
     public static let claudeCodeUser = BetaCreateInviteParamsRole(rawValue: "claude_code_user")
     public static let developer = BetaCreateInviteParamsRole(rawValue: "developer")
@@ -121,7 +152,7 @@ public struct BetaCreateInviteParamsRole: RawRepresentable, Hashable, Codable, S
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaFallback domain models
+/// SharedBetaFallback domain models
 /// How a failing token affects the retry. `strict` (the default, and the bare-string behavior): a failing
 /// redemption is a 400 and the retry is not served. `best_effort`: the retry is served either way — a
 /// token-layer failure no longer rejects the request; the retry proceeds at normal price and the outcome is
@@ -12,13 +12,16 @@ import Foundation
 public struct BetaFallbackCreditTokenParamMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let strict = BetaFallbackCreditTokenParamMode(rawValue: "strict")
     public static let bestEffort = BetaFallbackCreditTokenParamMode(rawValue: "best_effort")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -32,7 +35,10 @@ public struct BetaFallbackCreditTokenParamMode: RawRepresentable, Hashable, Coda
 public struct BetaFallbackCreditNotAppliedReason: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let bodyMismatch = BetaFallbackCreditNotAppliedReason(rawValue: "body_mismatch")
     public static let continuationExcluded = BetaFallbackCreditNotAppliedReason(rawValue: "continuation_excluded")
     public static let continuationOnly = BetaFallbackCreditNotAppliedReason(rawValue: "continuation_only")
@@ -48,7 +54,7 @@ public struct BetaFallbackCreditNotAppliedReason: RawRepresentable, Hashable, Co
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

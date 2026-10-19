@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Work domain models
+/// Work domain models
 /// Request to update work item metadata.
 public struct BetaSelfHostedWorkUpdateRequest: Codable {
     /// Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve
@@ -14,21 +14,27 @@ public struct BetaSelfHostedWorkUpdateRequest: Codable {
         case metadata
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSelfHostedWorkUpdateRequest {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.metadata) else {
-            throw SdkValidationError(field: "metadata", code: "required", message: "Validation failed for 'metadata': value is required")
-        }
-        self.metadata = try container.sdkDecodeRequired(.metadata)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSelfHostedWorkUpdateRequest {
-    public init(metadata: [String: String?]) {
+public extension BetaSelfHostedWorkUpdateRequest {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.metadata) else {
+            throw SdkValidationError(
+                field: "metadata",
+                code: "required",
+                message: "Validation failed for 'metadata': value is required"
+            )
+        }
+        metadata = try container.sdkDecodeRequired(.metadata)
+    }
+}
+
+public extension BetaSelfHostedWorkUpdateRequest {
+    init(metadata: [String: String?]) {
         self.metadata = metadata
     }
 }

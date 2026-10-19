@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSkillsVersionsMethods {
+public extension BetaSkillsVersionsMethods {
     /// Download a skill version's content as a zip archive.
     ///
     /// - Parameters:
@@ -26,11 +26,33 @@ extension BetaSkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func downloadBetaSkillsVersions(config: ClientConfig, skillId: String, version: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Data {
-        return try (await sdkRequest("GET", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions/", sdkEncodePathSegment(sdkWireString(version)), "/content?beta=true"].joined(), config: config, decoder: .bytes, operationId: "downloadBetaSkillsVersions", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions)).data
+    static func downloadBetaSkillsVersions(
+        config: ClientConfig,
+        skillId: String,
+        version: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Data {
+        try await (sdkRequest(
+            "GET",
+            [
+                "/v1/skills/",
+                sdkEncodePathSegment(sdkWireString(skillId)),
+                "/versions/",
+                sdkEncodePathSegment(sdkWireString(version)),
+                "/content?beta=true",
+            ].joined(),
+            config: config,
+            decoder: .bytes,
+            operationId: "downloadBetaSkillsVersions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions
+        )).data
     }
 }

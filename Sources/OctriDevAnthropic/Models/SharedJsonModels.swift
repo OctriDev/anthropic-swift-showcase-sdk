@@ -3,16 +3,16 @@
 
 import Foundation
 
-// SharedJson domain models
+/// SharedJson domain models
 /// Typed representation of the `JsonValue` API schema.
 public struct JsonValue: Codable {
-
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension JsonValue {
-    public init() {
-    }
+public extension JsonValue {
+    init() {}
 }
 
 /// Typed representation of the `JsonOutputFormat` API schema.
@@ -27,28 +27,38 @@ public struct JsonOutputFormat: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension JsonOutputFormat {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.schema) else {
-            throw SdkValidationError(field: "schema", code: "required", message: "Validation failed for 'schema': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.schema = try container.sdkDecodeRequired(.schema)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, JsonOutputFormatType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension JsonOutputFormat {
-    public init(schema: [String: JSONValue], type: JsonOutputFormatType) throws {
+public extension JsonOutputFormat {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.schema) else {
+            throw SdkValidationError(
+                field: "schema",
+                code: "required",
+                message: "Validation failed for 'schema': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        schema = try container.sdkDecodeRequired(.schema)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, JsonOutputFormatType.allCases.map(\.rawValue))
+    }
+}
+
+public extension JsonOutputFormat {
+    init(schema: [String: JSONValue], type: JsonOutputFormatType) throws {
         (self.schema, self.type) = (schema, type)
-            try sdkValidateRawEnum("type", self.type, JsonOutputFormatType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, JsonOutputFormatType.allCases.map(\.rawValue))
     }
 }
 

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SpendLimitsBetaTrue domain models
+/// SpendLimitsBetaTrue domain models
 /// Typed representation of the `BetaSetSpendLimitParams` API schema.
 public struct BetaSetSpendLimitParams: Codable {
     /// Limit amount as a non-negative integer decimal string in the minor unit of the organization's billing
@@ -21,26 +21,36 @@ public struct BetaSetSpendLimitParams: Codable {
         case period
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSetSpendLimitParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.scope) else {
-            throw SdkValidationError(field: "scope", code: "required", message: "Validation failed for 'scope': value is required")
-        }
-        self.amount = try container.sdkDecodeNullable(.amount)
-        self.scope = try container.sdkDecodeRequired(.scope)
-        self.period = try container.sdkDecodeIfPresent(.period)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSetSpendLimitParams {
-    public init(amount: String?, scope: BetaUserScope, period: BetaSetSpendLimitParamsPeriod? = nil) {
+public extension BetaSetSpendLimitParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.scope) else {
+            throw SdkValidationError(
+                field: "scope",
+                code: "required",
+                message: "Validation failed for 'scope': value is required"
+            )
+        }
+        amount = try container.sdkDecodeNullable(.amount)
+        scope = try container.sdkDecodeRequired(.scope)
+        period = try container.sdkDecodeIfPresent(.period)
+    }
+}
+
+public extension BetaSetSpendLimitParams {
+    init(amount: String?, scope: BetaUserScope, period: BetaSetSpendLimitParamsPeriod? = nil) {
         (self.amount, self.scope) = (amount, scope)
         self.period = period
     }
@@ -50,14 +60,17 @@ extension BetaSetSpendLimitParams {
 public struct BetaSetSpendLimitParamsPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let daily = BetaSetSpendLimitParamsPeriod(rawValue: "daily")
     public static let monthly = BetaSetSpendLimitParamsPeriod(rawValue: "monthly")
     public static let weekly = BetaSetSpendLimitParamsPeriod(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

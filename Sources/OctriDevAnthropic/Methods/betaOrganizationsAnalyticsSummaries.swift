@@ -7,7 +7,12 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaOrganizationsAnalyticsSummariesMethods {
-    /// Get organization-wide activity summaries for a date range. Returns one entry per day from `starting_date` (inclusive) to `ending_date` (exclusive). Data is typically available with a 1-day lag and may be revised by a few percent over the following days: when `ending_date` is omitted it defaults to the most recent available day + 1, so the last entry covers the most recent available day. The series can be scoped to an RBAC group via `filter[]=rbac_group_id:{id}`. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get organization-wide activity summaries for a date range. Returns one entry per day from `starting_date`
+    /// (inclusive) to `ending_date` (exclusive). Data is typically available with a 1-day lag and may be revised by a
+    /// few percent over the following days: when `ending_date` is omitted it defaults to the most recent available day
+    /// + 1, so the last entry covers the most recent available day. The series can be scoped to an RBAC group via
+    /// `filter[]=rbac_group_id:{id}`. Available to organizations on a Claude Enterprise plan. Requires an API key with
+    /// the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - startingDate: UTC date in YYYY-MM-DD format. Start of the date range
@@ -29,17 +34,49 @@ public enum BetaOrganizationsAnalyticsSummariesMethods {
     ///   responses and by the spend-limits API) or a bare group UUID, and matches
     ///   users who held the group at any point during each UTC day (time-of-usage
     ///   attribution). At most 100 entries.
-    public static func listBetaOrganizationsAnalyticsSummaries(config: ClientConfig, startingDate: String, endingDate: String? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsActivitySummaryResponse {
+    public static func listBetaOrganizationsAnalyticsSummaries(
+        config: ClientConfig,
+        startingDate: String,
+        endingDate: String? = nil,
+        filter: [String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsActivitySummaryResponse {
         try sdkValidateDate("starting_date", startingDate)
 
-        if let filter = filter {
+        if let filter {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/analytics/summaries?beta=true", config: config, query: [
-            SdkQueryParameter("starting_date", value: startingDate),
-            SdkQueryParameter("ending_date", value: endingDate),
-            SdkQueryParameter("filter[]", values: filter, style: "form", explode: true),
-        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsSummaries", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/analytics/summaries?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("starting_date", value: startingDate),
+                SdkQueryParameter("ending_date", value: endingDate),
+                SdkQueryParameter("filter[]", values: filter, style: "form", explode: true),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsAnalyticsSummaries",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

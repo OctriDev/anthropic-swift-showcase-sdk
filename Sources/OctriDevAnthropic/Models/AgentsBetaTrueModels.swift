@@ -3,7 +3,7 @@
 
 import Foundation
 
-// AgentsBetaTrue domain models
+/// AgentsBetaTrue domain models
 /// Request parameters for creating an `agent`.
 public struct BetaManagedAgentsCreateAgentParams: Codable {
     /// Human-readable name for the agent.
@@ -40,39 +40,59 @@ public struct BetaManagedAgentsCreateAgentParams: Codable {
         case multiagent
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsCreateAgentParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.model = try container.sdkDecodeRequired(.model)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.system = try container.sdkDecodeIfPresent(.system)
-        self.tools = try container.sdkDecodeIfPresent(.tools)
-        self.mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
-        self.skills = try container.sdkDecodeIfPresent(.skills)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.multiagent = try container.sdkDecodeIfPresent(.multiagent)
-            try validateLength("name", self.name, min: 1, max: 256)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsCreateAgentParams {
-    public init(name: String, model: BetaManagedAgentsModelParams, description: String? = nil, system: String? = nil, tools: [BetaManagedAgentsAgentToolParams]? = nil, mcpServers: [BetaManagedAgentsMCPServerParams]? = nil, skills: [BetaManagedAgentsSkillParams]? = nil, metadata: [String: String]? = nil, multiagent: BetaManagedAgentsMultiagentParams? = nil) throws {
+public extension BetaManagedAgentsCreateAgentParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.model) else {
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        model = try container.sdkDecodeRequired(.model)
+        description = try container.sdkDecodeIfPresent(.description)
+        system = try container.sdkDecodeIfPresent(.system)
+        tools = try container.sdkDecodeIfPresent(.tools)
+        mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
+        skills = try container.sdkDecodeIfPresent(.skills)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        multiagent = try container.sdkDecodeIfPresent(.multiagent)
+        try validateLength("name", name, min: 1, max: 256)
+    }
+}
+
+public extension BetaManagedAgentsCreateAgentParams {
+    init(
+        name: String,
+        model: BetaManagedAgentsModelParams,
+        description: String? = nil,
+        system: String? = nil,
+        tools: [BetaManagedAgentsAgentToolParams]? = nil,
+        mcpServers: [BetaManagedAgentsMCPServerParams]? = nil,
+        skills: [BetaManagedAgentsSkillParams]? = nil,
+        metadata: [String: String]? = nil,
+        multiagent: BetaManagedAgentsMultiagentParams? = nil
+    ) throws {
         (self.name, self.model) = (name, model)
         (self.description, self.system) = (description, system)
         (self.tools, self.mcpServers) = (tools, mcpServers)
         (self.skills, self.metadata) = (skills, metadata)
         self.multiagent = multiagent
-            try validateLength("name", self.name, min: 1, max: 256)
+        try validateLength("name", self.name, min: 1, max: 256)
     }
 }
 
@@ -88,22 +108,28 @@ public struct BetaManagedAgentsListAgents: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsListAgents {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsListAgents {
-    public init(data: [BetaManagedAgentsAgent], nextPage: String? = nil) {
+public extension BetaManagedAgentsListAgents {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    }
+}
+
+public extension BetaManagedAgentsListAgents {
+    init(data: [BetaManagedAgentsAgent], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

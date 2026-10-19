@@ -3,7 +3,7 @@
 
 import Foundation
 
-// ProjectsBetaTrue domain models
+/// ProjectsBetaTrue domain models
 /// Response for GET /v1/organizations/analytics/apps/chat/projects.
 public struct BetaAnalyticsProjectsResponse: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,25 +16,35 @@ public struct BetaAnalyticsProjectsResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAnalyticsProjectsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAnalyticsProjectsResponse {
-    public init(data: [BetaAnalyticsProjectActivity], nextPage: String?) {
+public extension BetaAnalyticsProjectsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaAnalyticsProjectsResponse {
+    init(data: [BetaAnalyticsProjectActivity], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -89,40 +99,70 @@ public struct BetaAnalyticsProjectActivity: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAnalyticsProjectActivity {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.distinctUserCount) else {
-            throw SdkValidationError(field: "distinct_user_count", code: "required", message: "Validation failed for 'distinct_user_count': value is required")
-        }
-        guard container.contains(.messageCount) else {
-            throw SdkValidationError(field: "message_count", code: "required", message: "Validation failed for 'message_count': value is required")
-        }
-        guard container.contains(.projectId) else {
-            throw SdkValidationError(field: "project_id", code: "required", message: "Validation failed for 'project_id': value is required")
-        }
-        guard container.contains(.projectName) else {
-            throw SdkValidationError(field: "project_name", code: "required", message: "Validation failed for 'project_name': value is required")
-        }
-        self.distinctUserCount = try container.sdkDecodeRequired(.distinctUserCount)
-        self.messageCount = try container.sdkDecodeRequired(.messageCount)
-        self.projectId = try container.sdkDecodeRequired(.projectId)
-        self.projectName = try container.sdkDecodeRequired(.projectName)
-        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
-        self.createdBy = try container.sdkDecodeIfPresent(.createdBy)
-        self.distinctConversationCount = try container.sdkDecodeIfPresent(.distinctConversationCount)
-        self.product = try container.sdkDecodeIfPresent(.product)
-        self.rbacGroupId = try container.sdkDecodeIfPresent(.rbacGroupId)
-        self.rbacGroupName = try container.sdkDecodeIfPresent(.rbacGroupName)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAnalyticsProjectActivity {
-    public init(distinctUserCount: Int, messageCount: Int, projectId: String, projectName: String, createdAt: Date? = nil, createdBy: BetaAnalyticsUser? = nil, distinctConversationCount: Int? = nil, product: String? = nil, rbacGroupId: String? = nil, rbacGroupName: String? = nil, userId: String? = nil) {
+public extension BetaAnalyticsProjectActivity {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.distinctUserCount) else {
+            throw SdkValidationError(
+                field: "distinct_user_count",
+                code: "required",
+                message: "Validation failed for 'distinct_user_count': value is required"
+            )
+        }
+        guard container.contains(.messageCount) else {
+            throw SdkValidationError(
+                field: "message_count",
+                code: "required",
+                message: "Validation failed for 'message_count': value is required"
+            )
+        }
+        guard container.contains(.projectId) else {
+            throw SdkValidationError(
+                field: "project_id",
+                code: "required",
+                message: "Validation failed for 'project_id': value is required"
+            )
+        }
+        guard container.contains(.projectName) else {
+            throw SdkValidationError(
+                field: "project_name",
+                code: "required",
+                message: "Validation failed for 'project_name': value is required"
+            )
+        }
+        distinctUserCount = try container.sdkDecodeRequired(.distinctUserCount)
+        messageCount = try container.sdkDecodeRequired(.messageCount)
+        projectId = try container.sdkDecodeRequired(.projectId)
+        projectName = try container.sdkDecodeRequired(.projectName)
+        createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        createdBy = try container.sdkDecodeIfPresent(.createdBy)
+        distinctConversationCount = try container.sdkDecodeIfPresent(.distinctConversationCount)
+        product = try container.sdkDecodeIfPresent(.product)
+        rbacGroupId = try container.sdkDecodeIfPresent(.rbacGroupId)
+        rbacGroupName = try container.sdkDecodeIfPresent(.rbacGroupName)
+        userId = try container.sdkDecodeIfPresent(.userId)
+    }
+}
+
+public extension BetaAnalyticsProjectActivity {
+    init(
+        distinctUserCount: Int,
+        messageCount: Int,
+        projectId: String,
+        projectName: String,
+        createdAt: Date? = nil,
+        createdBy: BetaAnalyticsUser? = nil,
+        distinctConversationCount: Int? = nil,
+        product: String? = nil,
+        rbacGroupId: String? = nil,
+        rbacGroupName: String? = nil,
+        userId: String? = nil
+    ) {
         (self.distinctUserCount, self.messageCount) = (distinctUserCount, messageCount)
         (self.projectId, self.projectName) = (projectId, projectName)
         (self.createdAt, self.createdBy) = (createdAt, createdBy)

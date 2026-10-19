@@ -28,45 +28,45 @@ struct CreateMessagesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.model, forKey: SdkCodingKey("model"))
-        try keyedContainer.encode(self.messages, forKey: SdkCodingKey("messages"))
-        try keyedContainer.encode(self.maxTokens, forKey: SdkCodingKey("max_tokens"))
-        try keyedContainer.encodeIfPresent(self.cacheControl, forKey: SdkCodingKey("cache_control"))
-        try keyedContainer.encodeIfPresent(self.container, forKey: SdkCodingKey("container"))
-        try keyedContainer.encodeIfPresent(self.inferenceGeo, forKey: SdkCodingKey("inference_geo"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(self.outputConfig, forKey: SdkCodingKey("output_config"))
-        try keyedContainer.encodeIfPresent(self.serviceTier, forKey: SdkCodingKey("service_tier"))
-        try keyedContainer.encodeIfPresent(self.stopSequences, forKey: SdkCodingKey("stop_sequences"))
-        try keyedContainer.encodeIfPresent(self.stream, forKey: SdkCodingKey("stream"))
-        try keyedContainer.encodeIfPresent(self.system, forKey: SdkCodingKey("system"))
-        try keyedContainer.encodeIfPresent(self.temperature, forKey: SdkCodingKey("temperature"))
-        try keyedContainer.encodeIfPresent(self.thinking, forKey: SdkCodingKey("thinking"))
-        try keyedContainer.encodeIfPresent(self.toolChoice, forKey: SdkCodingKey("tool_choice"))
-        try keyedContainer.encodeIfPresent(self.tools, forKey: SdkCodingKey("tools"))
-        try keyedContainer.encodeIfPresent(self.topK, forKey: SdkCodingKey("top_k"))
-        try keyedContainer.encodeIfPresent(self.topP, forKey: SdkCodingKey("top_p"))
+        try keyedContainer.encode(model, forKey: SdkCodingKey("model"))
+        try keyedContainer.encode(messages, forKey: SdkCodingKey("messages"))
+        try keyedContainer.encode(maxTokens, forKey: SdkCodingKey("max_tokens"))
+        try keyedContainer.encodeIfPresent(cacheControl, forKey: SdkCodingKey("cache_control"))
+        try keyedContainer.encodeIfPresent(container, forKey: SdkCodingKey("container"))
+        try keyedContainer.encodeIfPresent(inferenceGeo, forKey: SdkCodingKey("inference_geo"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(outputConfig, forKey: SdkCodingKey("output_config"))
+        try keyedContainer.encodeIfPresent(serviceTier, forKey: SdkCodingKey("service_tier"))
+        try keyedContainer.encodeIfPresent(stopSequences, forKey: SdkCodingKey("stop_sequences"))
+        try keyedContainer.encodeIfPresent(stream, forKey: SdkCodingKey("stream"))
+        try keyedContainer.encodeIfPresent(system, forKey: SdkCodingKey("system"))
+        try keyedContainer.encodeIfPresent(temperature, forKey: SdkCodingKey("temperature"))
+        try keyedContainer.encodeIfPresent(thinking, forKey: SdkCodingKey("thinking"))
+        try keyedContainer.encodeIfPresent(toolChoice, forKey: SdkCodingKey("tool_choice"))
+        try keyedContainer.encodeIfPresent(tools, forKey: SdkCodingKey("tools"))
+        try keyedContainer.encodeIfPresent(topK, forKey: SdkCodingKey("top_k"))
+        try keyedContainer.encodeIfPresent(topP, forKey: SdkCodingKey("top_p"))
     }
 
     init(options: MessagesMethods.CreateMessagesOptions) {
-        self.model = options.model
-        self.messages = options.messages
-        self.maxTokens = options.maxTokens
-        self.cacheControl = options.cacheControl
-        self.container = options.container
-        self.inferenceGeo = options.inferenceGeo
-        self.metadata = options.metadata
-        self.outputConfig = options.outputConfig
-        self.serviceTier = options.serviceTier
-        self.stopSequences = options.stopSequences
-        self.stream = options.stream
-        self.system = options.system
-        self.temperature = options.temperature
-        self.thinking = options.thinking
-        self.toolChoice = options.toolChoice
-        self.tools = options.tools
-        self.topK = options.topK
-        self.topP = options.topP
+        model = options.model
+        messages = options.messages
+        maxTokens = options.maxTokens
+        cacheControl = options.cacheControl
+        container = options.container
+        inferenceGeo = options.inferenceGeo
+        metadata = options.metadata
+        outputConfig = options.outputConfig
+        serviceTier = options.serviceTier
+        stopSequences = options.stopSequences
+        stream = options.stream
+        system = options.system
+        temperature = options.temperature
+        thinking = options.thinking
+        toolChoice = options.toolChoice
+        tools = options.tools
+        topK = options.topK
+        topP = options.topP
     }
 }
 
@@ -82,25 +82,25 @@ struct CountMessagesTokensRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.messages, forKey: SdkCodingKey("messages"))
-        try keyedContainer.encode(self.model, forKey: SdkCodingKey("model"))
-        try keyedContainer.encodeIfPresent(self.cacheControl, forKey: SdkCodingKey("cache_control"))
-        try keyedContainer.encodeIfPresent(self.outputConfig, forKey: SdkCodingKey("output_config"))
-        try keyedContainer.encodeIfPresent(self.system, forKey: SdkCodingKey("system"))
-        try keyedContainer.encodeIfPresent(self.thinking, forKey: SdkCodingKey("thinking"))
-        try keyedContainer.encodeIfPresent(self.toolChoice, forKey: SdkCodingKey("tool_choice"))
-        try keyedContainer.encodeIfPresent(self.tools, forKey: SdkCodingKey("tools"))
+        try keyedContainer.encode(messages, forKey: SdkCodingKey("messages"))
+        try keyedContainer.encode(model, forKey: SdkCodingKey("model"))
+        try keyedContainer.encodeIfPresent(cacheControl, forKey: SdkCodingKey("cache_control"))
+        try keyedContainer.encodeIfPresent(outputConfig, forKey: SdkCodingKey("output_config"))
+        try keyedContainer.encodeIfPresent(system, forKey: SdkCodingKey("system"))
+        try keyedContainer.encodeIfPresent(thinking, forKey: SdkCodingKey("thinking"))
+        try keyedContainer.encodeIfPresent(toolChoice, forKey: SdkCodingKey("tool_choice"))
+        try keyedContainer.encodeIfPresent(tools, forKey: SdkCodingKey("tools"))
     }
 
     init(options: MessagesMethods.CountMessagesTokensOptions) {
-        self.messages = options.messages
-        self.model = options.model
-        self.cacheControl = options.cacheControl
-        self.outputConfig = options.outputConfig
-        self.system = options.system
-        self.thinking = options.thinking
-        self.toolChoice = options.toolChoice
-        self.tools = options.tools
+        messages = options.messages
+        model = options.model
+        cacheControl = options.cacheControl
+        outputConfig = options.outputConfig
+        system = options.system
+        thinking = options.thinking
+        toolChoice = options.toolChoice
+        tools = options.tools
     }
 }
 
@@ -117,27 +117,27 @@ struct CreateCompletionsRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.model, forKey: SdkCodingKey("model"))
-        try keyedContainer.encode(self.prompt, forKey: SdkCodingKey("prompt"))
-        try keyedContainer.encode(self.maxTokensToSample, forKey: SdkCodingKey("max_tokens_to_sample"))
-        try keyedContainer.encodeIfPresent(self.stopSequences, forKey: SdkCodingKey("stop_sequences"))
-        try keyedContainer.encodeIfPresent(self.temperature, forKey: SdkCodingKey("temperature"))
-        try keyedContainer.encodeIfPresent(self.topP, forKey: SdkCodingKey("top_p"))
-        try keyedContainer.encodeIfPresent(self.topK, forKey: SdkCodingKey("top_k"))
-        try keyedContainer.encodeIfPresent(self.metadata, forKey: SdkCodingKey("metadata"))
-        try keyedContainer.encodeIfPresent(self.stream, forKey: SdkCodingKey("stream"))
+        try keyedContainer.encode(model, forKey: SdkCodingKey("model"))
+        try keyedContainer.encode(prompt, forKey: SdkCodingKey("prompt"))
+        try keyedContainer.encode(maxTokensToSample, forKey: SdkCodingKey("max_tokens_to_sample"))
+        try keyedContainer.encodeIfPresent(stopSequences, forKey: SdkCodingKey("stop_sequences"))
+        try keyedContainer.encodeIfPresent(temperature, forKey: SdkCodingKey("temperature"))
+        try keyedContainer.encodeIfPresent(topP, forKey: SdkCodingKey("top_p"))
+        try keyedContainer.encodeIfPresent(topK, forKey: SdkCodingKey("top_k"))
+        try keyedContainer.encodeIfPresent(metadata, forKey: SdkCodingKey("metadata"))
+        try keyedContainer.encodeIfPresent(stream, forKey: SdkCodingKey("stream"))
     }
 
     init(options: CompletionsMethods.CreateCompletionsOptions) {
-        self.model = options.model
-        self.prompt = options.prompt
-        self.maxTokensToSample = options.maxTokensToSample
-        self.stopSequences = options.stopSequences
-        self.temperature = options.temperature
-        self.topP = options.topP
-        self.topK = options.topK
-        self.metadata = options.metadata
-        self.stream = options.stream
+        model = options.model
+        prompt = options.prompt
+        maxTokensToSample = options.maxTokensToSample
+        stopSequences = options.stopSequences
+        temperature = options.temperature
+        topP = options.topP
+        topK = options.topK
+        metadata = options.metadata
+        stream = options.stream
     }
 }
 
@@ -146,6 +146,6 @@ struct CreateMessagesBatchesRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.requests, forKey: SdkCodingKey("requests"))
+        try keyedContainer.encode(requests, forKey: SdkCodingKey("requests"))
     }
 }
