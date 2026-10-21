@@ -140,10 +140,6 @@ extension BetaInputContentBlock {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaInputMessage` API schema.
 public struct BetaInputMessage: Codable {
     /// Required API value serialized in the `content` wire field.

@@ -161,10 +161,6 @@ extension TextEditor20250124CacheControl {
     }
 }
 
-
-
-
-
 /// Typed representation of the `TextEditor_20250728` API schema.
 public struct TextEditor20250728: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -232,10 +228,6 @@ extension TextEditor20250728 {
             try sdkValidateRawEnum("type", self.type, TextEditor20250728Type.allCases.map(\.rawValue))
     }
 }
-
-
-
-
 
 /// Typed representation of the `TextEditor_20250124` API schema.
 public struct TextEditor20250124: Codable {

@@ -138,10 +138,6 @@ extension BetaListSkillsResponse {
     }
 }
 
-
-
-
-
 /// Per-skill activity data for a given day.
 public struct BetaAnalyticsSkillActivity: Codable {
     /// Claude.ai activity metrics for a single skill on a given day.

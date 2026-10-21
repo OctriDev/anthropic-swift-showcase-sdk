@@ -87,10 +87,6 @@ extension BetaAdvisorMessageIterationUsage {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaAdvisorTool_20260301` API schema.
 public struct BetaAdvisorTool20260301: Codable {
     /// The model that will complete your prompt. See models for additional details and options.

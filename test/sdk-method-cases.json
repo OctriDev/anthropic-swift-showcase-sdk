@@ -11545,6 +11545,145 @@
       }
     },
     {
+      "id": "listBetaOrganizationAnalyticsPlugins:listBetaOrganizationAnalyticsPlugins",
+      "operationId": "listBetaOrganizationAnalyticsPlugins",
+      "methodName": "listBetaOrganizationAnalyticsPlugins",
+      "namespace": [
+        "beta",
+        "organizations",
+        "analytics",
+        "plugins"
+      ],
+      "mode": "normal",
+      "owner": null,
+      "arguments": {
+        "date": "2024-01-01",
+        "startingDate": "2024-01-01",
+        "endingDate": "2024-01-01",
+        "limit": 1,
+        "page": "page",
+        "groupBy": [
+          "product"
+        ],
+        "filter": [
+          "filter[]"
+        ],
+        "orderBy": "order_by",
+        "order": "asc"
+      },
+      "wireNames": {
+        "date": "date",
+        "startingDate": "starting_date",
+        "endingDate": "ending_date",
+        "limit": "limit",
+        "page": "page",
+        "groupBy": "group_by[]",
+        "filter": "filter[]",
+        "orderBy": "order_by",
+        "order": "order"
+      },
+      "argumentOrder": [
+        "date",
+        "startingDate",
+        "endingDate",
+        "limit",
+        "page",
+        "groupBy",
+        "filter",
+        "orderBy",
+        "order"
+      ],
+      "response": {
+        "kind": "json",
+        "expected": {
+          "data": [
+            {
+              "claude_code_metrics": {
+                "distinct_session_plugin_used_count": 1
+              },
+              "cowork_metrics": {
+                "distinct_session_plugin_used_count": 1
+              },
+              "distinct_user_count": 1,
+              "install_count": 1,
+              "invocation_count": 1,
+              "plugin_id": "plugin-1",
+              "plugin_name": "Example Name",
+              "product": "product",
+              "rbac_group_id": "rbac_group-1",
+              "rbac_group_name": "Example Name",
+              "user_id": "user-1"
+            }
+          ],
+          "next_page": "next_page"
+        },
+        "byteLength": 0
+      }
+    },
+    {
+      "id": "listBetaOrganizationAnalyticsPlugins:listBetaOrganizationAnalyticsPlugins:400",
+      "operationId": "listBetaOrganizationAnalyticsPlugins",
+      "methodName": "listBetaOrganizationAnalyticsPlugins",
+      "namespace": [
+        "beta",
+        "organizations",
+        "analytics",
+        "plugins"
+      ],
+      "mode": "normal",
+      "owner": null,
+      "arguments": {
+        "date": "2024-01-01",
+        "startingDate": "2024-01-01",
+        "endingDate": "2024-01-01",
+        "limit": 1,
+        "page": "page",
+        "groupBy": [
+          "product"
+        ],
+        "filter": [
+          "filter[]"
+        ],
+        "orderBy": "order_by",
+        "order": "asc"
+      },
+      "wireNames": {
+        "date": "date",
+        "startingDate": "starting_date",
+        "endingDate": "ending_date",
+        "limit": "limit",
+        "page": "page",
+        "groupBy": "group_by[]",
+        "filter": "filter[]",
+        "orderBy": "order_by",
+        "order": "order"
+      },
+      "argumentOrder": [
+        "date",
+        "startingDate",
+        "endingDate",
+        "limit",
+        "page",
+        "groupBy",
+        "filter",
+        "orderBy",
+        "order"
+      ],
+      "response": {
+        "kind": "error",
+        "status": 400,
+        "expected": {
+          "error": {
+            "message": "Invalid request",
+            "type": "invalid_request_error"
+          },
+          "request_id": null,
+          "type": "error"
+        },
+        "byteLength": 0
+      }
+    },
+    {
       "id": "listBetaOrganizationsAnalyticsAppsChatProjects:listBetaOrganizationsAnalyticsAppsChatProjects",
       "operationId": "listBetaOrganizationsAnalyticsAppsChatProjects",
       "methodName": "listBetaOrganizationsAnalyticsAppsChatProjects",
@@ -11901,145 +12040,6 @@
         "organizations",
         "analytics",
         "connectors"
-      ],
-      "mode": "normal",
-      "owner": null,
-      "arguments": {
-        "date": "2024-01-01",
-        "startingDate": "2024-01-01",
-        "endingDate": "2024-01-01",
-        "limit": 1,
-        "page": "page",
-        "groupBy": [
-          "product"
-        ],
-        "filter": [
-          "filter[]"
-        ],
-        "orderBy": "order_by",
-        "order": "asc"
-      },
-      "wireNames": {
-        "date": "date",
-        "startingDate": "starting_date",
-        "endingDate": "ending_date",
-        "limit": "limit",
-        "page": "page",
-        "groupBy": "group_by[]",
-        "filter": "filter[]",
-        "orderBy": "order_by",
-        "order": "order"
-      },
-      "argumentOrder": [
-        "date",
-        "startingDate",
-        "endingDate",
-        "limit",
-        "page",
-        "groupBy",
-        "filter",
-        "orderBy",
-        "order"
-      ],
-      "response": {
-        "kind": "error",
-        "status": 400,
-        "expected": {
-          "error": {
-            "message": "Invalid request",
-            "type": "invalid_request_error"
-          },
-          "request_id": null,
-          "type": "error"
-        },
-        "byteLength": 0
-      }
-    },
-    {
-      "id": "listBetaOrganizationsAnalyticsPlugins:listBetaOrganizationsAnalyticsPlugins",
-      "operationId": "listBetaOrganizationsAnalyticsPlugins",
-      "methodName": "listBetaOrganizationsAnalyticsPlugins",
-      "namespace": [
-        "beta",
-        "organizations",
-        "analytics",
-        "plugins"
-      ],
-      "mode": "normal",
-      "owner": null,
-      "arguments": {
-        "date": "2024-01-01",
-        "startingDate": "2024-01-01",
-        "endingDate": "2024-01-01",
-        "limit": 1,
-        "page": "page",
-        "groupBy": [
-          "product"
-        ],
-        "filter": [
-          "filter[]"
-        ],
-        "orderBy": "order_by",
-        "order": "asc"
-      },
-      "wireNames": {
-        "date": "date",
-        "startingDate": "starting_date",
-        "endingDate": "ending_date",
-        "limit": "limit",
-        "page": "page",
-        "groupBy": "group_by[]",
-        "filter": "filter[]",
-        "orderBy": "order_by",
-        "order": "order"
-      },
-      "argumentOrder": [
-        "date",
-        "startingDate",
-        "endingDate",
-        "limit",
-        "page",
-        "groupBy",
-        "filter",
-        "orderBy",
-        "order"
-      ],
-      "response": {
-        "kind": "json",
-        "expected": {
-          "data": [
-            {
-              "claude_code_metrics": {
-                "distinct_session_plugin_used_count": 1
-              },
-              "cowork_metrics": {
-                "distinct_session_plugin_used_count": 1
-              },
-              "distinct_user_count": 1,
-              "install_count": 1,
-              "invocation_count": 1,
-              "plugin_id": "plugin-1",
-              "plugin_name": "Example Name",
-              "product": "product",
-              "rbac_group_id": "rbac_group-1",
-              "rbac_group_name": "Example Name",
-              "user_id": "user-1"
-            }
-          ],
-          "next_page": "next_page"
-        },
-        "byteLength": 0
-      }
-    },
-    {
-      "id": "listBetaOrganizationsAnalyticsPlugins:listBetaOrganizationsAnalyticsPlugins:400",
-      "operationId": "listBetaOrganizationsAnalyticsPlugins",
-      "methodName": "listBetaOrganizationsAnalyticsPlugins",
-      "namespace": [
-        "beta",
-        "organizations",
-        "analytics",
-        "plugins"
       ],
       "mode": "normal",
       "owner": null,

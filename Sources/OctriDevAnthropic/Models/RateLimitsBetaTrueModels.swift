@@ -179,10 +179,6 @@ extension BetaWorkspaceRateLimitListResponse {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaRateLimit` API schema.
 public struct BetaRateLimit: Codable {
     /// The kind of rate-limit group this entry represents. `model_group` entries apply to a family of models

@@ -84,10 +84,6 @@ extension MessageBatch {
     }
 }
 
-
-
-
-
 /// Typed representation of the `Message` API schema.
 public struct Message: Codable {
     /// Unique object identifier. The format and length of IDs may change over time.

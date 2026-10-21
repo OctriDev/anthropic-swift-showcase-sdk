@@ -114,13 +114,13 @@ public struct ListBetaOrganizationsAnalyticsUsersParameterItem: RawRepresentable
     }
 }
 
-public struct ListBetaOrganizationsAnalyticsPluginsParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationAnalyticsPluginsParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
     public init(rawValue: String) { self.rawValue = rawValue }
-    public static let product = ListBetaOrganizationsAnalyticsPluginsParameterItem(rawValue: "product")
-    public static let rbacGroupId = ListBetaOrganizationsAnalyticsPluginsParameterItem(rawValue: "rbac_group_id")
-    public static let userId = ListBetaOrganizationsAnalyticsPluginsParameterItem(rawValue: "user_id")
+    public static let product = ListBetaOrganizationAnalyticsPluginsParameterItem(rawValue: "product")
+    public static let rbacGroupId = ListBetaOrganizationAnalyticsPluginsParameterItem(rawValue: "rbac_group_id")
+    public static let userId = ListBetaOrganizationAnalyticsPluginsParameterItem(rawValue: "user_id")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

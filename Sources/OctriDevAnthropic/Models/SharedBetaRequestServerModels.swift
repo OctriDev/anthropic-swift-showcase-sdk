@@ -104,10 +104,6 @@ extension BetaRequestServerToolUseBlockCacheControl {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaRequestServerToolUseBlock` API schema.
 public struct BetaRequestServerToolUseBlock: Codable {
     /// Required `string` value serialized in the `id` wire field.

@@ -69,10 +69,6 @@ extension BetaAnalyticsCostUsersResponse {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaAnalyticsCostUsersItem` API schema.
 public struct BetaAnalyticsCostUsersItem: Codable {
     /// The user this row's usage or cost is attributed to. Always a `user_actor`.

@@ -7,3 +7,97 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaOrganizationsWorkspacesServiceAccountsMethods {}
+
+extension BetaOrganizationsWorkspacesServiceAccountsMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the service accounts that are members of a workspace. Each entry includes the service account's `workspace_role`. Use `limit` and the `next_page` cursor to paginate. Archived workspaces return 400; use `GET /service_accounts/{id}/workspaces` to audit memberships of an archived workspace. The implicit default-workspace membership is not included in this list. Memberships of archived service accounts are omitted from the results.
+    ///
+    /// - Parameters:
+    /// - workspaceId: ID of the workspace.
+    /// - limit: Number of results per page.
+    /// - page: Opaque cursor from a previous response's `next_page`.
+    /// - anthropicBeta: Optional header to specify the beta version(s) you want to
+    ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
+    ///   specify the header multiple times for each beta.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    public static func listBetaOrganizationsWorkspacesServiceAccounts(config: ClientConfig, workspaceId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMemberListResponse {
+        if let limit = limit {
+            try validateRange("limit", Double(limit), min: 1, max: 100)
+        }
+
+        return try (await sdkRequest("GET", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/service_accounts?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+        ], decoder: .json, operationId: "listBetaOrganizationsWorkspacesServiceAccounts", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    }
+
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the service accounts that are members of a workspace. Each entry includes the service account's `workspace_role`. Use `limit` and the `next_page` cursor to paginate. Archived workspaces return 400; use `GET /service_accounts/{id}/workspaces` to audit memberships of an archived workspace. The implicit default-workspace membership is not included in this list. Memberships of archived service accounts are omitted from the results.
+    ///
+    /// - Parameters:
+    /// - workspaceId: ID of the workspace.
+    /// - limit: Number of results per page.
+    /// - page: Opaque cursor from a previous response's `next_page`.
+    /// - anthropicBeta: Optional header to specify the beta version(s) you want to
+    ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
+    ///   specify the header multiple times for each beta.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    public static func listBetaOrganizationsWorkspacesServiceAccountsPaginated(config: ClientConfig, workspaceId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> {
+        return AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> { (continuation: AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error>.Continuation) in
+            let task = _Concurrency.Task {
+                do {
+                    var pageCursor = page
+                    while true {
+                        let pageResponse = try await listBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageItems = pageResponse.data
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageCursor = nextCursor
+                    }
+                } catch {
+                    continuation.finish(throwing: error)
+                    return
+                }
+                continuation.finish()
+            }
+            continuation.onTermination = { _ in task.cancel() }
+        }
+    }
+
+    public struct ListBetaOrganizationsWorkspacesServiceAccountsPage {
+        public let data: BetaServiceAccountWorkspaceMemberListResponse
+        public let items: [BetaServiceAccountWorkspaceMember]
+        public let hasMore: Bool
+    }
+
+    public static func listBetaOrganizationsWorkspacesServiceAccountsPages(config: ClientConfig, workspaceId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsWorkspacesServiceAccountsPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaOrganizationsWorkspacesServiceAccountsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsWorkspacesServiceAccountsPage, Swift.Error>.Continuation) in
+            let task = _Concurrency.Task {
+                do {
+                    var pageCursor = page
+                    while true {
+                        let pageResponse = try await listBetaOrganizationsWorkspacesServiceAccounts(config: config, workspaceId: workspaceId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageItems = pageResponse.data
+                        if pageItems.isEmpty { break }
+                        let hasMore = pageResponse.nextPage != nil
+                        pageContinuation.yield(ListBetaOrganizationsWorkspacesServiceAccountsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageCursor = nextCursor
+                    }
+                } catch {
+                    pageContinuation.finish(throwing: error)
+                    return
+                }
+                pageContinuation.finish()
+            }
+            pageContinuation.onTermination = { _ in task.cancel() }
+        }
+    }
+}

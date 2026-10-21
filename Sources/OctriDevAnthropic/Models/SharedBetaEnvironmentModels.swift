@@ -54,10 +54,6 @@ extension BetaEnvironmentConfig {
     }
 }
 
-
-
-
-
 /// Unified Environment resource for both cloud and self-hosted environments.
 public struct BetaEnvironment: Codable {
     /// RFC 3339 timestamp when environment was archived, or null if not archived

@@ -172,12 +172,6 @@ extension BetaSpendSummarySource {
     }
 }
 
-
-
-
-
-
-
 /// Typed representation of the `BetaSpendLimitIncreaseRequestSchema` API schema.
 public struct BetaSpendLimitIncreaseRequestSchema: Codable {
     /// A user within the organization. `name` and `email_address` are null when the underlying account is
@@ -243,10 +237,6 @@ extension BetaSpendLimitIncreaseRequestSchema {
             try sdkValidateRawEnum("type", self.type, BetaSpendLimitIncreaseRequestSchemaType.allCases.map(\.rawValue))
     }
 }
-
-
-
-
 
 /// A configured spend limit: a cap on metered spend for one scope and period.
 public struct BetaSpendLimit: Codable {

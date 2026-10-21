@@ -10,13 +10,13 @@ public class BetaOrganizationsAnalyticsPluginsNamespace {
     }
 
 /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork / Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode like `/skills`.
-    public func list(options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationsAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsPluginsResponse {
-        return try await BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationsAnalyticsPlugins(config: config, options: options, requestOptions: requestOptions)
+    public func list(options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsPluginsResponse {
+        return try await BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPlugins(config: config, options: options, requestOptions: requestOptions)
     }
 
 /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork / Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode like `/skills`.
-    public func listPaginated(options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationsAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
-        return BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationsAnalyticsPluginsPaginated(config: config, options: options, requestOptions: requestOptions)
+    public func listPaginated(options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
+        return BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPluginsPaginated(config: config, options: options, requestOptions: requestOptions)
     }
 }
 

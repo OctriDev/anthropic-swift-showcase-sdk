@@ -434,11 +434,11 @@ internal func apiKeyOperationSecurityPart9(_ operationId: String) -> [[String]]?
         return [
             ["ApiKeyAuth"]
         ]
-    case "listBetaOrganizationsAnalyticsAppsChatProjects":
+    case "listBetaOrganizationAnalyticsPlugins":
         return [
             ["ApiKeyAuth"]
         ]
-    case "listBetaOrganizationsAnalyticsArtifacts":
+    case "listBetaOrganizationsAnalyticsAppsChatProjects":
         return [
             ["ApiKeyAuth"]
         ]
@@ -449,11 +449,11 @@ internal func apiKeyOperationSecurityPart9(_ operationId: String) -> [[String]]?
 
 internal func apiKeyOperationSecurityPart10(_ operationId: String) -> [[String]]? {
     switch operationId {
-    case "listBetaOrganizationsAnalyticsConnectors":
+    case "listBetaOrganizationsAnalyticsArtifacts":
         return [
             ["ApiKeyAuth"]
         ]
-    case "listBetaOrganizationsAnalyticsPlugins":
+    case "listBetaOrganizationsAnalyticsConnectors":
         return [
             ["ApiKeyAuth"]
         ]

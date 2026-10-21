@@ -161,10 +161,6 @@ extension BetaBashTool20250124CacheControl {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaBashTool_20241022` API schema.
 public struct BetaBashTool20241022: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.

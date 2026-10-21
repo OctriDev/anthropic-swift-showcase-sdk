@@ -57,10 +57,6 @@ extension ResponseServerToolUseBlockCaller {
     }
 }
 
-
-
-
-
 /// Typed representation of the `ResponseServerToolUseBlock` API schema.
 public struct ResponseServerToolUseBlock: Codable {
     /// Required API value serialized in the `caller` wire field.

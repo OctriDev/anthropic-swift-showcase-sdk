@@ -160,10 +160,6 @@ extension BetaServiceAccountTarget {
     }
 }
 
-
-
-
-
 /// Named non-human identity within the caller's organization. A service account is a pure identity: name + org.
 /// Authorization lives on whatever references it (federation rules).
 public struct BetaServiceAccount: Codable {

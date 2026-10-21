@@ -293,6 +293,72 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
+    func testListBetaOrganizationAnalyticsPluginsListBetaOrganizationAnalyticsPluginsReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        var options = BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions()
+        options.date = try decoded("\"2024-01-01\"")
+        options.startingDate = try decoded("\"2024-01-01\"")
+        options.endingDate = try decoded("\"2024-01-01\"")
+        options.limit = try decoded("1")
+        options.page = try decoded("\"page\"")
+        options.groupBy = try decoded("[\"product\"]")
+        options.filter = try decoded("[\"filter[]\"]")
+        options.orderBy = try decoded("\"order_by\"")
+        options.order = try decoded("\"asc\"")
+        let actual = try await client.beta.organizations.analytics.plugins.list(
+            options: options
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture210Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testListBetaOrganizationAnalyticsPluginsListBetaOrganizationAnalyX89c680b338ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
+            return
+        }
+        _ = client
+        var options = BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions()
+        options.date = try decoded("\"2024-01-01\"")
+        options.startingDate = try decoded("\"2024-01-01\"")
+        options.endingDate = try decoded("\"2024-01-01\"")
+        options.limit = try decoded("1")
+        options.page = try decoded("\"page\"")
+        options.groupBy = try decoded("[\"product\"]")
+        options.filter = try decoded("[\"filter[]\"]")
+        options.orderBy = try decoded("\"order_by\"")
+        options.order = try decoded("\"asc\"")
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture211Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.beta.organizations.analytics.plugins.list(
+            options: options
+        )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 400)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
     func testListBetaOrganizationsAnalyticsAppsChatProjectsListBetaOrganizX54886b529eReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
@@ -312,7 +378,7 @@ extension SdkMethodTests {
             options: options
         )
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture210Expected.utf8),
+            with: Data(sdkMethodFixture212Expected.utf8),
             options: [.fragmentsAllowed]
         )
         XCTAssertNil(
@@ -337,7 +403,7 @@ extension SdkMethodTests {
         options.orderBy = try decoded("\"order_by\"")
         options.order = try decoded("\"asc\"")
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture211Expected.utf8),
+            with: Data(sdkMethodFixture213Expected.utf8),
             options: [.fragmentsAllowed]
         )
         do {
@@ -372,7 +438,7 @@ extension SdkMethodTests {
             filter: decoded("[\"filter[]\"]")
         )
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture212Expected.utf8),
+            with: Data(sdkMethodFixture214Expected.utf8),
             options: [.fragmentsAllowed]
         )
         XCTAssertNil(
@@ -387,7 +453,7 @@ extension SdkMethodTests {
         }
         _ = client
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture213Expected.utf8),
+            with: Data(sdkMethodFixture215Expected.utf8),
             options: [.fragmentsAllowed]
         )
         do {
@@ -432,7 +498,7 @@ extension SdkMethodTests {
             options: options
         )
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture214Expected.utf8),
+            with: Data(sdkMethodFixture216Expected.utf8),
             options: [.fragmentsAllowed]
         )
         XCTAssertNil(
@@ -457,77 +523,11 @@ extension SdkMethodTests {
         options.orderBy = try decoded("\"order_by\"")
         options.order = try decoded("\"asc\"")
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture215Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.beta.organizations.analytics.connectors.list(
-            options: options
-        )
-            XCTFail("did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "decoded an error body that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testListBetaOrganizationsAnalyticsPluginsListBetaOrganizationsAnaX3fe271f85dReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        var options = BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationsAnalyticsPluginsOptions()
-        options.date = try decoded("\"2024-01-01\"")
-        options.startingDate = try decoded("\"2024-01-01\"")
-        options.endingDate = try decoded("\"2024-01-01\"")
-        options.limit = try decoded("1")
-        options.page = try decoded("\"page\"")
-        options.groupBy = try decoded("[\"product\"]")
-        options.filter = try decoded("[\"filter[]\"]")
-        options.orderBy = try decoded("\"order_by\"")
-        options.order = try decoded("\"asc\"")
-        let actual = try await client.beta.organizations.analytics.plugins.list(
-            options: options
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture216Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "decoded a response that differs from the mock"
-        )
-    }
-
-    func testListBetaOrganizationsAnalyticsPluginsListBetaOrganizationsAnaX498d738a52ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        var options = BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationsAnalyticsPluginsOptions()
-        options.date = try decoded("\"2024-01-01\"")
-        options.startingDate = try decoded("\"2024-01-01\"")
-        options.endingDate = try decoded("\"2024-01-01\"")
-        options.limit = try decoded("1")
-        options.page = try decoded("\"page\"")
-        options.groupBy = try decoded("[\"product\"]")
-        options.filter = try decoded("[\"filter[]\"]")
-        options.orderBy = try decoded("\"order_by\"")
-        options.order = try decoded("\"asc\"")
-        let expected = try JSONSerialization.jsonObject(
             with: Data(sdkMethodFixture217Expected.utf8),
             options: [.fragmentsAllowed]
         )
         do {
-            _ = try await client.beta.organizations.analytics.plugins.list(
+            _ = try await client.beta.organizations.analytics.connectors.list(
             options: options
         )
             XCTFail("did not raise its declared error")

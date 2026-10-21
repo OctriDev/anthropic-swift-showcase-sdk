@@ -51,10 +51,6 @@ extension Base64PDFSource {
     }
 }
 
-
-
-
-
 /// Typed representation of the `Base64ImageSource` API schema.
 public struct Base64ImageSource: Codable {
     /// Required `byte`-formatted value serialized in the `data` wire field.

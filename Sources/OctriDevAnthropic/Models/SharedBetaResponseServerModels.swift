@@ -57,10 +57,6 @@ extension BetaResponseServerToolUseBlockCaller {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaResponseServerToolUseBlock` API schema.
 public struct BetaResponseServerToolUseBlock: Codable {
     /// Required `string` value serialized in the `id` wire field.

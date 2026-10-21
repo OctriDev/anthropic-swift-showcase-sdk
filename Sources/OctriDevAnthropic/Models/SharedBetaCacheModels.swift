@@ -110,10 +110,6 @@ extension BetaCacheMissUnavailable {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaCacheControlEphemeral` API schema.
 public struct BetaCacheControlEphemeral: Codable {
     /// Required `string` value serialized in the `type` wire field.

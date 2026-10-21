@@ -91,12 +91,6 @@ extension BetaApproveSpendLimitIncreaseRequestParams {
     }
 }
 
-
-
-
-
-
-
 /// Typed representation of the `BetaApproveSpendLimitIncreaseRequestResponse` API schema.
 public struct BetaApproveSpendLimitIncreaseRequestResponse: Codable {
     /// A user within the organization. `name` and `email_address` are null when the underlying account is

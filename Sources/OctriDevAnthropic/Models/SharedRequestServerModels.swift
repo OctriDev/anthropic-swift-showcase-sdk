@@ -104,10 +104,6 @@ extension RequestServerToolUseBlockCacheControl {
     }
 }
 
-
-
-
-
 /// Typed representation of the `RequestServerToolUseBlock` API schema.
 public struct RequestServerToolUseBlock: Codable {
     /// Required `string` value serialized in the `id` wire field.

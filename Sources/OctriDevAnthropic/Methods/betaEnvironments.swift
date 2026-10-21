@@ -7,3 +7,54 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaEnvironmentsMethods {}
+
+extension BetaEnvironmentsMethods {
+    public struct CreateBetaEnvironmentsOptions: Codable {
+        public var name: String
+        public var anthropicBeta: [AnthropicBeta]?
+        public var anthropicVersion: String?
+        public var anthropicWorkspaceId: String?
+        public var config: SdkOptional<BetaPublicEnvironmentCreateRequestConfig>?
+        public var description: SdkOptional<String>?
+        public var metadata: [String: String]?
+        public var scope: SdkOptional<BetaPublicEnvironmentCreateRequestScopeVariant0>?
+
+        public init(name: String) {
+            self.name = name
+        }
+    }
+
+    /// Create a new environment with the specified configuration.
+    ///
+    /// - Parameters:
+    /// - name: Human-readable name for the environment
+    /// - anthropicBeta: Optional header to specify the beta version(s) you want to
+    ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
+    ///   specify the header multiple times for each beta.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    /// - config: Environment configuration
+    /// - description: Optional description of the environment
+    /// - metadata: User-provided metadata key-value pairs
+    /// - scope: The visibility scope for this environment. 'organization' makes the
+    ///   environment visible to all accounts. 'account' restricts visibility to the
+    ///   owning account only. Only applicable for self-hosted environments. If not
+    ///   specified, defaults based on organization type.
+    public static func createBetaEnvironments(config: ClientConfig, options: CreateBetaEnvironmentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
+        try validateLength("name", options.name, min: 1, max: 256)
+
+        let requestBody = CreateBetaEnvironmentsRequestBody(options: options)
+
+        return try (await sdkRequest("POST", "/v1/environments?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaEnvironments", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    }
+}

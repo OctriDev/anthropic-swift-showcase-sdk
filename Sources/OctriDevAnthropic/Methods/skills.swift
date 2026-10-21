@@ -7,3 +7,38 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum SkillsMethods {}
+
+extension SkillsMethods {
+    /// Creates a skill from uploaded files and creates its initial version. Provide the files in a single top-level directory with `SKILL.md` at that directory's root; optionally set `display_name` to a human-readable label. If omitted, the label is derived from the `SKILL.md` frontmatter name.
+    ///
+    /// - Parameters:
+    /// - files: Files to upload for the skill. All files must be in the same
+    ///   top-level directory and must include a SKILL.md file at the root of that
+    ///   directory.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    /// - displayName: Human-readable, single-line label for the Skill. Maximum 255
+    ///   characters. Always set: derived from the SKILL.md frontmatter `name` when
+    ///   omitted at creation. Not unique.
+    public static func createSkills(config: ClientConfig, files: [SdkUploadFile], anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> Skill {
+        var multipartParts: [SdkMultipartField] = []
+        for item in files {
+            multipartParts.append(.file("files", item))
+        }
+        if let displayName = displayName {
+            multipartParts.append(.scalar("display_name", displayName))
+        }
+        let multipart = sdkEncodeMultipart(multipartParts)
+
+        return try (await sdkRequest("POST", "/v1/skills", config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "createSkills", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+    }
+}

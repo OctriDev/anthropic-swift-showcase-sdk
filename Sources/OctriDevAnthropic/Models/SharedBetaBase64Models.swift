@@ -49,10 +49,6 @@ extension BetaBase64ImageSource {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaBase64PDFSource` API schema.
 public struct BetaBase64PDFSource: Codable {
     /// Required `byte`-formatted value serialized in the `data` wire field.

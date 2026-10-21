@@ -46,12 +46,12 @@ public struct ListBetaOrganizationsAnalyticsUsersParameterVariant0: RawRepresent
     }
 }
 
-public struct ListBetaOrganizationsAnalyticsPluginsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationAnalyticsPluginsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
     public init(rawValue: String) { self.rawValue = rawValue }
-    public static let asc = ListBetaOrganizationsAnalyticsPluginsParameterVariant0(rawValue: "asc")
-    public static let desc = ListBetaOrganizationsAnalyticsPluginsParameterVariant0(rawValue: "desc")
+    public static let asc = ListBetaOrganizationAnalyticsPluginsParameterVariant0(rawValue: "asc")
+    public static let desc = ListBetaOrganizationAnalyticsPluginsParameterVariant0(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

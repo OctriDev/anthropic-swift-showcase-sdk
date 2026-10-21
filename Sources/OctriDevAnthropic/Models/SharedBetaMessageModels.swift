@@ -87,10 +87,6 @@ extension BetaMessageIterationUsage {
     }
 }
 
-
-
-
-
 /// Typed representation of the `BetaMessage` API schema.
 public struct BetaMessage: Codable {
     /// Unique object identifier. The format and length of IDs may change over time.
@@ -193,10 +189,6 @@ extension BetaMessage {
             try sdkValidateRawEnum("role", self.role, BetaMessageRole.allCases.map(\.rawValue))
     }
 }
-
-
-
-
 
 /// Typed representation of the `BetaMessageBatch` API schema.
 public struct BetaMessageBatch: Codable {

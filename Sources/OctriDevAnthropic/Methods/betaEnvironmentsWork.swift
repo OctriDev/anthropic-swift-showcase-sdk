@@ -7,3 +7,29 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaEnvironmentsWorkMethods {}
+
+extension BetaEnvironmentsWorkMethods {
+    /// Retrieves detailed information about a specific work item in an environment. The pre-built environment worker in the SDKs and CLI calls this operation automatically, so you do not need to invoke it directly. Use both `environment_id` and `work_id` to identify the item.
+    ///
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Retrieve detailed information about a specific work item.
+    ///
+    /// - Parameters:
+    /// - anthropicBeta: Optional header to specify the beta version(s) you want to
+    ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
+    ///   specify the header multiple times for each beta.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    public static func retrieveBetaEnvironmentsWork(config: ClientConfig, environmentId: String, workId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
+        return try (await sdkRequest("GET", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "/work/", sdkEncodePathSegment(sdkWireString(workId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaEnvironmentsWork", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    }
+}
