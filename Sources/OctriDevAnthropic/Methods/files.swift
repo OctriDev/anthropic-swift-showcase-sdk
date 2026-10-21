@@ -7,3 +7,77 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum FilesMethods {}
+
+public extension FilesMethods {
+    /// Uploads a file for use through the Files API. Send the file as multipart form data and optionally set
+    /// `expires_in_seconds` to control how long its bytes remain available. The response includes file metadata and the
+    /// expiration time when one is set.
+    ///
+    /// - Parameters:
+    /// - file: The file to upload. Only the final path component of the part's
+    ///   `filename` is kept; an absent or empty `filename` is replaced with `unnamed`
+    ///   plus the extension for the file's stored `mime_type`, when known.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    /// - expiresInSeconds: Seconds from upload until the file expires and its bytes
+    ///   become permanently unavailable. Must be between 3600 (one hour) and 7776000
+    ///   (ninety days).
+    static func uploadFiles(
+        config: ClientConfig,
+        file: SdkUploadFile,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        expiresInSeconds: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> FileMetadataSchema {
+        if let expiresInSeconds {
+            try validateRange("expires_in_seconds", Double(expiresInSeconds), min: 3600, max: 7_776_000)
+        }
+
+        var multipartParts: [SdkMultipartField] = []
+        multipartParts.append(.file("file", file))
+        if let expiresInSeconds {
+            multipartParts.append(.scalar("expires_in_seconds", expiresInSeconds))
+        }
+        let multipart = sdkEncodeMultipart(multipartParts)
+
+        return try await (sdkRequest(
+            "POST",
+            "/v1/files",
+            config: config,
+            rawBody: multipart.data,
+            contentType: multipart.contentType,
+            decoder: .json,
+            operationId: "uploadFiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
+    }
+}

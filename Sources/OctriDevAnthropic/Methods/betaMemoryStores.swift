@@ -7,3 +7,76 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaMemoryStoresMethods {}
+
+public extension BetaMemoryStoresMethods {
+    /// Creates a named memory store in the selected Workspace for organizing agent memories. Provide a `name` and
+    /// optionally include a `description` or bookkeeping `metadata`; the description is included in the agent's system
+    /// prompt when the store is attached. The response contains the created store and its generated identifier.
+    ///
+    /// - Parameters:
+    /// - name: Human-readable name for the store. Required; 1–255 characters; no
+    ///   control characters. The mount-path slug under `/mnt/memory/` is derived from
+    ///   this name (lowercased, non-alphanumeric runs collapsed to a hyphen). Names
+    ///   need not be unique within a workspace.
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    /// - description: Free-text description of what the store contains, up to 1024
+    ///   characters. Included in the agent's system prompt when the store is
+    ///   attached, so word it to be useful to the agent.
+    /// - metadata: Arbitrary key-value tags for your own bookkeeping (such as the
+    ///   end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values
+    ///   up to 512 characters. Not visible to the agent.
+    static func createBetaMemoryStores(
+        config: ClientConfig,
+        name: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        description: String? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCreateMemoryStoreResponse {
+        try validateLength("name", name, min: 1, max: 255)
+
+        if let description {
+            try validateLength("description", description, max: 1024)
+        }
+
+        let requestBody = CreateBetaMemoryStoresRequestBody(name: name, description: description, metadata: metadata)
+
+        return try await (sdkRequest(
+            "POST",
+            "/v1/memory_stores?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaMemoryStores",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
+    }
+}

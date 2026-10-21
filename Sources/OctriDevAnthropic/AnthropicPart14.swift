@@ -18,10 +18,10 @@ public class BetaOrganizationsAnalyticsPluginsNamespace {
     /// Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode
     /// like `/skills`.
     public func list(
-        options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationsAnalyticsPluginsOptions,
+        options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions,
         requestOptions: RequestOptions? = nil
     ) async throws -> BetaAnalyticsPluginsResponse {
-        try await BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationsAnalyticsPlugins(
+        try await BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPlugins(
             config: config,
             options: options,
             requestOptions: requestOptions
@@ -37,10 +37,10 @@ public class BetaOrganizationsAnalyticsPluginsNamespace {
     /// Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode
     /// like `/skills`.
     public func listPaginated(
-        options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationsAnalyticsPluginsOptions,
+        options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions,
         requestOptions: RequestOptions? = nil
     ) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
-        BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationsAnalyticsPluginsPaginated(
+        BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPluginsPaginated(
             config: config,
             options: options,
             requestOptions: requestOptions

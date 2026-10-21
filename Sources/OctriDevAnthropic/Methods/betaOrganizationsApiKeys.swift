@@ -7,3 +7,50 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaOrganizationsApiKeysMethods {}
+
+public extension BetaOrganizationsApiKeysMethods {
+    /// Retrieves a specific API key by its ID. Use `api_key_id` to identify the key whose metadata you need. The
+    /// response includes its status, scope, creation and expiration details, and a partially redacted key hint.
+    ///
+    /// - Parameters:
+    /// - apiKeyId: ID of the API key.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    static func retrieveBetaOrganizationsApiKeys(
+        config: ClientConfig,
+        apiKeyId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaApiKey {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsApiKeys",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
+    }
+}

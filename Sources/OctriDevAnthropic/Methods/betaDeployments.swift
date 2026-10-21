@@ -7,3 +7,110 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaDeploymentsMethods {}
+
+public extension BetaDeploymentsMethods {
+    struct CreateBetaDeploymentsOptions: Codable {
+        public var name: String
+        public var agent: BetaManagedAgentsAgentUnionParams
+        public var environmentId: String
+        public var initialEvents: [BetaManagedAgentsDeploymentInitialEventParams]
+        public var anthropicVersion: String?
+        public var anthropicBeta: [AnthropicBeta]?
+        public var anthropicWorkspaceId: String?
+        public var description: SdkOptional<String>?
+        public var vaultIds: [String]?
+        public var resources: [BetaManagedAgentsSessionResourceParams]?
+        public var metadata: [String: String]?
+        public var schedule: SdkOptional<BetaManagedAgentsScheduleParams>?
+        public var budget: SdkOptional<BetaManagedAgentsBudget>?
+
+        public init(
+            name: String,
+            agent: BetaManagedAgentsAgentUnionParams,
+            environmentId: String,
+            initialEvents: [BetaManagedAgentsDeploymentInitialEventParams]
+        ) {
+            self.name = name
+            self.agent = agent
+            self.environmentId = environmentId
+            self.initialEvents = initialEvents
+        }
+    }
+
+    /// Creates a deployment that binds an agent to an environment, credentials, initial events, and optional resources
+    /// or schedule. Provide `name`, `agent`, `environment_id`, and `initial_events` to configure the deployment. A
+    /// successful response returns the created deployment and its current status.
+    ///
+    /// - Parameters:
+    /// - name: Human-readable name for the deployment.
+    /// - agent: Agent to deploy. Accepts the `agent` ID string, which pins the
+    ///   latest version, or an `agent` object with both id and version specified. The
+    ///   agent must exist and not be archived.
+    /// - environmentId: ID of the `environment` defining the container
+    ///   configuration for sessions created from this deployment.
+    /// - initialEvents: Events to send to each session immediately after creation.
+    ///   At least 1, maximum 50.
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    /// - description: Description of what the deployment does.
+    /// - vaultIds: Vault IDs for stored credentials the agent can use during
+    ///   sessions created from this deployment. Maximum 50.
+    /// - resources: Resources (e.g. repositories, files) to mount into each
+    ///   session's container. Maximum 500.
+    /// - metadata: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64
+    ///   chars, values up to 512 chars.
+    /// - schedule: Optional recurring cron schedule. When present, the deployment
+    ///   fires automatically. Both expression and timezone are required when schedule
+    ///   is set.
+    /// - budget: Enforced spend ceiling stamped onto each session created from this
+    ///   deployment, copied at session-creation time. Omit to leave sessions
+    ///   uncapped. The deployment agent's model must have a public list price, or the
+    ///   request is rejected; a multiagent roster is re-validated in full when each
+    ///   fire copies the cap, which fails closed the same way.
+    static func createBetaDeployments(
+        config: ClientConfig,
+        options: CreateBetaDeploymentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try validateLength("name", options.name, min: 1, max: 256)
+
+        try validateLength("environment_id", options.environmentId, min: 1, max: 128)
+
+        let requestBody = CreateBetaDeploymentsRequestBody(options: options)
+
+        return try await (sdkRequest(
+            "POST",
+            "/v1/deployments?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaDeployments",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
+    }
+}

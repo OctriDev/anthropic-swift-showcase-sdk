@@ -434,11 +434,11 @@ func apiKeyOperationSecurityPart9(_ operationId: String) -> [[String]]? {
         [
             ["ApiKeyAuth"],
         ]
-    case "listBetaOrganizationsAnalyticsAppsChatProjects":
+    case "listBetaOrganizationAnalyticsPlugins":
         [
             ["ApiKeyAuth"],
         ]
-    case "listBetaOrganizationsAnalyticsArtifacts":
+    case "listBetaOrganizationsAnalyticsAppsChatProjects":
         [
             ["ApiKeyAuth"],
         ]
@@ -449,11 +449,11 @@ func apiKeyOperationSecurityPart9(_ operationId: String) -> [[String]]? {
 
 func apiKeyOperationSecurityPart10(_ operationId: String) -> [[String]]? {
     switch operationId {
-    case "listBetaOrganizationsAnalyticsConnectors":
+    case "listBetaOrganizationsAnalyticsArtifacts":
         [
             ["ApiKeyAuth"],
         ]
-    case "listBetaOrganizationsAnalyticsPlugins":
+    case "listBetaOrganizationsAnalyticsConnectors":
         [
             ["ApiKeyAuth"],
         ]

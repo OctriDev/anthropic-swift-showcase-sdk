@@ -7,3 +7,78 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum ModelsMethods {}
+
+public extension ModelsMethods {
+    /// List available models. The Models API response can be used to determine which models are available for use in
+    /// the API. More recently released models are listed first.
+    ///
+    /// - Parameters:
+    /// - beforeId: ID of the object to use as a cursor for pagination. When
+    ///   provided, returns the page of results immediately before this object.
+    /// - afterId: ID of the object to use as a cursor for pagination. When
+    ///   provided, returns the page of results immediately after this object.
+    /// - limit: Number of items to return per page. Defaults to `20`. Ranges from
+    ///   `1` to `1000`.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    /// - anthropicBeta: Optional header to specify the beta version(s) you want to
+    ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
+    ///   specify the header multiple times for each beta.
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    static func listModels(
+        config: ClientConfig,
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListResponseModelInfo {
+        if let limit {
+            try validateRange("limit", Double(limit), min: 1, max: 1000)
+        }
+
+        return try await (sdkRequest(
+            "GET",
+            "/v1/models",
+            config: config,
+            query: [
+                SdkQueryParameter("before_id", value: beforeId),
+                SdkQueryParameter("after_id", value: afterId),
+                SdkQueryParameter("limit", value: limit),
+            ],
+            decoder: .json,
+            operationId: "listModels",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
+    }
+}

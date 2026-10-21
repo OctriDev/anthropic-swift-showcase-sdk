@@ -7,3 +7,237 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaSessionsEventsMethods {}
+
+public extension BetaSessionsEventsMethods {
+    struct ListBetaSessionsEventsOptions: Codable {
+        public var sessionId: String
+        public var limit: Int?
+        public var page: String?
+        public var order: BetaManagedAgentsListOrder?
+        public var types: [String]?
+        public var createdAtGte: BetaTimestamp?
+        public var createdAtGt: BetaTimestamp?
+        public var createdAtLte: BetaTimestamp?
+        public var createdAtLt: BetaTimestamp?
+        public var anthropicVersion: String?
+        public var anthropicBeta: [AnthropicBeta]?
+        public var anthropicWorkspaceId: String?
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+    }
+
+    /// Lists events for a session in pages, ordered by the event processing time. Use `types[]` and the `created_at`
+    /// filters to narrow the events, and use `page` to continue from a previous response's cursor. Set `order` to
+    /// choose chronological or reverse-chronological order.
+    ///
+    /// - Parameters:
+    /// - sessionId: Path parameter session_id
+    /// - limit: Query parameter for limit
+    /// - page: Opaque pagination cursor from a previous response's `next_page`.
+    /// - order: Sort direction for results, ordered by the event's `processed_at`.
+    ///   Defaults to `asc` (chronological).
+    /// - types: Filter by event type. Values match the `type` field on returned
+    ///   events (for example, `user.message` or `agent.tool_use`). Omit to return all
+    ///   event types.
+    /// - createdAtGte: Return events created at or after this time (inclusive).
+    ///   Compared against the event's `processed_at` value.
+    /// - createdAtGt: Return events created after this time (exclusive). Compared
+    ///   against the event's `processed_at` value.
+    /// - createdAtLte: Return events created at or before this time (inclusive).
+    ///   Compared against the event's `processed_at` value.
+    /// - createdAtLt: Return events created before this time (exclusive). Compared
+    ///   against the event's `processed_at` value.
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    static func listBetaSessionsEvents(
+        config: ClientConfig,
+        options: ListBetaSessionsEventsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListSessionEvents {
+        if let createdAtGte = options.createdAtGte {
+            try sdkValidateDateTime("created_at[gte]", createdAtGte)
+        }
+
+        if let createdAtGt = options.createdAtGt {
+            try sdkValidateDateTime("created_at[gt]", createdAtGt)
+        }
+
+        if let createdAtLte = options.createdAtLte {
+            try sdkValidateDateTime("created_at[lte]", createdAtLte)
+        }
+
+        if let createdAtLt = options.createdAtLt {
+            try sdkValidateDateTime("created_at[lt]", createdAtLt)
+        }
+
+        return try await (sdkRequest(
+            "GET",
+            ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(options.sessionId)), "/events?beta=true"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("page", value: options.page),
+                SdkQueryParameter("order", value: options.order),
+                SdkQueryParameter("types[]", values: options.types, style: "form", explode: true),
+                SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
+                SdkQueryParameter("created_at[gt]", value: options.createdAtGt),
+                SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
+                SdkQueryParameter("created_at[lt]", value: options.createdAtLt),
+            ],
+            decoder: .json,
+            operationId: "listBetaSessionsEvents",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
+    }
+
+    /// Lists events for a session in pages, ordered by the event processing time. Use `types[]` and the `created_at`
+    /// filters to narrow the events, and use `page` to continue from a previous response's cursor. Set `order` to
+    /// choose chronological or reverse-chronological order.
+    ///
+    /// - Parameters:
+    /// - sessionId: Path parameter session_id
+    /// - limit: Query parameter for limit
+    /// - page: Opaque pagination cursor from a previous response's `next_page`.
+    /// - order: Sort direction for results, ordered by the event's `processed_at`.
+    ///   Defaults to `asc` (chronological).
+    /// - types: Filter by event type. Values match the `type` field on returned
+    ///   events (for example, `user.message` or `agent.tool_use`). Omit to return all
+    ///   event types.
+    /// - createdAtGte: Return events created at or after this time (inclusive).
+    ///   Compared against the event's `processed_at` value.
+    /// - createdAtGt: Return events created after this time (exclusive). Compared
+    ///   against the event's `processed_at` value.
+    /// - createdAtLte: Return events created at or before this time (inclusive).
+    ///   Compared against the event's `processed_at` value.
+    /// - createdAtLt: Return events created before this time (exclusive). Compared
+    ///   against the event's `processed_at` value.
+    /// - anthropicWorkspaceId: Optional header to select the Workspace for this
+    ///   request. The value is a Workspace ID (for example,
+    ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
+    ///   on more than one Workspace. A credential that belongs to a specific
+    ///   Workspace may omit it; if sent, it must match that Workspace.
+    static func listBetaSessionsEventsPaginated(
+        config: ClientConfig,
+        options: ListBetaSessionsEventsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsSessionEvent, Swift.Error> {
+        let page = options.page
+        return AsyncThrowingStream<BetaManagedAgentsSessionEvent, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaManagedAgentsSessionEvent,
+            Swift.Error
+        >.Continuation) in
+            let task = _Concurrency.Task {
+                do {
+                    var pageCursor = page
+                    while true {
+                        var nextOptions = options
+                        nextOptions.page = pageCursor
+                        let pageResponse = try await listBetaSessionsEvents(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
+                        let pageItems = (pageResponse.data ?? [])
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
+                        pageCursor = nextCursor
+                    }
+                } catch {
+                    continuation.finish(throwing: error)
+                    return
+                }
+                continuation.finish()
+            }
+            continuation.onTermination = { _ in task.cancel() }
+        }
+    }
+
+    struct ListBetaSessionsEventsPage {
+        public let data: BetaManagedAgentsListSessionEvents
+        public let items: [BetaManagedAgentsSessionEvent]
+        public let hasMore: Bool
+    }
+
+    static func listBetaSessionsEventsPages(
+        config: ClientConfig,
+        options: ListBetaSessionsEventsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaSessionsEventsPage, Swift.Error> {
+        let page = options.page
+        return AsyncThrowingStream<ListBetaSessionsEventsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaSessionsEventsPage,
+            Swift.Error
+        >.Continuation) in
+            let task = _Concurrency.Task {
+                do {
+                    var pageCursor = page
+                    while true {
+                        var nextOptions = options
+                        nextOptions.page = pageCursor
+                        let pageResponse = try await listBetaSessionsEvents(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
+                        let pageItems = (pageResponse.data ?? [])
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        let hasMore = pageResponse.nextPage != nil
+                        pageContinuation.yield(ListBetaSessionsEventsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
+                        pageCursor = nextCursor
+                    }
+                } catch {
+                    pageContinuation.finish(throwing: error)
+                    return
+                }
+                pageContinuation.finish()
+            }
+            pageContinuation.onTermination = { _ in task.cancel() }
+        }
+    }
+}

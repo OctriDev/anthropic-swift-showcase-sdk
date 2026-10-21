@@ -7,3 +7,74 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum BetaOrganizationsServiceAccountsMethods {}
+
+public extension BetaOrganizationsServiceAccountsMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Create a
+    /// service account. A service account is a named workload identity that federation rules target.
+    /// `organization_role` is `developer` (default) or `admin`; a rule may only be created or retargeted to grant
+    /// `org:admin` scope when the target's `organization_role` is `admin`. Creating an `admin`-role service account
+    /// requires an interactive credential (a user OAuth token or a Console session) — a workload may only create
+    /// `developer`-role service accounts.
+    ///
+    /// - Parameters:
+    /// - name: Slug identifier (lowercase, digits, hyphens). Unique within the
+    ///   organization; a duplicate name returns 409.
+    /// - anthropicBeta: Optional header to specify the beta version(s) you want to
+    ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
+    ///   specify the header multiple times for each beta.
+    /// - anthropicVersion: The version of the Claude API you want to use. Read more
+    ///   about versioning and our version history
+    ///   [here](https://platform.claude.com/docs/en/api/versioning).
+    /// - description: Optional free-text description.
+    /// - organizationRole: Org-level role. Defaults to `developer`.
+    static func createBetaOrganizationsServiceAccounts(
+        config: ClientConfig,
+        name: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        description: SdkOptional<String>? = nil,
+        organizationRole: BetaServiceAccountCreateParamsOrganizationRole? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccount {
+        try validateLength("name", name, min: 1, max: 255)
+
+        let requestBody = CreateBetaOrganizationsServiceAccountsRequestBody(
+            name: name,
+            description: description,
+            organizationRole: organizationRole
+        )
+
+        return try await (sdkRequest(
+            "POST",
+            "/v1/organizations/service_accounts?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaOrganizationsServiceAccounts",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
+    }
+}
