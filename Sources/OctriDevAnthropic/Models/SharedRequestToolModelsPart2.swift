@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedRequestTool domain models
+/// SharedRequestTool domain models
 /// Typed representation of the `RequestToolSearchToolResultBlock` API schema.
 public struct RequestToolSearchToolResultBlock: Codable {
     /// Required API value serialized in the `content` wire field.
@@ -22,36 +22,55 @@ public struct RequestToolSearchToolResultBlock: Codable {
         case cacheControl = "cache_control"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RequestToolSearchToolResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.toolUseId) else {
-            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.content = try container.sdkDecodeRequired(.content)
-        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-            try sdkValidateRawEnum("type", self.type, RequestToolSearchToolResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RequestToolSearchToolResultBlock {
-    public init(content: RequestToolSearchToolResultBlockContent, toolUseId: String, type: RequestToolSearchToolResultBlockType, cacheControl: RequestToolSearchToolResultBlockCacheControl? = nil) throws {
+public extension RequestToolSearchToolResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.toolUseId) else {
+            throw SdkValidationError(
+                field: "tool_use_id",
+                code: "required",
+                message: "Validation failed for 'tool_use_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        content = try container.sdkDecodeRequired(.content)
+        toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        try sdkValidatePattern("tool_use_id", toolUseId, sdkPattern047e2f7d5639)
+        try sdkValidateRawEnum("type", type, RequestToolSearchToolResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension RequestToolSearchToolResultBlock {
+    init(
+        content: RequestToolSearchToolResultBlockContent,
+        toolUseId: String,
+        type: RequestToolSearchToolResultBlockType,
+        cacheControl: RequestToolSearchToolResultBlockCacheControl? = nil
+    ) throws {
         (self.content, self.toolUseId) = (content, toolUseId)
         (self.type, self.cacheControl) = (type, cacheControl)
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-            try sdkValidateRawEnum("type", self.type, RequestToolSearchToolResultBlockType.allCases.map(\.rawValue))
+        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+        try sdkValidateRawEnum("type", self.type, RequestToolSearchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -61,25 +80,33 @@ public indirect enum RequestToolResultBlockContent {
 }
 
 extension RequestToolResultBlockContent: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for RequestToolResultBlockContent")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for RequestToolResultBlockContent"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension RequestToolResultBlockContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
         if let value = try? container.decode(
             [RequestToolResultBlockContentItem].self
         ) {
-            return             .requestToolResultBlockContentItemList(value)
+            return .requestToolResultBlockContentItemList(value)
         }
         return nil
     }
@@ -102,7 +129,6 @@ public indirect enum RequestToolResultBlockCacheControl {
 }
 
 extension RequestToolResultBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -110,12 +136,16 @@ extension RequestToolResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -126,8 +156,8 @@ extension RequestToolResultBlockCacheControl: Codable {
 extension RequestToolResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -157,34 +187,48 @@ public struct RequestToolReferenceBlock: Codable {
         case cacheControl = "cache_control"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RequestToolReferenceBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.toolName) else {
-            throw SdkValidationError(field: "tool_name", code: "required", message: "Validation failed for 'tool_name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.toolName = try container.sdkDecodeRequired(.toolName)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-            try validateLength("tool_name", self.toolName, min: 1, max: 256)
-            try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
-            try sdkValidateRawEnum("type", self.type, RequestToolReferenceBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RequestToolReferenceBlock {
-    public init(toolName: String, type: RequestToolReferenceBlockType, cacheControl: RequestToolReferenceBlockCacheControl? = nil) throws {
+public extension RequestToolReferenceBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.toolName) else {
+            throw SdkValidationError(
+                field: "tool_name",
+                code: "required",
+                message: "Validation failed for 'tool_name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        toolName = try container.sdkDecodeRequired(.toolName)
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        try validateLength("tool_name", toolName, min: 1, max: 256)
+        try sdkValidatePattern("tool_name", toolName, sdkPatterndc4e11698f9a)
+        try sdkValidateRawEnum("type", type, RequestToolReferenceBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension RequestToolReferenceBlock {
+    init(
+        toolName: String,
+        type: RequestToolReferenceBlockType,
+        cacheControl: RequestToolReferenceBlockCacheControl? = nil
+    ) throws {
         (self.toolName, self.type) = (toolName, type)
         self.cacheControl = cacheControl
-            try validateLength("tool_name", self.toolName, min: 1, max: 256)
-            try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
-            try sdkValidateRawEnum("type", self.type, RequestToolReferenceBlockType.allCases.map(\.rawValue))
+        try validateLength("tool_name", self.toolName, min: 1, max: 256)
+        try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
+        try sdkValidateRawEnum("type", self.type, RequestToolReferenceBlockType.allCases.map(\.rawValue))
     }
 }
 

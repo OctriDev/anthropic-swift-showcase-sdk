@@ -8,8 +8,10 @@ import Foundation
 #endif
 public enum FilesMethods {}
 
-extension FilesMethods {
-    /// Uploads a file for use through the Files API. Send the file as multipart form data and optionally set `expires_in_seconds` to control how long its bytes remain available. The response includes file metadata and the expiration time when one is set.
+public extension FilesMethods {
+    /// Uploads a file for use through the Files API. Send the file as multipart form data and optionally set
+    /// `expires_in_seconds` to control how long its bytes remain available. The response includes file metadata and the
+    /// expiration time when one is set.
     ///
     /// - Parameters:
     /// - file: The file to upload. Only the final path component of the part's
@@ -26,21 +28,56 @@ extension FilesMethods {
     /// - expiresInSeconds: Seconds from upload until the file expires and its bytes
     ///   become permanently unavailable. Must be between 3600 (one hour) and 7776000
     ///   (ninety days).
-    public static func uploadFiles(config: ClientConfig, file: SdkUploadFile, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, expiresInSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> FileMetadataSchema {
-        if let expiresInSeconds = expiresInSeconds {
-            try validateRange("expires_in_seconds", Double(expiresInSeconds), min: 3600, max: 7776000)
+    static func uploadFiles(
+        config: ClientConfig,
+        file: SdkUploadFile,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        expiresInSeconds: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> FileMetadataSchema {
+        if let expiresInSeconds {
+            try validateRange("expires_in_seconds", Double(expiresInSeconds), min: 3600, max: 7_776_000)
         }
 
         var multipartParts: [SdkMultipartField] = []
         multipartParts.append(.file("file", file))
-        if let expiresInSeconds = expiresInSeconds {
+        if let expiresInSeconds {
             multipartParts.append(.scalar("expires_in_seconds", expiresInSeconds))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try (await sdkRequest("POST", "/v1/files", config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "uploadFiles", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/files",
+            config: config,
+            rawBody: multipart.data,
+            contentType: multipart.contentType,
+            decoder: .json,
+            operationId: "uploadFiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 }

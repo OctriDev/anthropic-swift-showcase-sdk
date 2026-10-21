@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Files domain models
+/// Files domain models
 /// Typed representation of the `FileDeleteResponse` API schema.
 public struct FileDeleteResponse: Codable {
     /// ID of the deleted file.
@@ -16,25 +16,31 @@ public struct FileDeleteResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension FileDeleteResponse {
-    public init(from decoder: Decoder) throws {
+public extension FileDeleteResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
         }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.type = try container.sdkDecodeIfPresent(.type)
-        if let value = self.type {
+        id = try container.sdkDecodeRequired(.id)
+        type = try container.sdkDecodeIfPresent(.type)
+        if let value = type {
             try sdkValidateRawEnum("type", value, FileDeleteResponseType.allCases.map(\.rawValue))
         }
     }
 }
 
-extension FileDeleteResponse {
-    public init(id: String, type: FileDeleteResponseType? = nil) throws {
+public extension FileDeleteResponse {
+    init(id: String, type: FileDeleteResponseType? = nil) throws {
         (self.id, self.type) = (id, type)
         if let value = self.type {
             try sdkValidateRawEnum("type", value, FileDeleteResponseType.allCases.map(\.rawValue))
@@ -54,25 +60,31 @@ public struct BetaFileDeleteResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaFileDeleteResponse {
-    public init(from decoder: Decoder) throws {
+public extension BetaFileDeleteResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
         }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.type = try container.sdkDecodeIfPresent(.type)
-        if let value = self.type {
+        id = try container.sdkDecodeRequired(.id)
+        type = try container.sdkDecodeIfPresent(.type)
+        if let value = type {
             try sdkValidateRawEnum("type", value, BetaFileDeleteResponseType.allCases.map(\.rawValue))
         }
     }
 }
 
-extension BetaFileDeleteResponse {
-    public init(id: String, type: BetaFileDeleteResponseType? = nil) throws {
+public extension BetaFileDeleteResponse {
+    init(id: String, type: BetaFileDeleteResponseType? = nil) throws {
         (self.id, self.type) = (id, type)
         if let value = self.type {
             try sdkValidateRawEnum("type", value, BetaFileDeleteResponseType.allCases.map(\.rawValue))
@@ -112,57 +124,108 @@ public struct FileMetadataSchema: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension FileMetadataSchema {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.filename) else {
-            throw SdkValidationError(field: "filename", code: "required", message: "Validation failed for 'filename': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.mimeType) else {
-            throw SdkValidationError(field: "mime_type", code: "required", message: "Validation failed for 'mime_type': value is required")
-        }
-        guard container.contains(.sizeBytes) else {
-            throw SdkValidationError(field: "size_bytes", code: "required", message: "Validation failed for 'size_bytes': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.filename = try container.sdkDecodeRequired(.filename)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.mimeType = try container.sdkDecodeRequired(.mimeType)
-        self.sizeBytes = try container.sdkDecodeRequired(.sizeBytes)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.downloadable = try container.sdkDecodeIfPresent(.downloadable)
-        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try validateLength("filename", self.filename, min: 1, max: 500)
-            try validateLength("mime_type", self.mimeType, min: 1, max: 255)
-            try validateRange("size_bytes", Double(self.sizeBytes), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, FileMetadataSchemaType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension FileMetadataSchema {
-    public init(createdAt: Date, filename: String, id: String, mimeType: String, sizeBytes: Int, type: FileMetadataSchemaType, downloadable: Bool? = nil, expiresAt: Date? = nil) throws {
+public extension FileMetadataSchema {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.filename) else {
+            throw SdkValidationError(
+                field: "filename",
+                code: "required",
+                message: "Validation failed for 'filename': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.mimeType) else {
+            throw SdkValidationError(
+                field: "mime_type",
+                code: "required",
+                message: "Validation failed for 'mime_type': value is required"
+            )
+        }
+        guard container.contains(.sizeBytes) else {
+            throw SdkValidationError(
+                field: "size_bytes",
+                code: "required",
+                message: "Validation failed for 'size_bytes': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        filename = try container.sdkDecodeRequired(.filename)
+        id = try container.sdkDecodeRequired(.id)
+        mimeType = try container.sdkDecodeRequired(.mimeType)
+        sizeBytes = try container.sdkDecodeRequired(.sizeBytes)
+        type = try container.sdkDecodeRequired(.type)
+        downloadable = try container.sdkDecodeIfPresent(.downloadable)
+        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try validateLength("filename", filename, min: 1, max: 500)
+        try validateLength("mime_type", mimeType, min: 1, max: 255)
+        try validateRange(
+            "size_bytes",
+            Double(sizeBytes),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", type, FileMetadataSchemaType.allCases.map(\.rawValue))
+    }
+}
+
+public extension FileMetadataSchema {
+    init(
+        createdAt: Date,
+        filename: String,
+        id: String,
+        mimeType: String,
+        sizeBytes: Int,
+        type: FileMetadataSchemaType,
+        downloadable: Bool? = nil,
+        expiresAt: Date? = nil
+    ) throws {
         (self.createdAt, self.filename) = (createdAt, filename)
         (self.id, self.mimeType) = (id, mimeType)
         (self.sizeBytes, self.type) = (sizeBytes, type)
         (self.downloadable, self.expiresAt) = (downloadable, expiresAt)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try validateLength("filename", self.filename, min: 1, max: 500)
-            try validateLength("mime_type", self.mimeType, min: 1, max: 255)
-            try validateRange("size_bytes", Double(self.sizeBytes), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, FileMetadataSchemaType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try validateLength("filename", self.filename, min: 1, max: 500)
+        try validateLength("mime_type", self.mimeType, min: 1, max: 255)
+        try validateRange(
+            "size_bytes",
+            Double(self.sizeBytes),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", self.type, FileMetadataSchemaType.allCases.map(\.rawValue))
     }
 }
 
@@ -179,22 +242,28 @@ public struct FileListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension FileListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension FileListResponse {
-    public init(data: [FileMetadataSchema], nextPage: String? = nil) {
+public extension FileListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+    }
+}
+
+public extension FileListResponse {
+    init(data: [FileMetadataSchema], nextPage: String? = nil) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaDreamsMethods {
-    /// Triggers cancellation of a Dream job. Provide the Dream's identifier to request cancellation of the job. Use GET /v1/dreams/{dream_id}?beta=true to inspect the job's status after the cancellation request.
+public extension BetaDreamsMethods {
+    /// Triggers cancellation of a Dream job. Provide the Dream's identifier to request cancellation of the job. Use GET
+    /// /v1/dreams/{dream_id}?beta=true to inspect the job's status after the cancellation request.
     ///
     /// - Parameters:
     /// - dreamId: Path parameter dream_id
@@ -16,11 +17,43 @@ extension BetaDreamsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func cancelBetaDreams(config: ClientConfig, dreamId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        return try (await sdkRequest("POST", ["/v1/dreams/", sdkEncodePathSegment(sdkWireString(dreamId)), "/cancel?beta=true"].joined(), config: config, decoder: .json, operationId: "cancelBetaDreams", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaDreamingErrorResponse.self, "401": BetaDreamingErrorResponse.self, "403": BetaDreamingErrorResponse.self, "404": BetaDreamingErrorResponse.self, "408": BetaDreamingErrorResponse.self, "409": BetaDreamingErrorResponse.self, "412": BetaDreamingErrorResponse.self, "413": BetaDreamingErrorResponse.self, "429": BetaDreamingErrorResponse.self, "431": BetaDreamingErrorResponse.self, "499": BetaDreamingErrorResponse.self, "500": BetaDreamingErrorResponse.self, "501": BetaDreamingErrorResponse.self, "503": BetaDreamingErrorResponse.self, "504": BetaDreamingErrorResponse.self])).data
+    static func cancelBetaDreams(
+        config: ClientConfig,
+        dreamId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        try await (sdkRequest(
+            "POST",
+            ["/v1/dreams/", sdkEncodePathSegment(sdkWireString(dreamId)), "/cancel?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "cancelBetaDreams",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaDreamingErrorResponse.self,
+                "401": BetaDreamingErrorResponse.self,
+                "403": BetaDreamingErrorResponse.self,
+                "404": BetaDreamingErrorResponse.self,
+                "408": BetaDreamingErrorResponse.self,
+                "409": BetaDreamingErrorResponse.self,
+                "412": BetaDreamingErrorResponse.self,
+                "413": BetaDreamingErrorResponse.self,
+                "429": BetaDreamingErrorResponse.self,
+                "431": BetaDreamingErrorResponse.self,
+                "499": BetaDreamingErrorResponse.self,
+                "500": BetaDreamingErrorResponse.self,
+                "501": BetaDreamingErrorResponse.self,
+                "503": BetaDreamingErrorResponse.self,
+                "504": BetaDreamingErrorResponse.self,
+            ]
+        )).data
     }
 }

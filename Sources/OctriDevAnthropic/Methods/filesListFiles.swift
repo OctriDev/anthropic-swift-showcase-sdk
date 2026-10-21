@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension FilesMethods {
-    /// Lists file metadata for the authenticated user in the selected Workspace. Use `page` and `limit` to paginate the results, or use `ids[]` to request specific files; `ids[]` cannot be combined with either parameter and returns a single page. IDs that do not resolve to visible files are omitted.
+public extension FilesMethods {
+    /// Lists file metadata for the authenticated user in the selected Workspace. Use `page` and `limit` to paginate the
+    /// results, or use `ids[]` to request specific files; `ids[]` cannot be combined with either parameter and returns
+    /// a single page. IDs that do not resolve to visible files are omitted.
     ///
     /// - Parameters:
     /// - page: Opaque page cursor returned in a prior list response's `next_page`.
@@ -27,22 +29,59 @@ extension FilesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listFiles(config: ClientConfig, page: String? = nil, ids: [String]? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> FileListResponse {
-        if let limit = limit {
+    static func listFiles(
+        config: ClientConfig,
+        page: String? = nil,
+        ids: [String]? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> FileListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", "/v1/files", config: config, query: [
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("ids[]", values: ids, style: "form", explode: true),
-            SdkQueryParameter("limit", value: limit),
-        ], decoder: .json, operationId: "listFiles", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/files",
+            config: config,
+            query: [
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("ids[]", values: ids, style: "form", explode: true),
+                SdkQueryParameter("limit", value: limit),
+            ],
+            decoder: .json,
+            operationId: "listFiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Lists file metadata for the authenticated user in the selected Workspace. Use `page` and `limit` to paginate the results, or use `ids[]` to request specific files; `ids[]` cannot be combined with either parameter and returns a single page. IDs that do not resolve to visible files are omitted.
+    /// Lists file metadata for the authenticated user in the selected Workspace. Use `page` and `limit` to paginate the
+    /// results, or use `ids[]` to request specific files; `ids[]` cannot be combined with either parameter and returns
+    /// a single page. IDs that do not resolve to visible files are omitted.
     ///
     /// - Parameters:
     /// - page: Opaque page cursor returned in a prior list response's `next_page`.
@@ -62,17 +101,42 @@ extension FilesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listFilesPaginated(config: ClientConfig, page: String? = nil, ids: [String]? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<FileMetadataSchema, Swift.Error> {
-        return AsyncThrowingStream<FileMetadataSchema, Swift.Error> { (continuation: AsyncThrowingStream<FileMetadataSchema, Swift.Error>.Continuation) in
+    static func listFilesPaginated(
+        config: ClientConfig,
+        page: String? = nil,
+        ids: [String]? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<FileMetadataSchema, Swift.Error> {
+        AsyncThrowingStream<FileMetadataSchema, Swift.Error> { (continuation: AsyncThrowingStream<
+            FileMetadataSchema,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listFiles(config: config, page: pageCursor, ids: ids, limit: limit, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listFiles(
+                            config: config,
+                            page: pageCursor,
+                            ids: ids,
+                            limit: limit,
+                            anthropicVersion: anthropicVersion,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -85,25 +149,50 @@ extension FilesMethods {
         }
     }
 
-    public struct ListFilesPage {
+    struct ListFilesPage {
         public let data: FileListResponse
         public let items: [FileMetadataSchema]
         public let hasMore: Bool
     }
 
-    public static func listFilesPages(config: ClientConfig, page: String? = nil, ids: [String]? = nil, limit: Int? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListFilesPage, Swift.Error> {
-        return AsyncThrowingStream<ListFilesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListFilesPage, Swift.Error>.Continuation) in
+    static func listFilesPages(
+        config: ClientConfig,
+        page: String? = nil,
+        ids: [String]? = nil,
+        limit: Int? = nil,
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListFilesPage, Swift.Error> {
+        AsyncThrowingStream<ListFilesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListFilesPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listFiles(config: config, page: pageCursor, ids: ids, limit: limit, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listFiles(
+                            config: config,
+                            page: pageCursor,
+                            ids: ids,
+                            limit: limit,
+                            anthropicVersion: anthropicVersion,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
                         pageContinuation.yield(ListFilesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

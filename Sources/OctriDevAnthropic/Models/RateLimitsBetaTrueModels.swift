@@ -3,7 +3,7 @@
 
 import Foundation
 
-// RateLimitsBetaTrue domain models
+/// RateLimitsBetaTrue domain models
 /// Typed representation of the `BetaWorkspaceRateLimit` API schema.
 public struct BetaWorkspaceRateLimit: Codable {
     /// The kind of rate-limit group this entry represents. `model_group` entries apply to a family of models
@@ -31,46 +31,79 @@ public struct BetaWorkspaceRateLimit: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWorkspaceRateLimit {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.groupType) else {
-            throw SdkValidationError(field: "group_type", code: "required", message: "Validation failed for 'group_type': value is required")
-        }
-        guard container.contains(.limits) else {
-            throw SdkValidationError(field: "limits", code: "required", message: "Validation failed for 'limits': value is required")
-        }
-        guard container.contains(.models) else {
-            throw SdkValidationError(field: "models", code: "required", message: "Validation failed for 'models': value is required")
-        }
-        guard container.contains(.rateLimitId) else {
-            throw SdkValidationError(field: "rate_limit_id", code: "required", message: "Validation failed for 'rate_limit_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.groupType = try container.sdkDecodeRequired(.groupType)
-        self.limits = try container.sdkDecodeRequired(.limits)
-        self.models = try container.sdkDecodeNullable(.models)
-        self.rateLimitId = try container.sdkDecodeRequired(.rateLimitId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWorkspaceRateLimitType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWorkspaceRateLimit {
-    public init(groupType: BetaWorkspaceRateLimitGroupType, limits: [BetaWorkspaceRateLimitValue], models: [String]?, rateLimitId: String, type: BetaWorkspaceRateLimitType, workspaceId: String) throws {
+public extension BetaWorkspaceRateLimit {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.groupType) else {
+            throw SdkValidationError(
+                field: "group_type",
+                code: "required",
+                message: "Validation failed for 'group_type': value is required"
+            )
+        }
+        guard container.contains(.limits) else {
+            throw SdkValidationError(
+                field: "limits",
+                code: "required",
+                message: "Validation failed for 'limits': value is required"
+            )
+        }
+        guard container.contains(.models) else {
+            throw SdkValidationError(
+                field: "models",
+                code: "required",
+                message: "Validation failed for 'models': value is required"
+            )
+        }
+        guard container.contains(.rateLimitId) else {
+            throw SdkValidationError(
+                field: "rate_limit_id",
+                code: "required",
+                message: "Validation failed for 'rate_limit_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        groupType = try container.sdkDecodeRequired(.groupType)
+        limits = try container.sdkDecodeRequired(.limits)
+        models = try container.sdkDecodeNullable(.models)
+        rateLimitId = try container.sdkDecodeRequired(.rateLimitId)
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaWorkspaceRateLimitType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaWorkspaceRateLimit {
+    init(
+        groupType: BetaWorkspaceRateLimitGroupType,
+        limits: [BetaWorkspaceRateLimitValue],
+        models: [String]?,
+        rateLimitId: String,
+        type: BetaWorkspaceRateLimitType,
+        workspaceId: String
+    ) throws {
         (self.groupType, self.limits) = (groupType, limits)
         (self.models, self.rateLimitId) = (models, rateLimitId)
         (self.type, self.workspaceId) = (type, workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaWorkspaceRateLimitType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaWorkspaceRateLimitType.allCases.map(\.rawValue))
     }
 }
 
@@ -86,25 +119,35 @@ public struct BetaRateLimitValue: Codable {
         case value
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRateLimitValue {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.value = try container.sdkDecodeRequired(.value)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRateLimitValue {
-    public init(type: String, value: Int) {
+public extension BetaRateLimitValue {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        value = try container.sdkDecodeRequired(.value)
+    }
+}
+
+public extension BetaRateLimitValue {
+    init(type: String, value: Int) {
         (self.type, self.value) = (type, value)
     }
 }
@@ -121,25 +164,35 @@ public struct BetaRateLimitListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRateLimitListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRateLimitListResponse {
-    public init(data: [BetaRateLimit], nextPage: String?) {
+public extension BetaRateLimitListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaRateLimitListResponse {
+    init(data: [BetaRateLimit], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -156,25 +209,35 @@ public struct BetaWorkspaceRateLimitListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWorkspaceRateLimitListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWorkspaceRateLimitListResponse {
-    public init(data: [BetaWorkspaceRateLimit], nextPage: String?) {
+public extension BetaWorkspaceRateLimitListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaWorkspaceRateLimitListResponse {
+    init(data: [BetaWorkspaceRateLimit], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -202,42 +265,70 @@ public struct BetaRateLimit: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRateLimit {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.groupType) else {
-            throw SdkValidationError(field: "group_type", code: "required", message: "Validation failed for 'group_type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.limits) else {
-            throw SdkValidationError(field: "limits", code: "required", message: "Validation failed for 'limits': value is required")
-        }
-        guard container.contains(.models) else {
-            throw SdkValidationError(field: "models", code: "required", message: "Validation failed for 'models': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.groupType = try container.sdkDecodeRequired(.groupType)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.limits = try container.sdkDecodeRequired(.limits)
-        self.models = try container.sdkDecodeNullable(.models)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaRateLimitType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRateLimit {
-    public init(groupType: BetaRateLimitGroupType, id: String, limits: [BetaRateLimitValue], models: [String]?, type: BetaRateLimitType) throws {
+public extension BetaRateLimit {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.groupType) else {
+            throw SdkValidationError(
+                field: "group_type",
+                code: "required",
+                message: "Validation failed for 'group_type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.limits) else {
+            throw SdkValidationError(
+                field: "limits",
+                code: "required",
+                message: "Validation failed for 'limits': value is required"
+            )
+        }
+        guard container.contains(.models) else {
+            throw SdkValidationError(
+                field: "models",
+                code: "required",
+                message: "Validation failed for 'models': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        groupType = try container.sdkDecodeRequired(.groupType)
+        id = try container.sdkDecodeRequired(.id)
+        limits = try container.sdkDecodeRequired(.limits)
+        models = try container.sdkDecodeNullable(.models)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaRateLimitType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRateLimit {
+    init(
+        groupType: BetaRateLimitGroupType,
+        id: String,
+        limits: [BetaRateLimitValue],
+        models: [String]?,
+        type: BetaRateLimitType
+    ) throws {
         (self.groupType, self.id) = (groupType, id)
         (self.limits, self.models) = (limits, models)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaRateLimitType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRateLimitType.allCases.map(\.rawValue))
     }
 }
 
@@ -257,29 +348,43 @@ public struct BetaWorkspaceRateLimitValue: Codable {
         case value
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWorkspaceRateLimitValue {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.orgLimit) else {
-            throw SdkValidationError(field: "org_limit", code: "required", message: "Validation failed for 'org_limit': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        self.orgLimit = try container.sdkDecodeNullable(.orgLimit)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.value = try container.sdkDecodeRequired(.value)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWorkspaceRateLimitValue {
-    public init(orgLimit: Int?, type: String, value: Int) {
+public extension BetaWorkspaceRateLimitValue {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.orgLimit) else {
+            throw SdkValidationError(
+                field: "org_limit",
+                code: "required",
+                message: "Validation failed for 'org_limit': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        orgLimit = try container.sdkDecodeNullable(.orgLimit)
+        type = try container.sdkDecodeRequired(.type)
+        value = try container.sdkDecodeRequired(.value)
+    }
+}
+
+public extension BetaWorkspaceRateLimitValue {
+    init(orgLimit: Int?, type: String, value: Int) {
         (self.orgLimit, self.type) = (orgLimit, type)
         self.value = value
     }
@@ -290,7 +395,10 @@ extension BetaWorkspaceRateLimitValue {
 public struct BetaRateLimitGroupType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let batch = BetaRateLimitGroupType(rawValue: "batch")
     public static let files = BetaRateLimitGroupType(rawValue: "files")
     public static let modelGroup = BetaRateLimitGroupType(rawValue: "model_group")
@@ -300,7 +408,7 @@ public struct BetaRateLimitGroupType: RawRepresentable, Hashable, Codable, Senda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -332,7 +440,10 @@ public enum BetaRateLimitType: String, CaseIterable, Codable {
 public struct BetaWorkspaceRateLimitGroupType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let batch = BetaWorkspaceRateLimitGroupType(rawValue: "batch")
     public static let files = BetaWorkspaceRateLimitGroupType(rawValue: "files")
     public static let modelGroup = BetaWorkspaceRateLimitGroupType(rawValue: "model_group")
@@ -342,7 +453,7 @@ public struct BetaWorkspaceRateLimitGroupType: RawRepresentable, Hashable, Codab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

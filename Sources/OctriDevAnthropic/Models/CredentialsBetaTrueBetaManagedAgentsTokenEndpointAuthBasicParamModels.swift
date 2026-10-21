@@ -3,28 +3,40 @@
 
 import Foundation
 
-// CredentialsBetaTrue domain models
-extension BetaManagedAgentsTokenEndpointAuthBasicParam {
-    public init(from decoder: Decoder) throws {
+/// CredentialsBetaTrue domain models
+public extension BetaManagedAgentsTokenEndpointAuthBasicParam {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
         }
         guard container.contains(.clientSecret) else {
-            throw SdkValidationError(field: "client_secret", code: "required", message: "Validation failed for 'client_secret': value is required")
+            throw SdkValidationError(
+                field: "client_secret",
+                code: "required",
+                message: "Validation failed for 'client_secret': value is required"
+            )
         }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.clientSecret = try container.sdkDecodeRequired(.clientSecret)
-            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthBasicParamType.allCases.map(\.rawValue))
-            try validateLength("client_secret", self.clientSecret, min: 1, max: 512)
+        type = try container.sdkDecodeRequired(.type)
+        clientSecret = try container.sdkDecodeRequired(.clientSecret)
+        try sdkValidateRawEnum("type", type, BetaManagedAgentsTokenEndpointAuthBasicParamType.allCases.map(\.rawValue))
+        try validateLength("client_secret", clientSecret, min: 1, max: 512)
     }
 }
 
-extension BetaManagedAgentsTokenEndpointAuthBasicParam {
-    public init(type: BetaManagedAgentsTokenEndpointAuthBasicParamType, clientSecret: String) throws {
+public extension BetaManagedAgentsTokenEndpointAuthBasicParam {
+    init(type: BetaManagedAgentsTokenEndpointAuthBasicParamType, clientSecret: String) throws {
         (self.type, self.clientSecret) = (type, clientSecret)
-            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthBasicParamType.allCases.map(\.rawValue))
-            try validateLength("client_secret", self.clientSecret, min: 1, max: 512)
+        try sdkValidateRawEnum(
+            "type",
+            self.type,
+            BetaManagedAgentsTokenEndpointAuthBasicParamType.allCases.map(\.rawValue)
+        )
+        try validateLength("client_secret", self.clientSecret, min: 1, max: 512)
     }
 }
 
@@ -37,24 +49,34 @@ public struct BetaManagedAgentsTokenEndpointAuthNoneParam: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsTokenEndpointAuthNoneParam {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthNoneParamType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsTokenEndpointAuthNoneParam {
-    public init(type: BetaManagedAgentsTokenEndpointAuthNoneParamType) throws {
+public extension BetaManagedAgentsTokenEndpointAuthNoneParam {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaManagedAgentsTokenEndpointAuthNoneParamType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaManagedAgentsTokenEndpointAuthNoneParam {
+    init(type: BetaManagedAgentsTokenEndpointAuthNoneParamType) throws {
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthNoneParamType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "type",
+            self.type,
+            BetaManagedAgentsTokenEndpointAuthNoneParamType.allCases.map(\.rawValue)
+        )
     }
 }
 

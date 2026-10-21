@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaDiagnostics domain models
+/// SharedBetaDiagnostics domain models
 public indirect enum BetaDiagnosticsCacheMissReason {
     case betaCacheMissModelChanged(BetaCacheMissModelChanged)
     case betaCacheMissSystemChanged(BetaCacheMissSystemChanged)
@@ -16,7 +16,6 @@ public indirect enum BetaDiagnosticsCacheMissReason {
 }
 
 extension BetaDiagnosticsCacheMissReason: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -24,12 +23,16 @@ extension BetaDiagnosticsCacheMissReason: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,14 +43,14 @@ extension BetaDiagnosticsCacheMissReason: Codable {
 extension BetaDiagnosticsCacheMissReason {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "model_changed": return .betaCacheMissModelChanged(try BetaCacheMissModelChanged(from: decoder))
-        case "system_changed": return .betaCacheMissSystemChanged(try BetaCacheMissSystemChanged(from: decoder))
-        case "tools_changed": return .betaCacheMissToolsChanged(try BetaCacheMissToolsChanged(from: decoder))
-        case "messages_changed": return .betaCacheMissMessagesChanged(try BetaCacheMissMessagesChanged(from: decoder))
+        case "model_changed": try .betaCacheMissModelChanged(BetaCacheMissModelChanged(from: decoder))
+        case "system_changed": try .betaCacheMissSystemChanged(BetaCacheMissSystemChanged(from: decoder))
+        case "tools_changed": try .betaCacheMissToolsChanged(BetaCacheMissToolsChanged(from: decoder))
+        case "messages_changed": try .betaCacheMissMessagesChanged(BetaCacheMissMessagesChanged(from: decoder))
         case "previous_message_not_found":
-        return .betaCacheMissPreviousMessageNotFound(try BetaCacheMissPreviousMessageNotFound(from: decoder))
-        case "unavailable": return .betaCacheMissUnavailable(try BetaCacheMissUnavailable(from: decoder))
-        default: return nil
+            try .betaCacheMissPreviousMessageNotFound(BetaCacheMissPreviousMessageNotFound(from: decoder))
+        case "unavailable": try .betaCacheMissUnavailable(BetaCacheMissUnavailable(from: decoder))
+        default: nil
         }
     }
 }
@@ -79,19 +82,19 @@ public struct BetaDiagnosticsParam: Codable {
     }
 
     init() {
-        self.previousMessageId = nil
+        previousMessageId = nil
     }
 }
 
-extension BetaDiagnosticsParam {
-    public init(from decoder: Decoder) throws {
+public extension BetaDiagnosticsParam {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.previousMessageId = try container.sdkDecodeIfPresent(.previousMessageId)
+        previousMessageId = try container.sdkDecodeIfPresent(.previousMessageId)
     }
 }
 
-extension BetaDiagnosticsParam {
-    public init(previousMessageId: String? = nil) {
+public extension BetaDiagnosticsParam {
+    init(previousMessageId: String? = nil) {
         self.init()
         self.previousMessageId = previousMessageId
     }
@@ -109,21 +112,27 @@ public struct BetaDiagnostics: Codable {
         case cacheMissReason = "cache_miss_reason"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaDiagnostics {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.cacheMissReason) else {
-            throw SdkValidationError(field: "cache_miss_reason", code: "required", message: "Validation failed for 'cache_miss_reason': value is required")
-        }
-        self.cacheMissReason = try container.sdkDecodeNullable(.cacheMissReason)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaDiagnostics {
-    public init(cacheMissReason: BetaDiagnosticsCacheMissReason?) {
+public extension BetaDiagnostics {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.cacheMissReason) else {
+            throw SdkValidationError(
+                field: "cache_miss_reason",
+                code: "required",
+                message: "Validation failed for 'cache_miss_reason': value is required"
+            )
+        }
+        cacheMissReason = try container.sdkDecodeNullable(.cacheMissReason)
+    }
+}
+
+public extension BetaDiagnostics {
+    init(cacheMissReason: BetaDiagnosticsCacheMissReason?) {
         self.cacheMissReason = cacheMissReason
     }
 }

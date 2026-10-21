@@ -3,9 +3,22 @@
 
 import Foundation
 
-// CountTokensBetaTrue domain models
-extension BetaCountMessageTokensParams {
-    public init(messages: [BetaInputMessage], model: Model, cacheControl: BetaCountMessageTokensParamsCacheControl? = nil, contextManagement: BetaContextManagementConfig? = nil, mcpServers: [BetaRequestMCPServerURLDefinition]? = nil, outputConfig: BetaOutputConfig? = nil, outputFormat: BetaJsonOutputFormat? = nil, speed: BetaSpeed? = nil, system: BetaCountMessageTokensParamsSystem? = nil, thinking: BetaThinkingConfigParam? = nil, toolChoice: BetaToolChoice? = nil, tools: [BetaCountMessageTokensParamsToolsItem]? = nil) throws {
+/// CountTokensBetaTrue domain models
+public extension BetaCountMessageTokensParams {
+    init(
+        messages: [BetaInputMessage],
+        model: Model,
+        cacheControl: BetaCountMessageTokensParamsCacheControl? = nil,
+        contextManagement: BetaContextManagementConfig? = nil,
+        mcpServers: [BetaRequestMCPServerURLDefinition]? = nil,
+        outputConfig: BetaOutputConfig? = nil,
+        outputFormat: BetaJsonOutputFormat? = nil,
+        speed: BetaSpeed? = nil,
+        system: BetaCountMessageTokensParamsSystem? = nil,
+        thinking: BetaThinkingConfigParam? = nil,
+        toolChoice: BetaToolChoice? = nil,
+        tools: [BetaCountMessageTokensParamsToolsItem]? = nil
+    ) throws {
         (self.messages, self.model) = (messages, model)
         (self.cacheControl, self.contextManagement) = (cacheControl, contextManagement)
         (self.mcpServers, self.outputConfig) = (mcpServers, outputConfig)
@@ -30,25 +43,35 @@ public struct BetaCountMessageTokensResponse: Codable {
         case inputTokens = "input_tokens"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaCountMessageTokensResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.contextManagement) else {
-            throw SdkValidationError(field: "context_management", code: "required", message: "Validation failed for 'context_management': value is required")
-        }
-        guard container.contains(.inputTokens) else {
-            throw SdkValidationError(field: "input_tokens", code: "required", message: "Validation failed for 'input_tokens': value is required")
-        }
-        self.contextManagement = try container.sdkDecodeNullable(.contextManagement)
-        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaCountMessageTokensResponse {
-    public init(contextManagement: BetaContextManagementResponse?, inputTokens: Int) {
+public extension BetaCountMessageTokensResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.contextManagement) else {
+            throw SdkValidationError(
+                field: "context_management",
+                code: "required",
+                message: "Validation failed for 'context_management': value is required"
+            )
+        }
+        guard container.contains(.inputTokens) else {
+            throw SdkValidationError(
+                field: "input_tokens",
+                code: "required",
+                message: "Validation failed for 'input_tokens': value is required"
+            )
+        }
+        contextManagement = try container.sdkDecodeNullable(.contextManagement)
+        inputTokens = try container.sdkDecodeRequired(.inputTokens)
+    }
+}
+
+public extension BetaCountMessageTokensResponse {
+    init(contextManagement: BetaContextManagementResponse?, inputTokens: Int) {
         (self.contextManagement, self.inputTokens) = (contextManagement, inputTokens)
     }
 }

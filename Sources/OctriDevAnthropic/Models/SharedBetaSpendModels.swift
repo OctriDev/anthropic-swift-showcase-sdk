@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaSpend domain models
+/// SharedBetaSpend domain models
 public indirect enum BetaSpendLimitIncreaseRequestSchemaResolvedBy {
     case betaUserActorSchema(BetaUserActorSchema)
     case betaScopedApiKeyActorSchema(BetaScopedApiKeyActorSchema)
@@ -12,7 +12,6 @@ public indirect enum BetaSpendLimitIncreaseRequestSchemaResolvedBy {
 }
 
 extension BetaSpendLimitIncreaseRequestSchemaResolvedBy: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaSpendLimitIncreaseRequestSchemaResolvedBy: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaSpendLimitIncreaseRequestSchemaResolvedBy: Codable {
 extension BetaSpendLimitIncreaseRequestSchemaResolvedBy {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user_actor": return .betaUserActorSchema(try BetaUserActorSchema(from: decoder))
-        case "scoped_api_key_actor": return .betaScopedApiKeyActorSchema(try BetaScopedApiKeyActorSchema(from: decoder))
-        default: return nil
+        case "user_actor": try .betaUserActorSchema(BetaUserActorSchema(from: decoder))
+        case "scoped_api_key_actor": try .betaScopedApiKeyActorSchema(BetaScopedApiKeyActorSchema(from: decoder))
+        default: nil
         }
     }
 }
@@ -65,7 +68,6 @@ public indirect enum BetaSpendLimitScope {
 }
 
 extension BetaSpendLimitScope: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -73,12 +75,16 @@ extension BetaSpendLimitScope: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -89,12 +95,12 @@ extension BetaSpendLimitScope: Codable {
 extension BetaSpendLimitScope {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user": return .betaUserScope(try BetaUserScope(from: decoder))
-        case "seat_tier": return .betaSeatTierScope(try BetaSeatTierScope(from: decoder))
-        case "rbac_group": return .betaRbacGroupScope(try BetaRbacGroupScope(from: decoder))
-        case "organization_service": return .betaOrgServiceScope(try BetaOrgServiceScope(from: decoder))
-        case "organization": return .betaOrganizationScope(try BetaOrganizationScope(from: decoder))
-        default: return nil
+        case "user": try .betaUserScope(BetaUserScope(from: decoder))
+        case "seat_tier": try .betaSeatTierScope(BetaSeatTierScope(from: decoder))
+        case "rbac_group": try .betaRbacGroupScope(BetaRbacGroupScope(from: decoder))
+        case "organization_service": try .betaOrgServiceScope(BetaOrgServiceScope(from: decoder))
+        case "organization": try .betaOrganizationScope(BetaOrganizationScope(from: decoder))
+        default: nil
         }
     }
 }
@@ -124,7 +130,6 @@ public indirect enum BetaSpendSummarySource {
 }
 
 extension BetaSpendSummarySource: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -132,12 +137,16 @@ extension BetaSpendSummarySource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -148,12 +157,12 @@ extension BetaSpendSummarySource: Codable {
 extension BetaSpendSummarySource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user": return .betaUserScope(try BetaUserScope(from: decoder))
-        case "seat_tier": return .betaSeatTierScope(try BetaSeatTierScope(from: decoder))
-        case "rbac_group": return .betaRbacGroupScope(try BetaRbacGroupScope(from: decoder))
-        case "organization_service": return .betaOrgServiceScope(try BetaOrgServiceScope(from: decoder))
-        case "organization": return .betaOrganizationScope(try BetaOrganizationScope(from: decoder))
-        default: return nil
+        case "user": try .betaUserScope(BetaUserScope(from: decoder))
+        case "seat_tier": try .betaSeatTierScope(BetaSeatTierScope(from: decoder))
+        case "rbac_group": try .betaRbacGroupScope(BetaRbacGroupScope(from: decoder))
+        case "organization_service": try .betaOrgServiceScope(BetaOrgServiceScope(from: decoder))
+        case "organization": try .betaOrganizationScope(BetaOrganizationScope(from: decoder))
+        default: nil
         }
     }
 }
@@ -206,35 +215,47 @@ public struct BetaSpendLimitIncreaseRequestSchema: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSpendLimitIncreaseRequestSchema {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.actor = try container.sdkDecodeRequired(.actor)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.period = try container.sdkDecodeRequired(.period)
-        self.resolvedAt = try container.sdkDecodeNullable(.resolvedAt)
-        self.resolvedBy = try container.sdkDecodeNullable(.resolvedBy)
-        self.spendSummary = try container.sdkDecodeNullable(.spendSummary)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaSpendLimitIncreaseRequestSchemaType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSpendLimitIncreaseRequestSchema {
-    public init(actor: BetaUserActorSchema, createdAt: Date, id: String, period: BetaSpendLimitIncreaseRequestSchemaPeriod, resolvedAt: Date?, resolvedBy: BetaSpendLimitIncreaseRequestSchemaResolvedBy?, spendSummary: BetaSpendSummary?, status: BetaSpendLimitIncreaseRequestSchemaStatus, type: BetaSpendLimitIncreaseRequestSchemaType) throws {
+public extension BetaSpendLimitIncreaseRequestSchema {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        actor = try container.sdkDecodeRequired(.actor)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        id = try container.sdkDecodeRequired(.id)
+        period = try container.sdkDecodeRequired(.period)
+        resolvedAt = try container.sdkDecodeNullable(.resolvedAt)
+        resolvedBy = try container.sdkDecodeNullable(.resolvedBy)
+        spendSummary = try container.sdkDecodeNullable(.spendSummary)
+        status = try container.sdkDecodeRequired(.status)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaSpendLimitIncreaseRequestSchemaType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaSpendLimitIncreaseRequestSchema {
+    init(
+        actor: BetaUserActorSchema,
+        createdAt: Date,
+        id: String,
+        period: BetaSpendLimitIncreaseRequestSchemaPeriod,
+        resolvedAt: Date?,
+        resolvedBy: BetaSpendLimitIncreaseRequestSchemaResolvedBy?,
+        spendSummary: BetaSpendSummary?,
+        status: BetaSpendLimitIncreaseRequestSchemaStatus,
+        type: BetaSpendLimitIncreaseRequestSchemaType
+    ) throws {
         (self.actor, self.createdAt) = (actor, createdAt)
         (self.id, self.period) = (id, period)
         (self.resolvedAt, self.resolvedBy) = (resolvedAt, resolvedBy)
         (self.spendSummary, self.status) = (spendSummary, status)
         self.type = type
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaSpendLimitIncreaseRequestSchemaType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaSpendLimitIncreaseRequestSchemaType.allCases.map(\.rawValue))
     }
 }
 
@@ -270,35 +291,46 @@ public struct BetaSpendLimit: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSpendLimit {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.amount = try container.sdkDecodeNullable(.amount)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.period = try container.sdkDecodeRequired(.period)
-        self.scope = try container.sdkDecodeRequired(.scope)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaSpendLimitType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSpendLimit {
-    public init(amount: String?, createdAt: Date, currency: String, id: String, period: BetaSpendLimitPeriod, scope: BetaSpendLimitScope, type: BetaSpendLimitType, updatedAt: Date) throws {
+public extension BetaSpendLimit {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        amount = try container.sdkDecodeNullable(.amount)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        currency = try container.sdkDecodeRequired(.currency)
+        id = try container.sdkDecodeRequired(.id)
+        period = try container.sdkDecodeRequired(.period)
+        scope = try container.sdkDecodeRequired(.scope)
+        type = try container.sdkDecodeRequired(.type)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, BetaSpendLimitType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("updated_at", sdkWireString(updatedAt))
+    }
+}
+
+public extension BetaSpendLimit {
+    init(
+        amount: String?,
+        createdAt: Date,
+        currency: String,
+        id: String,
+        period: BetaSpendLimitPeriod,
+        scope: BetaSpendLimitScope,
+        type: BetaSpendLimitType,
+        updatedAt: Date
+    ) throws {
         (self.amount, self.createdAt) = (amount, createdAt)
         (self.currency, self.id) = (currency, id)
         (self.period, self.scope) = (period, scope)
         (self.type, self.updatedAt) = (type, updatedAt)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, BetaSpendLimitType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaSpendLimitType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("updated_at", sdkWireString(self.updatedAt))
     }
 }
 
@@ -338,25 +370,36 @@ public struct BetaSpendSummary: Codable {
         case spendLimitId = "spend_limit_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSpendSummary {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.actor = try container.sdkDecodeRequired(.actor)
-        self.amount = try container.sdkDecodeNullable(.amount)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.period = try container.sdkDecodeRequired(.period)
-        self.periodToDateSpend = try container.sdkDecodeRequired(.periodToDateSpend)
-        self.scope = try container.sdkDecodeRequired(.scope)
-        self.source = try container.sdkDecodeRequired(.source)
-        self.spendLimitId = try container.sdkDecodeRequired(.spendLimitId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSpendSummary {
-    public init(actor: BetaUserActorSchema, amount: String?, currency: String, period: BetaSpendSummaryPeriod, periodToDateSpend: String, scope: BetaUserScope, source: BetaSpendSummarySource, spendLimitId: String) {
+public extension BetaSpendSummary {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        actor = try container.sdkDecodeRequired(.actor)
+        amount = try container.sdkDecodeNullable(.amount)
+        currency = try container.sdkDecodeRequired(.currency)
+        period = try container.sdkDecodeRequired(.period)
+        periodToDateSpend = try container.sdkDecodeRequired(.periodToDateSpend)
+        scope = try container.sdkDecodeRequired(.scope)
+        source = try container.sdkDecodeRequired(.source)
+        spendLimitId = try container.sdkDecodeRequired(.spendLimitId)
+    }
+}
+
+public extension BetaSpendSummary {
+    init(
+        actor: BetaUserActorSchema,
+        amount: String?,
+        currency: String,
+        period: BetaSpendSummaryPeriod,
+        periodToDateSpend: String,
+        scope: BetaUserScope,
+        source: BetaSpendSummarySource,
+        spendLimitId: String
+    ) {
         (self.actor, self.amount) = (actor, amount)
         (self.currency, self.period) = (currency, period)
         (self.periodToDateSpend, self.scope) = (periodToDateSpend, scope)
@@ -386,14 +429,17 @@ public enum BetaSpendLimitIncreaseRequestSchemaType: String, CaseIterable, Codab
 public struct BetaSpendSummaryPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let daily = BetaSpendSummaryPeriod(rawValue: "daily")
     public static let monthly = BetaSpendSummaryPeriod(rawValue: "monthly")
     public static let weekly = BetaSpendSummaryPeriod(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -403,17 +449,21 @@ public struct BetaSpendSummaryPeriod: RawRepresentable, Hashable, Codable, Senda
 }
 
 /// Required enumerated value serialized in the `period` wire field.
-public struct BetaSpendLimitIncreaseRequestSchemaPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaSpendLimitIncreaseRequestSchemaPeriod: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let daily = BetaSpendLimitIncreaseRequestSchemaPeriod(rawValue: "daily")
     public static let monthly = BetaSpendLimitIncreaseRequestSchemaPeriod(rawValue: "monthly")
     public static let weekly = BetaSpendLimitIncreaseRequestSchemaPeriod(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -441,17 +491,21 @@ public enum BetaSpendLimitType: String, CaseIterable, Codable {
 }
 
 /// Required enumerated value serialized in the `status` wire field.
-public struct BetaSpendLimitIncreaseRequestSchemaStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaSpendLimitIncreaseRequestSchemaStatus: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let approved = BetaSpendLimitIncreaseRequestSchemaStatus(rawValue: "approved")
     public static let denied = BetaSpendLimitIncreaseRequestSchemaStatus(rawValue: "denied")
     public static let pending = BetaSpendLimitIncreaseRequestSchemaStatus(rawValue: "pending")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -464,14 +518,17 @@ public struct BetaSpendLimitIncreaseRequestSchemaStatus: RawRepresentable, Hasha
 public struct BetaSpendLimitPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let daily = BetaSpendLimitPeriod(rawValue: "daily")
     public static let monthly = BetaSpendLimitPeriod(rawValue: "monthly")
     public static let weekly = BetaSpendLimitPeriod(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

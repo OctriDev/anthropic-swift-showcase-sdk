@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaVaultsMethods {
-    /// Updates a vault's human-readable name or metadata. Send `display_name` to change the name, or use `metadata` to add, replace, or delete individual keys; omitted metadata keys are preserved. The `anthropic-workspace-id` header must match the credential's Workspace when you use it.
+public extension BetaVaultsMethods {
+    /// Updates a vault's human-readable name or metadata. Send `display_name` to change the name, or use `metadata` to
+    /// add, replace, or delete individual keys; omitted metadata keys are preserved. The `anthropic-workspace-id`
+    /// header must match the credential's Workspace when you use it.
     ///
     /// - Parameters:
     /// - vaultId: Path parameter vault_id
@@ -19,13 +21,48 @@ extension BetaVaultsMethods {
     /// - displayName: Updated human-readable name for the vault. 1-255 characters.
     /// - metadata: Metadata patch. Set a key to a string to upsert it, or to null
     ///   to delete it. Omitted keys are preserved.
-    public static func updateBetaVaults(config: ClientConfig, vaultId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, metadata: SdkOptional<[String: String?]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsVault {
+    static func updateBetaVaults(
+        config: ClientConfig,
+        vaultId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        metadata: SdkOptional<[String: String?]>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsVault {
         let requestBody = UpdateBetaVaultsRequestBody(displayName: displayName, metadata: metadata)
 
-        return try (await sdkRequest("POST", ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaVaults", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "updateBetaVaults",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

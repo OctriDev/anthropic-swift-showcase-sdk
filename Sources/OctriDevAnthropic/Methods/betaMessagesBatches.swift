@@ -8,8 +8,11 @@ import Foundation
 #endif
 public enum BetaMessagesBatchesMethods {}
 
-extension BetaMessagesBatchesMethods {
-    /// Send a batch of Message creation requests. The Message Batches API can be used to process multiple Messages API requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24 hours to complete. Learn more about the Message Batches API in our [user guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+public extension BetaMessagesBatchesMethods {
+    /// Send a batch of Message creation requests. The Message Batches API can be used to process multiple Messages API
+    /// requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24
+    /// hours to complete. Learn more about the Message Batches API in our [user
+    /// guide](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
     ///
     /// - Parameters:
     /// - requests: List of requests for prompt completion. Each is an individual
@@ -30,16 +33,51 @@ extension BetaMessagesBatchesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func createBetaMessagesBatches(config: ClientConfig, requests: [BetaMessageBatchIndividualRequestParams], anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicUserProfileId: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaMessageBatch {
-        try validateItems("requests", requests, min: 1, max: 100000)
+    static func createBetaMessagesBatches(
+        config: ClientConfig,
+        requests: [BetaMessageBatchIndividualRequestParams],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        anthropicUserProfileId: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaMessageBatch {
+        try validateItems("requests", requests, min: 1, max: 100_000)
 
         let requestBody = CreateBetaMessagesBatchesRequestBody(requests: requests)
 
-        return try (await sdkRequest("POST", "/v1/messages/batches?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaMessagesBatches", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-user-profile-id", sdkHeaderValue(anthropicUserProfileId)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/messages/batches?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaMessagesBatches",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-user-profile-id", sdkHeaderValue(anthropicUserProfileId)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

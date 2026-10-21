@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsSpendLimitsEffectiveMethods {
-    /// List each member's effective spend limit and period-to-date spend. Returns one row per (member, period) the member resolves a spend limit for, with the `source` scope the spend limit was inherited from. Paginates by member, so a member's periods never split across pages.
+public extension BetaOrganizationsSpendLimitsEffectiveMethods {
+    /// List each member's effective spend limit and period-to-date spend. Returns one row per (member, period) the
+    /// member resolves a spend limit for, with the `source` scope the spend limit was inherited from. Paginates by
+    /// member, so a member's periods never split across pages.
     ///
     /// - Parameters:
     /// - userIds: Restrict the report to these members, by tagged user ID
@@ -21,30 +23,67 @@ extension BetaOrganizationsSpendLimitsEffectiveMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func retrieveBetaOrganizationsSpendLimitsEffective(config: ClientConfig, userIds: [String]? = nil, period: [RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem]? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListEffectiveSpendLimitsResponse {
-        if let userIds = userIds {
+    static func retrieveBetaOrganizationsSpendLimitsEffective(
+        config: ClientConfig,
+        userIds: [String]? = nil,
+        period: [RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem]? = nil,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListEffectiveSpendLimitsResponse {
+        if let userIds {
             try validateItems("user_ids[]", userIds, max: 100)
         }
 
-        if let period = period {
+        if let period {
             try validateItems("period[]", period, max: 3)
         }
 
-        if let limit = limit {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/spend_limits/effective?beta=true", config: config, query: [
-            SdkQueryParameter("user_ids[]", values: userIds, style: "form", explode: true),
-            SdkQueryParameter("period[]", values: period, style: "form", explode: true),
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-        ], decoder: .json, operationId: "retrieveBetaOrganizationsSpendLimitsEffective", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/spend_limits/effective?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("user_ids[]", values: userIds, style: "form", explode: true),
+                SdkQueryParameter("period[]", values: period, style: "form", explode: true),
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+            ],
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsSpendLimitsEffective",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// List each member's effective spend limit and period-to-date spend. Returns one row per (member, period) the member resolves a spend limit for, with the `source` scope the spend limit was inherited from. Paginates by member, so a member's periods never split across pages.
+    /// List each member's effective spend limit and period-to-date spend. Returns one row per (member, period) the
+    /// member resolves a spend limit for, with the `source` scope the spend limit was inherited from. Paginates by
+    /// member, so a member's periods never split across pages.
     ///
     /// - Parameters:
     /// - userIds: Restrict the report to these members, by tagged user ID
@@ -58,17 +97,42 @@ extension BetaOrganizationsSpendLimitsEffectiveMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func retrieveBetaOrganizationsSpendLimitsEffectivePaginated(config: ClientConfig, userIds: [String]? = nil, period: [RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem]? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSpendSummary, Swift.Error> {
-        return AsyncThrowingStream<BetaSpendSummary, Swift.Error> { (continuation: AsyncThrowingStream<BetaSpendSummary, Swift.Error>.Continuation) in
+    static func retrieveBetaOrganizationsSpendLimitsEffectivePaginated(
+        config: ClientConfig,
+        userIds: [String]? = nil,
+        period: [RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem]? = nil,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaSpendSummary, Swift.Error> {
+        AsyncThrowingStream<BetaSpendSummary, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaSpendSummary,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await retrieveBetaOrganizationsSpendLimitsEffective(config: config, userIds: userIds, period: period, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await retrieveBetaOrganizationsSpendLimitsEffective(
+                            config: config,
+                            userIds: userIds,
+                            period: period,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -81,25 +145,57 @@ extension BetaOrganizationsSpendLimitsEffectiveMethods {
         }
     }
 
-    public struct RetrieveBetaOrganizationsSpendLimitsEffectivePage {
+    struct RetrieveBetaOrganizationsSpendLimitsEffectivePage {
         public let data: BetaListEffectiveSpendLimitsResponse
         public let items: [BetaSpendSummary]
         public let hasMore: Bool
     }
 
-    public static func retrieveBetaOrganizationsSpendLimitsEffectivePages(config: ClientConfig, userIds: [String]? = nil, period: [RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem]? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<RetrieveBetaOrganizationsSpendLimitsEffectivePage, Swift.Error> {
-        return AsyncThrowingStream<RetrieveBetaOrganizationsSpendLimitsEffectivePage, Swift.Error> { (pageContinuation: AsyncThrowingStream<RetrieveBetaOrganizationsSpendLimitsEffectivePage, Swift.Error>.Continuation) in
+    static func retrieveBetaOrganizationsSpendLimitsEffectivePages(
+        config: ClientConfig,
+        userIds: [String]? = nil,
+        period: [RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem]? = nil,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<RetrieveBetaOrganizationsSpendLimitsEffectivePage, Swift.Error> {
+        AsyncThrowingStream<
+            RetrieveBetaOrganizationsSpendLimitsEffectivePage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            RetrieveBetaOrganizationsSpendLimitsEffectivePage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await retrieveBetaOrganizationsSpendLimitsEffective(config: config, userIds: userIds, period: period, limit: limit, page: pageCursor, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await retrieveBetaOrganizationsSpendLimitsEffective(
+                            config: config,
+                            userIds: userIds,
+                            period: period,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(RetrieveBetaOrganizationsSpendLimitsEffectivePage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(RetrieveBetaOrganizationsSpendLimitsEffectivePage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

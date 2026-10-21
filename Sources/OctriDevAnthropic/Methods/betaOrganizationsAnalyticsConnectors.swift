@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaOrganizationsAnalyticsConnectorsMethods {}
 
-extension BetaOrganizationsAnalyticsConnectorsMethods {
-    public struct ListBetaOrganizationsAnalyticsConnectorsOptions: Codable {
+public extension BetaOrganizationsAnalyticsConnectorsMethods {
+    struct ListBetaOrganizationsAnalyticsConnectorsOptions: Codable {
         public var date: String?
         public var startingDate: String?
         public var endingDate: String?
@@ -23,7 +23,12 @@ extension BetaOrganizationsAnalyticsConnectorsMethods {
         public init() {}
     }
 
-    /// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the organization, sorted by connector name. Connector names are normalized from their various sources — for example, "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the
+    /// organization, sorted by connector name. Connector names are normalized from their various sources — for example,
+    /// "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per
+    /// member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list
+    /// the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the
+    /// `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get connector usage for.
@@ -78,7 +83,11 @@ extension BetaOrganizationsAnalyticsConnectorsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    public static func listBetaOrganizationsAnalyticsConnectors(config: ClientConfig, options: ListBetaOrganizationsAnalyticsConnectorsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsConnectorsResponse {
+    static func listBetaOrganizationsAnalyticsConnectors(
+        config: ClientConfig,
+        options: ListBetaOrganizationsAnalyticsConnectorsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsConnectorsResponse {
         if let groupBy = options.groupBy {
             try validateItems("group_by[]", groupBy, max: 100)
         }
@@ -87,20 +96,51 @@ extension BetaOrganizationsAnalyticsConnectorsMethods {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/analytics/connectors?beta=true", config: config, query: [
-            SdkQueryParameter("date", value: options.date),
-            SdkQueryParameter("starting_date", value: options.startingDate),
-            SdkQueryParameter("ending_date", value: options.endingDate),
-            SdkQueryParameter("limit", value: options.limit),
-            SdkQueryParameter("page", value: options.page),
-            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-            SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
-            SdkQueryParameter("order_by", value: options.orderBy),
-            SdkQueryParameter("order", value: options.order),
-        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsConnectors", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/analytics/connectors?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("date", value: options.date),
+                SdkQueryParameter("starting_date", value: options.startingDate),
+                SdkQueryParameter("ending_date", value: options.endingDate),
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("page", value: options.page),
+                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+                SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
+                SdkQueryParameter("order_by", value: options.orderBy),
+                SdkQueryParameter("order", value: options.order),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsAnalyticsConnectors",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the organization, sorted by connector name. Connector names are normalized from their various sources — for example, "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-connector usage for a given day, with cursor-based pagination. Returns connector usage metrics for the
+    /// organization, sorted by connector name. Connector names are normalized from their various sources — for example,
+    /// "Atlassian MCP server" and "mcp-atlassian" both appear as "atlassian". Use `group_by[]` to break usage out per
+    /// member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list
+    /// the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the
+    /// `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get connector usage for.
@@ -155,20 +195,37 @@ extension BetaOrganizationsAnalyticsConnectorsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    public static func listBetaOrganizationsAnalyticsConnectorsPaginated(config: ClientConfig, options: ListBetaOrganizationsAnalyticsConnectorsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error> {
+    static func listBetaOrganizationsAnalyticsConnectorsPaginated(
+        config: ClientConfig,
+        options: ListBetaOrganizationsAnalyticsConnectorsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<BetaAnalyticsConnectorActivity, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaAnalyticsConnectorActivity,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsConnectors(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsAnalyticsConnectors(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -181,28 +238,52 @@ extension BetaOrganizationsAnalyticsConnectorsMethods {
         }
     }
 
-    public struct ListBetaOrganizationsAnalyticsConnectorsPage {
+    struct ListBetaOrganizationsAnalyticsConnectorsPage {
         public let data: BetaAnalyticsConnectorsResponse
         public let items: [BetaAnalyticsConnectorActivity]
         public let hasMore: Bool
     }
 
-    public static func listBetaOrganizationsAnalyticsConnectorsPages(config: ClientConfig, options: ListBetaOrganizationsAnalyticsConnectorsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsConnectorsPage, Swift.Error> {
+    static func listBetaOrganizationsAnalyticsConnectorsPages(
+        config: ClientConfig,
+        options: ListBetaOrganizationsAnalyticsConnectorsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsConnectorsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaOrganizationsAnalyticsConnectorsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsAnalyticsConnectorsPage, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<
+            ListBetaOrganizationsAnalyticsConnectorsPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaOrganizationsAnalyticsConnectorsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsConnectors(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsAnalyticsConnectors(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsAnalyticsConnectorsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaOrganizationsAnalyticsConnectorsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

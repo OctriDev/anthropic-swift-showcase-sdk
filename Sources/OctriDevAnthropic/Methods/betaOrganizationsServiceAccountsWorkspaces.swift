@@ -8,8 +8,18 @@ import Foundation
 #endif
 public enum BetaOrganizationsServiceAccountsWorkspacesMethods {}
 
-extension BetaOrganizationsServiceAccountsWorkspacesMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the workspaces a service account is a member of. Each entry includes the service account's `workspace_role` in that workspace. Use `limit` and the `next_page` cursor to paginate. When the service account has no explicit default-workspace membership, the implicit (`implicit: true`) membership is returned as the first entry on the first page; with `limit=1` the first page may return up to 2 entries (the implicit entry plus one explicit membership) so a pagination cursor can be derived. Memberships are returned only while the service account is active. Without a `page` cursor, an archived service account returns an empty list. A `page` cursor that does not match an active membership returns a 400 invalid-request error. A cursor stops matching when the membership is removed, the workspace is deleted, or the service account is archived. Restart pagination from the first page to recover.
+public extension BetaOrganizationsServiceAccountsWorkspacesMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the
+    /// workspaces a service account is a member of. Each entry includes the service account's `workspace_role` in that
+    /// workspace. Use `limit` and the `next_page` cursor to paginate. When the service account has no explicit
+    /// default-workspace membership, the implicit (`implicit: true`) membership is returned as the first entry on the
+    /// first page; with `limit=1` the first page may return up to 2 entries (the implicit entry plus one explicit
+    /// membership) so a pagination cursor can be derived. Memberships are returned only while the service account is
+    /// active. Without a `page` cursor, an archived service account returns an empty list. A `page` cursor that does
+    /// not match an active membership returns a 400 invalid-request error. A cursor stops matching when the membership
+    /// is removed, the workspace is deleted, or the service account is archived. Restart pagination from the first page
+    /// to recover.
     ///
     /// - Parameters:
     /// - serviceAccountId: ID of the service account.
@@ -21,21 +31,70 @@ extension BetaOrganizationsServiceAccountsWorkspacesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsServiceAccountsWorkspaces(config: ClientConfig, serviceAccountId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMemberListResponse {
-        if let limit = limit {
+    static func listBetaOrganizationsServiceAccountsWorkspaces(
+        config: ClientConfig,
+        serviceAccountId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMemberListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        return try (await sdkRequest("GET", ["/v1/organizations/service_accounts/", sdkEncodePathSegment(sdkWireString(serviceAccountId)), "/workspaces?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-        ], decoder: .json, operationId: "listBetaOrganizationsServiceAccountsWorkspaces", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            [
+                "/v1/organizations/service_accounts/",
+                sdkEncodePathSegment(sdkWireString(serviceAccountId)),
+                "/workspaces?beta=true",
+            ].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsServiceAccountsWorkspaces",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the workspaces a service account is a member of. Each entry includes the service account's `workspace_role` in that workspace. Use `limit` and the `next_page` cursor to paginate. When the service account has no explicit default-workspace membership, the implicit (`implicit: true`) membership is returned as the first entry on the first page; with `limit=1` the first page may return up to 2 entries (the implicit entry plus one explicit membership) so a pagination cursor can be derived. Memberships are returned only while the service account is active. Without a `page` cursor, an archived service account returns an empty list. A `page` cursor that does not match an active membership returns a 400 invalid-request error. A cursor stops matching when the membership is removed, the workspace is deleted, or the service account is archived. Restart pagination from the first page to recover.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List the
+    /// workspaces a service account is a member of. Each entry includes the service account's `workspace_role` in that
+    /// workspace. Use `limit` and the `next_page` cursor to paginate. When the service account has no explicit
+    /// default-workspace membership, the implicit (`implicit: true`) membership is returned as the first entry on the
+    /// first page; with `limit=1` the first page may return up to 2 entries (the implicit entry plus one explicit
+    /// membership) so a pagination cursor can be derived. Memberships are returned only while the service account is
+    /// active. Without a `page` cursor, an archived service account returns an empty list. A `page` cursor that does
+    /// not match an active membership returns a 400 invalid-request error. A cursor stops matching when the membership
+    /// is removed, the workspace is deleted, or the service account is archived. Restart pagination from the first page
+    /// to recover.
     ///
     /// - Parameters:
     /// - serviceAccountId: ID of the service account.
@@ -47,17 +106,42 @@ extension BetaOrganizationsServiceAccountsWorkspacesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsServiceAccountsWorkspacesPaginated(config: ClientConfig, serviceAccountId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> {
-        return AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> { (continuation: AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsServiceAccountsWorkspacesPaginated(
+        config: ClientConfig,
+        serviceAccountId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> {
+        AsyncThrowingStream<BetaServiceAccountWorkspaceMember, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaServiceAccountWorkspaceMember,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsServiceAccountsWorkspaces(config: config, serviceAccountId: serviceAccountId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsServiceAccountsWorkspaces(
+                            config: config,
+                            serviceAccountId: serviceAccountId,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -70,25 +154,57 @@ extension BetaOrganizationsServiceAccountsWorkspacesMethods {
         }
     }
 
-    public struct ListBetaOrganizationsServiceAccountsWorkspacesPage {
+    struct ListBetaOrganizationsServiceAccountsWorkspacesPage {
         public let data: BetaServiceAccountWorkspaceMemberListResponse
         public let items: [BetaServiceAccountWorkspaceMember]
         public let hasMore: Bool
     }
 
-    public static func listBetaOrganizationsServiceAccountsWorkspacesPages(config: ClientConfig, serviceAccountId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsServiceAccountsWorkspacesPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaOrganizationsServiceAccountsWorkspacesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsServiceAccountsWorkspacesPage, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsServiceAccountsWorkspacesPages(
+        config: ClientConfig,
+        serviceAccountId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaOrganizationsServiceAccountsWorkspacesPage, Swift.Error> {
+        AsyncThrowingStream<
+            ListBetaOrganizationsServiceAccountsWorkspacesPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaOrganizationsServiceAccountsWorkspacesPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsServiceAccountsWorkspaces(config: config, serviceAccountId: serviceAccountId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsServiceAccountsWorkspaces(
+                            config: config,
+                            serviceAccountId: serviceAccountId,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsServiceAccountsWorkspacesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaOrganizationsServiceAccountsWorkspacesPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

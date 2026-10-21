@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension MessagesMethods {
-    public struct CountMessagesTokensOptions: Codable {
+public extension MessagesMethods {
+    struct CountMessagesTokensOptions: Codable {
         public var messages: [InputMessage]
         public var model: Model
         public var anthropicVersion: String?
@@ -26,7 +26,9 @@ extension MessagesMethods {
         }
     }
 
-    /// Count the number of tokens in a Message. The Token Count API can be used to count the number of tokens in a Message, including tools, images, and documents, without creating it. Learn more about token counting in our [user guide](https://platform.claude.com/docs/en/build-with-claude/token-counting)
+    /// Count the number of tokens in a Message. The Token Count API can be used to count the number of tokens in a
+    /// Message, including tools, images, and documents, without creating it. Learn more about token counting in our
+    /// [user guide](https://platform.claude.com/docs/en/build-with-claude/token-counting)
     ///
     /// - Parameters:
     /// - messages: Input messages. Our models are trained to operate on alternating
@@ -117,13 +119,44 @@ extension MessagesMethods {
     ///   model in a subsequent `user` message: ```json [ { "type": "tool_result",
     ///   "tool_use_id": "toolu_01D7FLrfh4GYq7yT1ULFeyMV", "content": "259.75 USD" } ]
     ///   ``` Tools can be used for workflows that include running client-side tools…
-    public static func countMessagesTokens(config: ClientConfig, options: CountMessagesTokensOptions, requestOptions: RequestOptions? = nil) async throws -> CountMessageTokensResponse {
+    static func countMessagesTokens(
+        config: ClientConfig,
+        options: CountMessagesTokensOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CountMessageTokensResponse {
         let requestBody = CountMessagesTokensRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/v1/messages/count_tokens", config: config, body: requestBody, decoder: .json, operationId: "countMessagesTokens", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/messages/count_tokens",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "countMessagesTokens",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 }

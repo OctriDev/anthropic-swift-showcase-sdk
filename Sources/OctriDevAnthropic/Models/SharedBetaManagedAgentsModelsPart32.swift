@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaManagedAgents domain models
+/// SharedBetaManagedAgents domain models
 /// Required enumerated value serialized in the `type` wire field.
 public enum BetaManagedAgentsErrorDeploymentPausedReasonType: String, CaseIterable, Codable {
     case error
@@ -188,13 +188,16 @@ public enum BetaManagedAgentsAdvisorType: String, CaseIterable, Codable {
 public struct BetaManagedAgentsDeploymentStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = BetaManagedAgentsDeploymentStatus(rawValue: "active")
     public static let paused = BetaManagedAgentsDeploymentStatus(rawValue: "paused")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -225,7 +228,10 @@ public enum BetaManagedAgentsUserLocationType: String, CaseIterable, Codable {
 public struct BetaManagedAgentsSessionThreadStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let running = BetaManagedAgentsSessionThreadStatus(rawValue: "running")
     public static let idle = BetaManagedAgentsSessionThreadStatus(rawValue: "idle")
     public static let rescheduling = BetaManagedAgentsSessionThreadStatus(rawValue: "rescheduling")
@@ -233,7 +239,7 @@ public struct BetaManagedAgentsSessionThreadStatus: RawRepresentable, Hashable, 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -405,15 +411,19 @@ public enum BetaManagedAgentsSessionEndTurnType: String, CaseIterable, Codable {
 }
 
 /// MIME type of the text content. Must be "text/plain".
-public struct BetaManagedAgentsPlainTextDocumentSourceMediaType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsPlainTextDocumentSourceMediaType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let textPlain = BetaManagedAgentsPlainTextDocumentSourceMediaType(rawValue: "text/plain")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

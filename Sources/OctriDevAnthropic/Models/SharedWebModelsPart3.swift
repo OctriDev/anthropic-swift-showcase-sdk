@@ -3,12 +3,15 @@
 
 import Foundation
 
-// SharedWeb domain models
+/// SharedWeb domain models
 /// Typed representation of the `WebFetchToolResultErrorCode` API schema.
 public struct WebFetchToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let invalidToolInput = WebFetchToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let urlTooLong = WebFetchToolResultErrorCode(rawValue: "url_too_long")
     public static let urlNotAllowed = WebFetchToolResultErrorCode(rawValue: "url_not_allowed")
@@ -21,7 +24,7 @@ public struct WebFetchToolResultErrorCode: RawRepresentable, Hashable, Codable, 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -70,16 +73,20 @@ public enum WebFetchTool20250910Name: String, CaseIterable, Codable {
 /// code_execution call in the same turn. 'full' returns the complete content (default). 'excluded' drops the
 /// nested server_tool_use and result block pair entirely. Results from direct calls, or from code_execution
 /// calls that paused before completing, are always returned in full so they can be sent back on the next turn.
-public struct WebSearchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct WebSearchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let full = WebSearchTool20260318ResponseInclusion(rawValue: "full")
     public static let excluded = WebSearchTool20260318ResponseInclusion(rawValue: "excluded")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -95,13 +102,16 @@ public struct WebSearchTool20260318ResponseInclusion: RawRepresentable, Hashable
 public struct WebFetchTool20260318ResponseInclusion: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let full = WebFetchTool20260318ResponseInclusion(rawValue: "full")
     public static let excluded = WebFetchTool20260318ResponseInclusion(rawValue: "excluded")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

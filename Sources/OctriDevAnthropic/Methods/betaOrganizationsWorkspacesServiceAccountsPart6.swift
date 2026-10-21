@@ -6,8 +6,13 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsWorkspacesServiceAccountsMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Remove a service account from a workspace. Removal is idempotent (returns 200 even if the membership was already removed). A DELETE against the implicit default-workspace membership returns 200 but is a no-op and the membership persists; deleting an explicit default-workspace row reverts to the implicit `workspace_user` membership. Archived workspaces return 400.
+public extension BetaOrganizationsWorkspacesServiceAccountsMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Remove a
+    /// service account from a workspace. Removal is idempotent (returns 200 even if the membership was already
+    /// removed). A DELETE against the implicit default-workspace membership returns 200 but is a no-op and the
+    /// membership persists; deleting an explicit default-workspace row reverts to the implicit `workspace_user`
+    /// membership. Archived workspaces return 400.
     ///
     /// - Parameters:
     /// - workspaceId: ID of the workspace.
@@ -18,10 +23,49 @@ extension BetaOrganizationsWorkspacesServiceAccountsMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func deleteBetaOrganizationsWorkspacesServiceAccounts(config: ClientConfig, workspaceId: String, serviceAccountId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccountWorkspaceMemberDeleteResponse {
-        return try (await sdkRequest("DELETE", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "/service_accounts/", sdkEncodePathSegment(sdkWireString(serviceAccountId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaOrganizationsWorkspacesServiceAccounts", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+    static func deleteBetaOrganizationsWorkspacesServiceAccounts(
+        config: ClientConfig,
+        workspaceId: String,
+        serviceAccountId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaServiceAccountWorkspaceMemberDeleteResponse {
+        try await (sdkRequest(
+            "DELETE",
+            [
+                "/v1/organizations/workspaces/",
+                sdkEncodePathSegment(sdkWireString(workspaceId)),
+                "/service_accounts/",
+                sdkEncodePathSegment(sdkWireString(serviceAccountId)),
+                "?beta=true",
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "deleteBetaOrganizationsWorkspacesServiceAccounts",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

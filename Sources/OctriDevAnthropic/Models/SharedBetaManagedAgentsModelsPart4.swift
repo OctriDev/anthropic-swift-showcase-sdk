@@ -3,20 +3,28 @@
 
 import Foundation
 
-// SharedBetaManagedAgents domain models
+/// SharedBetaManagedAgents domain models
 extension BetaManagedAgentsModelParams: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless1(from: container, raw) {
+                self = value; return
+            }
         }
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaManagedAgentsModelParams")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaManagedAgentsModelParams"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
@@ -25,7 +33,8 @@ extension BetaManagedAgentsModelParams {
         if let value = try? container.decode(BetaManagedAgentsModel.self), sdkKeepsEveryKey(value, of: raw) {
             return .betaManagedAgentsModel(value)
         }
-        if let value = try? container.decode(BetaManagedAgentsModelConfigParams.self), sdkKeepsEveryKey(value, of: raw) {
+        if let value = try? container.decode(BetaManagedAgentsModelConfigParams.self),
+           sdkKeepsEveryKey(value, of: raw) {
             return .betaManagedAgentsModelConfigParams(value)
         }
         return nil
@@ -34,8 +43,13 @@ extension BetaManagedAgentsModelParams {
 
 extension BetaManagedAgentsModelParams {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(BetaManagedAgentsModel.self) { return .betaManagedAgentsModel(value) }
-        if let value = try? container.decode(BetaManagedAgentsModelConfigParams.self) { return .betaManagedAgentsModelConfigParams(value) }
+        if let value = try? container.decode(BetaManagedAgentsModel.self) {
+            return .betaManagedAgentsModel(value)
+        }
+        if let value = try? container
+            .decode(BetaManagedAgentsModelConfigParams.self) {
+            return .betaManagedAgentsModelConfigParams(value)
+        }
         return nil
     }
 }
@@ -57,7 +71,6 @@ public indirect enum BetaManagedAgentsMultiagent {
 }
 
 extension BetaManagedAgentsMultiagent: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -65,12 +78,16 @@ extension BetaManagedAgentsMultiagent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -81,8 +98,10 @@ extension BetaManagedAgentsMultiagent: Codable {
 extension BetaManagedAgentsMultiagent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "coordinator": return .betaManagedAgentsMultiagentCoordinator(try BetaManagedAgentsMultiagentCoordinator(from: decoder))
-        default: return nil
+        case "coordinator": try .betaManagedAgentsMultiagentCoordinator(
+                BetaManagedAgentsMultiagentCoordinator(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -104,7 +123,6 @@ public indirect enum BetaManagedAgentsMultiagentParams {
 }
 
 extension BetaManagedAgentsMultiagentParams: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -112,12 +130,16 @@ extension BetaManagedAgentsMultiagentParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -129,8 +151,10 @@ extension BetaManagedAgentsMultiagentParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "coordinator":
-        return .betaManagedAgentsMultiagentCoordinatorParams(try BetaManagedAgentsMultiagentCoordinatorParams(from: decoder))
-        default: return nil
+            try .betaManagedAgentsMultiagentCoordinatorParams(
+                BetaManagedAgentsMultiagentCoordinatorParams(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -153,7 +177,6 @@ public indirect enum BetaManagedAgentsMultiagentRosterEntry {
 }
 
 extension BetaManagedAgentsMultiagentRosterEntry: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -161,12 +184,16 @@ extension BetaManagedAgentsMultiagentRosterEntry: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -177,9 +204,9 @@ extension BetaManagedAgentsMultiagentRosterEntry: Codable {
 extension BetaManagedAgentsMultiagentRosterEntry {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "agent": return .betaManagedAgentsAgentReference(try BetaManagedAgentsAgentReference(from: decoder))
-        case "advisor": return .betaManagedAgentsAdvisor(try BetaManagedAgentsAdvisor(from: decoder))
-        default: return nil
+        case "agent": try .betaManagedAgentsAgentReference(BetaManagedAgentsAgentReference(from: decoder))
+        case "advisor": try .betaManagedAgentsAdvisor(BetaManagedAgentsAdvisor(from: decoder))
+        default: nil
         }
     }
 }
@@ -201,25 +228,33 @@ public indirect enum BetaManagedAgentsMultiagentRosterEntryParams {
 }
 
 extension BetaManagedAgentsMultiagentRosterEntryParams: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaManagedAgentsMultiagentRosterEntryParams")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaManagedAgentsMultiagentRosterEntryParams"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaManagedAgentsMultiagentRosterEntryParams {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
         if let value = try? container.decode(
             BetaManagedAgentsMultiagentRosterEntryParamsVariant1.self
         ) {
-            return             .betaManagedAgentsMultiagentRosterEntryParamsVariant1(value)
+            return .betaManagedAgentsMultiagentRosterEntryParamsVariant1(value)
         }
         return nil
     }
@@ -243,7 +278,6 @@ public indirect enum BetaManagedAgentsPermissionPolicy {
 }
 
 extension BetaManagedAgentsPermissionPolicy: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -251,12 +285,16 @@ extension BetaManagedAgentsPermissionPolicy: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -267,9 +305,9 @@ extension BetaManagedAgentsPermissionPolicy: Codable {
 extension BetaManagedAgentsPermissionPolicy {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "always_allow": return .betaManagedAgentsAlwaysAllowPolicy(try BetaManagedAgentsAlwaysAllowPolicy(from: decoder))
-        case "always_ask": return .betaManagedAgentsAlwaysAskPolicy(try BetaManagedAgentsAlwaysAskPolicy(from: decoder))
-        default: return nil
+        case "always_allow": try .betaManagedAgentsAlwaysAllowPolicy(BetaManagedAgentsAlwaysAllowPolicy(from: decoder))
+        case "always_ask": try .betaManagedAgentsAlwaysAskPolicy(BetaManagedAgentsAlwaysAskPolicy(from: decoder))
+        default: nil
         }
     }
 }
@@ -293,7 +331,6 @@ public indirect enum BetaManagedAgentsRepositoryCheckout {
 }
 
 extension BetaManagedAgentsRepositoryCheckout: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -301,12 +338,16 @@ extension BetaManagedAgentsRepositoryCheckout: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -317,9 +358,9 @@ extension BetaManagedAgentsRepositoryCheckout: Codable {
 extension BetaManagedAgentsRepositoryCheckout {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "branch": return .betaManagedAgentsBranchCheckout(try BetaManagedAgentsBranchCheckout(from: decoder))
-        case "commit": return .betaManagedAgentsCommitCheckout(try BetaManagedAgentsCommitCheckout(from: decoder))
-        default: return nil
+        case "branch": try .betaManagedAgentsBranchCheckout(BetaManagedAgentsBranchCheckout(from: decoder))
+        case "commit": try .betaManagedAgentsCommitCheckout(BetaManagedAgentsCommitCheckout(from: decoder))
+        default: nil
         }
     }
 }
@@ -344,7 +385,6 @@ public indirect enum BetaManagedAgentsRetryStatus {
 }
 
 extension BetaManagedAgentsRetryStatus: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -352,12 +392,16 @@ extension BetaManagedAgentsRetryStatus: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -368,10 +412,12 @@ extension BetaManagedAgentsRetryStatus: Codable {
 extension BetaManagedAgentsRetryStatus {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "retrying": return .betaManagedAgentsRetryStatusRetrying(try BetaManagedAgentsRetryStatusRetrying(from: decoder))
-        case "exhausted": return .betaManagedAgentsRetryStatusExhausted(try BetaManagedAgentsRetryStatusExhausted(from: decoder))
-        case "terminal": return .betaManagedAgentsRetryStatusTerminal(try BetaManagedAgentsRetryStatusTerminal(from: decoder))
-        default: return nil
+        case "retrying": try .betaManagedAgentsRetryStatusRetrying(BetaManagedAgentsRetryStatusRetrying(from: decoder))
+        case "exhausted": try .betaManagedAgentsRetryStatusExhausted(
+                BetaManagedAgentsRetryStatusExhausted(from: decoder)
+            )
+        case "terminal": try .betaManagedAgentsRetryStatusTerminal(BetaManagedAgentsRetryStatusTerminal(from: decoder))
+        default: nil
         }
     }
 }
@@ -396,7 +442,6 @@ public indirect enum BetaManagedAgentsRubric {
 }
 
 extension BetaManagedAgentsRubric: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -404,12 +449,16 @@ extension BetaManagedAgentsRubric: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -420,9 +469,9 @@ extension BetaManagedAgentsRubric: Codable {
 extension BetaManagedAgentsRubric {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "file": return .betaManagedAgentsFileRubric(try BetaManagedAgentsFileRubric(from: decoder))
-        case "text": return .betaManagedAgentsTextRubric(try BetaManagedAgentsTextRubric(from: decoder))
-        default: return nil
+        case "file": try .betaManagedAgentsFileRubric(BetaManagedAgentsFileRubric(from: decoder))
+        case "text": try .betaManagedAgentsTextRubric(BetaManagedAgentsTextRubric(from: decoder))
+        default: nil
         }
     }
 }
@@ -446,7 +495,6 @@ public indirect enum BetaManagedAgentsRubricParams {
 }
 
 extension BetaManagedAgentsRubricParams: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -454,12 +502,16 @@ extension BetaManagedAgentsRubricParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -470,9 +522,9 @@ extension BetaManagedAgentsRubricParams: Codable {
 extension BetaManagedAgentsRubricParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "file": return .betaManagedAgentsFileRubricParams(try BetaManagedAgentsFileRubricParams(from: decoder))
-        case "text": return .betaManagedAgentsTextRubricParams(try BetaManagedAgentsTextRubricParams(from: decoder))
-        default: return nil
+        case "file": try .betaManagedAgentsFileRubricParams(BetaManagedAgentsFileRubricParams(from: decoder))
+        case "text": try .betaManagedAgentsTextRubricParams(BetaManagedAgentsTextRubricParams(from: decoder))
+        default: nil
         }
     }
 }
@@ -503,14 +555,15 @@ public indirect enum BetaManagedAgentsRunError {
     case betaManagedAgentsSessionRateLimitedRunError(BetaManagedAgentsSessionRateLimitedRunError)
     case betaManagedAgentsSessionCreationRejectedRunError(BetaManagedAgentsSessionCreationRejectedRunError)
     case betaManagedAgentsUnknownRunError(BetaManagedAgentsUnknownRunError)
-    case betaManagedAgentsSelfHostedResourcesUnsupportedRunError(BetaManagedAgentsSelfHostedResourcesUnsupportedRunError)
+    case betaManagedAgentsSelfHostedResourcesUnsupportedRunError(
+        BetaManagedAgentsSelfHostedResourcesUnsupportedRunError
+    )
     case betaManagedAgentsMcpEgressBlockedRunError(BetaManagedAgentsMcpEgressBlockedRunError)
     /// A member whose `type` names no branch this SDK knows, kept as received.
     case unknown(tag: String, raw: JSONValue)
 }
 
 extension BetaManagedAgentsRunError: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -518,13 +571,19 @@ extension BetaManagedAgentsRunError: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
+        if try encodeGroup2(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)

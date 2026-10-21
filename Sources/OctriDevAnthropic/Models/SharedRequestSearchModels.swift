@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedRequestSearch domain models
+/// SharedRequestSearch domain models
 /// Typed representation of the `RequestSearchResultLocationCitation` API schema.
 public struct RequestSearchResultLocationCitation: Codable {
     /// The full text of the cited block range, concatenated. Always equals the contents of
@@ -37,55 +37,125 @@ public struct RequestSearchResultLocationCitation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RequestSearchResultLocationCitation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.citedText) else {
-            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
-        }
-        guard container.contains(.endBlockIndex) else {
-            throw SdkValidationError(field: "end_block_index", code: "required", message: "Validation failed for 'end_block_index': value is required")
-        }
-        guard container.contains(.searchResultIndex) else {
-            throw SdkValidationError(field: "search_result_index", code: "required", message: "Validation failed for 'search_result_index': value is required")
-        }
-        guard container.contains(.source) else {
-            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
-        }
-        guard container.contains(.startBlockIndex) else {
-            throw SdkValidationError(field: "start_block_index", code: "required", message: "Validation failed for 'start_block_index': value is required")
-        }
-        guard container.contains(.title) else {
-            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.citedText = try container.sdkDecodeRequired(.citedText)
-        self.endBlockIndex = try container.sdkDecodeRequired(.endBlockIndex)
-        self.searchResultIndex = try container.sdkDecodeRequired(.searchResultIndex)
-        self.source = try container.sdkDecodeRequired(.source)
-        self.startBlockIndex = try container.sdkDecodeRequired(.startBlockIndex)
-        self.title = try container.sdkDecodeNullable(.title)
-        self.type = try container.sdkDecodeRequired(.type)
-            try validateRange("search_result_index", Double(self.searchResultIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("start_block_index", Double(self.startBlockIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, RequestSearchResultLocationCitationType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RequestSearchResultLocationCitation {
-    public init(citedText: String, endBlockIndex: Int, searchResultIndex: Int, source: String, startBlockIndex: Int, title: String?, type: RequestSearchResultLocationCitationType) throws {
+public extension RequestSearchResultLocationCitation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.citedText) else {
+            throw SdkValidationError(
+                field: "cited_text",
+                code: "required",
+                message: "Validation failed for 'cited_text': value is required"
+            )
+        }
+        guard container.contains(.endBlockIndex) else {
+            throw SdkValidationError(
+                field: "end_block_index",
+                code: "required",
+                message: "Validation failed for 'end_block_index': value is required"
+            )
+        }
+        guard container.contains(.searchResultIndex) else {
+            throw SdkValidationError(
+                field: "search_result_index",
+                code: "required",
+                message: "Validation failed for 'search_result_index': value is required"
+            )
+        }
+        guard container.contains(.source) else {
+            throw SdkValidationError(
+                field: "source",
+                code: "required",
+                message: "Validation failed for 'source': value is required"
+            )
+        }
+        guard container.contains(.startBlockIndex) else {
+            throw SdkValidationError(
+                field: "start_block_index",
+                code: "required",
+                message: "Validation failed for 'start_block_index': value is required"
+            )
+        }
+        guard container.contains(.title) else {
+            throw SdkValidationError(
+                field: "title",
+                code: "required",
+                message: "Validation failed for 'title': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        citedText = try container.sdkDecodeRequired(.citedText)
+        endBlockIndex = try container.sdkDecodeRequired(.endBlockIndex)
+        searchResultIndex = try container.sdkDecodeRequired(.searchResultIndex)
+        source = try container.sdkDecodeRequired(.source)
+        startBlockIndex = try container.sdkDecodeRequired(.startBlockIndex)
+        title = try container.sdkDecodeNullable(.title)
+        type = try container.sdkDecodeRequired(.type)
+        try validateRange(
+            "search_result_index",
+            Double(searchResultIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "start_block_index",
+            Double(startBlockIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", type, RequestSearchResultLocationCitationType.allCases.map(\.rawValue))
+    }
+}
+
+public extension RequestSearchResultLocationCitation {
+    init(
+        citedText: String,
+        endBlockIndex: Int,
+        searchResultIndex: Int,
+        source: String,
+        startBlockIndex: Int,
+        title: String?,
+        type: RequestSearchResultLocationCitationType
+    ) throws {
         (self.citedText, self.endBlockIndex) = (citedText, endBlockIndex)
         (self.searchResultIndex, self.source) = (searchResultIndex, source)
         (self.startBlockIndex, self.title) = (startBlockIndex, title)
         self.type = type
-            try validateRange("search_result_index", Double(self.searchResultIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("start_block_index", Double(self.startBlockIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, RequestSearchResultLocationCitationType.allCases.map(\.rawValue))
+        try validateRange(
+            "search_result_index",
+            Double(self.searchResultIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "start_block_index",
+            Double(self.startBlockIndex),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", self.type, RequestSearchResultLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -113,40 +183,65 @@ public struct RequestSearchResultBlock: Codable {
         case citations
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RequestSearchResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.source) else {
-            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
-        }
-        guard container.contains(.title) else {
-            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.content = try container.sdkDecodeRequired(.content)
-        self.source = try container.sdkDecodeRequired(.source)
-        self.title = try container.sdkDecodeRequired(.title)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.citations = try container.sdkDecodeIfPresent(.citations)
-            try sdkValidateRawEnum("type", self.type, RequestSearchResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RequestSearchResultBlock {
-    public init(content: [RequestTextBlock], source: String, title: String, type: RequestSearchResultBlockType, cacheControl: RequestSearchResultBlockCacheControl? = nil, citations: RequestCitationsConfig? = nil) throws {
+public extension RequestSearchResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.source) else {
+            throw SdkValidationError(
+                field: "source",
+                code: "required",
+                message: "Validation failed for 'source': value is required"
+            )
+        }
+        guard container.contains(.title) else {
+            throw SdkValidationError(
+                field: "title",
+                code: "required",
+                message: "Validation failed for 'title': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        content = try container.sdkDecodeRequired(.content)
+        source = try container.sdkDecodeRequired(.source)
+        title = try container.sdkDecodeRequired(.title)
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        citations = try container.sdkDecodeIfPresent(.citations)
+        try sdkValidateRawEnum("type", type, RequestSearchResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension RequestSearchResultBlock {
+    init(
+        content: [RequestTextBlock],
+        source: String,
+        title: String,
+        type: RequestSearchResultBlockType,
+        cacheControl: RequestSearchResultBlockCacheControl? = nil,
+        citations: RequestCitationsConfig? = nil
+    ) throws {
         (self.content, self.source) = (content, source)
         (self.title, self.type) = (title, type)
         (self.cacheControl, self.citations) = (cacheControl, citations)
-            try sdkValidateRawEnum("type", self.type, RequestSearchResultBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, RequestSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -157,7 +252,6 @@ public indirect enum RequestSearchResultBlockCacheControl {
 }
 
 extension RequestSearchResultBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -165,12 +259,16 @@ extension RequestSearchResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -181,8 +279,8 @@ extension RequestSearchResultBlockCacheControl: Codable {
 extension RequestSearchResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }

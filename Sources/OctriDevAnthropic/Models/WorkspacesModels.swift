@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Workspaces domain models
+/// Workspaces domain models
 public indirect enum BetaDataResidencyUpdateParamsAllowedInferenceGeos {
     case betaAllowedInferenceGeoList([BetaAllowedInferenceGeo])
     case stringValue(String)
@@ -11,23 +11,36 @@ public indirect enum BetaDataResidencyUpdateParamsAllowedInferenceGeos {
 }
 
 extension BetaDataResidencyUpdateParamsAllowedInferenceGeos: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaDataResidencyUpdateParamsAllowedInferenceGeos")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaDataResidencyUpdateParamsAllowedInferenceGeos"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaDataResidencyUpdateParamsAllowedInferenceGeos {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode([BetaAllowedInferenceGeo].self) { return .betaAllowedInferenceGeoList(value) }
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
+        if let value = try? container
+            .decode([BetaAllowedInferenceGeo].self) {
+            return .betaAllowedInferenceGeoList(value)
+        }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode(JSONValue.self) {
+            return .jsonValue(value)
+        }
         return nil
     }
 }
@@ -69,30 +82,36 @@ public struct BetaWorkspaceUpdateParams: Codable {
     }
 
     init() {
-        (self.dataResidency, self.displayColor, self.externalKeyId, self.name, self.tags) = (nil, nil, nil, nil, nil)
+        (dataResidency, displayColor, externalKeyId, name, tags) = (nil, nil, nil, nil, nil)
     }
 }
 
-extension BetaWorkspaceUpdateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaWorkspaceUpdateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.dataResidency = try container.sdkDecodeIfPresent(.dataResidency)
-        self.displayColor = try container.sdkDecodeIfPresent(.displayColor)
-        self.externalKeyId = try container.sdkDecodeIfPresent(.externalKeyId)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.tags = try container.sdkDecodeIfPresent(.tags)
-        if let value = self.displayColor {
+        dataResidency = try container.sdkDecodeIfPresent(.dataResidency)
+        displayColor = try container.sdkDecodeIfPresent(.displayColor)
+        externalKeyId = try container.sdkDecodeIfPresent(.externalKeyId)
+        name = try container.sdkDecodeIfPresent(.name)
+        tags = try container.sdkDecodeIfPresent(.tags)
+        if let value = displayColor {
             try validateLength("display_color", value, min: nil, max: 7)
             try sdkValidatePattern("display_color", value, sdkPatternf01b4765958d)
         }
-        if let value = self.name {
+        if let value = name {
             try validateLength("name", value, min: 1, max: 40)
         }
     }
 }
 
-extension BetaWorkspaceUpdateParams {
-    public init(dataResidency: BetaDataResidencyUpdateParams? = nil, displayColor: String? = nil, externalKeyId: String? = nil, name: String? = nil, tags: [String: String?]? = nil) throws {
+public extension BetaWorkspaceUpdateParams {
+    init(
+        dataResidency: BetaDataResidencyUpdateParams? = nil,
+        displayColor: String? = nil,
+        externalKeyId: String? = nil,
+        name: String? = nil,
+        tags: [String: String?]? = nil
+    ) throws {
         self.init()
         (self.dataResidency, self.displayColor) = (dataResidency, displayColor)
         (self.externalKeyId, self.name) = (externalKeyId, name)
@@ -122,33 +141,51 @@ public struct BetaRemoveFederationRuleWorkspaceResponse: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRemoveFederationRuleWorkspaceResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.federationRuleId) else {
-            throw SdkValidationError(field: "federation_rule_id", code: "required", message: "Validation failed for 'federation_rule_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.federationRuleId = try container.sdkDecodeRequired(.federationRuleId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.workspaceId = try container.sdkDecodeRequired(.workspaceId)
-            try sdkValidateRawEnum("type", self.type, BetaRemoveFederationRuleWorkspaceResponseType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRemoveFederationRuleWorkspaceResponse {
-    public init(federationRuleId: String, type: BetaRemoveFederationRuleWorkspaceResponseType, workspaceId: String) throws {
+public extension BetaRemoveFederationRuleWorkspaceResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.federationRuleId) else {
+            throw SdkValidationError(
+                field: "federation_rule_id",
+                code: "required",
+                message: "Validation failed for 'federation_rule_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        federationRuleId = try container.sdkDecodeRequired(.federationRuleId)
+        type = try container.sdkDecodeRequired(.type)
+        workspaceId = try container.sdkDecodeRequired(.workspaceId)
+        try sdkValidateRawEnum("type", type, BetaRemoveFederationRuleWorkspaceResponseType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRemoveFederationRuleWorkspaceResponse {
+    init(federationRuleId: String, type: BetaRemoveFederationRuleWorkspaceResponseType, workspaceId: String) throws {
         (self.federationRuleId, self.type) = (federationRuleId, type)
         self.workspaceId = workspaceId
-            try sdkValidateRawEnum("type", self.type, BetaRemoveFederationRuleWorkspaceResponseType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "type",
+            self.type,
+            BetaRemoveFederationRuleWorkspaceResponseType.allCases.map(\.rawValue)
+        )
     }
 }
 
@@ -166,20 +203,23 @@ public struct BetaDataResidencyUpdateParams: Codable {
     }
 
     init() {
-        (self.allowedInferenceGeos, self.defaultInferenceGeo) = (nil, nil)
+        (allowedInferenceGeos, defaultInferenceGeo) = (nil, nil)
     }
 }
 
-extension BetaDataResidencyUpdateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaDataResidencyUpdateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.allowedInferenceGeos = try container.sdkDecodeIfPresent(.allowedInferenceGeos)
-        self.defaultInferenceGeo = try container.sdkDecodeIfPresent(.defaultInferenceGeo)
+        allowedInferenceGeos = try container.sdkDecodeIfPresent(.allowedInferenceGeos)
+        defaultInferenceGeo = try container.sdkDecodeIfPresent(.defaultInferenceGeo)
     }
 }
 
-extension BetaDataResidencyUpdateParams {
-    public init(allowedInferenceGeos: BetaDataResidencyUpdateParamsAllowedInferenceGeos? = nil, defaultInferenceGeo: BetaInferenceGeo? = nil) {
+public extension BetaDataResidencyUpdateParams {
+    init(
+        allowedInferenceGeos: BetaDataResidencyUpdateParamsAllowedInferenceGeos? = nil,
+        defaultInferenceGeo: BetaInferenceGeo? = nil
+    ) {
         self.init()
         (self.allowedInferenceGeos, self.defaultInferenceGeo) = (allowedInferenceGeos, defaultInferenceGeo)
     }

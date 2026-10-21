@@ -3,7 +3,7 @@
 
 import Foundation
 
-// ThreadsBetaTrue domain models
+/// ThreadsBetaTrue domain models
 /// Paginated list of threads within a `session`.
 public struct BetaManagedAgentsListSessionThreads: Codable {
     /// Threads in the session, primary first then children in spawn order.
@@ -17,20 +17,20 @@ public struct BetaManagedAgentsListSessionThreads: Codable {
     }
 
     init() {
-        (self.data, self.nextPage) = (nil, nil)
+        (data, nextPage) = (nil, nil)
     }
 }
 
-extension BetaManagedAgentsListSessionThreads {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsListSessionThreads {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.sdkDecodeIfPresent(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        data = try container.sdkDecodeIfPresent(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-extension BetaManagedAgentsListSessionThreads {
-    public init(data: [BetaManagedAgentsSessionThread]? = nil, nextPage: String? = nil) {
+public extension BetaManagedAgentsListSessionThreads {
+    init(data: [BetaManagedAgentsSessionThread]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }

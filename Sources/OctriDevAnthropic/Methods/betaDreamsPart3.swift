@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaDreamsMethods {
-    public struct ListBetaDreamsOptions: Codable {
+public extension BetaDreamsMethods {
+    struct ListBetaDreamsOptions: Codable {
         public var limit: Int?
         public var page: String?
         public var includeArchived: Bool?
@@ -21,7 +21,10 @@ extension BetaDreamsMethods {
         public init() {}
     }
 
-    /// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page` with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use this research-preview API.
+    /// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write
+    /// consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page`
+    /// with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use
+    /// this research-preview API.
     ///
     /// - Parameters:
     /// - limit: Query parameter for limit
@@ -38,7 +41,11 @@ extension BetaDreamsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaDreams(config: ClientConfig, options: ListBetaDreamsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaListDreamsResponse {
+    static func listBetaDreams(
+        config: ClientConfig,
+        options: ListBetaDreamsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListDreamsResponse {
         if let createdAtGt = options.createdAtGt {
             try sdkValidateDateTime("created_at[gt]", createdAtGt)
         }
@@ -47,21 +54,50 @@ extension BetaDreamsMethods {
             try sdkValidateDateTime("created_at[lt]", createdAtLt)
         }
 
-        return try (await sdkRequest("GET", "/v1/dreams?beta=true", config: config, query: [
-            SdkQueryParameter("limit", value: options.limit),
-            SdkQueryParameter("page", value: options.page),
-            SdkQueryParameter("include_archived", value: options.includeArchived),
-            SdkQueryParameter("statuses[]", values: options.statuses, style: "form", explode: true),
-            SdkQueryParameter("created_at[gt]", value: options.createdAtGt),
-            SdkQueryParameter("created_at[lt]", value: options.createdAtLt),
-        ], decoder: .json, operationId: "listBetaDreams", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaDreamingErrorResponse.self, "401": BetaDreamingErrorResponse.self, "403": BetaDreamingErrorResponse.self, "404": BetaDreamingErrorResponse.self, "408": BetaDreamingErrorResponse.self, "409": BetaDreamingErrorResponse.self, "412": BetaDreamingErrorResponse.self, "413": BetaDreamingErrorResponse.self, "429": BetaDreamingErrorResponse.self, "431": BetaDreamingErrorResponse.self, "499": BetaDreamingErrorResponse.self, "500": BetaDreamingErrorResponse.self, "501": BetaDreamingErrorResponse.self, "503": BetaDreamingErrorResponse.self, "504": BetaDreamingErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/dreams?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("page", value: options.page),
+                SdkQueryParameter("include_archived", value: options.includeArchived),
+                SdkQueryParameter("statuses[]", values: options.statuses, style: "form", explode: true),
+                SdkQueryParameter("created_at[gt]", value: options.createdAtGt),
+                SdkQueryParameter("created_at[lt]", value: options.createdAtLt),
+            ],
+            decoder: .json,
+            operationId: "listBetaDreams",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaDreamingErrorResponse.self,
+                "401": BetaDreamingErrorResponse.self,
+                "403": BetaDreamingErrorResponse.self,
+                "404": BetaDreamingErrorResponse.self,
+                "408": BetaDreamingErrorResponse.self,
+                "409": BetaDreamingErrorResponse.self,
+                "412": BetaDreamingErrorResponse.self,
+                "413": BetaDreamingErrorResponse.self,
+                "429": BetaDreamingErrorResponse.self,
+                "431": BetaDreamingErrorResponse.self,
+                "499": BetaDreamingErrorResponse.self,
+                "500": BetaDreamingErrorResponse.self,
+                "501": BetaDreamingErrorResponse.self,
+                "503": BetaDreamingErrorResponse.self,
+                "504": BetaDreamingErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page` with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use this research-preview API.
+    /// Lists Dreams, asynchronous memory-consolidation jobs that read a memory store and session transcripts and write
+    /// consolidated memories to an output store. Filter by lifecycle status or creation-time bounds, and use `page`
+    /// with the response's `next_page` cursor to navigate results. Send the required `anthropic-beta` header to use
+    /// this research-preview API.
     ///
     /// - Parameters:
     /// - limit: Query parameter for limit
@@ -78,20 +114,37 @@ extension BetaDreamsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaDreamsPaginated(config: ClientConfig, options: ListBetaDreamsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaDream, Swift.Error> {
+    static func listBetaDreamsPaginated(
+        config: ClientConfig,
+        options: ListBetaDreamsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaDream, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaDream, Swift.Error> { (continuation: AsyncThrowingStream<BetaDream, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<BetaDream, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaDream,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaDreams(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaDreams(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -104,28 +157,49 @@ extension BetaDreamsMethods {
         }
     }
 
-    public struct ListBetaDreamsPage {
+    struct ListBetaDreamsPage {
         public let data: BetaListDreamsResponse
         public let items: [BetaDream]
         public let hasMore: Bool
     }
 
-    public static func listBetaDreamsPages(config: ClientConfig, options: ListBetaDreamsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaDreamsPage, Swift.Error> {
+    static func listBetaDreamsPages(
+        config: ClientConfig,
+        options: ListBetaDreamsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaDreamsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaDreamsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaDreamsPage, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<ListBetaDreamsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaDreamsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaDreams(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaDreams(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaDreamsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaDreamsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaCreate domain models
+/// SharedBetaCreate domain models
 /// Typed representation of the `BetaCreateMessageParams` API schema.
 public struct BetaCreateMessageParams: Codable {
     /// The model that will complete your prompt. See models for additional details and options.
@@ -121,67 +121,139 @@ public struct BetaCreateMessageParams: Codable {
         case topP = "top_p"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaCreateMessageParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaCreateMessageParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
         }
         guard container.contains(.messages) else {
-            throw SdkValidationError(field: "messages", code: "required", message: "Validation failed for 'messages': value is required")
+            throw SdkValidationError(
+                field: "messages",
+                code: "required",
+                message: "Validation failed for 'messages': value is required"
+            )
         }
         guard container.contains(.maxTokens) else {
-            throw SdkValidationError(field: "max_tokens", code: "required", message: "Validation failed for 'max_tokens': value is required")
+            throw SdkValidationError(
+                field: "max_tokens",
+                code: "required",
+                message: "Validation failed for 'max_tokens': value is required"
+            )
         }
-        self.model = try container.sdkDecodeRequired(.model)
-        self.messages = try container.sdkDecodeRequired(.messages)
-        self.maxTokens = try container.sdkDecodeRequired(.maxTokens)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        model = try container.sdkDecodeRequired(.model)
+        messages = try container.sdkDecodeRequired(.messages)
+        maxTokens = try container.sdkDecodeRequired(.maxTokens)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
         self.container = try container.sdkDecodeIfPresent(.container)
-        self.contextManagement = try container.sdkDecodeIfPresent(.contextManagement)
-        self.diagnostics = try container.sdkDecodeIfPresent(.diagnostics)
-        self.fallbackCreditToken = try container.sdkDecodeIfPresent(.fallbackCreditToken)
-        self.fallbacks = try container.sdkDecodeIfPresent(.fallbacks)
-        self.inferenceGeo = try container.sdkDecodeIfPresent(.inferenceGeo)
-        self.mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
-        self.outputFormat = try container.sdkDecodeIfPresent(.outputFormat)
-        self.serviceTier = try container.sdkDecodeIfPresent(.serviceTier)
-        self.speed = try container.sdkDecodeIfPresent(.speed)
-        self.stopSequences = try container.sdkDecodeIfPresent(.stopSequences)
-        self.stream = try container.sdkDecodeIfPresent(.stream)
-        self.system = try container.sdkDecodeIfPresent(.system)
-        self.temperature = try container.sdkDecodeIfPresent(.temperature)
-        self.thinking = try container.sdkDecodeIfPresent(.thinking)
-        self.toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
-        self.tools = try container.sdkDecodeIfPresent(.tools)
-        self.topK = try container.sdkDecodeIfPresent(.topK)
-        self.topP = try container.sdkDecodeIfPresent(.topP)
-            try validateRange("max_tokens", Double(self.maxTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-        if let value = self.mcpServers {
+        contextManagement = try container.sdkDecodeIfPresent(.contextManagement)
+        diagnostics = try container.sdkDecodeIfPresent(.diagnostics)
+        fallbackCreditToken = try container.sdkDecodeIfPresent(.fallbackCreditToken)
+        fallbacks = try container.sdkDecodeIfPresent(.fallbacks)
+        inferenceGeo = try container.sdkDecodeIfPresent(.inferenceGeo)
+        mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
+        outputFormat = try container.sdkDecodeIfPresent(.outputFormat)
+        serviceTier = try container.sdkDecodeIfPresent(.serviceTier)
+        speed = try container.sdkDecodeIfPresent(.speed)
+        stopSequences = try container.sdkDecodeIfPresent(.stopSequences)
+        stream = try container.sdkDecodeIfPresent(.stream)
+        system = try container.sdkDecodeIfPresent(.system)
+        temperature = try container.sdkDecodeIfPresent(.temperature)
+        thinking = try container.sdkDecodeIfPresent(.thinking)
+        toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
+        tools = try container.sdkDecodeIfPresent(.tools)
+        topK = try container.sdkDecodeIfPresent(.topK)
+        topP = try container.sdkDecodeIfPresent(.topP)
+        try validateRange(
+            "max_tokens",
+            Double(maxTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        if let value = mcpServers {
             try validateItems("mcp_servers", value, min: nil, max: 20)
         }
-        if let value = self.temperature {
-            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = temperature {
+            try validateRange(
+                "temperature",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
-        if let value = self.topK {
-            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = topK {
+            try validateRange(
+                "top_k",
+                Double(value),
+                min: 0,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
-        if let value = self.topP {
-            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = topP {
+            try validateRange(
+                "top_p",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension BetaCreateMessageParams {
-    public init(model: Model, messages: [BetaInputMessage], maxTokens: Int, cacheControl: BetaCreateMessageParamsCacheControl? = nil, container containerValue: BetaCreateMessageParamsContainer? = nil, contextManagement: BetaContextManagementConfig? = nil, diagnostics: BetaDiagnosticsParam? = nil, fallbackCreditToken: BetaCreateMessageParamsFallbackCreditToken? = nil, fallbacks: BetaCreateMessageParamsFallbacks? = nil, inferenceGeo: String? = nil, mcpServers: [BetaRequestMCPServerURLDefinition]? = nil, metadata: BetaMetadata? = nil, outputConfig: BetaOutputConfig? = nil, outputFormat: BetaJsonOutputFormat? = nil, serviceTier: BetaCreateMessageParamsServiceTier? = nil, speed: BetaSpeed? = nil, stopSequences: [String]? = nil, stream: Bool? = nil, system: BetaCreateMessageParamsSystem? = nil, temperature: Double? = nil, thinking: BetaThinkingConfigParam? = nil, toolChoice: BetaToolChoice? = nil, tools: [BetaCreateMessageParamsToolsItem]? = nil, topK: Int? = nil, topP: Double? = nil) throws {
+public extension BetaCreateMessageParams {
+    init(
+        model: Model,
+        messages: [BetaInputMessage],
+        maxTokens: Int,
+        cacheControl: BetaCreateMessageParamsCacheControl? = nil,
+        container containerValue: BetaCreateMessageParamsContainer? = nil,
+        contextManagement: BetaContextManagementConfig? = nil,
+        diagnostics: BetaDiagnosticsParam? = nil,
+        fallbackCreditToken: BetaCreateMessageParamsFallbackCreditToken? = nil,
+        fallbacks: BetaCreateMessageParamsFallbacks? = nil,
+        inferenceGeo: String? = nil,
+        mcpServers: [BetaRequestMCPServerURLDefinition]? = nil,
+        metadata: BetaMetadata? = nil,
+        outputConfig: BetaOutputConfig? = nil,
+        outputFormat: BetaJsonOutputFormat? = nil,
+        serviceTier: BetaCreateMessageParamsServiceTier? = nil,
+        speed: BetaSpeed? = nil,
+        stopSequences: [String]? = nil,
+        stream: Bool? = nil,
+        system: BetaCreateMessageParamsSystem? = nil,
+        temperature: Double? = nil,
+        thinking: BetaThinkingConfigParam? = nil,
+        toolChoice: BetaToolChoice? = nil,
+        tools: [BetaCreateMessageParamsToolsItem]? = nil,
+        topK: Int? = nil,
+        topP: Double? = nil
+    ) throws {
         (self.model, self.messages) = (model, messages)
         (self.maxTokens, self.cacheControl) = (maxTokens, cacheControl)
-        (self.container, self.contextManagement) = (containerValue, contextManagement)
+        (container, self.contextManagement) = (containerValue, contextManagement)
         (self.diagnostics, self.fallbackCreditToken) = (diagnostics, fallbackCreditToken)
         (self.fallbacks, self.inferenceGeo) = (fallbacks, inferenceGeo)
         (self.mcpServers, self.metadata) = (mcpServers, metadata)
@@ -192,18 +264,50 @@ extension BetaCreateMessageParams {
         (self.thinking, self.toolChoice) = (thinking, toolChoice)
         (self.tools, self.topK) = (tools, topK)
         self.topP = topP
-            try validateRange("max_tokens", Double(self.maxTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateRange(
+            "max_tokens",
+            Double(self.maxTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
         if let value = self.mcpServers {
             try validateItems("mcp_servers", value, min: nil, max: 20)
         }
         if let value = self.temperature {
-            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "temperature",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
         if let value = self.topK {
-            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "top_k",
+                Double(value),
+                min: 0,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
         if let value = self.topP {
-            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "top_p",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -215,23 +319,35 @@ public indirect enum BetaCreateMessageParamsFallbacks {
 }
 
 extension BetaCreateMessageParamsFallbacks: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaCreateMessageParamsFallbacks")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaCreateMessageParamsFallbacks"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaCreateMessageParamsFallbacks {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode([BetaFallbackConfigV2].self) { return .betaFallbackConfigV2List(value) }
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
+        if let value = try? container.decode([BetaFallbackConfigV2].self) {
+            return .betaFallbackConfigV2List(value)
+        }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode(JSONValue.self) {
+            return .jsonValue(value)
+        }
         return nil
     }
 }
@@ -252,13 +368,16 @@ extension BetaCreateMessageParamsFallbacks {
 public struct BetaCreateMessageParamsServiceTier: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let auto = BetaCreateMessageParamsServiceTier(rawValue: "auto")
     public static let standardOnly = BetaCreateMessageParamsServiceTier(rawValue: "standard_only")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -269,7 +388,7 @@ public struct BetaCreateMessageParamsServiceTier: RawRepresentable, Hashable, Co
 
 /// Optional `string` value serialized in the `fallbacks` wire field.
 public enum Default: String, CaseIterable, Codable {
-    case `default` = "default"
+    case `default`
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)

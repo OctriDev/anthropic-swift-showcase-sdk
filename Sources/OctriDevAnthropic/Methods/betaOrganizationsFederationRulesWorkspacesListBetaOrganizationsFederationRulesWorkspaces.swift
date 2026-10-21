@@ -6,8 +6,13 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsFederationRulesWorkspacesMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List workspaces where this federation rule is enabled. Returns all workspace enablements in a single response; the `limit` and `page` parameters are accepted but have no effect, and `next_page` is always `null`. Returns explicit per-workspace enablements only; for rules with `applies_to_all_workspaces` or a legacy single `workspace_id`, check those fields on the rule itself.
+public extension BetaOrganizationsFederationRulesWorkspacesMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List
+    /// workspaces where this federation rule is enabled. Returns all workspace enablements in a single response; the
+    /// `limit` and `page` parameters are accepted but have no effect, and `next_page` is always `null`. Returns
+    /// explicit per-workspace enablements only; for rules with `applies_to_all_workspaces` or a legacy single
+    /// `workspace_id`, check those fields on the rule itself.
     ///
     /// - Parameters:
     /// - federationRuleId: ID of the federation rule.
@@ -19,21 +24,65 @@ extension BetaOrganizationsFederationRulesWorkspacesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsFederationRulesWorkspaces(config: ClientConfig, federationRuleId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFederationRuleWorkspaceListResponse {
-        if let limit = limit {
+    static func listBetaOrganizationsFederationRulesWorkspaces(
+        config: ClientConfig,
+        federationRuleId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFederationRuleWorkspaceListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        return try (await sdkRequest("GET", ["/v1/organizations/federation_rules/", sdkEncodePathSegment(sdkWireString(federationRuleId)), "/workspaces?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-        ], decoder: .json, operationId: "listBetaOrganizationsFederationRulesWorkspaces", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            [
+                "/v1/organizations/federation_rules/",
+                sdkEncodePathSegment(sdkWireString(federationRuleId)),
+                "/workspaces?beta=true",
+            ].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsFederationRulesWorkspaces",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List workspaces where this federation rule is enabled. Returns all workspace enablements in a single response; the `limit` and `page` parameters are accepted but have no effect, and `next_page` is always `null`. Returns explicit per-workspace enablements only; for rules with `applies_to_all_workspaces` or a legacy single `workspace_id`, check those fields on the rule itself.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List
+    /// workspaces where this federation rule is enabled. Returns all workspace enablements in a single response; the
+    /// `limit` and `page` parameters are accepted but have no effect, and `next_page` is always `null`. Returns
+    /// explicit per-workspace enablements only; for rules with `applies_to_all_workspaces` or a legacy single
+    /// `workspace_id`, check those fields on the rule itself.
     ///
     /// - Parameters:
     /// - federationRuleId: ID of the federation rule.
@@ -45,17 +94,42 @@ extension BetaOrganizationsFederationRulesWorkspacesMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func listBetaOrganizationsFederationRulesWorkspacesPaginated(config: ClientConfig, federationRuleId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaFederationRuleWorkspace, Swift.Error> {
-        return AsyncThrowingStream<BetaFederationRuleWorkspace, Swift.Error> { (continuation: AsyncThrowingStream<BetaFederationRuleWorkspace, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsFederationRulesWorkspacesPaginated(
+        config: ClientConfig,
+        federationRuleId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaFederationRuleWorkspace, Swift.Error> {
+        AsyncThrowingStream<BetaFederationRuleWorkspace, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaFederationRuleWorkspace,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsFederationRulesWorkspaces(config: config, federationRuleId: federationRuleId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsFederationRulesWorkspaces(
+                            config: config,
+                            federationRuleId: federationRuleId,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -68,25 +142,57 @@ extension BetaOrganizationsFederationRulesWorkspacesMethods {
         }
     }
 
-    public struct ListBetaOrganizationsFederationRulesWorkspacesPage {
+    struct ListBetaOrganizationsFederationRulesWorkspacesPage {
         public let data: BetaFederationRuleWorkspaceListResponse
         public let items: [BetaFederationRuleWorkspace]
         public let hasMore: Bool
     }
 
-    public static func listBetaOrganizationsFederationRulesWorkspacesPages(config: ClientConfig, federationRuleId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsFederationRulesWorkspacesPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaOrganizationsFederationRulesWorkspacesPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsFederationRulesWorkspacesPage, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsFederationRulesWorkspacesPages(
+        config: ClientConfig,
+        federationRuleId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaOrganizationsFederationRulesWorkspacesPage, Swift.Error> {
+        AsyncThrowingStream<
+            ListBetaOrganizationsFederationRulesWorkspacesPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaOrganizationsFederationRulesWorkspacesPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsFederationRulesWorkspaces(config: config, federationRuleId: federationRuleId, limit: limit, page: pageCursor, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsFederationRulesWorkspaces(
+                            config: config,
+                            federationRuleId: federationRuleId,
+                            limit: limit,
+                            page: pageCursor,
+                            anthropicBeta: anthropicBeta,
+                            anthropicVersion: anthropicVersion,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsFederationRulesWorkspacesPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaOrganizationsFederationRulesWorkspacesPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

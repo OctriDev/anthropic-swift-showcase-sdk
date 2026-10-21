@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaDeploymentsMethods {
-    /// Archives a deployment so it is no longer treated as an active deployment for management purposes. Use `deployment_id` to identify the deployment to archive; the response returns the deployment record, including its status and timestamps.
+public extension BetaDeploymentsMethods {
+    /// Archives a deployment so it is no longer treated as an active deployment for management purposes. Use
+    /// `deployment_id` to identify the deployment to archive; the response returns the deployment record, including its
+    /// status and timestamps.
     ///
     /// - Parameters:
     /// - deploymentId: Path parameter deployment_id
@@ -16,11 +18,43 @@ extension BetaDeploymentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func archiveBetaDeployments(config: ClientConfig, deploymentId: String, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try (await sdkRequest("POST", ["/v1/deployments/", sdkEncodePathSegment(sdkWireString(deploymentId)), "/archive?beta=true"].joined(), config: config, decoder: .json, operationId: "archiveBetaDeployments", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+    static func archiveBetaDeployments(
+        config: ClientConfig,
+        deploymentId: String,
+        anthropicVersion: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await (sdkRequest(
+            "POST",
+            ["/v1/deployments/", sdkEncodePathSegment(sdkWireString(deploymentId)), "/archive?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "archiveBetaDeployments",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }
