@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaManagedAgents domain models
+// SharedBetaManagedAgents domain models
 /// Required enumerated value serialized in the `type` wire field.
 public enum BetaManagedAgentsTextRubricParamsType: String, CaseIterable, Codable {
     case text
@@ -44,15 +44,12 @@ public enum BetaManagedAgentsBase64ImageSourceType: String, CaseIterable, Codabl
 public struct BetaManagedAgentsVaultType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let vault = BetaManagedAgentsVaultType(rawValue: "vault")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -174,10 +171,7 @@ public enum BetaManagedAgentsGitHubRepositoryResourceConfigType: String, CaseIte
 public struct BetaManagedAgentsEffortLevel: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let low = BetaManagedAgentsEffortLevel(rawValue: "low")
     public static let medium = BetaManagedAgentsEffortLevel(rawValue: "medium")
     public static let high = BetaManagedAgentsEffortLevel(rawValue: "high")
@@ -186,7 +180,7 @@ public struct BetaManagedAgentsEffortLevel: RawRepresentable, Hashable, Codable,
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -235,15 +229,12 @@ public enum BetaManagedAgentsSessionErrorEventType: String, CaseIterable, Codabl
 public struct BetaManagedAgentsCredentialType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let vaultCredential = BetaManagedAgentsCredentialType(rawValue: "vault_credential")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -310,15 +301,12 @@ public enum BetaManagedAgentsWriteToolConfigParamsName: String, CaseIterable, Co
 public struct BetaManagedAgentsDeploymentType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let deployment = BetaManagedAgentsDeploymentType(rawValue: "deployment")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -565,15 +553,12 @@ public enum BetaManagedAgentsCustomSkillType: String, CaseIterable, Codable {
 public struct BetaManagedAgentsErrorResponseType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let error = BetaManagedAgentsErrorResponseType(rawValue: "error")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

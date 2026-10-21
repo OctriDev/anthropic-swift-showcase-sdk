@@ -3,22 +3,18 @@
 
 import Foundation
 
-/// SharedTool domain models
+// SharedTool domain models
 /// Required enumerated value serialized in the `type` wire field.
 public struct ToolSearchToolBM2520251119Type: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let toolSearchToolBm2520251119 =
-        ToolSearchToolBM2520251119Type(rawValue: "tool_search_tool_bm25_20251119")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let toolSearchToolBm2520251119 = ToolSearchToolBM2520251119Type(rawValue: "tool_search_tool_bm25_20251119")
     public static let toolSearchToolBm25 = ToolSearchToolBM2520251119Type(rawValue: "tool_search_tool_bm25")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -121,10 +117,7 @@ public enum ToolSearchToolRegex20251119Name: String, CaseIterable, Codable {
 public struct ToolSearchToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = ToolSearchToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = ToolSearchToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = ToolSearchToolResultErrorCode(rawValue: "too_many_requests")
@@ -132,7 +125,7 @@ public struct ToolSearchToolResultErrorCode: RawRepresentable, Hashable, Codable
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -163,17 +156,13 @@ public enum ToolChoiceToolType: String, CaseIterable, Codable {
 public struct ToolSearchToolRegex20251119Type: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let toolSearchToolRegex20251119 =
-        ToolSearchToolRegex20251119Type(rawValue: "tool_search_tool_regex_20251119")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let toolSearchToolRegex20251119 = ToolSearchToolRegex20251119Type(rawValue: "tool_search_tool_regex_20251119")
     public static let toolSearchToolRegex = ToolSearchToolRegex20251119Type(rawValue: "tool_search_tool_regex")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

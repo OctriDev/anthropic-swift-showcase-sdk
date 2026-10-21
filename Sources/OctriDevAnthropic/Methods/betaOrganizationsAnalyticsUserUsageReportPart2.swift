@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsAnalyticsUserUsageReportMethods {
-    struct RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions: Codable {
+extension BetaOrganizationsAnalyticsUserUsageReportMethods {
+    public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions: Codable {
         public var startingAt: Date
         public var endingAt: Date?
         public var products: [BetaAnalyticsProductFilter]?
@@ -31,11 +31,7 @@ public extension BetaOrganizationsAnalyticsUserUsageReportMethods {
         }
     }
 
-    /// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use
-    /// this to see which users consume the most tokens. Only usage attributable to a seat user is included; for
-    /// organization-wide totals including direct API-key and automation traffic, use the bucketed
-    /// `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan.
-    /// Requires an API key with the `read:analytics` scope.
+    /// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use this to see which users consume the most tokens. Only usage attributable to a seat user is included; for organization-wide totals including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - startingAt: Start of range, inclusive. RFC 3339 tz-aware. Must be within
@@ -80,11 +76,7 @@ public extension BetaOrganizationsAnalyticsUserUsageReportMethods {
     ///   same values as the bucketed `/usage_report` endpoint. `limit` bounds (actor
     ///   × time bucket × dimension) rows — with dimensions or `bucket_width` present,
     ///   one actor may span several rows.
-    static func retrieveBetaOrganizationsAnalyticsUserUsageReport(
-        config: ClientConfig,
-        options: RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsUsageUsersResponse {
+    public static func retrieveBetaOrganizationsAnalyticsUserUsageReport(config: ClientConfig, options: RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsUsageUsersResponse {
         try sdkValidateDateTime("starting_at", options.startingAt)
 
         if let products = options.products {
@@ -127,58 +119,28 @@ public extension BetaOrganizationsAnalyticsUserUsageReportMethods {
             try validateItems("group_by[]", groupBy, max: 100)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/analytics/user_usage_report?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("starting_at", value: options.startingAt),
-                SdkQueryParameter("ending_at", value: options.endingAt),
-                SdkQueryParameter("products[]", values: options.products, style: "form", explode: true),
-                SdkQueryParameter("models[]", values: options.models, style: "form", explode: true),
-                SdkQueryParameter("context_windows[]", values: options.contextWindows, style: "form", explode: true),
-                SdkQueryParameter("inference_geos[]", values: options.inferenceGeos, style: "form", explode: true),
-                SdkQueryParameter("speeds[]", values: options.speeds, style: "form", explode: true),
-                SdkQueryParameter("slack_channel_ids[]", values: options.slackChannelIds, style: "form", explode: true),
-                SdkQueryParameter("rbac_group_ids[]", values: options.rbacGroupIds, style: "form", explode: true),
-                SdkQueryParameter("user_ids[]", values: options.userIds, style: "form", explode: true),
-                SdkQueryParameter("bucket_width", value: options.bucketWidth),
-                SdkQueryParameter("order", value: options.order),
-                SdkQueryParameter("exclude_deleted_users", value: options.excludeDeletedUsers),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("order_by", value: options.orderBy),
-                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-            ],
-            decoder: .json,
-            operationId: "retrieveBetaOrganizationsAnalyticsUserUsageReport",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/analytics/user_usage_report?beta=true", config: config, query: [
+            SdkQueryParameter("starting_at", value: options.startingAt),
+            SdkQueryParameter("ending_at", value: options.endingAt),
+            SdkQueryParameter("products[]", values: options.products, style: "form", explode: true),
+            SdkQueryParameter("models[]", values: options.models, style: "form", explode: true),
+            SdkQueryParameter("context_windows[]", values: options.contextWindows, style: "form", explode: true),
+            SdkQueryParameter("inference_geos[]", values: options.inferenceGeos, style: "form", explode: true),
+            SdkQueryParameter("speeds[]", values: options.speeds, style: "form", explode: true),
+            SdkQueryParameter("slack_channel_ids[]", values: options.slackChannelIds, style: "form", explode: true),
+            SdkQueryParameter("rbac_group_ids[]", values: options.rbacGroupIds, style: "form", explode: true),
+            SdkQueryParameter("user_ids[]", values: options.userIds, style: "form", explode: true),
+            SdkQueryParameter("bucket_width", value: options.bucketWidth),
+            SdkQueryParameter("order", value: options.order),
+            SdkQueryParameter("exclude_deleted_users", value: options.excludeDeletedUsers),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("order_by", value: options.orderBy),
+            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+        ], decoder: .json, operationId: "retrieveBetaOrganizationsAnalyticsUserUsageReport", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use
-    /// this to see which users consume the most tokens. Only usage attributable to a seat user is included; for
-    /// organization-wide totals including direct API-key and automation traffic, use the bucketed
-    /// `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan.
-    /// Requires an API key with the `read:analytics` scope.
+    /// Get per-user token usage across a date range. Returns one row per user, ranked by the chosen token metric. Use this to see which users consume the most tokens. Only usage attributable to a seat user is included; for organization-wide totals including direct API-key and automation traffic, use the bucketed `/v1/organizations/analytics/usage_report` endpoint. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - startingAt: Start of range, inclusive. RFC 3339 tz-aware. Must be within
@@ -223,40 +185,21 @@ public extension BetaOrganizationsAnalyticsUserUsageReportMethods {
     ///   same values as the bucketed `/usage_report` endpoint. `limit` bounds (actor
     ///   × time bucket × dimension) rows — with dimensions or `bucket_width` present,
     ///   one actor may span several rows.
-    static func retrieveBetaOrganizationsAnalyticsUserUsageReportPaginated(
-        config: ClientConfig,
-        options: RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error> {
+    public static func retrieveBetaOrganizationsAnalyticsUserUsageReportPaginated(config: ClientConfig, options: RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaAnalyticsUsageUsersItem,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsUsageUsersItem, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await retrieveBetaOrganizationsAnalyticsUserUsageReport(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await retrieveBetaOrganizationsAnalyticsUserUsageReport(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        if !pageResponse.hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        if !pageResponse.hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -269,52 +212,28 @@ public extension BetaOrganizationsAnalyticsUserUsageReportMethods {
         }
     }
 
-    struct RetrieveBetaOrganizationsAnalyticsUserUsageReportPage {
+    public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportPage {
         public let data: BetaAnalyticsUsageUsersResponse
         public let items: [BetaAnalyticsUsageUsersItem]
         public let hasMore: Bool
     }
 
-    static func retrieveBetaOrganizationsAnalyticsUserUsageReportPages(
-        config: ClientConfig,
-        options: RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<RetrieveBetaOrganizationsAnalyticsUserUsageReportPage, Swift.Error> {
+    public static func retrieveBetaOrganizationsAnalyticsUserUsageReportPages(config: ClientConfig, options: RetrieveBetaOrganizationsAnalyticsUserUsageReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<RetrieveBetaOrganizationsAnalyticsUserUsageReportPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<
-            RetrieveBetaOrganizationsAnalyticsUserUsageReportPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            RetrieveBetaOrganizationsAnalyticsUserUsageReportPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<RetrieveBetaOrganizationsAnalyticsUserUsageReportPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<RetrieveBetaOrganizationsAnalyticsUserUsageReportPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await retrieveBetaOrganizationsAnalyticsUserUsageReport(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await retrieveBetaOrganizationsAnalyticsUserUsageReport(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.hasMore && pageResponse.nextPage != nil
-                        pageContinuation.yield(RetrieveBetaOrganizationsAnalyticsUserUsageReportPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(RetrieveBetaOrganizationsAnalyticsUserUsageReportPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

@@ -6,14 +6,12 @@ import Foundation
 import XCTest
 
 extension SdkMethodTests {
-    func testUpdateBetaOrganizationsFederationRulesUpdateBetaOrganizationsXeec13a612aReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsFederationRulesUpdateBetaOrganizationsXeec13a612aReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsFederationRulesMethods
-            .UpdateBetaOrganizationsFederationRulesOptions(federationRuleId: decoded("\"federation_rule-1\""))
+        var options = try BetaOrganizationsFederationRulesMethods.UpdateBetaOrganizationsFederationRulesOptions(federationRuleId: decoded("\"federation_rule-1\""))
         options.anthropicBeta = try decoded("[\"anthropic-beta\"]")
         options.anthropicVersion = try decoded("\"anthropic-version\"")
         options.appliesToAllWorkspaces = try decoded("false")
@@ -38,14 +36,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateBetaOrganizationsFederationRulesUpdateBetaOrganizationsX56f49ab222ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsFederationRulesUpdateBetaOrganizationsX56f49ab222ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsFederationRulesMethods
-            .UpdateBetaOrganizationsFederationRulesOptions(federationRuleId: decoded("\"federation_rule-1\""))
+        var options = try BetaOrganizationsFederationRulesMethods.UpdateBetaOrganizationsFederationRulesOptions(federationRuleId: decoded("\"federation_rule-1\""))
         options.anthropicBeta = try decoded("[\"anthropic-beta\"]")
         options.anthropicVersion = try decoded("\"anthropic-version\"")
         options.appliesToAllWorkspaces = try decoded("false")
@@ -63,8 +59,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.federationRules.update(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -80,8 +76,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateBetaOrganizationsRbacGroupsUpdateBetaOrganizationsRbacGroupsReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsRbacGroupsUpdateBetaOrganizationsRbacGroupsReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -100,8 +95,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateBetaOrganizationsRbacGroupsUpdateBetaOrganizationsRbacGroups400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsRbacGroupsUpdateBetaOrganizationsRbacGroups400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -112,9 +106,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.rbacGroups.update(
-                groupId: decoded("\"group-1\""),
-                name: decoded("\"Engineering\"")
-            )
+            groupId: decoded("\"group-1\""),
+            name: decoded("\"Engineering\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -130,8 +124,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateBetaOrganizationsServiceAccountsUpdateBetaOrganizationsXd357841940ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsServiceAccountsUpdateBetaOrganizationsXd357841940ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -153,8 +146,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateBetaOrganizationsServiceAccountsUpdateBetaOrganizationsXb1068f6de9ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsServiceAccountsUpdateBetaOrganizationsXb1068f6de9ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -165,12 +157,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.serviceAccounts.update(
-                serviceAccountId: decoded("\"service_account-1\""),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                description: decoded("\"example text\""),
-                organizationRole: decoded("\"admin\"")
-            )
+            serviceAccountId: decoded("\"service_account-1\""),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            description: decoded("\"example text\""),
+            organizationRole: decoded("\"admin\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -217,10 +209,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.users.update(
-                userId: decoded("\"user-1\""),
-                role: decoded("\"user\""),
-                anthropicVersion: decoded("\"anthropic-version\"")
-            )
+            userId: decoded("\"user-1\""),
+            role: decoded("\"user\""),
+            anthropicVersion: decoded("\"anthropic-version\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -236,8 +228,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateBetaOrganizationsWorkspacesUpdateBetaOrganizationsWorkspacesReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsWorkspacesUpdateBetaOrganizationsWorkspacesReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -261,8 +252,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateBetaOrganizationsWorkspacesUpdateBetaOrganizationsWorkspaces400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsWorkspacesUpdateBetaOrganizationsWorkspaces400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -273,14 +263,14 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.workspaces.update(
-                workspaceId: decoded("\"workspace-1\""),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                dataResidency: decoded(sdkMethodFixture463Value1),
-                displayColor: decoded("\"#6C5BB9\""),
-                externalKeyId: decoded("\"ekey_01SDCCSbTxrXDpWc1phhtcfK\""),
-                name: decoded("\"Example Name\""),
-                tags: decoded("{\"env\":\"prod\",\"team\":\"platform\"}")
-            )
+            workspaceId: decoded("\"workspace-1\""),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            dataResidency: decoded(sdkMethodFixture463Value1),
+            displayColor: decoded("\"#6C5BB9\""),
+            externalKeyId: decoded("\"ekey_01SDCCSbTxrXDpWc1phhtcfK\""),
+            name: decoded("\"Example Name\""),
+            tags: decoded("{\"env\":\"prod\",\"team\":\"platform\"}")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -296,8 +286,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateBetaOrganizationsWorkspacesMembersUpdateBetaOrganizatioXe645850032ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsWorkspacesMembersUpdateBetaOrganizatioXe645850032ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -318,8 +307,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateBetaOrganizationsWorkspacesMembersUpdateBetaOrganizatioX5e728fd46dReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsWorkspacesMembersUpdateBetaOrganizatioX5e728fd46dReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -330,11 +318,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.workspaces.members.update(
-                userId: decoded("\"user-1\""),
-                workspaceId: decoded("\"workspace-1\""),
-                workspaceRole: decoded("\"workspace_admin\""),
-                anthropicVersion: decoded("\"anthropic-version\"")
-            )
+            userId: decoded("\"user-1\""),
+            workspaceId: decoded("\"workspace-1\""),
+            workspaceRole: decoded("\"workspace_admin\""),
+            anthropicVersion: decoded("\"anthropic-version\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -350,8 +338,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateBetaOrganizationsWorkspacesServiceAccountsUpdateBetaOrgX8078785123ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsWorkspacesServiceAccountsUpdateBetaOrgX8078785123ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -373,8 +360,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateBetaOrganizationsWorkspacesServiceAccountsUpdateBetaOrgX9153d1ffd8ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUpdateBetaOrganizationsWorkspacesServiceAccountsUpdateBetaOrgX9153d1ffd8ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -385,12 +371,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.workspaces.serviceAccounts.update(
-                workspaceId: decoded("\"workspace-1\""),
-                serviceAccountId: decoded("\"service_account-1\""),
-                workspaceRole: decoded("\"workspace_admin\""),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicVersion: decoded("\"anthropic-version\"")
-            )
+            workspaceId: decoded("\"workspace-1\""),
+            serviceAccountId: decoded("\"service_account-1\""),
+            workspaceRole: decoded("\"workspace_admin\""),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicVersion: decoded("\"anthropic-version\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -411,8 +397,7 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaSessionsMethods
-            .UpdateBetaSessionsOptions(sessionId: decoded("\"sesn_011CZkZAtmR3yMPDzynEDxu7\""))
+        var options = try BetaSessionsMethods.UpdateBetaSessionsOptions(sessionId: decoded("\"sesn_011CZkZAtmR3yMPDzynEDxu7\""))
         options.anthropicVersion = try decoded("\"anthropic-version\"")
         options.anthropicBeta = try decoded("[\"anthropic-beta\"]")
         options.anthropicWorkspaceId = try decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
@@ -439,8 +424,7 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaSessionsMethods
-            .UpdateBetaSessionsOptions(sessionId: decoded("\"sesn_011CZkZAtmR3yMPDzynEDxu7\""))
+        var options = try BetaSessionsMethods.UpdateBetaSessionsOptions(sessionId: decoded("\"sesn_011CZkZAtmR3yMPDzynEDxu7\""))
         options.anthropicVersion = try decoded("\"anthropic-version\"")
         options.anthropicBeta = try decoded("[\"anthropic-beta\"]")
         options.anthropicWorkspaceId = try decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
@@ -455,8 +439,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.sessions.update(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -506,13 +490,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.sessions.resources.update(
-                sessionId: decoded("\"sesn_011CZkZAtmR3yMPDzynEDxu7\""),
-                resourceId: decoded("\"sesrsc_011CZkZBJq5dWxk9fVLNcPht\""),
-                authorizationToken: decoded("\"ghp_exampletoken\""),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-            )
+            sessionId: decoded("\"sesn_011CZkZAtmR3yMPDzynEDxu7\""),
+            resourceId: decoded("\"sesrsc_011CZkZBJq5dWxk9fVLNcPht\""),
+            authorizationToken: decoded("\"ghp_exampletoken\""),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -533,8 +517,7 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaUserProfilesMethods
-            .UpdateBetaUserProfilesOptions(userProfileId: decoded("\"uprof_011CZkZCu8hGbp5mYRQgUmz9\""))
+        var options = try BetaUserProfilesMethods.UpdateBetaUserProfilesOptions(userProfileId: decoded("\"uprof_011CZkZCu8hGbp5mYRQgUmz9\""))
         options.anthropicVersion = try decoded("\"anthropic-version\"")
         options.anthropicBeta = try decoded("[\"anthropic-beta\"]")
         options.externalId = try decoded("\"user_12345\"")

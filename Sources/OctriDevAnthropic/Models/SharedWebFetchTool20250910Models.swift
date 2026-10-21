@@ -3,62 +3,42 @@
 
 import Foundation
 
-/// SharedWeb domain models
-public extension WebFetchTool20250910 {
-    init(from decoder: Decoder) throws {
+// SharedWeb domain models
+extension WebFetchTool20250910 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        citations = try container.sdkDecodeIfPresent(.citations)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, WebFetchTool20250910Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, WebFetchTool20250910Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.citations = try container.sdkDecodeIfPresent(.citations)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, WebFetchTool20250910Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, WebFetchTool20250910Type.allCases.map(\.rawValue))
     }
 }
 
-public extension WebFetchTool20250910 {
-    init(
-        name: WebFetchTool20250910Name,
-        type: WebFetchTool20250910Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        allowedDomains: [String]? = nil,
-        blockedDomains: [String]? = nil,
-        cacheControl: WebFetchTool20250910CacheControl? = nil,
-        citations: RequestCitationsConfig? = nil,
-        deferLoading: Bool? = nil,
-        maxContentTokens: Int? = nil,
-        maxUses: Int? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension WebFetchTool20250910 {
+    public init(name: WebFetchTool20250910Name, type: WebFetchTool20250910Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebFetchTool20250910CacheControl? = nil, citations: RequestCitationsConfig? = nil, deferLoading: Bool? = nil, maxContentTokens: Int? = nil, maxUses: Int? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.citations, self.deferLoading) = (citations, deferLoading)
         (self.maxContentTokens, self.maxUses) = (maxContentTokens, maxUses)
         self.strict = strict
-        try sdkValidateRawEnum("name", self.name, WebFetchTool20250910Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, WebFetchTool20250910Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, WebFetchTool20250910Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, WebFetchTool20250910Type.allCases.map(\.rawValue))
     }
 }
 
@@ -69,6 +49,7 @@ public indirect enum WebFetchTool20260318CacheControl {
 }
 
 extension WebFetchTool20260318CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -76,16 +57,12 @@ extension WebFetchTool20260318CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -96,8 +73,8 @@ extension WebFetchTool20260318CacheControl: Codable {
 extension WebFetchTool20260318CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -119,6 +96,7 @@ public indirect enum WebFetchTool20260309CacheControl {
 }
 
 extension WebFetchTool20260309CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -126,16 +104,12 @@ extension WebFetchTool20260309CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -146,8 +120,8 @@ extension WebFetchTool20260309CacheControl: Codable {
 extension WebFetchTool20260309CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -169,6 +143,7 @@ public indirect enum WebSearchTool20260318CacheControl {
 }
 
 extension WebSearchTool20260318CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -176,16 +151,12 @@ extension WebSearchTool20260318CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -196,8 +167,8 @@ extension WebSearchTool20260318CacheControl: Codable {
 extension WebSearchTool20260318CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -257,68 +228,45 @@ public struct WebFetchTool20260309: Codable {
         case useCache = "use_cache"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension WebFetchTool20260309 {
-    init(from decoder: Decoder) throws {
+extension WebFetchTool20260309 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        citations = try container.sdkDecodeIfPresent(.citations)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        useCache = try container.sdkDecodeIfPresent(.useCache)
-        try sdkValidateRawEnum("name", name, WebFetchTool20260309Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, WebFetchTool20260309Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.citations = try container.sdkDecodeIfPresent(.citations)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+        self.useCache = try container.sdkDecodeIfPresent(.useCache)
+            try sdkValidateRawEnum("name", self.name, WebFetchTool20260309Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, WebFetchTool20260309Type.allCases.map(\.rawValue))
     }
 }
 
-public extension WebFetchTool20260309 {
-    init(
-        name: WebFetchTool20260309Name,
-        type: WebFetchTool20260309Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        allowedDomains: [String]? = nil,
-        blockedDomains: [String]? = nil,
-        cacheControl: WebFetchTool20260309CacheControl? = nil,
-        citations: RequestCitationsConfig? = nil,
-        deferLoading: Bool? = nil,
-        maxContentTokens: Int? = nil,
-        maxUses: Int? = nil,
-        strict: Bool? = nil,
-        useCache: Bool? = nil
-    ) throws {
+extension WebFetchTool20260309 {
+    public init(name: WebFetchTool20260309Name, type: WebFetchTool20260309Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebFetchTool20260309CacheControl? = nil, citations: RequestCitationsConfig? = nil, deferLoading: Bool? = nil, maxContentTokens: Int? = nil, maxUses: Int? = nil, strict: Bool? = nil, useCache: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
         (self.citations, self.deferLoading) = (citations, deferLoading)
         (self.maxContentTokens, self.maxUses) = (maxContentTokens, maxUses)
         (self.strict, self.useCache) = (strict, useCache)
-        try sdkValidateRawEnum("name", self.name, WebFetchTool20260309Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, WebFetchTool20260309Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, WebFetchTool20260309Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, WebFetchTool20260309Type.allCases.map(\.rawValue))
     }
 }
 
@@ -373,62 +321,38 @@ public struct WebFetchTool20260318: Codable {
         case useCache = "use_cache"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension WebFetchTool20260318 {
-    init(from decoder: Decoder) throws {
+extension WebFetchTool20260318 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
-        blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        citations = try container.sdkDecodeIfPresent(.citations)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
-        maxUses = try container.sdkDecodeIfPresent(.maxUses)
-        responseInclusion = try container.sdkDecodeIfPresent(.responseInclusion)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        useCache = try container.sdkDecodeIfPresent(.useCache)
-        try sdkValidateRawEnum("name", name, WebFetchTool20260318Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, WebFetchTool20260318Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.allowedDomains = try container.sdkDecodeIfPresent(.allowedDomains)
+        self.blockedDomains = try container.sdkDecodeIfPresent(.blockedDomains)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.citations = try container.sdkDecodeIfPresent(.citations)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.maxContentTokens = try container.sdkDecodeIfPresent(.maxContentTokens)
+        self.maxUses = try container.sdkDecodeIfPresent(.maxUses)
+        self.responseInclusion = try container.sdkDecodeIfPresent(.responseInclusion)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+        self.useCache = try container.sdkDecodeIfPresent(.useCache)
+            try sdkValidateRawEnum("name", self.name, WebFetchTool20260318Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, WebFetchTool20260318Type.allCases.map(\.rawValue))
     }
 }
 
-public extension WebFetchTool20260318 {
-    init(
-        name: WebFetchTool20260318Name,
-        type: WebFetchTool20260318Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        allowedDomains: [String]? = nil,
-        blockedDomains: [String]? = nil,
-        cacheControl: WebFetchTool20260318CacheControl? = nil,
-        citations: RequestCitationsConfig? = nil,
-        deferLoading: Bool? = nil,
-        maxContentTokens: Int? = nil,
-        maxUses: Int? = nil,
-        responseInclusion: WebFetchTool20260318ResponseInclusion? = nil,
-        strict: Bool? = nil,
-        useCache: Bool? = nil
-    ) throws {
+extension WebFetchTool20260318 {
+    public init(name: WebFetchTool20260318Name, type: WebFetchTool20260318Type, allowedCallers: [AllowedCaller]? = nil, allowedDomains: [String]? = nil, blockedDomains: [String]? = nil, cacheControl: WebFetchTool20260318CacheControl? = nil, citations: RequestCitationsConfig? = nil, deferLoading: Bool? = nil, maxContentTokens: Int? = nil, maxUses: Int? = nil, responseInclusion: WebFetchTool20260318ResponseInclusion? = nil, strict: Bool? = nil, useCache: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.allowedDomains) = (allowedCallers, allowedDomains)
         (self.blockedDomains, self.cacheControl) = (blockedDomains, cacheControl)
@@ -436,8 +360,8 @@ public extension WebFetchTool20260318 {
         (self.maxContentTokens, self.maxUses) = (maxContentTokens, maxUses)
         (self.responseInclusion, self.strict) = (responseInclusion, strict)
         self.useCache = useCache
-        try sdkValidateRawEnum("name", self.name, WebFetchTool20260318Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, WebFetchTool20260318Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, WebFetchTool20260318Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, WebFetchTool20260318Type.allCases.map(\.rawValue))
     }
 }
 
@@ -448,6 +372,7 @@ public indirect enum WebFetchTool20250910CacheControl {
 }
 
 extension WebFetchTool20250910CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -455,16 +380,12 @@ extension WebFetchTool20250910CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -475,8 +396,8 @@ extension WebFetchTool20250910CacheControl: Codable {
 extension WebFetchTool20250910CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -567,10 +488,7 @@ public enum WebSearchTool20260209Type: String, CaseIterable, Codable {
 public struct WebSearchToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = WebSearchToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = WebSearchToolResultErrorCode(rawValue: "unavailable")
     public static let maxUsesExceeded = WebSearchToolResultErrorCode(rawValue: "max_uses_exceeded")
@@ -580,7 +498,7 @@ public struct WebSearchToolResultErrorCode: RawRepresentable, Hashable, Codable,
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

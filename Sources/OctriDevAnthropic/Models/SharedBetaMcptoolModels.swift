@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaMcptool domain models
+// SharedBetaMcptool domain models
 /// Configuration for a specific tool in an MCP toolset.
 public struct BetaMCPToolConfig: Codable {
     /// Optional `boolean` value serialized in the `defer_loading` wire field.
@@ -17,20 +17,20 @@ public struct BetaMCPToolConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaMCPToolConfig {
-    init(from decoder: Decoder) throws {
+extension BetaMCPToolConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaMCPToolConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaMCPToolConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -49,20 +49,20 @@ public struct BetaMCPToolDefaultConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BetaMCPToolDefaultConfig {
-    init(from decoder: Decoder) throws {
+extension BetaMCPToolDefaultConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BetaMCPToolDefaultConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BetaMCPToolDefaultConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }

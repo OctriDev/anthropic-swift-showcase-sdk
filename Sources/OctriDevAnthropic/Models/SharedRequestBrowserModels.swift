@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedRequestBrowser domain models
+// SharedRequestBrowser domain models
 public indirect enum RequestBrowserStateBlockStateChangesItem {
     case browserStateChangeTabOpened(BrowserStateChangeTabOpened)
     case browserStateChangeDownloadStarted(BrowserStateChangeDownloadStarted)
@@ -14,6 +14,7 @@ public indirect enum RequestBrowserStateBlockStateChangesItem {
 }
 
 extension RequestBrowserStateBlockStateChangesItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,16 +22,12 @@ extension RequestBrowserStateBlockStateChangesItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -41,15 +38,11 @@ extension RequestBrowserStateBlockStateChangesItem: Codable {
 extension RequestBrowserStateBlockStateChangesItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "tab_opened": try .browserStateChangeTabOpened(BrowserStateChangeTabOpened(from: decoder))
-        case "download_started": try .browserStateChangeDownloadStarted(
-                BrowserStateChangeDownloadStarted(from: decoder)
-            )
-        case "download_completed": try .browserStateChangeDownloadCompleted(
-                BrowserStateChangeDownloadCompleted(from: decoder)
-            )
-        case "download_failed": try .browserStateChangeDownloadFailed(BrowserStateChangeDownloadFailed(from: decoder))
-        default: nil
+        case "tab_opened": return .browserStateChangeTabOpened(try BrowserStateChangeTabOpened(from: decoder))
+        case "download_started": return .browserStateChangeDownloadStarted(try BrowserStateChangeDownloadStarted(from: decoder))
+        case "download_completed": return .browserStateChangeDownloadCompleted(try BrowserStateChangeDownloadCompleted(from: decoder))
+        case "download_failed": return .browserStateChangeDownloadFailed(try BrowserStateChangeDownloadFailed(from: decoder))
+        default: return nil
         }
     }
 }
@@ -90,51 +83,36 @@ public struct RequestBrowserStateBlock: Codable {
         case stateChanges = "state_changes"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestBrowserStateBlock {
-    init(from decoder: Decoder) throws {
+extension RequestBrowserStateBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.tabs) else {
-            throw SdkValidationError(
-                field: "tabs",
-                code: "required",
-                message: "Validation failed for 'tabs': value is required"
-            )
+            throw SdkValidationError(field: "tabs", code: "required", message: "Validation failed for 'tabs': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        tabs = try container.sdkDecodeRequired(.tabs)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        stateChanges = try container.sdkDecodeIfPresent(.stateChanges)
-        try validateItems("tabs", tabs, min: nil, max: 100)
-        try sdkValidateRawEnum("type", type, RequestBrowserStateBlockType.allCases.map(\.rawValue))
-        if let value = stateChanges {
+        self.tabs = try container.sdkDecodeRequired(.tabs)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.stateChanges = try container.sdkDecodeIfPresent(.stateChanges)
+            try validateItems("tabs", self.tabs, min: nil, max: 100)
+            try sdkValidateRawEnum("type", self.type, RequestBrowserStateBlockType.allCases.map(\.rawValue))
+        if let value = self.stateChanges {
             try validateItems("state_changes", value, min: 1, max: 200)
         }
     }
 }
 
-public extension RequestBrowserStateBlock {
-    init(
-        tabs: [BrowserStateTabEntry],
-        type: RequestBrowserStateBlockType,
-        cacheControl: RequestBrowserStateBlockCacheControl? = nil,
-        stateChanges: [RequestBrowserStateBlockStateChangesItem]? = nil
-    ) throws {
+extension RequestBrowserStateBlock {
+    public init(tabs: [BrowserStateTabEntry], type: RequestBrowserStateBlockType, cacheControl: RequestBrowserStateBlockCacheControl? = nil, stateChanges: [RequestBrowserStateBlockStateChangesItem]? = nil) throws {
         (self.tabs, self.type) = (tabs, type)
         (self.cacheControl, self.stateChanges) = (cacheControl, stateChanges)
-        try validateItems("tabs", self.tabs, min: nil, max: 100)
-        try sdkValidateRawEnum("type", self.type, RequestBrowserStateBlockType.allCases.map(\.rawValue))
+            try validateItems("tabs", self.tabs, min: nil, max: 100)
+            try sdkValidateRawEnum("type", self.type, RequestBrowserStateBlockType.allCases.map(\.rawValue))
         if let value = self.stateChanges {
             try validateItems("state_changes", value, min: 1, max: 200)
         }
@@ -148,6 +126,7 @@ public indirect enum RequestBrowserStateBlockCacheControl {
 }
 
 extension RequestBrowserStateBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -155,16 +134,12 @@ extension RequestBrowserStateBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -175,8 +150,8 @@ extension RequestBrowserStateBlockCacheControl: Codable {
 extension RequestBrowserStateBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }

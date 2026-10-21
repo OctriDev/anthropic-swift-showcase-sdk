@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedText domain models
+// SharedText domain models
 /// Typed representation of the `TextEditor_20250429` API schema.
 public struct TextEditor20250429: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -32,56 +32,38 @@ public struct TextEditor20250429: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension TextEditor20250429 {
-    init(from decoder: Decoder) throws {
+extension TextEditor20250429 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, TextEditor20250429Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, TextEditor20250429Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, TextEditor20250429Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, TextEditor20250429Type.allCases.map(\.rawValue))
     }
 }
 
-public extension TextEditor20250429 {
-    init(
-        name: TextEditor20250429Name,
-        type: TextEditor20250429Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: TextEditor20250429CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: JsonValue]]? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension TextEditor20250429 {
+    public init(name: TextEditor20250429Name, type: TextEditor20250429Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: TextEditor20250429CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: JsonValue]]? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-        try sdkValidateRawEnum("name", self.name, TextEditor20250429Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, TextEditor20250429Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, TextEditor20250429Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, TextEditor20250429Type.allCases.map(\.rawValue))
     }
 }
 
@@ -92,6 +74,7 @@ public indirect enum TextEditor20250429CacheControl {
 }
 
 extension TextEditor20250429CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -99,16 +82,12 @@ extension TextEditor20250429CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -119,8 +98,8 @@ extension TextEditor20250429CacheControl: Codable {
 extension TextEditor20250429CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -142,6 +121,7 @@ public indirect enum TextEditor20250124CacheControl {
 }
 
 extension TextEditor20250124CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -149,16 +129,12 @@ extension TextEditor20250124CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -169,8 +145,8 @@ extension TextEditor20250124CacheControl: Codable {
 extension TextEditor20250124CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -217,58 +193,39 @@ public struct TextEditor20250728: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension TextEditor20250728 {
-    init(from decoder: Decoder) throws {
+extension TextEditor20250728 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        maxCharacters = try container.sdkDecodeIfPresent(.maxCharacters)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, TextEditor20250728Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, TextEditor20250728Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.maxCharacters = try container.sdkDecodeIfPresent(.maxCharacters)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, TextEditor20250728Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, TextEditor20250728Type.allCases.map(\.rawValue))
     }
 }
 
-public extension TextEditor20250728 {
-    init(
-        name: TextEditor20250728Name,
-        type: TextEditor20250728Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: TextEditor20250728CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: JsonValue]]? = nil,
-        maxCharacters: Int? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension TextEditor20250728 {
+    public init(name: TextEditor20250728Name, type: TextEditor20250728Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: TextEditor20250728CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: JsonValue]]? = nil, maxCharacters: Int? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         (self.maxCharacters, self.strict) = (maxCharacters, strict)
-        try sdkValidateRawEnum("name", self.name, TextEditor20250728Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, TextEditor20250728Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, TextEditor20250728Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, TextEditor20250728Type.allCases.map(\.rawValue))
     }
 }
 
@@ -300,56 +257,38 @@ public struct TextEditor20250124: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension TextEditor20250124 {
-    init(from decoder: Decoder) throws {
+extension TextEditor20250124 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, TextEditor20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, TextEditor20250124Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, TextEditor20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, TextEditor20250124Type.allCases.map(\.rawValue))
     }
 }
 
-public extension TextEditor20250124 {
-    init(
-        name: TextEditor20250124Name,
-        type: TextEditor20250124Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: TextEditor20250124CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: JsonValue]]? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension TextEditor20250124 {
+    public init(name: TextEditor20250124Name, type: TextEditor20250124Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: TextEditor20250124CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: JsonValue]]? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-        try sdkValidateRawEnum("name", self.name, TextEditor20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, TextEditor20250124Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, TextEditor20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, TextEditor20250124Type.allCases.map(\.rawValue))
     }
 }
 
@@ -360,6 +299,7 @@ public indirect enum TextEditor20250728CacheControl {
 }
 
 extension TextEditor20250728CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -367,16 +307,12 @@ extension TextEditor20250728CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -387,8 +323,8 @@ extension TextEditor20250728CacheControl: Codable {
 extension TextEditor20250728CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -422,24 +358,19 @@ public enum TextEditor20250124Type: String, CaseIterable, Codable {
 }
 
 /// Typed representation of the `TextEditorCodeExecutionToolResultErrorCode` API schema.
-public struct TextEditorCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct TextEditorCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = TextEditorCodeExecutionToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = TextEditorCodeExecutionToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = TextEditorCodeExecutionToolResultErrorCode(rawValue: "too_many_requests")
-    public static let executionTimeExceeded =
-        TextEditorCodeExecutionToolResultErrorCode(rawValue: "execution_time_exceeded")
+    public static let executionTimeExceeded = TextEditorCodeExecutionToolResultErrorCode(rawValue: "execution_time_exceeded")
     public static let fileNotFound = TextEditorCodeExecutionToolResultErrorCode(rawValue: "file_not_found")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

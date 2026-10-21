@@ -7,378 +7,378 @@ import XCTest
 
 let sdkMethodFixture454Value2 = String(
     data: Data(base64Encoded: [
-        "eyJzZXJ2aWNlX2FjY291bnRfaWQiOiJzdmFjXzAxU0RDQ1NiVHhyWERwV2MxcGhodGNmSyIsInNlcnZp",
-        "Y2VfYWNjb3VudF9uYW1lIjoiRXhhbXBsZSBOYW1lIiwidHlwZSI6InNlcnZpY2VfYWNjb3VudCJ9",
+    "eyJzZXJ2aWNlX2FjY291bnRfaWQiOiJzdmFjXzAxU0RDQ1NiVHhyWERwV2MxcGhodGNmSyIsInNlcnZp",
+    "Y2VfYWNjb3VudF9uYW1lIjoiRXhhbXBsZSBOYW1lIiwidHlwZSI6InNlcnZpY2VfYWNjb3VudCJ9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture454Expected = String(
     data: Data(base64Encoded: [
-        "eyJhcHBsaWVzX3RvX2FsbF93b3Jrc3BhY2VzIjpmYWxzZSwiYXJjaGl2ZWRfYXQiOiIyMDI0LTAxLTAx",
-        "VDAwOjAwOjAwWiIsImFyY2hpdmVkX2J5X2FjdG9yX2lkIjoiYXJjaGl2ZWRfYnlfYWN0b3ItMSIsImF0",
-        "dHJpYnV0ZXMiOnsia2V5Ijoia2V5In0sImNyZWF0ZWRfYXQiOiIyMDI0LTEwLTMwVDIzOjU4OjI3LjQy",
-        "NzcyMloiLCJjcmVhdGVkX2J5X2FjdG9yX2lkIjoiY3JlYXRlZF9ieV9hY3Rvci0xIiwiZGVzY3JpcHRp",
-        "b24iOiJleGFtcGxlIHRleHQiLCJpZCI6ImZkcmxfMDFTRENDU2JUeHJYRHBXYzFwaGh0Y2ZLIiwiaXNz",
-        "dWVyX2lkIjoiaXNzdWVyLTEiLCJpc3N1ZXJfbmFtZSI6IkV4YW1wbGUgTmFtZSIsIm1hdGNoIjp7ImF1",
-        "ZGllbmNlIjoiYXVkaWVuY2UiLCJjbGFpbXMiOnsia2V5Ijoia2V5In0sImNvbmRpdGlvbiI6ImNvbmRp",
-        "dGlvbiIsInN1YmplY3RfcHJlZml4Ijoic3ViamVjdF9wcmVmaXgifSwibmFtZSI6IkV4YW1wbGUgTmFt",
-        "ZSIsIm9hdXRoX3Njb3BlIjoieCIsInRhcmdldCI6eyJzZXJ2aWNlX2FjY291bnRfaWQiOiJzdmFjXzAx",
-        "U0RDQ1NiVHhyWERwV2MxcGhodGNmSyIsInNlcnZpY2VfYWNjb3VudF9uYW1lIjoiRXhhbXBsZSBOYW1l",
-        "IiwidHlwZSI6InNlcnZpY2VfYWNjb3VudCJ9LCJ0b2tlbl9saWZldGltZV9zZWNvbmRzIjo2MCwidHlw",
-        "ZSI6ImZlZGVyYXRpb25fcnVsZSIsInVwZGF0ZWRfYXQiOiIyMDI0LTEwLTMwVDIzOjU4OjI3LjQyNzcy",
-        "MloiLCJ1cGRhdGVkX2J5X2FjdG9yX2lkIjoidXBkYXRlZF9ieV9hY3Rvci0xIiwid29ya3NwYWNlX2lk",
-        "Ijoid29ya3NwYWNlLTEiLCJ3b3Jrc3BhY2VfaWRzIjpbIndvcmtzcGFjZV9pZHMiXX0=",
+    "eyJhcHBsaWVzX3RvX2FsbF93b3Jrc3BhY2VzIjpmYWxzZSwiYXJjaGl2ZWRfYXQiOiIyMDI0LTAxLTAx",
+    "VDAwOjAwOjAwWiIsImFyY2hpdmVkX2J5X2FjdG9yX2lkIjoiYXJjaGl2ZWRfYnlfYWN0b3ItMSIsImF0",
+    "dHJpYnV0ZXMiOnsia2V5Ijoia2V5In0sImNyZWF0ZWRfYXQiOiIyMDI0LTEwLTMwVDIzOjU4OjI3LjQy",
+    "NzcyMloiLCJjcmVhdGVkX2J5X2FjdG9yX2lkIjoiY3JlYXRlZF9ieV9hY3Rvci0xIiwiZGVzY3JpcHRp",
+    "b24iOiJleGFtcGxlIHRleHQiLCJpZCI6ImZkcmxfMDFTRENDU2JUeHJYRHBXYzFwaGh0Y2ZLIiwiaXNz",
+    "dWVyX2lkIjoiaXNzdWVyLTEiLCJpc3N1ZXJfbmFtZSI6IkV4YW1wbGUgTmFtZSIsIm1hdGNoIjp7ImF1",
+    "ZGllbmNlIjoiYXVkaWVuY2UiLCJjbGFpbXMiOnsia2V5Ijoia2V5In0sImNvbmRpdGlvbiI6ImNvbmRp",
+    "dGlvbiIsInN1YmplY3RfcHJlZml4Ijoic3ViamVjdF9wcmVmaXgifSwibmFtZSI6IkV4YW1wbGUgTmFt",
+    "ZSIsIm9hdXRoX3Njb3BlIjoieCIsInRhcmdldCI6eyJzZXJ2aWNlX2FjY291bnRfaWQiOiJzdmFjXzAx",
+    "U0RDQ1NiVHhyWERwV2MxcGhodGNmSyIsInNlcnZpY2VfYWNjb3VudF9uYW1lIjoiRXhhbXBsZSBOYW1l",
+    "IiwidHlwZSI6InNlcnZpY2VfYWNjb3VudCJ9LCJ0b2tlbl9saWZldGltZV9zZWNvbmRzIjo2MCwidHlw",
+    "ZSI6ImZlZGVyYXRpb25fcnVsZSIsInVwZGF0ZWRfYXQiOiIyMDI0LTEwLTMwVDIzOjU4OjI3LjQyNzcy",
+    "MloiLCJ1cGRhdGVkX2J5X2FjdG9yX2lkIjoidXBkYXRlZF9ieV9hY3Rvci0xIiwid29ya3NwYWNlX2lk",
+    "Ijoid29ya3NwYWNlLTEiLCJ3b3Jrc3BhY2VfaWRzIjpbIndvcmtzcGFjZV9pZHMiXX0=",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture455Value1 = String(
     data: Data(base64Encoded: [
-        "eyJhdWRpZW5jZSI6ImF1ZGllbmNlIiwiY2xhaW1zIjp7ImtleSI6ImtleSJ9LCJjb25kaXRpb24iOiJj",
-        "b25kaXRpb24iLCJzdWJqZWN0X3ByZWZpeCI6InN1YmplY3RfcHJlZml4In0=",
+    "eyJhdWRpZW5jZSI6ImF1ZGllbmNlIiwiY2xhaW1zIjp7ImtleSI6ImtleSJ9LCJjb25kaXRpb24iOiJj",
+    "b25kaXRpb24iLCJzdWJqZWN0X3ByZWZpeCI6InN1YmplY3RfcHJlZml4In0=",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture455Value2 = String(
     data: Data(base64Encoded: [
-        "eyJzZXJ2aWNlX2FjY291bnRfaWQiOiJzdmFjXzAxU0RDQ1NiVHhyWERwV2MxcGhodGNmSyIsInNlcnZp",
-        "Y2VfYWNjb3VudF9uYW1lIjoiRXhhbXBsZSBOYW1lIiwidHlwZSI6InNlcnZpY2VfYWNjb3VudCJ9",
+    "eyJzZXJ2aWNlX2FjY291bnRfaWQiOiJzdmFjXzAxU0RDQ1NiVHhyWERwV2MxcGhodGNmSyIsInNlcnZp",
+    "Y2VfYWNjb3VudF9uYW1lIjoiRXhhbXBsZSBOYW1lIiwidHlwZSI6InNlcnZpY2VfYWNjb3VudCJ9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture455Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture456Expected = String(
     data: Data(base64Encoded: [
-        "eyJjcmVhdGVkX2F0IjoiMjAyNC0xMC0zMFQyMzo1ODoyNy40Mjc3MjJaIiwiaWQiOiJyYmFjX2dyb3Vw",
-        "XzAxMnJwcEthU1ZzbVRvNk5xUkRYUVhORiIsIm5hbWUiOiJFbmdpbmVlcmluZyIsInJvbGVzIjpbInJi",
-        "YWNfcm9sZV8wMTZKOHhWdEtwRHEzV3k5Wm1OMmhSNHMiXSwic291cmNlX3R5cGUiOiJkaXJlY3QiLCJ0",
-        "eXBlIjoicmJhY19ncm91cCIsInVwZGF0ZWRfYXQiOiIyMDI0LTEwLTMwVDIzOjU4OjI3LjQyNzcyMloi",
-        "fQ==",
+    "eyJjcmVhdGVkX2F0IjoiMjAyNC0xMC0zMFQyMzo1ODoyNy40Mjc3MjJaIiwiaWQiOiJyYmFjX2dyb3Vw",
+    "XzAxMnJwcEthU1ZzbVRvNk5xUkRYUVhORiIsIm5hbWUiOiJFbmdpbmVlcmluZyIsInJvbGVzIjpbInJi",
+    "YWNfcm9sZV8wMTZKOHhWdEtwRHEzV3k5Wm1OMmhSNHMiXSwic291cmNlX3R5cGUiOiJkaXJlY3QiLCJ0",
+    "eXBlIjoicmJhY19ncm91cCIsInVwZGF0ZWRfYXQiOiIyMDI0LTEwLTMwVDIzOjU4OjI3LjQyNzcyMloi",
+    "fQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture457Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture458Expected = String(
     data: Data(base64Encoded: [
-        "eyJhcmNoaXZlZF9hdCI6IjIwMjQtMDEtMDFUMDA6MDA6MDBaIiwiYXJjaGl2ZWRfYnlfYWN0b3JfaWQi",
-        "OiJhcmNoaXZlZF9ieV9hY3Rvci0xIiwiY3JlYXRlZF9hdCI6IjIwMjQtMTAtMzBUMjM6NTg6MjcuNDI3",
-        "NzIyWiIsImNyZWF0ZWRfYnlfYWN0b3JfaWQiOiJjcmVhdGVkX2J5X2FjdG9yLTEiLCJkZXNjcmlwdGlv",
-        "biI6ImV4YW1wbGUgdGV4dCIsImlkIjoic3ZhY18wMVNEQ0NTYlR4clhEcFdjMXBoaHRjZksiLCJuYW1l",
-        "IjoiY2ktZGVwbG95LWJvdCIsIm9yZ2FuaXphdGlvbl9yb2xlIjoiYWRtaW4iLCJ0eXBlIjoic2Vydmlj",
-        "ZV9hY2NvdW50IiwidXBkYXRlZF9hdCI6IjIwMjQtMTAtMzBUMjM6NTg6MjcuNDI3NzIyWiIsInVwZGF0",
-        "ZWRfYnlfYWN0b3JfaWQiOiJ1cGRhdGVkX2J5X2FjdG9yLTEifQ==",
+    "eyJhcmNoaXZlZF9hdCI6IjIwMjQtMDEtMDFUMDA6MDA6MDBaIiwiYXJjaGl2ZWRfYnlfYWN0b3JfaWQi",
+    "OiJhcmNoaXZlZF9ieV9hY3Rvci0xIiwiY3JlYXRlZF9hdCI6IjIwMjQtMTAtMzBUMjM6NTg6MjcuNDI3",
+    "NzIyWiIsImNyZWF0ZWRfYnlfYWN0b3JfaWQiOiJjcmVhdGVkX2J5X2FjdG9yLTEiLCJkZXNjcmlwdGlv",
+    "biI6ImV4YW1wbGUgdGV4dCIsImlkIjoic3ZhY18wMVNEQ0NTYlR4clhEcFdjMXBoaHRjZksiLCJuYW1l",
+    "IjoiY2ktZGVwbG95LWJvdCIsIm9yZ2FuaXphdGlvbl9yb2xlIjoiYWRtaW4iLCJ0eXBlIjoic2Vydmlj",
+    "ZV9hY2NvdW50IiwidXBkYXRlZF9hdCI6IjIwMjQtMTAtMzBUMjM6NTg6MjcuNDI3NzIyWiIsInVwZGF0",
+    "ZWRfYnlfYWN0b3JfaWQiOiJ1cGRhdGVkX2J5X2FjdG9yLTEifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture459Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture460Expected = String(
     data: Data(base64Encoded: [
-        "eyJhZGRlZF9hdCI6IjIwMjQtMTAtMzBUMjM6NTg6MjcuNDI3NzIyWiIsImVtYWlsIjoidXNlckBlbWFp",
-        "bGRvbWFpbi5jb20iLCJpZCI6InVzZXJfMDFXQ3oxRmttWU1tNGdubXlrTktVdTNRIiwibmFtZSI6Ikph",
-        "bmUgRG9lIiwicm9sZSI6InVzZXIiLCJ0eXBlIjoidXNlciJ9",
+    "eyJhZGRlZF9hdCI6IjIwMjQtMTAtMzBUMjM6NTg6MjcuNDI3NzIyWiIsImVtYWlsIjoidXNlckBlbWFp",
+    "bGRvbWFpbi5jb20iLCJpZCI6InVzZXJfMDFXQ3oxRmttWU1tNGdubXlrTktVdTNRIiwibmFtZSI6Ikph",
+    "bmUgRG9lIiwicm9sZSI6InVzZXIiLCJ0eXBlIjoidXNlciJ9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture461Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture462Value1 = String(
     data: Data(base64Encoded: [
-        "eyJhbGxvd2VkX2luZmVyZW5jZV9nZW9zIjpbImdsb2JhbCJdLCJkZWZhdWx0X2luZmVyZW5jZV9nZW8i",
-        "OiJnbG9iYWwifQ==",
+    "eyJhbGxvd2VkX2luZmVyZW5jZV9nZW9zIjpbImdsb2JhbCJdLCJkZWZhdWx0X2luZmVyZW5jZV9nZW8i",
+    "OiJnbG9iYWwifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture462Expected = String(
     data: Data(base64Encoded: [
-        "eyJhcmNoaXZlZF9hdCI6IjIwMjQtMTEtMDFUMjM6NTk6MjcuNDI3NzIyWiIsImNvbXBhcnRtZW50X2lk",
-        "IjoiZjhhN2I2YzUtNGQzZS00ZjFhLThiOWMtMGQxZTJmM2E0YjVjIiwiY3JlYXRlZF9hdCI6IjIwMjQt",
-        "MTAtMzBUMjM6NTg6MjcuNDI3NzIyWiIsImRhdGFfcmVzaWRlbmN5Ijp7ImFsbG93ZWRfaW5mZXJlbmNl",
-        "X2dlb3MiOlsiYWxsb3dlZF9pbmZlcmVuY2VfZ2VvcyJdLCJkZWZhdWx0X2luZmVyZW5jZV9nZW8iOiJk",
-        "ZWZhdWx0X2luZmVyZW5jZV9nZW8iLCJ3b3Jrc3BhY2VfZ2VvIjoid29ya3NwYWNlX2dlbyJ9LCJkaXNw",
-        "bGF5X2NvbG9yIjoiIzZDNUJCOSIsImV4dGVybmFsX2tleV9pZCI6ImVrZXlfMDFTRENDU2JUeHJYRHBX",
-        "YzFwaGh0Y2ZLIiwiaWQiOiJ3cmtzcGNfMDFKd1F2enI3clhMQTVBR3gzSEtmRlVKIiwibmFtZSI6IkV4",
-        "YW1wbGUgTmFtZSIsInRhZ3MiOnsiZW52IjoicHJvZCIsInRlYW0iOiJwbGF0Zm9ybSJ9LCJ0eXBlIjoi",
-        "d29ya3NwYWNlIn0=",
+    "eyJhcmNoaXZlZF9hdCI6IjIwMjQtMTEtMDFUMjM6NTk6MjcuNDI3NzIyWiIsImNvbXBhcnRtZW50X2lk",
+    "IjoiZjhhN2I2YzUtNGQzZS00ZjFhLThiOWMtMGQxZTJmM2E0YjVjIiwiY3JlYXRlZF9hdCI6IjIwMjQt",
+    "MTAtMzBUMjM6NTg6MjcuNDI3NzIyWiIsImRhdGFfcmVzaWRlbmN5Ijp7ImFsbG93ZWRfaW5mZXJlbmNl",
+    "X2dlb3MiOlsiYWxsb3dlZF9pbmZlcmVuY2VfZ2VvcyJdLCJkZWZhdWx0X2luZmVyZW5jZV9nZW8iOiJk",
+    "ZWZhdWx0X2luZmVyZW5jZV9nZW8iLCJ3b3Jrc3BhY2VfZ2VvIjoid29ya3NwYWNlX2dlbyJ9LCJkaXNw",
+    "bGF5X2NvbG9yIjoiIzZDNUJCOSIsImV4dGVybmFsX2tleV9pZCI6ImVrZXlfMDFTRENDU2JUeHJYRHBX",
+    "YzFwaGh0Y2ZLIiwiaWQiOiJ3cmtzcGNfMDFKd1F2enI3clhMQTVBR3gzSEtmRlVKIiwibmFtZSI6IkV4",
+    "YW1wbGUgTmFtZSIsInRhZ3MiOnsiZW52IjoicHJvZCIsInRlYW0iOiJwbGF0Zm9ybSJ9LCJ0eXBlIjoi",
+    "d29ya3NwYWNlIn0=",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture463Value1 = String(
     data: Data(base64Encoded: [
-        "eyJhbGxvd2VkX2luZmVyZW5jZV9nZW9zIjpbImdsb2JhbCJdLCJkZWZhdWx0X2luZmVyZW5jZV9nZW8i",
-        "OiJnbG9iYWwifQ==",
+    "eyJhbGxvd2VkX2luZmVyZW5jZV9nZW9zIjpbImdsb2JhbCJdLCJkZWZhdWx0X2luZmVyZW5jZV9nZW8i",
+    "OiJnbG9iYWwifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture463Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture464Expected = String(
     data: Data(base64Encoded: [
-        "eyJ0eXBlIjoid29ya3NwYWNlX21lbWJlciIsInVzZXJfaWQiOiJ1c2VyLTEiLCJ3b3Jrc3BhY2VfaWQi",
-        "OiJ3b3Jrc3BhY2UtMSIsIndvcmtzcGFjZV9yb2xlIjoid29ya3NwYWNlX2FkbWluIn0=",
+    "eyJ0eXBlIjoid29ya3NwYWNlX21lbWJlciIsInVzZXJfaWQiOiJ1c2VyLTEiLCJ3b3Jrc3BhY2VfaWQi",
+    "OiJ3b3Jrc3BhY2UtMSIsIndvcmtzcGFjZV9yb2xlIjoid29ya3NwYWNlX2FkbWluIn0=",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture465Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture466Expected = String(
     data: Data(base64Encoded: [
-        "eyJjcmVhdGVkX2J5X2FjdG9yX2lkIjoiY3JlYXRlZF9ieV9hY3Rvci0xIiwiaW1wbGljaXQiOmZhbHNl",
-        "LCJzZXJ2aWNlX2FjY291bnRfaWQiOiJzZXJ2aWNlX2FjY291bnQtMSIsInR5cGUiOiJzZXJ2aWNlX2Fj",
-        "Y291bnRfd29ya3NwYWNlX21lbWJlciIsIndvcmtzcGFjZV9pZCI6IndvcmtzcGFjZS0xIiwid29ya3Nw",
-        "YWNlX3JvbGUiOiJ3b3Jrc3BhY2VfYWRtaW4ifQ==",
+    "eyJjcmVhdGVkX2J5X2FjdG9yX2lkIjoiY3JlYXRlZF9ieV9hY3Rvci0xIiwiaW1wbGljaXQiOmZhbHNl",
+    "LCJzZXJ2aWNlX2FjY291bnRfaWQiOiJzZXJ2aWNlX2FjY291bnQtMSIsInR5cGUiOiJzZXJ2aWNlX2Fj",
+    "Y291bnRfd29ya3NwYWNlX21lbWJlciIsIndvcmtzcGFjZV9pZCI6IndvcmtzcGFjZS0xIiwid29ya3Nw",
+    "YWNlX3JvbGUiOiJ3b3Jrc3BhY2VfYWRtaW4ifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture467Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture468Expected = String(
     data: Data(base64Encoded: [
-        "eyJ0eXBlIjoic2Vzc2lvbiIsImlkIjoic2Vzbl8wMTFDWmtaQXRtUjN5TVBEenluRUR4dTciLCJzdGF0",
-        "dXMiOiJpZGxlIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwidXBkYXRlZF9hdCI6",
-        "IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwiYXJjaGl2ZWRfYXQiOm51bGwsImJ1ZGdldCI6bnVsbCwiZW52",
-        "aXJvbm1lbnRfaWQiOiJlbnZfMDExQ1prWjlYMmRwTnlCN0hzRUZvUmZXIiwidGl0bGUiOiJPcmRlciAj",
-        "MTIzNCBpbnF1aXJ5IiwibWV0YWRhdGEiOnt9LCJhZ2VudCI6eyJ0eXBlIjoiYWdlbnQiLCJpZCI6ImFn",
-        "ZW50XzAxMUNaa1lwb2dYN3VES1V5dkJUb3BoUCIsInZlcnNpb24iOjEsIm5hbWUiOiJNeSBGaXJzdCBB",
-        "Z2VudCIsImRlc2NyaXB0aW9uIjoiQSBnZW5lcmFsLXB1cnBvc2Ugc3RhcnRlciBhZ2VudC4iLCJtb2Rl",
-        "bCI6eyJpZCI6ImNsYXVkZS1vcHVzLTUiLCJzcGVlZCI6InN0YW5kYXJkIn0sInN5c3RlbSI6IllvdSBh",
-        "cmUgYSBnZW5lcmFsLXB1cnBvc2UgYWdlbnQgdGhhdCBjYW4gcmVzZWFyY2gsIHdyaXRlIGNvZGUsIHJ1",
-        "biBjb21tYW5kcywgYW5kIHVzZSBjb25uZWN0ZWQgdG9vbHMgdG8gY29tcGxldGUgdGhlIHVzZXIncyB0",
-        "YXNrIGVuZCB0byBlbmQuIiwidG9vbHMiOlt7InR5cGUiOiJhZ2VudF90b29sc2V0XzIwMjYwNDAxIiwi",
-        "ZGVmYXVsdF9jb25maWciOnsiZW5hYmxlZCI6dHJ1ZSwicGVybWlzc2lvbl9wb2xpY3kiOnsidHlwZSI6",
-        "ImFsd2F5c19hc2sifX0sImNvbmZpZ3MiOltdfV0sIm1jcF9zZXJ2ZXJzIjpbeyJ0eXBlIjoidXJsIiwi",
-        "bmFtZSI6ImV4YW1wbGUtbWNwIiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLXNlcnZlci5tb2RlbGNvbnRl",
-        "eHRwcm90b2NvbC5pby9zc2UifV0sInNraWxscyI6W3sidHlwZSI6ImFudGhyb3BpYyIsInNraWxsX2lk",
-        "IjoieGxzeCIsInZlcnNpb24iOiIxIn0seyJ0eXBlIjoiY3VzdG9tIiwic2tpbGxfaWQiOiJza2lsbF8w",
-        "MTFDWmtaRk51OWhBYm8zalpQUmdUbHgiLCJ2ZXJzaW9uIjoiMiJ9XSwibXVsdGlhZ2VudCI6bnVsbH0s",
-        "InJlc291cmNlcyI6W3sidHlwZSI6ImZpbGUiLCJpZCI6InNlc3JzY18wMTFDWmtaQkpxNWRXeGs5ZlZM",
-        "TmNQaHQiLCJmaWxlX2lkIjoiZmlsZV8wMTFDTmhhOGlDSmNVMXdYTlI2cTRWOHciLCJtb3VudF9wYXRo",
-        "IjoiL3VwbG9hZHMvcmVjZWlwdC5wZGYiLCJjcmVhdGVkX2F0IjoiMjAyNi0wMy0xNVQxMDowMDowMFoi",
-        "LCJ1cGRhdGVkX2F0IjoiMjAyNi0wMy0xNVQxMDowMDowMFoifSx7InR5cGUiOiJnaXRodWJfcmVwb3Np",
-        "dG9yeSIsImlkIjoic2VzcnNjXzAxMUNaa1pDS3I2ZVh5bDBnV01PZFFpdSIsInVybCI6Imh0dHBzOi8v",
-        "Z2l0aHViLmNvbS9leGFtcGxlLW9yZy9leGFtcGxlLXJlcG8iLCJtb3VudF9wYXRoIjoiL3dvcmtzcGFj",
-        "ZS9leGFtcGxlLXJlcG8iLCJjaGVja291dCI6eyJ0eXBlIjoiYnJhbmNoIiwibmFtZSI6Im1haW4ifSwi",
-        "Y3JlYXRlZF9hdCI6IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwidXBkYXRlZF9hdCI6IjIwMjYtMDMtMTVU",
-        "MTA6MDA6MDBaIn1dLCJ2YXVsdF9pZHMiOlsidmx0XzAxMUNaa1pETHM3Zll6bTFoWE5QZVJqdiJdLCJ1",
-        "c2FnZSI6eyJpbnB1dF90b2tlbnMiOjAsIm91dHB1dF90b2tlbnMiOjAsImNhY2hlX3JlYWRfaW5wdXRf",
-        "dG9rZW5zIjowfSwic3RhdHMiOnsiZHVyYXRpb25fc2Vjb25kcyI6MCwiYWN0aXZlX3NlY29uZHMiOjB9",
-        "LCJvdXRjb21lX2V2YWx1YXRpb25zIjpbeyJ0eXBlIjoib3V0Y29tZV9ldmFsdWF0aW9uIiwib3V0Y29t",
-        "ZV9pZCI6Im91dGNfMDExQ1prWlJTdzJrRWZzNm5jVFZsanhQIiwiZGVzY3JpcHRpb24iOiJQcm9kdWNl",
-        "IGEgMi1wYWdlIHN1bW1hcnkgYXMgc3VtbWFyeS5tZCIsInJlc3VsdCI6InNhdGlzZmllZCIsIml0ZXJh",
-        "dGlvbiI6MCwiY29tcGxldGVkX2F0IjoiMjAyNi0wMy0xNVQxMDowMjozMVoiLCJleHBsYW5hdGlvbiI6",
-        "IkFsbCBmaXZlIHNlY3Rpb25zIHByZXNlbnQgd2l0aCBpbmxpbmUgY2l0YXRpb25zLiJ9XX0=",
+    "eyJ0eXBlIjoic2Vzc2lvbiIsImlkIjoic2Vzbl8wMTFDWmtaQXRtUjN5TVBEenluRUR4dTciLCJzdGF0",
+    "dXMiOiJpZGxlIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwidXBkYXRlZF9hdCI6",
+    "IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwiYXJjaGl2ZWRfYXQiOm51bGwsImJ1ZGdldCI6bnVsbCwiZW52",
+    "aXJvbm1lbnRfaWQiOiJlbnZfMDExQ1prWjlYMmRwTnlCN0hzRUZvUmZXIiwidGl0bGUiOiJPcmRlciAj",
+    "MTIzNCBpbnF1aXJ5IiwibWV0YWRhdGEiOnt9LCJhZ2VudCI6eyJ0eXBlIjoiYWdlbnQiLCJpZCI6ImFn",
+    "ZW50XzAxMUNaa1lwb2dYN3VES1V5dkJUb3BoUCIsInZlcnNpb24iOjEsIm5hbWUiOiJNeSBGaXJzdCBB",
+    "Z2VudCIsImRlc2NyaXB0aW9uIjoiQSBnZW5lcmFsLXB1cnBvc2Ugc3RhcnRlciBhZ2VudC4iLCJtb2Rl",
+    "bCI6eyJpZCI6ImNsYXVkZS1vcHVzLTUiLCJzcGVlZCI6InN0YW5kYXJkIn0sInN5c3RlbSI6IllvdSBh",
+    "cmUgYSBnZW5lcmFsLXB1cnBvc2UgYWdlbnQgdGhhdCBjYW4gcmVzZWFyY2gsIHdyaXRlIGNvZGUsIHJ1",
+    "biBjb21tYW5kcywgYW5kIHVzZSBjb25uZWN0ZWQgdG9vbHMgdG8gY29tcGxldGUgdGhlIHVzZXIncyB0",
+    "YXNrIGVuZCB0byBlbmQuIiwidG9vbHMiOlt7InR5cGUiOiJhZ2VudF90b29sc2V0XzIwMjYwNDAxIiwi",
+    "ZGVmYXVsdF9jb25maWciOnsiZW5hYmxlZCI6dHJ1ZSwicGVybWlzc2lvbl9wb2xpY3kiOnsidHlwZSI6",
+    "ImFsd2F5c19hc2sifX0sImNvbmZpZ3MiOltdfV0sIm1jcF9zZXJ2ZXJzIjpbeyJ0eXBlIjoidXJsIiwi",
+    "bmFtZSI6ImV4YW1wbGUtbWNwIiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLXNlcnZlci5tb2RlbGNvbnRl",
+    "eHRwcm90b2NvbC5pby9zc2UifV0sInNraWxscyI6W3sidHlwZSI6ImFudGhyb3BpYyIsInNraWxsX2lk",
+    "IjoieGxzeCIsInZlcnNpb24iOiIxIn0seyJ0eXBlIjoiY3VzdG9tIiwic2tpbGxfaWQiOiJza2lsbF8w",
+    "MTFDWmtaRk51OWhBYm8zalpQUmdUbHgiLCJ2ZXJzaW9uIjoiMiJ9XSwibXVsdGlhZ2VudCI6bnVsbH0s",
+    "InJlc291cmNlcyI6W3sidHlwZSI6ImZpbGUiLCJpZCI6InNlc3JzY18wMTFDWmtaQkpxNWRXeGs5ZlZM",
+    "TmNQaHQiLCJmaWxlX2lkIjoiZmlsZV8wMTFDTmhhOGlDSmNVMXdYTlI2cTRWOHciLCJtb3VudF9wYXRo",
+    "IjoiL3VwbG9hZHMvcmVjZWlwdC5wZGYiLCJjcmVhdGVkX2F0IjoiMjAyNi0wMy0xNVQxMDowMDowMFoi",
+    "LCJ1cGRhdGVkX2F0IjoiMjAyNi0wMy0xNVQxMDowMDowMFoifSx7InR5cGUiOiJnaXRodWJfcmVwb3Np",
+    "dG9yeSIsImlkIjoic2VzcnNjXzAxMUNaa1pDS3I2ZVh5bDBnV01PZFFpdSIsInVybCI6Imh0dHBzOi8v",
+    "Z2l0aHViLmNvbS9leGFtcGxlLW9yZy9leGFtcGxlLXJlcG8iLCJtb3VudF9wYXRoIjoiL3dvcmtzcGFj",
+    "ZS9leGFtcGxlLXJlcG8iLCJjaGVja291dCI6eyJ0eXBlIjoiYnJhbmNoIiwibmFtZSI6Im1haW4ifSwi",
+    "Y3JlYXRlZF9hdCI6IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwidXBkYXRlZF9hdCI6IjIwMjYtMDMtMTVU",
+    "MTA6MDA6MDBaIn1dLCJ2YXVsdF9pZHMiOlsidmx0XzAxMUNaa1pETHM3Zll6bTFoWE5QZVJqdiJdLCJ1",
+    "c2FnZSI6eyJpbnB1dF90b2tlbnMiOjAsIm91dHB1dF90b2tlbnMiOjAsImNhY2hlX3JlYWRfaW5wdXRf",
+    "dG9rZW5zIjowfSwic3RhdHMiOnsiZHVyYXRpb25fc2Vjb25kcyI6MCwiYWN0aXZlX3NlY29uZHMiOjB9",
+    "LCJvdXRjb21lX2V2YWx1YXRpb25zIjpbeyJ0eXBlIjoib3V0Y29tZV9ldmFsdWF0aW9uIiwib3V0Y29t",
+    "ZV9pZCI6Im91dGNfMDExQ1prWlJTdzJrRWZzNm5jVFZsanhQIiwiZGVzY3JpcHRpb24iOiJQcm9kdWNl",
+    "IGEgMi1wYWdlIHN1bW1hcnkgYXMgc3VtbWFyeS5tZCIsInJlc3VsdCI6InNhdGlzZmllZCIsIml0ZXJh",
+    "dGlvbiI6MCwiY29tcGxldGVkX2F0IjoiMjAyNi0wMy0xNVQxMDowMjozMVoiLCJleHBsYW5hdGlvbiI6",
+    "IkFsbCBmaXZlIHNlY3Rpb25zIHByZXNlbnQgd2l0aCBpbmxpbmUgY2l0YXRpb25zLiJ9XX0=",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture469Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture470Expected = String(
     data: Data(base64Encoded: [
-        "eyJ0eXBlIjoiZ2l0aHViX3JlcG9zaXRvcnkiLCJpZCI6InNlc3JzY18wMTFDWmtaQ0tyNmVYeWwwZ1dN",
-        "T2RRaXUiLCJ1cmwiOiJodHRwczovL2dpdGh1Yi5jb20vZXhhbXBsZS1vcmcvZXhhbXBsZS1yZXBvIiwi",
-        "bW91bnRfcGF0aCI6Ii93b3Jrc3BhY2UvZXhhbXBsZS1yZXBvIiwiY2hlY2tvdXQiOnsidHlwZSI6ImJy",
-        "YW5jaCIsIm5hbWUiOiJtYWluIn0sImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiIsInVw",
-        "ZGF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiJ9",
+    "eyJ0eXBlIjoiZ2l0aHViX3JlcG9zaXRvcnkiLCJpZCI6InNlc3JzY18wMTFDWmtaQ0tyNmVYeWwwZ1dN",
+    "T2RRaXUiLCJ1cmwiOiJodHRwczovL2dpdGh1Yi5jb20vZXhhbXBsZS1vcmcvZXhhbXBsZS1yZXBvIiwi",
+    "bW91bnRfcGF0aCI6Ii93b3Jrc3BhY2UvZXhhbXBsZS1yZXBvIiwiY2hlY2tvdXQiOnsidHlwZSI6ImJy",
+    "YW5jaCIsIm5hbWUiOiJtYWluIn0sImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiIsInVw",
+    "ZGF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiJ9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture471Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture472Expected = String(
     data: Data(base64Encoded: [
-        "eyJpZCI6InVwcm9mXzAxMUNaa1pDdThoR2JwNW1ZUlFnVW16OSIsInR5cGUiOiJ1c2VyX3Byb2ZpbGUi",
-        "LCJleHRlcm5hbF9pZCI6InVzZXJfMTIzNDUiLCJuYW1lIjoiRXhhbXBsZSBVc2VyIiwiYWNjZXNzX3R5",
-        "cGUiOiJhcHBsaWNhdGlvbiIsInRydXN0X2dyYW50cyI6eyJjeWJlciI6eyJzdGF0dXMiOiJhY3RpdmUi",
-        "fX0sImV4dGVybmFsX3VzZXJfb25ib2FyZGVkX2F0IjoiMjAyNC0xMS0wMlQwODoxNTowMFoiLCJtZXRh",
-        "ZGF0YSI6e30sImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiIsInVwZGF0ZWRfYXQiOiIy",
-        "MDI2LTAzLTE1VDEwOjAwOjAwWiJ9",
+    "eyJpZCI6InVwcm9mXzAxMUNaa1pDdThoR2JwNW1ZUlFnVW16OSIsInR5cGUiOiJ1c2VyX3Byb2ZpbGUi",
+    "LCJleHRlcm5hbF9pZCI6InVzZXJfMTIzNDUiLCJuYW1lIjoiRXhhbXBsZSBVc2VyIiwiYWNjZXNzX3R5",
+    "cGUiOiJhcHBsaWNhdGlvbiIsInRydXN0X2dyYW50cyI6eyJjeWJlciI6eyJzdGF0dXMiOiJhY3RpdmUi",
+    "fX0sImV4dGVybmFsX3VzZXJfb25ib2FyZGVkX2F0IjoiMjAyNC0xMS0wMlQwODoxNTowMFoiLCJtZXRh",
+    "ZGF0YSI6e30sImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiIsInVwZGF0ZWRfYXQiOiIy",
+    "MDI2LTAzLTE1VDEwOjAwOjAwWiJ9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture473Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture474Expected = String(
     data: Data(base64Encoded: [
-        "eyJ0eXBlIjoidmF1bHQiLCJpZCI6InZsdF8wMTFDWmtaRExzN2ZZem0xaFhOUGVSanYiLCJkaXNwbGF5",
-        "X25hbWUiOiJFeGFtcGxlIHZhdWx0IiwibWV0YWRhdGEiOnsiZW52aXJvbm1lbnQiOiJwcm9kdWN0aW9u",
-        "In0sImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiIsInVwZGF0ZWRfYXQiOiIyMDI2LTAz",
-        "LTE1VDEwOjAwOjAwWiIsImFyY2hpdmVkX2F0IjpudWxsfQ==",
+    "eyJ0eXBlIjoidmF1bHQiLCJpZCI6InZsdF8wMTFDWmtaRExzN2ZZem0xaFhOUGVSanYiLCJkaXNwbGF5",
+    "X25hbWUiOiJFeGFtcGxlIHZhdWx0IiwibWV0YWRhdGEiOnsiZW52aXJvbm1lbnQiOiJwcm9kdWN0aW9u",
+    "In0sImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAwWiIsInVwZGF0ZWRfYXQiOiIyMDI2LTAz",
+    "LTE1VDEwOjAwOjAwWiIsImFyY2hpdmVkX2F0IjpudWxsfQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture475Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture476Expected = String(
     data: Data(base64Encoded: [
-        "eyJ0eXBlIjoidmF1bHRfY3JlZGVudGlhbCIsImlkIjoidmNyZF8wMTFDWmtaRU10OGdaYW4yaVlPUWZT",
-        "a3ciLCJ2YXVsdF9pZCI6InZsdF8wMTFDWmtaRExzN2ZZem0xaFhOUGVSanYiLCJkaXNwbGF5X25hbWUi",
-        "OiJFeGFtcGxlIGNyZWRlbnRpYWwiLCJtZXRhZGF0YSI6eyJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24i",
-        "fSwiY3JlYXRlZF9hdCI6IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwidXBkYXRlZF9hdCI6IjIwMjYtMDMt",
-        "MTVUMTA6MDA6MDBaIiwiYXJjaGl2ZWRfYXQiOm51bGwsImF1dGgiOnsidHlwZSI6InN0YXRpY19iZWFy",
-        "ZXIiLCJtY3Bfc2VydmVyX3VybCI6Imh0dHBzOi8vZXhhbXBsZS1zZXJ2ZXIubW9kZWxjb250ZXh0cHJv",
-        "dG9jb2wuaW8vc3NlIn19",
+    "eyJ0eXBlIjoidmF1bHRfY3JlZGVudGlhbCIsImlkIjoidmNyZF8wMTFDWmtaRU10OGdaYW4yaVlPUWZT",
+    "a3ciLCJ2YXVsdF9pZCI6InZsdF8wMTFDWmtaRExzN2ZZem0xaFhOUGVSanYiLCJkaXNwbGF5X25hbWUi",
+    "OiJFeGFtcGxlIGNyZWRlbnRpYWwiLCJtZXRhZGF0YSI6eyJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24i",
+    "fSwiY3JlYXRlZF9hdCI6IjIwMjYtMDMtMTVUMTA6MDA6MDBaIiwidXBkYXRlZF9hdCI6IjIwMjYtMDMt",
+    "MTVUMTA6MDA6MDBaIiwiYXJjaGl2ZWRfYXQiOm51bGwsImF1dGgiOnsidHlwZSI6InN0YXRpY19iZWFy",
+    "ZXIiLCJtY3Bfc2VydmVyX3VybCI6Imh0dHBzOi8vZXhhbXBsZS1zZXJ2ZXIubW9kZWxjb250ZXh0cHJv",
+    "dG9jb2wuaW8vc3NlIn19",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture477Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture478Expected = String(
     data: Data(base64Encoded: [
-        "eyJjcmVhdGVkX2F0IjoiMjAyNS0wNC0xNVQxODozNzoyNC4xMDA0MzVaIiwiZG93bmxvYWRhYmxlIjpm",
-        "YWxzZSwiZXhwaXJlc19hdCI6IjIwMjUtMDUtMTVUMTg6Mzc6MjQuMTAwNDM1WiIsImZpbGVuYW1lIjoi",
-        "ZG9jdW1lbnQucGRmIiwiaWQiOiJmaWxlXzAxMUNOaGE4aUNKY1Uxd1hOUjZxNFY4dyIsIm1pbWVfdHlw",
-        "ZSI6ImFwcGxpY2F0aW9uL3BkZiIsInNjb3BlIjpudWxsLCJzaXplX2J5dGVzIjoxMDI0MDAsInR5cGUi",
-        "OiJmaWxlIn0=",
+    "eyJjcmVhdGVkX2F0IjoiMjAyNS0wNC0xNVQxODozNzoyNC4xMDA0MzVaIiwiZG93bmxvYWRhYmxlIjpm",
+    "YWxzZSwiZXhwaXJlc19hdCI6IjIwMjUtMDUtMTVUMTg6Mzc6MjQuMTAwNDM1WiIsImZpbGVuYW1lIjoi",
+    "ZG9jdW1lbnQucGRmIiwiaWQiOiJmaWxlXzAxMUNOaGE4aUNKY1Uxd1hOUjZxNFY4dyIsIm1pbWVfdHlw",
+    "ZSI6ImFwcGxpY2F0aW9uL3BkZiIsInNjb3BlIjpudWxsLCJzaXplX2J5dGVzIjoxMDI0MDAsInR5cGUi",
+    "OiJmaWxlIn0=",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture479Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture480Expected = String(
     data: Data(base64Encoded: [
-        "eyJjcmVhdGVkX2F0IjoiMjAyNS0wNC0xNVQxODozNzoyNC4xMDA0MzVaIiwiZG93bmxvYWRhYmxlIjpm",
-        "YWxzZSwiZXhwaXJlc19hdCI6IjIwMjUtMDUtMTVUMTg6Mzc6MjQuMTAwNDM1WiIsImZpbGVuYW1lIjoi",
-        "ZG9jdW1lbnQucGRmIiwiaWQiOiJmaWxlXzAxMUNOaGE4aUNKY1Uxd1hOUjZxNFY4dyIsIm1pbWVfdHlw",
-        "ZSI6ImFwcGxpY2F0aW9uL3BkZiIsInNpemVfYnl0ZXMiOjEwMjQwMCwidHlwZSI6ImZpbGUifQ==",
+    "eyJjcmVhdGVkX2F0IjoiMjAyNS0wNC0xNVQxODozNzoyNC4xMDA0MzVaIiwiZG93bmxvYWRhYmxlIjpm",
+    "YWxzZSwiZXhwaXJlc19hdCI6IjIwMjUtMDUtMTVUMTg6Mzc6MjQuMTAwNDM1WiIsImZpbGVuYW1lIjoi",
+    "ZG9jdW1lbnQucGRmIiwiaWQiOiJmaWxlXzAxMUNOaGE4aUNKY1Uxd1hOUjZxNFY4dyIsIm1pbWVfdHlw",
+    "ZSI6ImFwcGxpY2F0aW9uL3BkZiIsInNpemVfYnl0ZXMiOjEwMjQwMCwidHlwZSI6ImZpbGUifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture481Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture482Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6ImVycm9yIiwic3RhdHVzIjoiZmFpbHVyZSIsInR5cGUiOiJleHRlcm5hbF9rZXlfdmFs",
-        "aWRhdGlvbiJ9",
+    "eyJlcnJvciI6ImVycm9yIiwic3RhdHVzIjoiZmFpbHVyZSIsInR5cGUiOiJleHRlcm5hbF9rZXlfdmFs",
+    "aWRhdGlvbiJ9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture483Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture484Expected = String(
     data: Data(base64Encoded: [
-        "eyJ0eXBlIjoidmF1bHRfY3JlZGVudGlhbF92YWxpZGF0aW9uIiwiY3JlZGVudGlhbF9pZCI6InZjcmRf",
-        "MDExQ1prWkVNdDhnWmFuMmlZT1FmU2t3IiwidmF1bHRfaWQiOiJ2bHRfMDExQ1prWkRMczdmWXptMWhY",
-        "TlBlUmp2Iiwic3RhdHVzIjoidmFsaWQiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAw",
-        "WiIsImhhc19yZWZyZXNoX3Rva2VuIjp0cnVlLCJtY3BfcHJvYmUiOm51bGwsInJlZnJlc2giOm51bGx9",
+    "eyJ0eXBlIjoidmF1bHRfY3JlZGVudGlhbF92YWxpZGF0aW9uIiwiY3JlZGVudGlhbF9pZCI6InZjcmRf",
+    "MDExQ1prWkVNdDhnWmFuMmlZT1FmU2t3IiwidmF1bHRfaWQiOiJ2bHRfMDExQ1prWkRMczdmWXptMWhY",
+    "TlBlUmp2Iiwic3RhdHVzIjoidmFsaWQiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTAzLTE1VDEwOjAwOjAw",
+    "WiIsImhhc19yZWZyZXNoX3Rva2VuIjp0cnVlLCJtY3BfcHJvYmUiOm51bGwsInJlZnJlc2giOm51bGx9",
     ].joined())!,
     encoding: .utf8
 )!
 
 let sdkMethodFixture485Expected = String(
     data: Data(base64Encoded: [
-        "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
-        "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
+    "eyJlcnJvciI6eyJtZXNzYWdlIjoiSW52YWxpZCByZXF1ZXN0IiwidHlwZSI6ImludmFsaWRfcmVxdWVz",
+    "dF9lcnJvciJ9LCJyZXF1ZXN0X2lkIjpudWxsLCJ0eXBlIjoiZXJyb3IifQ==",
     ].joined())!,
     encoding: .utf8
 )!

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// MessagesBetaTrue domain models
+// MessagesBetaTrue domain models
 /// Typed representation of the `BetaMessagesUsageReportTimeBucket` API schema.
 public struct BetaMessagesUsageReportTimeBucket: Codable {
     /// Start of the time bucket (inclusive) in RFC 3339 format.
@@ -20,49 +20,35 @@ public struct BetaMessagesUsageReportTimeBucket: Codable {
         case results
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaMessagesUsageReportTimeBucket {
-    init(from decoder: Decoder) throws {
+extension BetaMessagesUsageReportTimeBucket {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.startingAt) else {
-            throw SdkValidationError(
-                field: "starting_at",
-                code: "required",
-                message: "Validation failed for 'starting_at': value is required"
-            )
+            throw SdkValidationError(field: "starting_at", code: "required", message: "Validation failed for 'starting_at': value is required")
         }
         guard container.contains(.endingAt) else {
-            throw SdkValidationError(
-                field: "ending_at",
-                code: "required",
-                message: "Validation failed for 'ending_at': value is required"
-            )
+            throw SdkValidationError(field: "ending_at", code: "required", message: "Validation failed for 'ending_at': value is required")
         }
         guard container.contains(.results) else {
-            throw SdkValidationError(
-                field: "results",
-                code: "required",
-                message: "Validation failed for 'results': value is required"
-            )
+            throw SdkValidationError(field: "results", code: "required", message: "Validation failed for 'results': value is required")
         }
-        startingAt = try container.sdkDecodeRequired(.startingAt)
-        endingAt = try container.sdkDecodeRequired(.endingAt)
-        results = try container.sdkDecodeRequired(.results)
-        try sdkValidateDateTime("starting_at", sdkWireString(startingAt))
-        try sdkValidateDateTime("ending_at", sdkWireString(endingAt))
+        self.startingAt = try container.sdkDecodeRequired(.startingAt)
+        self.endingAt = try container.sdkDecodeRequired(.endingAt)
+        self.results = try container.sdkDecodeRequired(.results)
+            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
     }
 }
 
-public extension BetaMessagesUsageReportTimeBucket {
-    init(startingAt: Date, endingAt: Date, results: [BetaMessagesUsageReportItem]) throws {
+extension BetaMessagesUsageReportTimeBucket {
+    public init(startingAt: Date, endingAt: Date, results: [BetaMessagesUsageReportItem]) throws {
         (self.startingAt, self.endingAt) = (startingAt, endingAt)
         self.results = results
-        try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
-        try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
+            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
     }
 }
 
@@ -83,43 +69,29 @@ public struct BetaGetMessagesUsageReportResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaGetMessagesUsageReportResponse {
-    init(from decoder: Decoder) throws {
+extension BetaGetMessagesUsageReportResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaGetMessagesUsageReportResponse {
-    init(data: [BetaMessagesUsageReportTimeBucket], hasMore: Bool, nextPage: String?) {
+extension BetaGetMessagesUsageReportResponse {
+    public init(data: [BetaMessagesUsageReportTimeBucket], hasMore: Bool, nextPage: String?) {
         (self.data, self.hasMore) = (data, hasMore)
         self.nextPage = nextPage
     }
@@ -173,46 +145,30 @@ public struct BetaMessagesUsageReportItem: Codable {
         case inferenceGeo = "inference_geo"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaMessagesUsageReportItem {
-    init(from decoder: Decoder) throws {
+extension BetaMessagesUsageReportItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        uncachedInputTokens = try container.sdkDecodeRequired(.uncachedInputTokens)
-        cacheCreation = try container.sdkDecodeRequired(.cacheCreation)
-        cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
-        outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        serverToolUse = try container.sdkDecodeRequired(.serverToolUse)
-        apiKeyId = try container.sdkDecodeNullable(.apiKeyId)
-        workspaceId = try container.sdkDecodeNullable(.workspaceId)
-        accountId = try container.sdkDecodeNullable(.accountId)
-        serviceAccountId = try container.sdkDecodeNullable(.serviceAccountId)
-        model = try container.sdkDecodeNullable(.model)
-        serviceTier = try container.sdkDecodeNullable(.serviceTier)
-        contextWindow = try container.sdkDecodeNullable(.contextWindow)
-        inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
+        self.uncachedInputTokens = try container.sdkDecodeRequired(.uncachedInputTokens)
+        self.cacheCreation = try container.sdkDecodeRequired(.cacheCreation)
+        self.cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
+        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        self.serverToolUse = try container.sdkDecodeRequired(.serverToolUse)
+        self.apiKeyId = try container.sdkDecodeNullable(.apiKeyId)
+        self.workspaceId = try container.sdkDecodeNullable(.workspaceId)
+        self.accountId = try container.sdkDecodeNullable(.accountId)
+        self.serviceAccountId = try container.sdkDecodeNullable(.serviceAccountId)
+        self.model = try container.sdkDecodeNullable(.model)
+        self.serviceTier = try container.sdkDecodeNullable(.serviceTier)
+        self.contextWindow = try container.sdkDecodeNullable(.contextWindow)
+        self.inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
     }
 }
 
-public extension BetaMessagesUsageReportItem {
-    init(
-        uncachedInputTokens: Int,
-        cacheCreation: BetaCacheCreation,
-        cacheReadInputTokens: Int,
-        outputTokens: Int,
-        serverToolUse: BetaServerToolUse,
-        apiKeyId: String?,
-        workspaceId: String?,
-        accountId: String?,
-        serviceAccountId: String?,
-        model: String?,
-        serviceTier: BetaUsageReportServiceTier?,
-        contextWindow: BetaMessagesUsageReportContextWindow?,
-        inferenceGeo: BetaInferenceGeoFilter?
-    ) {
+extension BetaMessagesUsageReportItem {
+    public init(uncachedInputTokens: Int, cacheCreation: BetaCacheCreation, cacheReadInputTokens: Int, outputTokens: Int, serverToolUse: BetaServerToolUse, apiKeyId: String?, workspaceId: String?, accountId: String?, serviceAccountId: String?, model: String?, serviceTier: BetaUsageReportServiceTier?, contextWindow: BetaMessagesUsageReportContextWindow?, inferenceGeo: BetaInferenceGeoFilter?) {
         (self.uncachedInputTokens, self.cacheCreation) = (uncachedInputTokens, cacheCreation)
         (self.cacheReadInputTokens, self.outputTokens) = (cacheReadInputTokens, outputTokens)
         (self.serverToolUse, self.apiKeyId) = (serverToolUse, apiKeyId)
@@ -224,21 +180,17 @@ public extension BetaMessagesUsageReportItem {
 }
 
 /// Typed representation of the `BetaMessagesUsageReportTimeBucketWidth` API schema.
-public struct BetaMessagesUsageReportTimeBucketWidth: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaMessagesUsageReportTimeBucketWidth: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let value1d = BetaMessagesUsageReportTimeBucketWidth(rawValue: "1d")
     public static let value1h = BetaMessagesUsageReportTimeBucketWidth(rawValue: "1h")
     public static let value1m = BetaMessagesUsageReportTimeBucketWidth(rawValue: "1m")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -251,10 +203,7 @@ public struct BetaMessagesUsageReportTimeBucketWidth: RawRepresentable, Hashable
 public struct BetaMessagesUsageReportGroupBy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let accountId = BetaMessagesUsageReportGroupBy(rawValue: "account_id")
     public static let apiKeyId = BetaMessagesUsageReportGroupBy(rawValue: "api_key_id")
     public static let contextWindow = BetaMessagesUsageReportGroupBy(rawValue: "context_window")
@@ -267,7 +216,7 @@ public struct BetaMessagesUsageReportGroupBy: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -280,10 +229,7 @@ public struct BetaMessagesUsageReportGroupBy: RawRepresentable, Hashable, Codabl
 public struct BetaUsageReportServiceTier: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let batch = BetaUsageReportServiceTier(rawValue: "batch")
     public static let flex = BetaUsageReportServiceTier(rawValue: "flex")
     public static let flexDiscount = BetaUsageReportServiceTier(rawValue: "flex_discount")
@@ -293,7 +239,7 @@ public struct BetaUsageReportServiceTier: RawRepresentable, Hashable, Codable, S
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

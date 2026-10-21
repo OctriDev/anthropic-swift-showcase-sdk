@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsServiceAccountsMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Update a
-    /// service account. Only `description` and `organization_role` are mutable; `name` cannot be changed. Archived
-    /// service accounts cannot be updated; this returns 400. Setting `organization_role` to `admin` (even when
-    /// unchanged) requires an interactive credential (a user OAuth token or a Console session).
+extension BetaOrganizationsServiceAccountsMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Update a service account. Only `description` and `organization_role` are mutable; `name` cannot be changed. Archived service accounts cannot be updated; this returns 400. Setting `organization_role` to `admin` (even when unchanged) requires an interactive credential (a user OAuth token or a Console session).
     ///
     /// - Parameters:
     /// - serviceAccountId: ID of the service account to update.
@@ -25,51 +21,12 @@ public extension BetaOrganizationsServiceAccountsMethods {
     ///   `null` to clear (the field is stored as an empty string).
     /// - organizationRole: Replaces the org-level role. Omit or send `null` to
     ///   leave unchanged.
-    static func updateBetaOrganizationsServiceAccounts(
-        config: ClientConfig,
-        serviceAccountId: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        description: SdkOptional<String>? = nil,
-        organizationRole: SdkOptional<BetaServiceAccountUpdateParamsOrganizationRoleVariant0>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaServiceAccount {
-        let requestBody = UpdateBetaOrganizationsServiceAccountsRequestBody(
-            description: description,
-            organizationRole: organizationRole
-        )
+    public static func updateBetaOrganizationsServiceAccounts(config: ClientConfig, serviceAccountId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, description: SdkOptional<String>? = nil, organizationRole: SdkOptional<BetaServiceAccountUpdateParamsOrganizationRoleVariant0>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaServiceAccount {
+        let requestBody = UpdateBetaOrganizationsServiceAccountsRequestBody(description: description, organizationRole: organizationRole)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/organizations/service_accounts/", sdkEncodePathSegment(sdkWireString(serviceAccountId)), "?beta=true"]
-                .joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaOrganizationsServiceAccounts",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/service_accounts/", sdkEncodePathSegment(sdkWireString(serviceAccountId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaOrganizationsServiceAccounts", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

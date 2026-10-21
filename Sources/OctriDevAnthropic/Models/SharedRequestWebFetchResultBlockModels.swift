@@ -3,17 +3,12 @@
 
 import Foundation
 
-/// SharedRequestWeb domain models
-public extension RequestWebFetchResultBlock {
-    init(
-        content: RequestDocumentBlock,
-        type: RequestWebFetchResultBlockType,
-        url: String,
-        retrievedAt: String? = nil
-    ) throws {
+// SharedRequestWeb domain models
+extension RequestWebFetchResultBlock {
+    public init(content: RequestDocumentBlock, type: RequestWebFetchResultBlockType, url: String, retrievedAt: String? = nil) throws {
         (self.content, self.type) = (content, type)
         (self.url, self.retrievedAt) = (url, retrievedAt)
-        try sdkValidateRawEnum("type", self.type, RequestWebFetchResultBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestWebFetchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -29,38 +24,28 @@ public struct RequestWebFetchToolResultError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestWebFetchToolResultError {
-    init(from decoder: Decoder) throws {
+extension RequestWebFetchToolResultError {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errorCode) else {
-            throw SdkValidationError(
-                field: "error_code",
-                code: "required",
-                message: "Validation failed for 'error_code': value is required"
-            )
+            throw SdkValidationError(field: "error_code", code: "required", message: "Validation failed for 'error_code': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        errorCode = try container.sdkDecodeRequired(.errorCode)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, RequestWebFetchToolResultErrorType.allCases.map(\.rawValue))
+        self.errorCode = try container.sdkDecodeRequired(.errorCode)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, RequestWebFetchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestWebFetchToolResultError {
-    init(errorCode: WebFetchToolResultErrorCode, type: RequestWebFetchToolResultErrorType) throws {
+extension RequestWebFetchToolResultError {
+    public init(errorCode: WebFetchToolResultErrorCode, type: RequestWebFetchToolResultErrorType) throws {
         (self.errorCode, self.type) = (errorCode, type)
-        try sdkValidateRawEnum("type", self.type, RequestWebFetchToolResultErrorType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RequestWebFetchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -85,58 +70,38 @@ public struct RequestWebSearchToolResultBlock: Codable {
         case caller
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RequestWebSearchToolResultBlock {
-    init(from decoder: Decoder) throws {
+extension RequestWebSearchToolResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        caller = try container.sdkDecodeIfPresent(.caller)
-        try sdkValidatePattern("tool_use_id", toolUseId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", type, RequestWebSearchToolResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.caller = try container.sdkDecodeIfPresent(.caller)
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, RequestWebSearchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension RequestWebSearchToolResultBlock {
-    init(
-        content: RequestWebSearchToolResultBlockContent,
-        toolUseId: String,
-        type: RequestWebSearchToolResultBlockType,
-        cacheControl: RequestWebSearchToolResultBlockCacheControl? = nil,
-        caller: RequestWebSearchToolResultBlockCaller? = nil
-    ) throws {
+extension RequestWebSearchToolResultBlock {
+    public init(content: RequestWebSearchToolResultBlockContent, toolUseId: String, type: RequestWebSearchToolResultBlockType, cacheControl: RequestWebSearchToolResultBlockCacheControl? = nil, caller: RequestWebSearchToolResultBlockCaller? = nil) throws {
         (self.content, self.toolUseId) = (content, toolUseId)
         (self.type, self.cacheControl) = (type, cacheControl)
         self.caller = caller
-        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", self.type, RequestWebSearchToolResultBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, RequestWebSearchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -146,34 +111,22 @@ public indirect enum RequestWebSearchToolResultBlockContent {
 }
 
 extension RequestWebSearchToolResultBlockContent: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for RequestWebSearchToolResultBlockContent"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for RequestWebSearchToolResultBlockContent")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension RequestWebSearchToolResultBlockContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container
-            .decode([RequestWebSearchResultBlock].self) {
-            return .requestWebSearchResultBlockList(value)
-        }
-        if let value = try? container
-            .decode(RequestWebSearchToolResultError.self) {
-            return .requestWebSearchToolResultError(value)
-        }
+        if let value = try? container.decode([RequestWebSearchResultBlock].self) { return .requestWebSearchResultBlockList(value) }
+        if let value = try? container.decode(RequestWebSearchToolResultError.self) { return .requestWebSearchToolResultError(value) }
         return nil
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// EffectiveBetaTrue domain models
+// EffectiveBetaTrue domain models
 /// Typed representation of the `BetaListEffectiveSpendLimitsResponse` API schema.
 public struct BetaListEffectiveSpendLimitsResponse: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,35 +16,25 @@ public struct BetaListEffectiveSpendLimitsResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaListEffectiveSpendLimitsResponse {
-    init(from decoder: Decoder) throws {
+extension BetaListEffectiveSpendLimitsResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaListEffectiveSpendLimitsResponse {
-    init(data: [BetaSpendSummary], nextPage: String?) {
+extension BetaListEffectiveSpendLimitsResponse {
+    public init(data: [BetaSpendSummary], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

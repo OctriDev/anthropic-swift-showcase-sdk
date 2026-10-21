@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaRequestTool domain models
+// SharedBetaRequestTool domain models
 public indirect enum BetaRequestToolAdditionBlockTool {
     case betaToolChangeToolReference(BetaToolChangeToolReference)
     case betaToolChangeMcpToolReference(BetaToolChangeMCPToolReference)
@@ -13,6 +13,7 @@ public indirect enum BetaRequestToolAdditionBlockTool {
 }
 
 extension BetaRequestToolAdditionBlockTool: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension BetaRequestToolAdditionBlockTool: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,12 +37,10 @@ extension BetaRequestToolAdditionBlockTool: Codable {
 extension BetaRequestToolAdditionBlockTool {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "tool_reference": try .betaToolChangeToolReference(BetaToolChangeToolReference(from: decoder))
-        case "mcp_tool_reference": try .betaToolChangeMcpToolReference(BetaToolChangeMCPToolReference(from: decoder))
-        case "mcp_toolset_reference": try .betaToolChangeMcpToolsetReference(
-                BetaToolChangeMCPToolsetReference(from: decoder)
-            )
-        default: nil
+        case "tool_reference": return .betaToolChangeToolReference(try BetaToolChangeToolReference(from: decoder))
+        case "mcp_tool_reference": return .betaToolChangeMcpToolReference(try BetaToolChangeMCPToolReference(from: decoder))
+        case "mcp_toolset_reference": return .betaToolChangeMcpToolsetReference(try BetaToolChangeMCPToolsetReference(from: decoder))
+        default: return nil
         }
     }
 }
@@ -71,6 +66,7 @@ public indirect enum BetaRequestToolRemovalBlockTool {
 }
 
 extension BetaRequestToolRemovalBlockTool: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -78,16 +74,12 @@ extension BetaRequestToolRemovalBlockTool: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -98,12 +90,10 @@ extension BetaRequestToolRemovalBlockTool: Codable {
 extension BetaRequestToolRemovalBlockTool {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "tool_reference": try .betaToolChangeToolReference(BetaToolChangeToolReference(from: decoder))
-        case "mcp_tool_reference": try .betaToolChangeMcpToolReference(BetaToolChangeMCPToolReference(from: decoder))
-        case "mcp_toolset_reference": try .betaToolChangeMcpToolsetReference(
-                BetaToolChangeMCPToolsetReference(from: decoder)
-            )
-        default: nil
+        case "tool_reference": return .betaToolChangeToolReference(try BetaToolChangeToolReference(from: decoder))
+        case "mcp_tool_reference": return .betaToolChangeMcpToolReference(try BetaToolChangeMCPToolReference(from: decoder))
+        case "mcp_toolset_reference": return .betaToolChangeMcpToolsetReference(try BetaToolChangeMCPToolsetReference(from: decoder))
+        default: return nil
         }
     }
 }
@@ -132,6 +122,7 @@ public indirect enum BetaRequestToolResultBlockContentItem {
 }
 
 extension BetaRequestToolResultBlockContentItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -139,16 +130,12 @@ extension BetaRequestToolResultBlockContentItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -159,13 +146,13 @@ extension BetaRequestToolResultBlockContentItem: Codable {
 extension BetaRequestToolResultBlockContentItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": try .betaRequestTextBlock(BetaRequestTextBlock(from: decoder))
-        case "image": try .betaRequestImageBlock(BetaRequestImageBlock(from: decoder))
-        case "search_result": try .betaRequestSearchResultBlock(BetaRequestSearchResultBlock(from: decoder))
-        case "document": try .betaRequestDocumentBlock(BetaRequestDocumentBlock(from: decoder))
-        case "tool_reference": try .betaRequestToolReferenceBlock(BetaRequestToolReferenceBlock(from: decoder))
-        case "browser_state": try .betaRequestBrowserStateBlock(BetaRequestBrowserStateBlock(from: decoder))
-        default: nil
+        case "text": return .betaRequestTextBlock(try BetaRequestTextBlock(from: decoder))
+        case "image": return .betaRequestImageBlock(try BetaRequestImageBlock(from: decoder))
+        case "search_result": return .betaRequestSearchResultBlock(try BetaRequestSearchResultBlock(from: decoder))
+        case "document": return .betaRequestDocumentBlock(try BetaRequestDocumentBlock(from: decoder))
+        case "tool_reference": return .betaRequestToolReferenceBlock(try BetaRequestToolReferenceBlock(from: decoder))
+        case "browser_state": return .betaRequestBrowserStateBlock(try BetaRequestBrowserStateBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -193,6 +180,7 @@ public indirect enum BetaRequestToolSearchToolResultBlockContent {
 }
 
 extension BetaRequestToolSearchToolResultBlockContent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -200,16 +188,12 @@ extension BetaRequestToolSearchToolResultBlockContent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -221,10 +205,10 @@ extension BetaRequestToolSearchToolResultBlockContent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "tool_search_tool_result_error":
-            try .betaRequestToolSearchToolResultError(BetaRequestToolSearchToolResultError(from: decoder))
+        return .betaRequestToolSearchToolResultError(try BetaRequestToolSearchToolResultError(from: decoder))
         case "tool_search_tool_search_result":
-            try .betaRequestToolSearchToolSearchResultBlock(BetaRequestToolSearchToolSearchResultBlock(from: decoder))
-        default: nil
+        return .betaRequestToolSearchToolSearchResultBlock(try BetaRequestToolSearchToolSearchResultBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -249,6 +233,7 @@ public indirect enum BetaRequestToolUseBlockCaller {
 }
 
 extension BetaRequestToolUseBlockCaller: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -256,16 +241,12 @@ extension BetaRequestToolUseBlockCaller: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -276,10 +257,10 @@ extension BetaRequestToolUseBlockCaller: Codable {
 extension BetaRequestToolUseBlockCaller {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "direct": try .betaDirectCaller(BetaDirectCaller(from: decoder))
-        case "code_execution_20250825": try .betaServerToolCaller(BetaServerToolCaller(from: decoder))
-        case "code_execution_20260120": try .betaServerToolCaller20260120(BetaServerToolCaller20260120(from: decoder))
-        default: nil
+        case "direct": return .betaDirectCaller(try BetaDirectCaller(from: decoder))
+        case "code_execution_20250825": return .betaServerToolCaller(try BetaServerToolCaller(from: decoder))
+        case "code_execution_20260120": return .betaServerToolCaller20260120(try BetaServerToolCaller20260120(from: decoder))
+        default: return nil
         }
     }
 }
@@ -312,44 +293,30 @@ public struct BetaRequestToolAdditionBlock: Codable {
         case cacheControl = "cache_control"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRequestToolAdditionBlock {
-    init(from decoder: Decoder) throws {
+extension BetaRequestToolAdditionBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.tool) else {
-            throw SdkValidationError(
-                field: "tool",
-                code: "required",
-                message: "Validation failed for 'tool': value is required"
-            )
+            throw SdkValidationError(field: "tool", code: "required", message: "Validation failed for 'tool': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        tool = try container.sdkDecodeRequired(.tool)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        try sdkValidateRawEnum("type", type, BetaRequestToolAdditionBlockType.allCases.map(\.rawValue))
+        self.tool = try container.sdkDecodeRequired(.tool)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+            try sdkValidateRawEnum("type", self.type, BetaRequestToolAdditionBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaRequestToolAdditionBlock {
-    init(
-        tool: BetaRequestToolAdditionBlockTool,
-        type: BetaRequestToolAdditionBlockType,
-        cacheControl: BetaRequestToolAdditionBlockCacheControl? = nil
-    ) throws {
+extension BetaRequestToolAdditionBlock {
+    public init(tool: BetaRequestToolAdditionBlockTool, type: BetaRequestToolAdditionBlockType, cacheControl: BetaRequestToolAdditionBlockCacheControl? = nil) throws {
         (self.tool, self.type) = (tool, type)
         self.cacheControl = cacheControl
-        try sdkValidateRawEnum("type", self.type, BetaRequestToolAdditionBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaRequestToolAdditionBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -380,72 +347,46 @@ public struct BetaRequestToolUseBlock: Codable {
         case toolsetName = "toolset_name"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRequestToolUseBlock {
-    init(from decoder: Decoder) throws {
+extension BetaRequestToolUseBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.input) else {
-            throw SdkValidationError(
-                field: "input",
-                code: "required",
-                message: "Validation failed for 'input': value is required"
-            )
+            throw SdkValidationError(field: "input", code: "required", message: "Validation failed for 'input': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        input = try container.sdkDecodeRequired(.input)
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        caller = try container.sdkDecodeIfPresent(.caller)
-        toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
-        try sdkValidatePattern("id", id, sdkPatterna828669d9fe5)
-        try validateLength("name", name, min: 1, max: 200)
-        try sdkValidateRawEnum("type", type, BetaRequestToolUseBlockType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.input = try container.sdkDecodeRequired(.input)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.caller = try container.sdkDecodeIfPresent(.caller)
+        self.toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
+            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+            try validateLength("name", self.name, min: 1, max: 200)
+            try sdkValidateRawEnum("type", self.type, BetaRequestToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaRequestToolUseBlock {
-    init(
-        id: String,
-        input: [String: JSONValue],
-        name: String,
-        type: BetaRequestToolUseBlockType,
-        cacheControl: BetaRequestToolUseBlockCacheControl? = nil,
-        caller: BetaRequestToolUseBlockCaller? = nil,
-        toolsetName: String? = nil
-    ) throws {
+extension BetaRequestToolUseBlock {
+    public init(id: String, input: [String: JSONValue], name: String, type: BetaRequestToolUseBlockType, cacheControl: BetaRequestToolUseBlockCacheControl? = nil, caller: BetaRequestToolUseBlockCaller? = nil, toolsetName: String? = nil) throws {
         (self.id, self.input) = (id, input)
         (self.name, self.type) = (name, type)
         (self.cacheControl, self.caller) = (cacheControl, caller)
         self.toolsetName = toolsetName
-        try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-        try validateLength("name", self.name, min: 1, max: 200)
-        try sdkValidateRawEnum("type", self.type, BetaRequestToolUseBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+            try validateLength("name", self.name, min: 1, max: 200)
+            try sdkValidateRawEnum("type", self.type, BetaRequestToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -456,6 +397,7 @@ public indirect enum BetaRequestToolSearchToolResultBlockCacheControl {
 }
 
 extension BetaRequestToolSearchToolResultBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -463,16 +405,12 @@ extension BetaRequestToolSearchToolResultBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -483,8 +421,8 @@ extension BetaRequestToolSearchToolResultBlockCacheControl: Codable {
 extension BetaRequestToolSearchToolResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -514,48 +452,34 @@ public struct BetaRequestToolReferenceBlock: Codable {
         case cacheControl = "cache_control"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRequestToolReferenceBlock {
-    init(from decoder: Decoder) throws {
+extension BetaRequestToolReferenceBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.toolName) else {
-            throw SdkValidationError(
-                field: "tool_name",
-                code: "required",
-                message: "Validation failed for 'tool_name': value is required"
-            )
+            throw SdkValidationError(field: "tool_name", code: "required", message: "Validation failed for 'tool_name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        toolName = try container.sdkDecodeRequired(.toolName)
-        type = try container.sdkDecodeRequired(.type)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        try validateLength("tool_name", toolName, min: 1, max: 256)
-        try sdkValidatePattern("tool_name", toolName, sdkPatterndc4e11698f9a)
-        try sdkValidateRawEnum("type", type, BetaRequestToolReferenceBlockType.allCases.map(\.rawValue))
+        self.toolName = try container.sdkDecodeRequired(.toolName)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+            try validateLength("tool_name", self.toolName, min: 1, max: 256)
+            try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
+            try sdkValidateRawEnum("type", self.type, BetaRequestToolReferenceBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaRequestToolReferenceBlock {
-    init(
-        toolName: String,
-        type: BetaRequestToolReferenceBlockType,
-        cacheControl: BetaRequestToolReferenceBlockCacheControl? = nil
-    ) throws {
+extension BetaRequestToolReferenceBlock {
+    public init(toolName: String, type: BetaRequestToolReferenceBlockType, cacheControl: BetaRequestToolReferenceBlockCacheControl? = nil) throws {
         (self.toolName, self.type) = (toolName, type)
         self.cacheControl = cacheControl
-        try validateLength("tool_name", self.toolName, min: 1, max: 256)
-        try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
-        try sdkValidateRawEnum("type", self.type, BetaRequestToolReferenceBlockType.allCases.map(\.rawValue))
+            try validateLength("tool_name", self.toolName, min: 1, max: 256)
+            try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
+            try sdkValidateRawEnum("type", self.type, BetaRequestToolReferenceBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -566,6 +490,7 @@ public indirect enum BetaRequestToolAdditionBlockCacheControl {
 }
 
 extension BetaRequestToolAdditionBlockCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -573,16 +498,12 @@ extension BetaRequestToolAdditionBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -593,8 +514,8 @@ extension BetaRequestToolAdditionBlockCacheControl: Codable {
 extension BetaRequestToolAdditionBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }

@@ -15,106 +15,29 @@ public class BetaOrganizationsWorkspacesNamespace {
         serviceAccounts = BetaOrganizationsWorkspacesServiceAccountsNamespace(config: config)
     }
 
-    /// Retrieves a workspace by its identifier. Use `workspace_id` to select the workspace whose configuration and
-    /// metadata you need. The response includes the workspace's data residency settings, tags, and archive state.
-    public func retrieve(
-        workspaceId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspace {
-        try await BetaOrganizationsWorkspacesMethods.retrieveBetaOrganizationsWorkspaces(
-            config: config,
-            workspaceId: workspaceId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieves a workspace by its identifier. Use `workspace_id` to select the workspace whose configuration and metadata you need. The response includes the workspace's data residency settings, tags, and archive state.
+    public func retrieve(workspaceId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
+        return try await BetaOrganizationsWorkspacesMethods.retrieveBetaOrganizationsWorkspaces(config: config, workspaceId: workspaceId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Updates selected configuration fields for a workspace. Include only the fields you want to change; omitted
-    /// fields remain unchanged. Use `name`, `display_color`, `tags`, `data_residency`, or `external_key_id` as needed.
-    public func update(
-        workspaceId: String,
-        anthropicVersion: String? = nil,
-        dataResidency: SdkOptional<BetaDataResidencyUpdateParams>? = nil,
-        displayColor: String? = nil,
-        externalKeyId: String? = nil,
-        name: String? = nil,
-        tags: SdkOptional<[String: String?]>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspace {
-        try await BetaOrganizationsWorkspacesMethods.updateBetaOrganizationsWorkspaces(
-            config: config,
-            workspaceId: workspaceId,
-            anthropicVersion: anthropicVersion,
-            dataResidency: dataResidency,
-            displayColor: displayColor,
-            externalKeyId: externalKeyId,
-            name: name,
-            tags: tags,
-            requestOptions: requestOptions
-        )
+/// Updates selected configuration fields for a workspace. Include only the fields you want to change; omitted fields remain unchanged. Use `name`, `display_color`, `tags`, `data_residency`, or `external_key_id` as needed.
+    public func update(workspaceId: String, anthropicVersion: String? = nil, dataResidency: SdkOptional<BetaDataResidencyUpdateParams>? = nil, displayColor: String? = nil, externalKeyId: String? = nil, name: String? = nil, tags: SdkOptional<[String: String?]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
+        return try await BetaOrganizationsWorkspacesMethods.updateBetaOrganizationsWorkspaces(config: config, workspaceId: workspaceId, anthropicVersion: anthropicVersion, dataResidency: dataResidency, displayColor: displayColor, externalKeyId: externalKeyId, name: name, tags: tags, requestOptions: requestOptions)
     }
 
-    /// Lists workspaces in the organization, with cursor-based pagination. Set `include_archived` to include archived
-    /// workspaces, and use `before_id` or `after_id` to navigate pages. The response includes cursors and a `has_more`
-    /// flag.
-    public func list(
-        includeArchived: Bool? = nil,
-        beforeId: String? = nil,
-        afterId: String? = nil,
-        limit: Int? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaListResponseWorkspace {
-        try await BetaOrganizationsWorkspacesMethods.listBetaOrganizationsWorkspaces(
-            config: config,
-            includeArchived: includeArchived,
-            beforeId: beforeId,
-            afterId: afterId,
-            limit: limit,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Lists workspaces in the organization, with cursor-based pagination. Set `include_archived` to include archived workspaces, and use `before_id` or `after_id` to navigate pages. The response includes cursors and a `has_more` flag.
+    public func list(includeArchived: Bool? = nil, beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseWorkspace {
+        return try await BetaOrganizationsWorkspacesMethods.listBetaOrganizationsWorkspaces(config: config, includeArchived: includeArchived, beforeId: beforeId, afterId: afterId, limit: limit, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Creates a workspace in the organization. Supply a `name` and optionally configure its data residency, display
-    /// color, encryption key, and tags. The response contains the created workspace and its generated identifier.
-    public func create(
-        name: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        dataResidency: SdkOptional<BetaDataResidencyCreateParams>? = nil,
-        displayColor: SdkOptional<String>? = nil,
-        externalKeyId: SdkOptional<String>? = nil,
-        tags: SdkOptional<[String: String]>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspace {
-        try await BetaOrganizationsWorkspacesMethods.createBetaOrganizationsWorkspaces(
-            config: config,
-            name: name,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            dataResidency: dataResidency,
-            displayColor: displayColor,
-            externalKeyId: externalKeyId,
-            tags: tags,
-            requestOptions: requestOptions
-        )
+/// Creates a workspace in the organization. Supply a `name` and optionally configure its data residency, display color, encryption key, and tags. The response contains the created workspace and its generated identifier.
+    public func create(name: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, dataResidency: SdkOptional<BetaDataResidencyCreateParams>? = nil, displayColor: SdkOptional<String>? = nil, externalKeyId: SdkOptional<String>? = nil, tags: SdkOptional<[String: String]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
+        return try await BetaOrganizationsWorkspacesMethods.createBetaOrganizationsWorkspaces(config: config, name: name, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, dataResidency: dataResidency, displayColor: displayColor, externalKeyId: externalKeyId, tags: tags, requestOptions: requestOptions)
     }
 
-    /// Archives a workspace in the organization. Use `workspace_id` to identify the workspace to archive. The response
-    /// returns the workspace object with its archive state.
-    public func archive(
-        workspaceId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspace {
-        try await BetaOrganizationsWorkspacesMethods.archiveBetaOrganizationsWorkspaces(
-            config: config,
-            workspaceId: workspaceId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Archives a workspace in the organization. Use `workspace_id` to identify the workspace to archive. The response returns the workspace object with its archive state.
+    public func archive(workspaceId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
+        return try await BetaOrganizationsWorkspacesMethods.archiveBetaOrganizationsWorkspaces(config: config, workspaceId: workspaceId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -124,65 +47,19 @@ public class BetaOrganizationsApiKeysNamespace {
         self.config = config
     }
 
-    /// Retrieves a specific API key by its ID. Use `api_key_id` to identify the key whose metadata you need. The
-    /// response includes its status, scope, creation and expiration details, and a partially redacted key hint.
-    public func retrieve(
-        apiKeyId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaApiKey {
-        try await BetaOrganizationsApiKeysMethods.retrieveBetaOrganizationsApiKeys(
-            config: config,
-            apiKeyId: apiKeyId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieves a specific API key by its ID. Use `api_key_id` to identify the key whose metadata you need. The response includes its status, scope, creation and expiration details, and a partially redacted key hint.
+    public func retrieve(apiKeyId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaApiKey {
+        return try await BetaOrganizationsApiKeysMethods.retrieveBetaOrganizationsApiKeys(config: config, apiKeyId: apiKeyId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Updates an API key's name, status, or both. Include the fields you want to change; `name` can be a string or
-    /// `null`, and `status` can be active, archived, inactive, or `null`. The response returns the API key object with
-    /// its current metadata.
-    public func update(
-        apiKeyId: String,
-        anthropicVersion: String? = nil,
-        name: SdkOptional<String>? = nil,
-        status: SdkOptional<BetaApiKeyUpdateParamsStatusVariant0>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaApiKey {
-        try await BetaOrganizationsApiKeysMethods.updateBetaOrganizationsApiKeys(
-            config: config,
-            apiKeyId: apiKeyId,
-            anthropicVersion: anthropicVersion,
-            name: name,
-            status: status,
-            requestOptions: requestOptions
-        )
+/// Updates an API key's name, status, or both. Include the fields you want to change; `name` can be a string or `null`, and `status` can be active, archived, inactive, or `null`. The response returns the API key object with its current metadata.
+    public func update(apiKeyId: String, anthropicVersion: String? = nil, name: SdkOptional<String>? = nil, status: SdkOptional<BetaApiKeyUpdateParamsStatusVariant0>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaApiKey {
+        return try await BetaOrganizationsApiKeysMethods.updateBetaOrganizationsApiKeys(config: config, apiKeyId: apiKeyId, anthropicVersion: anthropicVersion, name: name, status: status, requestOptions: requestOptions)
     }
 
-    /// Lists API keys in the organization, with optional filters for status, workspace, and creator. Use `before_id` or
-    /// `after_id` to navigate pages and `limit` to set the page size. The response includes cursor IDs and a `has_more`
-    /// flag.
-    public func list(
-        beforeId: String? = nil,
-        afterId: String? = nil,
-        limit: Int? = nil,
-        status: ListBetaOrganizationsApiKeysParameterVariant0? = nil,
-        workspaceId: String? = nil,
-        createdByUserId: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaListResponseApiKey {
-        try await BetaOrganizationsApiKeysMethods.listBetaOrganizationsApiKeys(
-            config: config,
-            beforeId: beforeId,
-            afterId: afterId,
-            limit: limit,
-            status: status,
-            workspaceId: workspaceId,
-            createdByUserId: createdByUserId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Lists API keys in the organization, with optional filters for status, workspace, and creator. Use `before_id` or `after_id` to navigate pages and `limit` to set the page size. The response includes cursor IDs and a `has_more` flag.
+    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, status: ListBetaOrganizationsApiKeysParameterVariant0? = nil, workspaceId: String? = nil, createdByUserId: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseApiKey {
+        return try await BetaOrganizationsApiKeysMethods.listBetaOrganizationsApiKeys(config: config, beforeId: beforeId, afterId: afterId, limit: limit, status: status, workspaceId: workspaceId, createdByUserId: createdByUserId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -192,32 +69,14 @@ public class BetaOrganizationsUsageReportMessagesNamespace {
         self.config = config
     }
 
-    /// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339
-    /// timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the
-    /// results. Use the response's `next_page` token as `page` to continue through results.
-    public func list(
-        options: BetaOrganizationsUsageReportMessagesMethods.ListBetaOrganizationsUsageReportMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaGetMessagesUsageReportResponse {
-        try await BetaOrganizationsUsageReportMessagesMethods.listBetaOrganizationsUsageReportMessages(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+/// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the results. Use the response's `next_page` token as `page` to continue through results.
+    public func list(options: BetaOrganizationsUsageReportMessagesMethods.ListBetaOrganizationsUsageReportMessagesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaGetMessagesUsageReportResponse {
+        return try await BetaOrganizationsUsageReportMessagesMethods.listBetaOrganizationsUsageReportMessages(config: config, options: options, requestOptions: requestOptions)
     }
 
-    /// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339
-    /// timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the
-    /// results. Use the response's `next_page` token as `page` to continue through results.
-    public func listPaginated(
-        options: BetaOrganizationsUsageReportMessagesMethods.ListBetaOrganizationsUsageReportMessagesOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error> {
-        BetaOrganizationsUsageReportMessagesMethods.listBetaOrganizationsUsageReportMessagesPaginated(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+/// Retrieves organization message usage over time, grouped into time buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use the filters and grouping options to narrow or organize the results. Use the response's `next_page` token as `page` to continue through results.
+    public func listPaginated(options: BetaOrganizationsUsageReportMessagesMethods.ListBetaOrganizationsUsageReportMessagesOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaMessagesUsageReportTimeBucket, Swift.Error> {
+        return BetaOrganizationsUsageReportMessagesMethods.listBetaOrganizationsUsageReportMessagesPaginated(config: config, options: options, requestOptions: requestOptions)
     }
 }
 
@@ -227,42 +86,14 @@ public class BetaOrganizationsUsageReportClaudeCodeNamespace {
         self.config = config
     }
 
-    /// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer
-    /// productivity and build custom dashboards.
-    public func retrieve(
-        startingAt: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaGetClaudeCodeUsageReportResponse {
-        try await BetaOrganizationsUsageReportClaudeCodeMethods.retrieveBetaOrganizationsUsageReportClaudeCode(
-            config: config,
-            startingAt: startingAt,
-            limit: limit,
-            page: page,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer productivity and build custom dashboards.
+    public func retrieve(startingAt: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaGetClaudeCodeUsageReportResponse {
+        return try await BetaOrganizationsUsageReportClaudeCodeMethods.retrieveBetaOrganizationsUsageReportClaudeCode(config: config, startingAt: startingAt, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer
-    /// productivity and build custom dashboards.
-    public func retrievePaginated(
-        startingAt: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error> {
-        BetaOrganizationsUsageReportClaudeCodeMethods.retrieveBetaOrganizationsUsageReportClaudeCodePaginated(
-            config: config,
-            startingAt: startingAt,
-            limit: limit,
-            page: page,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieve daily aggregated usage metrics for Claude Code users. Enables organizations to analyze developer productivity and build custom dashboards.
+    public func retrievePaginated(startingAt: String, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaClaudeCodeUsageReportItem, Swift.Error> {
+        return BetaOrganizationsUsageReportClaudeCodeMethods.retrieveBetaOrganizationsUsageReportClaudeCodePaginated(config: config, startingAt: startingAt, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -281,32 +112,14 @@ public class BetaOrganizationsCostReportNamespace {
         self.config = config
     }
 
-    /// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins
-    /// the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's
-    /// `next_page` token as `page` to continue through results.
-    public func retrieve(
-        options: BetaOrganizationsCostReportMethods.RetrieveBetaOrganizationsCostReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaGetCostReportResponse {
-        try await BetaOrganizationsCostReportMethods.retrieveBetaOrganizationsCostReport(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+/// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's `next_page` token as `page` to continue through results.
+    public func retrieve(options: BetaOrganizationsCostReportMethods.RetrieveBetaOrganizationsCostReportOptions, requestOptions: RequestOptions? = nil) async throws -> BetaGetCostReportResponse {
+        return try await BetaOrganizationsCostReportMethods.retrieveBetaOrganizationsCostReport(config: config, options: options, requestOptions: requestOptions)
     }
 
-    /// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins
-    /// the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's
-    /// `next_page` token as `page` to continue through results.
-    public func retrievePaginated(
-        options: BetaOrganizationsCostReportMethods.RetrieveBetaOrganizationsCostReportOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error> {
-        BetaOrganizationsCostReportMethods.retrieveBetaOrganizationsCostReportPaginated(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+/// Retrieves organization costs over time in daily buckets. Set `starting_at` to the RFC 3339 timestamp that begins the reporting range, and use `group_by[]` to organize results by description or workspace. Use the response's `next_page` token as `page` to continue through results.
+    public func retrievePaginated(options: BetaOrganizationsCostReportMethods.RetrieveBetaOrganizationsCostReportOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaCostReportTimeBucket, Swift.Error> {
+        return BetaOrganizationsCostReportMethods.retrieveBetaOrganizationsCostReportPaginated(config: config, options: options, requestOptions: requestOptions)
     }
 }
 
@@ -316,16 +129,9 @@ public class BetaOrganizationsMeNamespace {
         self.config = config
     }
 
-    /// Retrieve information about the organization associated with the authenticated API key.
-    public func retrieve(
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationSchema {
-        try await BetaOrganizationsMeMethods.retrieveBetaOrganizationsMe(
-            config: config,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieve information about the organization associated with the authenticated API key.
+    public func retrieve(anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationSchema {
+        return try await BetaOrganizationsMeMethods.retrieveBetaOrganizationsMe(config: config, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -335,122 +141,39 @@ public class BetaOrganizationsExternalKeysNamespace {
         self.config = config
     }
 
-    /// Create an external key config owned by the caller's organization.
-    public func create(
-        providerConfig: BetaExternalKeyCreateParamsProviderConfig,
-        anthropicVersion: String? = nil,
-        displayName: SdkOptional<String>? = nil,
-        geo: BetaExternalKeyCreateParamsGeo? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaExternalKey {
-        try await BetaOrganizationsExternalKeysMethods.createBetaOrganizationsExternalKeys(
-            config: config,
-            providerConfig: providerConfig,
-            anthropicVersion: anthropicVersion,
-            displayName: displayName,
-            geo: geo,
-            requestOptions: requestOptions
-        )
+/// Create an external key config owned by the caller's organization.
+    public func create(providerConfig: BetaExternalKeyCreateParamsProviderConfig, anthropicVersion: String? = nil, displayName: SdkOptional<String>? = nil, geo: BetaExternalKeyCreateParamsGeo? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaExternalKey {
+        return try await BetaOrganizationsExternalKeysMethods.createBetaOrganizationsExternalKeys(config: config, providerConfig: providerConfig, anthropicVersion: anthropicVersion, displayName: displayName, geo: geo, requestOptions: requestOptions)
     }
 
-    /// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use
-    /// the `next_page` cursor from the response to fetch subsequent pages.
-    public func list(
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaExternalKeyListResponse {
-        try await BetaOrganizationsExternalKeysMethods.listBetaOrganizationsExternalKeys(
-            config: config,
-            limit: limit,
-            page: page,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use the `next_page` cursor from the response to fetch subsequent pages.
+    public func list(limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaExternalKeyListResponse {
+        return try await BetaOrganizationsExternalKeysMethods.listBetaOrganizationsExternalKeys(config: config, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use
-    /// the `next_page` cursor from the response to fetch subsequent pages.
-    public func listPaginated(
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaExternalKey, Swift.Error> {
-        BetaOrganizationsExternalKeysMethods.listBetaOrganizationsExternalKeysPaginated(
-            config: config,
-            limit: limit,
-            page: page,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// List external key configs in the caller's organization. Results are ordered by creation time (newest first). Use the `next_page` cursor from the response to fetch subsequent pages.
+    public func listPaginated(limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaExternalKey, Swift.Error> {
+        return BetaOrganizationsExternalKeysMethods.listBetaOrganizationsExternalKeysPaginated(config: config, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Retrieve a single external key config in the caller's organization by ID.
-    public func retrieve(
-        externalKeyId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaExternalKey {
-        try await BetaOrganizationsExternalKeysMethods.retrieveBetaOrganizationsExternalKeys(
-            config: config,
-            externalKeyId: externalKeyId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieve a single external key config in the caller's organization by ID.
+    public func retrieve(externalKeyId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaExternalKey {
+        return try await BetaOrganizationsExternalKeysMethods.retrieveBetaOrganizationsExternalKeys(config: config, externalKeyId: externalKeyId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Partially update an external key config. Omitted fields are left unchanged. `display_name` is always editable.
-    /// `geo` and `provider_config` cannot be changed once any workspace references this config, because previously
-    /// encrypted data requires the original key identity to decrypt.
-    public func update(
-        externalKeyId: String,
-        anthropicVersion: String? = nil,
-        displayName: SdkOptional<String>? = nil,
-        geo: SdkOptional<BetaExternalKeyUpdateParamsGeoVariant0>? = nil,
-        providerConfig: SdkOptional<BetaExternalKeyUpdateParamsProviderConfig>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaExternalKey {
-        try await BetaOrganizationsExternalKeysMethods.updateBetaOrganizationsExternalKeys(
-            config: config,
-            externalKeyId: externalKeyId,
-            anthropicVersion: anthropicVersion,
-            displayName: displayName,
-            geo: geo,
-            providerConfig: providerConfig,
-            requestOptions: requestOptions
-        )
+/// Partially update an external key config. Omitted fields are left unchanged. `display_name` is always editable. `geo` and `provider_config` cannot be changed once any workspace references this config, because previously encrypted data requires the original key identity to decrypt.
+    public func update(externalKeyId: String, anthropicVersion: String? = nil, displayName: SdkOptional<String>? = nil, geo: SdkOptional<BetaExternalKeyUpdateParamsGeoVariant0>? = nil, providerConfig: SdkOptional<BetaExternalKeyUpdateParamsProviderConfig>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaExternalKey {
+        return try await BetaOrganizationsExternalKeysMethods.updateBetaOrganizationsExternalKeys(config: config, externalKeyId: externalKeyId, anthropicVersion: anthropicVersion, displayName: displayName, geo: geo, providerConfig: providerConfig, requestOptions: requestOptions)
     }
 
-    /// Delete an external key config. The request is rejected if any workspace still references this config.
-    public func delete(
-        externalKeyId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaDeleteExternalKeyResponse {
-        try await BetaOrganizationsExternalKeysMethods.deleteBetaOrganizationsExternalKeys(
-            config: config,
-            externalKeyId: externalKeyId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Delete an external key config. The request is rejected if any workspace still references this config.
+    public func delete(externalKeyId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteExternalKeyResponse {
+        return try await BetaOrganizationsExternalKeysMethods.deleteBetaOrganizationsExternalKeys(config: config, externalKeyId: externalKeyId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Validate an external key config against the customer's KMS. Anthropic performs an encrypt/decrypt roundtrip
-    /// against the configured KMS key and waits up to 30 seconds for the result. The response status is `success` if
-    /// the roundtrip succeeded, or `failure` with an error message if it failed or timed out.
-    public func validate(
-        externalKeyId: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaValidateExternalKeyResponse {
-        try await BetaOrganizationsExternalKeysMethods.validateBetaOrganizationsExternalKeys(
-            config: config,
-            externalKeyId: externalKeyId,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Validate an external key config against the customer's KMS. Anthropic performs an encrypt/decrypt roundtrip against the configured KMS key and waits up to 30 seconds for the result. The response status is `success` if the roundtrip succeeded, or `failure` with an error message if it failed or timed out.
+    public func validate(externalKeyId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaValidateExternalKeyResponse {
+        return try await BetaOrganizationsExternalKeysMethods.validateBetaOrganizationsExternalKeys(config: config, externalKeyId: externalKeyId, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -460,38 +183,14 @@ public class BetaOrganizationsComplianceSettingsNamespace {
         self.config = config
     }
 
-    /// Retrieve your organization's Compliance Settings. Compliance Settings is a singleton resource: there is exactly
-    /// one per organization, addressed without an identifier. The `state` field reflects whether the Compliance API is
-    /// enabled. An organization with a parent organization reads the state inherited from the parent's configuration.
-    public func list(
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaComplianceSettings {
-        try await BetaOrganizationsComplianceSettingsMethods.listBetaOrganizationsComplianceSettings(
-            config: config,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Retrieve your organization's Compliance Settings. Compliance Settings is a singleton resource: there is exactly one per organization, addressed without an identifier. The `state` field reflects whether the Compliance API is enabled. An organization with a parent organization reads the state inherited from the parent's configuration.
+    public func list(anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaComplianceSettings {
+        return try await BetaOrganizationsComplianceSettingsMethods.listBetaOrganizationsComplianceSettings(config: config, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Update your organization's Compliance Settings. Setting `state` to `enabled` turns on the Compliance API and
-    /// begins capturing organization activity events. Setting it to `disabled` turns both off. `state` reflects whether
-    /// the Compliance API is enabled. A request that sets `state` to its current value succeeds and leaves the resource
-    /// unchanged. A `disabled` request stays in effect until a later `enabled` request or the organization's next
-    /// provisioning action that enables Access Transparency: enabling Access Transparency also enables the Compliance
-    /// API, which serves its activity events, so such provisioning (including re-runs) re-enables the Compliance API
-    /// even after a `disabled` request. Automated provisioning never disables compliance settings.
-    public func create(
-        state: BetaComplianceSettingsUpdateParamsState,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaComplianceSettings {
-        try await BetaOrganizationsComplianceSettingsMethods.createBetaOrganizationsComplianceSettings(
-            config: config,
-            state: state,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// Update your organization's Compliance Settings. Setting `state` to `enabled` turns on the Compliance API and begins capturing organization activity events. Setting it to `disabled` turns both off. `state` reflects whether the Compliance API is enabled. A request that sets `state` to its current value succeeds and leaves the resource unchanged. A `disabled` request stays in effect until a later `enabled` request or the organization's next provisioning action that enables Access Transparency: enabling Access Transparency also enables the Compliance API, which serves its activity events, so such provisioning (including re-runs) re-enables the Compliance API even after a `disabled` request. Automated provisioning never disables compliance settings.
+    public func create(state: BetaComplianceSettingsUpdateParamsState, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaComplianceSettings {
+        return try await BetaOrganizationsComplianceSettingsMethods.createBetaOrganizationsComplianceSettings(config: config, state: state, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -501,49 +200,13 @@ public class BetaOrganizationsRateLimitsNamespace {
         self.config = config
     }
 
-    /// List Messages API rate limits for your organization. Each entry corresponds to one rate-limit group (either a
-    /// model family or an API-surface category such as the Files API or Message Batches) and contains the set of
-    /// limiter values that apply to it. When `limit` is omitted, every matching entry is returned in a single page;
-    /// when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
-    public func list(
-        model: String? = nil,
-        groupType: ListBetaOrganizationsRateLimitsParameterVariant0? = nil,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRateLimitListResponse {
-        try await BetaOrganizationsRateLimitsMethods.listBetaOrganizationsRateLimits(
-            config: config,
-            model: model,
-            groupType: groupType,
-            limit: limit,
-            page: page,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// List Messages API rate limits for your organization. Each entry corresponds to one rate-limit group (either a model family or an API-surface category such as the Files API or Message Batches) and contains the set of limiter values that apply to it. When `limit` is omitted, every matching entry is returned in a single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
+    public func list(model: String? = nil, groupType: ListBetaOrganizationsRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRateLimitListResponse {
+        return try await BetaOrganizationsRateLimitsMethods.listBetaOrganizationsRateLimits(config: config, model: model, groupType: groupType, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// List Messages API rate limits for your organization. Each entry corresponds to one rate-limit group (either a
-    /// model family or an API-surface category such as the Files API or Message Batches) and contains the set of
-    /// limiter values that apply to it. When `limit` is omitted, every matching entry is returned in a single page;
-    /// when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
-    public func listPaginated(
-        model: String? = nil,
-        groupType: ListBetaOrganizationsRateLimitsParameterVariant0? = nil,
-        limit: Int? = nil,
-        page: String? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaRateLimit, Swift.Error> {
-        BetaOrganizationsRateLimitsMethods.listBetaOrganizationsRateLimitsPaginated(
-            config: config,
-            model: model,
-            groupType: groupType,
-            limit: limit,
-            page: page,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+/// List Messages API rate limits for your organization. Each entry corresponds to one rate-limit group (either a model family or an API-surface category such as the Files API or Message Batches) and contains the set of limiter values that apply to it. When `limit` is omitted, every matching entry is returned in a single page; when `limit` truncates the result, follow `next_page` to fetch the remaining entries.
+    public func listPaginated(model: String? = nil, groupType: ListBetaOrganizationsRateLimitsParameterVariant0? = nil, limit: Int? = nil, page: String? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaRateLimit, Swift.Error> {
+        return BetaOrganizationsRateLimitsMethods.listBetaOrganizationsRateLimitsPaginated(config: config, model: model, groupType: groupType, limit: limit, page: page, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }

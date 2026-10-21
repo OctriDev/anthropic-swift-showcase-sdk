@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaDeploymentsMethods {
-    struct UpdateBetaDeploymentsOptions: Codable {
+extension BetaDeploymentsMethods {
+    public struct UpdateBetaDeploymentsOptions: Codable {
         public var deploymentId: String
         public var anthropicVersion: String?
         public var anthropicBeta: [AnthropicBeta]?
@@ -28,9 +28,7 @@ public extension BetaDeploymentsMethods {
         }
     }
 
-    /// Updates a deployment's configuration while preserving any fields you omit. Use the request body to replace or
-    /// clear supported values, including `description`, `vault_ids`, `resources`, `metadata`, `schedule`, and `budget`;
-    /// `name` must be non-empty when supplied. The response includes the updated deployment and its current status.
+    /// Updates a deployment's configuration while preserving any fields you omit. Use the request body to replace or clear supported values, including `description`, `vault_ids`, `resources`, `metadata`, `schedule`, and `budget`; `name` must be non-empty when supplied. The response includes the updated deployment and its current status.
     ///
     /// - Parameters:
     /// - deploymentId: Path parameter deployment_id
@@ -64,11 +62,7 @@ public extension BetaDeploymentsMethods {
     ///   deployment agent's model must have a public list price, or the request is
     ///   rejected; a multiagent roster is re-validated in full when each fire copies
     ///   the cap, which fails closed the same way.
-    static func updateBetaDeployments(
-        config: ClientConfig,
-        options: UpdateBetaDeploymentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsDeployment {
+    public static func updateBetaDeployments(config: ClientConfig, options: UpdateBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
         if let name = options.name {
             try validateLength("name", name, max: 256)
         }
@@ -79,36 +73,10 @@ public extension BetaDeploymentsMethods {
 
         let requestBody = UpdateBetaDeploymentsRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/deployments/", sdkEncodePathSegment(sdkWireString(options.deploymentId)), "?beta=true"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaDeployments",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/deployments/", sdkEncodePathSegment(sdkWireString(options.deploymentId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaDeployments", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 }

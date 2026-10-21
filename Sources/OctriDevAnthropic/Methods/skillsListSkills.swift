@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SkillsMethods {
-    /// Lists skills available to the authenticated user, with optional pagination and filtering by source. Use `source`
-    /// to limit results to custom or Anthropic-created skills, and use `page` and `limit` to paginate the results. The
-    /// response includes a `next_page` cursor when more results are available.
+extension SkillsMethods {
+    /// Lists skills available to the authenticated user, with optional pagination and filtering by source. Use `source` to limit results to custom or Anthropic-created skills, and use `page` and `limit` to paginate the results. The response includes a `next_page` cursor when more results are available.
     ///
     /// - Parameters:
     /// - page: Pagination token for fetching a specific page of results. Pass the
@@ -28,59 +26,22 @@ public extension SkillsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listSkills(
-        config: ClientConfig,
-        page: String? = nil,
-        limit: Int? = nil,
-        source: String? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListSkillsResponse {
-        if let limit {
+    public static func listSkills(config: ClientConfig, page: String? = nil, limit: Int? = nil, source: String? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListSkillsResponse {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/skills",
-            config: config,
-            query: [
-                SdkQueryParameter("page", value: page),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("source", value: source),
-            ],
-            decoder: .json,
-            operationId: "listSkills",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": ErrorResponse.self,
-                "401": ErrorResponse.self,
-                "403": ErrorResponse.self,
-                "404": ErrorResponse.self,
-                "408": ErrorResponse.self,
-                "409": ErrorResponse.self,
-                "412": ErrorResponse.self,
-                "413": ErrorResponse.self,
-                "429": ErrorResponse.self,
-                "431": ErrorResponse.self,
-                "499": ErrorResponse.self,
-                "500": ErrorResponse.self,
-                "501": ErrorResponse.self,
-                "503": ErrorResponse.self,
-                "504": ErrorResponse.self,
-                "529": ErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/skills", config: config, query: [
+            SdkQueryParameter("page", value: page),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("source", value: source),
+        ], decoder: .json, operationId: "listSkills", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
     }
 
-    /// Lists skills available to the authenticated user, with optional pagination and filtering by source. Use `source`
-    /// to limit results to custom or Anthropic-created skills, and use `page` and `limit` to paginate the results. The
-    /// response includes a `next_page` cursor when more results are available.
+    /// Lists skills available to the authenticated user, with optional pagination and filtering by source. Use `source` to limit results to custom or Anthropic-created skills, and use `page` and `limit` to paginate the results. The response includes a `next_page` cursor when more results are available.
     ///
     /// - Parameters:
     /// - page: Pagination token for fetching a specific page of results. Pass the
@@ -99,42 +60,17 @@ public extension SkillsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listSkillsPaginated(
-        config: ClientConfig,
-        page: String? = nil,
-        limit: Int? = nil,
-        source: String? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<Skill, Swift.Error> {
-        AsyncThrowingStream<Skill, Swift.Error> { (continuation: AsyncThrowingStream<
-            Skill,
-            Swift.Error
-        >.Continuation) in
+    public static func listSkillsPaginated(config: ClientConfig, page: String? = nil, limit: Int? = nil, source: String? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<Skill, Swift.Error> {
+        return AsyncThrowingStream<Skill, Swift.Error> { (continuation: AsyncThrowingStream<Skill, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listSkills(
-                            config: config,
-                            page: pageCursor,
-                            limit: limit,
-                            source: source,
-                            anthropicVersion: anthropicVersion,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listSkills(config: config, page: pageCursor, limit: limit, source: source, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -147,50 +83,25 @@ public extension SkillsMethods {
         }
     }
 
-    struct ListSkillsPage {
+    public struct ListSkillsPage {
         public let data: ListSkillsResponse
         public let items: [Skill]
         public let hasMore: Bool
     }
 
-    static func listSkillsPages(
-        config: ClientConfig,
-        page: String? = nil,
-        limit: Int? = nil,
-        source: String? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListSkillsPage, Swift.Error> {
-        AsyncThrowingStream<ListSkillsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListSkillsPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listSkillsPages(config: ClientConfig, page: String? = nil, limit: Int? = nil, source: String? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListSkillsPage, Swift.Error> {
+        return AsyncThrowingStream<ListSkillsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListSkillsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listSkills(
-                            config: config,
-                            page: pageCursor,
-                            limit: limit,
-                            source: source,
-                            anthropicVersion: anthropicVersion,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listSkills(config: config, page: pageCursor, limit: limit, source: source, anthropicVersion: anthropicVersion, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
                         pageContinuation.yield(ListSkillsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

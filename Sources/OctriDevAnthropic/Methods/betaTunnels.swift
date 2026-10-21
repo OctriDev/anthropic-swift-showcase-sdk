@@ -8,15 +8,10 @@ import Foundation
 #endif
 public enum BetaTunnelsMethods {}
 
-public extension BetaTunnelsMethods {
-    /// Creates a tunnel and provisions a fresh hostname for routing MCP traffic. Send the required `anthropic-beta`
-    /// header; the tunnel rejects MCP traffic until you add at least one CA certificate. Creation is not idempotent,
-    /// and this research-preview API may change without a deprecation period.
+extension BetaTunnelsMethods {
+    /// Creates a tunnel and provisions a fresh hostname for routing MCP traffic. Send the required `anthropic-beta` header; the tunnel rejects MCP traffic until you add at least one CA certificate. Creation is not idempotent, and this research-preview API may change without a deprecation period.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
-    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
-    /// remain available during a migration window. Creates a tunnel. Creation allocates a fresh hostname and provisions
-    /// the tunnel; it is not idempotent. The new tunnel rejects MCP traffic until at least one CA certificate is added.
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel; it is not idempotent. The new tunnel rejects MCP traffic until at least one CA certificate is added.
     ///
     /// - Parameters:
     /// - anthropicWorkspaceId: Optional header to select the Workspace for this
@@ -26,46 +21,13 @@ public extension BetaTunnelsMethods {
     ///   Workspace may omit it; if sent, it must match that Workspace.
     /// - displayName: Optional human-readable name for the tunnel (1-255
     ///   characters).
-    static func createBetaTunnels(
-        config: ClientConfig,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        displayName: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaTunnel {
+    public static func createBetaTunnels(config: ClientConfig, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnel {
         let requestBody = CreateBetaTunnelsRequestBody(displayName: displayName)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/tunnels?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaTunnels",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/tunnels?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaTunnels", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 }

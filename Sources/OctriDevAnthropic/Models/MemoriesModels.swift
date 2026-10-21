@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Memories domain models
+// Memories domain models
 public indirect enum BetaManagedAgentsPrecondition {
     case betaManagedAgentsContentSha256Precondition(BetaManagedAgentsContentSha256Precondition)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaManagedAgentsPrecondition {
 }
 
 extension BetaManagedAgentsPrecondition: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaManagedAgentsPrecondition: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,8 +36,8 @@ extension BetaManagedAgentsPrecondition {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "content_sha256":
-            try .betaManagedAgentsContentSha256Precondition(BetaManagedAgentsContentSha256Precondition(from: decoder))
-        default: nil
+        return .betaManagedAgentsContentSha256Precondition(try BetaManagedAgentsContentSha256Precondition(from: decoder))
+        default: return nil
         }
     }
 }
@@ -80,21 +77,21 @@ public struct BetaManagedAgentsUpdateMemoryParams: Codable {
     }
 
     init() {
-        (content, path, precondition) = (nil, nil, nil)
+        (self.content, self.path, self.precondition) = (nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsUpdateMemoryParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUpdateMemoryParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        content = try container.sdkDecodeIfPresent(.content)
-        path = try container.sdkDecodeIfPresent(.path)
-        precondition = try container.sdkDecodeIfPresent(.precondition)
+        self.content = try container.sdkDecodeIfPresent(.content)
+        self.path = try container.sdkDecodeIfPresent(.path)
+        self.precondition = try container.sdkDecodeIfPresent(.precondition)
     }
 }
 
-public extension BetaManagedAgentsUpdateMemoryParams {
-    init(content: String? = nil, path: String? = nil, precondition: BetaManagedAgentsPrecondition? = nil) {
+extension BetaManagedAgentsUpdateMemoryParams {
+    public init(content: String? = nil, path: String? = nil, precondition: BetaManagedAgentsPrecondition? = nil) {
         self.init()
         (self.content, self.path) = (content, path)
         self.precondition = precondition
@@ -118,35 +115,25 @@ public struct BetaManagedAgentsContentSha256Precondition: Codable {
         case contentSha256 = "content_sha256"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsContentSha256Precondition {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsContentSha256Precondition {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        contentSha256 = try container.sdkDecodeIfPresent(.contentSha256)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsContentSha256PreconditionType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.contentSha256 = try container.sdkDecodeIfPresent(.contentSha256)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsContentSha256PreconditionType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsContentSha256Precondition {
-    init(type: BetaManagedAgentsContentSha256PreconditionType, contentSha256: String? = nil) throws {
+extension BetaManagedAgentsContentSha256Precondition {
+    public init(type: BetaManagedAgentsContentSha256PreconditionType, contentSha256: String? = nil) throws {
         (self.type, self.contentSha256) = (type, contentSha256)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsContentSha256PreconditionType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsContentSha256PreconditionType.allCases.map(\.rawValue))
     }
 }
 
@@ -164,35 +151,25 @@ public struct BetaManagedAgentsDeletedMemory: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsDeletedMemory {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsDeletedMemory {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
     }
 }
 
-public extension BetaManagedAgentsDeletedMemory {
-    init(type: BetaManagedAgentsDeletedMemoryType, id: String) {
+extension BetaManagedAgentsDeletedMemory {
+    public init(type: BetaManagedAgentsDeletedMemoryType, id: String) {
         (self.type, self.id) = (type, id)
     }
 }
@@ -201,15 +178,12 @@ public extension BetaManagedAgentsDeletedMemory {
 public struct BetaManagedAgentsDeletedMemoryType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let memoryDeleted = BetaManagedAgentsDeletedMemoryType(rawValue: "memory_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedResponseDocument domain models
+// SharedResponseDocument domain models
 public indirect enum ResponseDocumentBlockSource {
     case base64PdfSource(Base64PDFSource)
     case plainTextSource(PlainTextSource)
@@ -12,6 +12,7 @@ public indirect enum ResponseDocumentBlockSource {
 }
 
 extension ResponseDocumentBlockSource: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension ResponseDocumentBlockSource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension ResponseDocumentBlockSource: Codable {
 extension ResponseDocumentBlockSource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "base64": try .base64PdfSource(Base64PDFSource(from: decoder))
-        case "text": try .plainTextSource(PlainTextSource(from: decoder))
-        default: nil
+        case "base64": return .base64PdfSource(try Base64PDFSource(from: decoder))
+        case "text": return .plainTextSource(try PlainTextSource(from: decoder))
+        default: return nil
         }
     }
 }
@@ -75,60 +72,37 @@ public struct ResponseDocumentBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ResponseDocumentBlock {
-    init(from decoder: Decoder) throws {
+extension ResponseDocumentBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citations) else {
-            throw SdkValidationError(
-                field: "citations",
-                code: "required",
-                message: "Validation failed for 'citations': value is required"
-            )
+            throw SdkValidationError(field: "citations", code: "required", message: "Validation failed for 'citations': value is required")
         }
         guard container.contains(.source) else {
-            throw SdkValidationError(
-                field: "source",
-                code: "required",
-                message: "Validation failed for 'source': value is required"
-            )
+            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
         }
         guard container.contains(.title) else {
-            throw SdkValidationError(
-                field: "title",
-                code: "required",
-                message: "Validation failed for 'title': value is required"
-            )
+            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        citations = try container.sdkDecodeNullable(.citations)
-        source = try container.sdkDecodeRequired(.source)
-        title = try container.sdkDecodeNullable(.title)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ResponseDocumentBlockType.allCases.map(\.rawValue))
+        self.citations = try container.sdkDecodeNullable(.citations)
+        self.source = try container.sdkDecodeRequired(.source)
+        self.title = try container.sdkDecodeNullable(.title)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ResponseDocumentBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension ResponseDocumentBlock {
-    init(
-        citations: ResponseCitationsConfig?,
-        source: ResponseDocumentBlockSource,
-        title: String?,
-        type: ResponseDocumentBlockType
-    ) throws {
+extension ResponseDocumentBlock {
+    public init(citations: ResponseCitationsConfig?, source: ResponseDocumentBlockSource, title: String?, type: ResponseDocumentBlockType) throws {
         (self.citations, self.source) = (citations, source)
         (self.title, self.type) = (title, type)
-        try sdkValidateRawEnum("type", self.type, ResponseDocumentBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ResponseDocumentBlockType.allCases.map(\.rawValue))
     }
 }
 

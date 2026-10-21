@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaFile domain models
+// SharedBetaFile domain models
 /// Typed representation of the `BetaFileImageSource` API schema.
 public struct BetaFileImageSource: Codable {
     /// Required `string` value serialized in the `file_id` wire field.
@@ -16,38 +16,28 @@ public struct BetaFileImageSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFileImageSource {
-    init(from decoder: Decoder) throws {
+extension BetaFileImageSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        fileId = try container.sdkDecodeRequired(.fileId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaFileImageSourceType.allCases.map(\.rawValue))
+        self.fileId = try container.sdkDecodeRequired(.fileId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaFileImageSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaFileImageSource {
-    init(fileId: String, type: BetaFileImageSourceType) throws {
+extension BetaFileImageSource {
+    public init(fileId: String, type: BetaFileImageSourceType) throws {
         (self.fileId, self.type) = (fileId, type)
-        try sdkValidateRawEnum("type", self.type, BetaFileImageSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaFileImageSourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -63,38 +53,28 @@ public struct BetaFileDocumentSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFileDocumentSource {
-    init(from decoder: Decoder) throws {
+extension BetaFileDocumentSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        fileId = try container.sdkDecodeRequired(.fileId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaFileDocumentSourceType.allCases.map(\.rawValue))
+        self.fileId = try container.sdkDecodeRequired(.fileId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaFileDocumentSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaFileDocumentSource {
-    init(fileId: String, type: BetaFileDocumentSourceType) throws {
+extension BetaFileDocumentSource {
+    public init(fileId: String, type: BetaFileDocumentSourceType) throws {
         (self.fileId, self.type) = (fileId, type)
-        try sdkValidateRawEnum("type", self.type, BetaFileDocumentSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaFileDocumentSourceType.allCases.map(\.rawValue))
     }
 }
 
@@ -133,111 +113,59 @@ public struct BetaFileMetadataSchema: Codable {
         case scope
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFileMetadataSchema {
-    init(from decoder: Decoder) throws {
+extension BetaFileMetadataSchema {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.filename) else {
-            throw SdkValidationError(
-                field: "filename",
-                code: "required",
-                message: "Validation failed for 'filename': value is required"
-            )
+            throw SdkValidationError(field: "filename", code: "required", message: "Validation failed for 'filename': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.mimeType) else {
-            throw SdkValidationError(
-                field: "mime_type",
-                code: "required",
-                message: "Validation failed for 'mime_type': value is required"
-            )
+            throw SdkValidationError(field: "mime_type", code: "required", message: "Validation failed for 'mime_type': value is required")
         }
         guard container.contains(.sizeBytes) else {
-            throw SdkValidationError(
-                field: "size_bytes",
-                code: "required",
-                message: "Validation failed for 'size_bytes': value is required"
-            )
+            throw SdkValidationError(field: "size_bytes", code: "required", message: "Validation failed for 'size_bytes': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        filename = try container.sdkDecodeRequired(.filename)
-        id = try container.sdkDecodeRequired(.id)
-        mimeType = try container.sdkDecodeRequired(.mimeType)
-        sizeBytes = try container.sdkDecodeRequired(.sizeBytes)
-        type = try container.sdkDecodeRequired(.type)
-        downloadable = try container.sdkDecodeIfPresent(.downloadable)
-        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-        scope = try container.sdkDecodeIfPresent(.scope)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try validateLength("filename", filename, min: 1, max: 500)
-        try validateLength("mime_type", mimeType, min: 1, max: 255)
-        try validateRange(
-            "size_bytes",
-            Double(sizeBytes),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaFileMetadataSchemaType.allCases.map(\.rawValue))
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.filename = try container.sdkDecodeRequired(.filename)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.mimeType = try container.sdkDecodeRequired(.mimeType)
+        self.sizeBytes = try container.sdkDecodeRequired(.sizeBytes)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.downloadable = try container.sdkDecodeIfPresent(.downloadable)
+        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+        self.scope = try container.sdkDecodeIfPresent(.scope)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try validateLength("filename", self.filename, min: 1, max: 500)
+            try validateLength("mime_type", self.mimeType, min: 1, max: 255)
+            try validateRange("size_bytes", Double(self.sizeBytes), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaFileMetadataSchemaType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaFileMetadataSchema {
-    init(
-        createdAt: Date,
-        filename: String,
-        id: String,
-        mimeType: String,
-        sizeBytes: Int,
-        type: BetaFileMetadataSchemaType,
-        downloadable: Bool? = nil,
-        expiresAt: Date? = nil,
-        scope: BetaFileScope? = nil
-    ) throws {
+extension BetaFileMetadataSchema {
+    public init(createdAt: Date, filename: String, id: String, mimeType: String, sizeBytes: Int, type: BetaFileMetadataSchemaType, downloadable: Bool? = nil, expiresAt: Date? = nil, scope: BetaFileScope? = nil) throws {
         (self.createdAt, self.filename) = (createdAt, filename)
         (self.id, self.mimeType) = (id, mimeType)
         (self.sizeBytes, self.type) = (sizeBytes, type)
         (self.downloadable, self.expiresAt) = (downloadable, expiresAt)
         self.scope = scope
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try validateLength("filename", self.filename, min: 1, max: 500)
-        try validateLength("mime_type", self.mimeType, min: 1, max: 255)
-        try validateRange(
-            "size_bytes",
-            Double(self.sizeBytes),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaFileMetadataSchemaType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try validateLength("filename", self.filename, min: 1, max: 500)
+            try validateLength("mime_type", self.mimeType, min: 1, max: 255)
+            try validateRange("size_bytes", Double(self.sizeBytes), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaFileMetadataSchemaType.allCases.map(\.rawValue))
     }
 }
 
@@ -253,38 +181,28 @@ public struct BetaFileScope: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaFileScope {
-    init(from decoder: Decoder) throws {
+extension BetaFileScope {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaFileScopeType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaFileScopeType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaFileScope {
-    init(id: String, type: BetaFileScopeType) throws {
+extension BetaFileScope {
+    public init(id: String, type: BetaFileScopeType) throws {
         (self.id, self.type) = (id, type)
-        try sdkValidateRawEnum("type", self.type, BetaFileScopeType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaFileScopeType.allCases.map(\.rawValue))
     }
 }
 

@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaFilesMethods {
-    /// Retrieves the contents of a file by its ID. Use this operation when you need the file bytes rather than its
-    /// metadata. Provide an API key and, when needed, a Workspace ID that matches the credential's Workspace.
+extension BetaFilesMethods {
+    /// Retrieves the contents of a file by its ID. Use this operation when you need the file bytes rather than its metadata. Provide an API key and, when needed, a Workspace ID that matches the credential's Workspace.
     ///
     /// - Parameters:
     /// - fileId: ID of the File.
@@ -23,26 +22,11 @@ public extension BetaFilesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func downloadBetaFiles(
-        config: ClientConfig,
-        fileId: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Data {
-        try await (sdkRequest(
-            "GET",
-            ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId)), "/content?beta=true"].joined(),
-            config: config,
-            decoder: .bytes,
-            operationId: "downloadBetaFiles",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions
-        )).data
+    public static func downloadBetaFiles(config: ClientConfig, fileId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Data {
+        return try (await sdkRequest("GET", ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId)), "/content?beta=true"].joined(), config: config, decoder: .bytes, operationId: "downloadBetaFiles", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions)).data
     }
 }

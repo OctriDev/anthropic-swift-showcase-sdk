@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedError domain models
+// SharedError domain models
 public indirect enum ErrorResponseError {
     case invalidRequestError(InvalidRequestError)
     case authenticationError(AuthenticationError)
@@ -19,6 +19,7 @@ public indirect enum ErrorResponseError {
 }
 
 extension ErrorResponseError: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -26,16 +27,12 @@ extension ErrorResponseError: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -46,16 +43,16 @@ extension ErrorResponseError: Codable {
 extension ErrorResponseError {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "invalid_request_error": try .invalidRequestError(InvalidRequestError(from: decoder))
-        case "authentication_error": try .authenticationError(AuthenticationError(from: decoder))
-        case "billing_error": try .billingError(BillingError(from: decoder))
-        case "permission_error": try .permissionError(PermissionError(from: decoder))
-        case "not_found_error": try .notFoundError(NotFoundError(from: decoder))
-        case "rate_limit_error": try .rateLimitError(RateLimitError(from: decoder))
-        case "timeout_error": try .gatewayTimeoutError(GatewayTimeoutError(from: decoder))
-        case "api_error": try .aPiError(APIError(from: decoder))
-        case "overloaded_error": try .overloadedError(OverloadedError(from: decoder))
-        default: nil
+        case "invalid_request_error": return .invalidRequestError(try InvalidRequestError(from: decoder))
+        case "authentication_error": return .authenticationError(try AuthenticationError(from: decoder))
+        case "billing_error": return .billingError(try BillingError(from: decoder))
+        case "permission_error": return .permissionError(try PermissionError(from: decoder))
+        case "not_found_error": return .notFoundError(try NotFoundError(from: decoder))
+        case "rate_limit_error": return .rateLimitError(try RateLimitError(from: decoder))
+        case "timeout_error": return .gatewayTimeoutError(try GatewayTimeoutError(from: decoder))
+        case "api_error": return .aPiError(try APIError(from: decoder))
+        case "overloaded_error": return .overloadedError(try OverloadedError(from: decoder))
+        default: return nil
         }
     }
 }
@@ -93,47 +90,33 @@ public struct ErrorResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ErrorResponse {
-    init(from decoder: Decoder) throws {
+extension ErrorResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.error) else {
-            throw SdkValidationError(
-                field: "error",
-                code: "required",
-                message: "Validation failed for 'error': value is required"
-            )
+            throw SdkValidationError(field: "error", code: "required", message: "Validation failed for 'error': value is required")
         }
         guard container.contains(.requestId) else {
-            throw SdkValidationError(
-                field: "request_id",
-                code: "required",
-                message: "Validation failed for 'request_id': value is required"
-            )
+            throw SdkValidationError(field: "request_id", code: "required", message: "Validation failed for 'request_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        error = try container.sdkDecodeRequired(.error)
-        requestId = try container.sdkDecodeNullable(.requestId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ErrorResponseType.allCases.map(\.rawValue))
+        self.error = try container.sdkDecodeRequired(.error)
+        self.requestId = try container.sdkDecodeNullable(.requestId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ErrorResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension ErrorResponse {
-    init(error: ErrorResponseError, requestId: String?, type: ErrorResponseType) throws {
+extension ErrorResponse {
+    public init(error: ErrorResponseError, requestId: String?, type: ErrorResponseType) throws {
         (self.error, self.requestId) = (error, requestId)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, ErrorResponseType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ErrorResponseType.allCases.map(\.rawValue))
     }
 }
 

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaJwks domain models
+// SharedBetaJwks domain models
 /// JWKS fetched from a fixed endpoint.
 public struct BetaJwksExplicitUrl: Codable {
     /// Required `string` value serialized in the `type` wire field.
@@ -19,42 +19,32 @@ public struct BetaJwksExplicitUrl: Codable {
         case caCertPem = "ca_cert_pem"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaJwksExplicitUrl {
-    init(from decoder: Decoder) throws {
+extension BetaJwksExplicitUrl {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        caCertPem = try container.sdkDecodeIfPresent(.caCertPem)
-        try sdkValidateRawEnum("type", type, BetaJwksExplicitUrlType.allCases.map(\.rawValue))
-        try validateLength("url", url, min: 1, max: nil)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.caCertPem = try container.sdkDecodeIfPresent(.caCertPem)
+            try sdkValidateRawEnum("type", self.type, BetaJwksExplicitUrlType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: 1, max: nil)
     }
 }
 
-public extension BetaJwksExplicitUrl {
-    init(type: BetaJwksExplicitUrlType, url: String, caCertPem: String? = nil) throws {
+extension BetaJwksExplicitUrl {
+    public init(type: BetaJwksExplicitUrlType, url: String, caCertPem: String? = nil) throws {
         (self.type, self.url) = (type, url)
         self.caCertPem = caCertPem
-        try sdkValidateRawEnum("type", self.type, BetaJwksExplicitUrlType.allCases.map(\.rawValue))
-        try validateLength("url", self.url, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, BetaJwksExplicitUrlType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: 1, max: nil)
     }
 }
 
@@ -73,33 +63,27 @@ public struct BetaJwksDiscovery: Codable {
         case discoveryBase = "discovery_base"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaJwksDiscovery {
-    init(from decoder: Decoder) throws {
+extension BetaJwksDiscovery {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        caCertPem = try container.sdkDecodeIfPresent(.caCertPem)
-        discoveryBase = try container.sdkDecodeIfPresent(.discoveryBase)
-        try sdkValidateRawEnum("type", type, BetaJwksDiscoveryType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.caCertPem = try container.sdkDecodeIfPresent(.caCertPem)
+        self.discoveryBase = try container.sdkDecodeIfPresent(.discoveryBase)
+            try sdkValidateRawEnum("type", self.type, BetaJwksDiscoveryType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaJwksDiscovery {
-    init(type: BetaJwksDiscoveryType, caCertPem: String? = nil, discoveryBase: String? = nil) throws {
+extension BetaJwksDiscovery {
+    public init(type: BetaJwksDiscoveryType, caCertPem: String? = nil, discoveryBase: String? = nil) throws {
         (self.type, self.caCertPem) = (type, caCertPem)
         self.discoveryBase = discoveryBase
-        try sdkValidateRawEnum("type", self.type, BetaJwksDiscoveryType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaJwksDiscoveryType.allCases.map(\.rawValue))
     }
 }
 
@@ -115,40 +99,30 @@ public struct BetaJwksInline: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaJwksInline {
-    init(from decoder: Decoder) throws {
+extension BetaJwksInline {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.keys) else {
-            throw SdkValidationError(
-                field: "keys",
-                code: "required",
-                message: "Validation failed for 'keys': value is required"
-            )
+            throw SdkValidationError(field: "keys", code: "required", message: "Validation failed for 'keys': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        keys = try container.sdkDecodeRequired(.keys)
-        type = try container.sdkDecodeRequired(.type)
-        try validateItems("keys", keys, min: 1, max: nil)
-        try sdkValidateRawEnum("type", type, BetaJwksInlineType.allCases.map(\.rawValue))
+        self.keys = try container.sdkDecodeRequired(.keys)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateItems("keys", self.keys, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, BetaJwksInlineType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaJwksInline {
-    init(keys: [[String: JSONValue]], type: BetaJwksInlineType) throws {
+extension BetaJwksInline {
+    public init(keys: [[String: JSONValue]], type: BetaJwksInlineType) throws {
         (self.keys, self.type) = (keys, type)
-        try validateItems("keys", self.keys, min: 1, max: nil)
-        try sdkValidateRawEnum("type", self.type, BetaJwksInlineType.allCases.map(\.rawValue))
+            try validateItems("keys", self.keys, min: 1, max: nil)
+            try sdkValidateRawEnum("type", self.type, BetaJwksInlineType.allCases.map(\.rawValue))
     }
 }
 

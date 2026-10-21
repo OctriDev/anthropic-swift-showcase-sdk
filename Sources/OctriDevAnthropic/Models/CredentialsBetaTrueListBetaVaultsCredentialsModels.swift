@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// CredentialsBetaTrue domain models
+// CredentialsBetaTrue domain models
 /// Response containing a paginated list of credentials.
 public struct BetaManagedAgentsListCredentialsResponse: Codable {
     /// List of credentials.
@@ -17,20 +17,20 @@ public struct BetaManagedAgentsListCredentialsResponse: Codable {
     }
 
     init() {
-        (data, nextPage) = (nil, nil)
+        (self.data, self.nextPage) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsListCredentialsResponse {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsListCredentialsResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        data = try container.sdkDecodeIfPresent(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeIfPresent(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaManagedAgentsListCredentialsResponse {
-    init(data: [BetaManagedAgentsCredential]? = nil, nextPage: String? = nil) {
+extension BetaManagedAgentsListCredentialsResponse {
+    public init(data: [BetaManagedAgentsCredential]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }

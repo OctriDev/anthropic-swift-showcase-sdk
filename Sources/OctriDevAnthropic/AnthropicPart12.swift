@@ -9,107 +9,37 @@ public class BetaOrganizationsSpendLimitIncreaseRequestsNamespace {
         self.config = config
     }
 
-    /// Retrieve a spend limit increase request. While `pending`, the response includes a live `spend_summary` for the
-    /// requester at the request's period.
-    public func retrieve(
-        spendLimitIncreaseRequestId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSpendLimitIncreaseRequestSchema {
-        try await BetaOrganizationsSpendLimitIncreaseRequestsMethods
-            .retrieveBetaOrganizationsSpendLimitIncreaseRequests(
-                config: config,
-                spendLimitIncreaseRequestId: spendLimitIncreaseRequestId,
-                requestOptions: requestOptions
-            )
+/// Retrieve a spend limit increase request. While `pending`, the response includes a live `spend_summary` for the requester at the request's period.
+    public func retrieve(spendLimitIncreaseRequestId: String, requestOptions: RequestOptions? = nil) async throws -> BetaSpendLimitIncreaseRequestSchema {
+        return try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.retrieveBetaOrganizationsSpendLimitIncreaseRequests(config: config, spendLimitIncreaseRequestId: spendLimitIncreaseRequestId, requestOptions: requestOptions)
     }
 
-    /// Denies a pending spend limit increase request and records the request as denied. Denying an already-denied
-    /// request is idempotent, while denying an approved request is rejected; the requester is emailed unless
-    /// `suppress_notification` is set.
+/// Denies a pending spend limit increase request and records the request as denied. Denying an already-denied request is idempotent, while denying an approved request is rejected; the requester is emailed unless `suppress_notification` is set.
     ///
-    /// Deny a pending spend limit increase request. Idempotent on `denied`; denying an already-`approved` request
-    /// returns 400. Anthropic emails the requester unless `suppress_notification` is set.
-    public func deny(
-        spendLimitIncreaseRequestId: String,
-        suppressNotification: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSpendLimitIncreaseRequestSchema {
-        try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.denyBetaOrganizationsSpendLimitIncreaseRequests(
-            config: config,
-            spendLimitIncreaseRequestId: spendLimitIncreaseRequestId,
-            suppressNotification: suppressNotification,
-            requestOptions: requestOptions
-        )
+    /// Deny a pending spend limit increase request. Idempotent on `denied`; denying an already-`approved` request returns 400. Anthropic emails the requester unless `suppress_notification` is set.
+    public func deny(spendLimitIncreaseRequestId: String, suppressNotification: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSpendLimitIncreaseRequestSchema {
+        return try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.denyBetaOrganizationsSpendLimitIncreaseRequests(config: config, spendLimitIncreaseRequestId: spendLimitIncreaseRequestId, suppressNotification: suppressNotification, requestOptions: requestOptions)
     }
 
-    /// Approves a pending spend limit increase request and creates a per-user spend limit for the requester. Supply
-    /// `amount` as a non-negative integer decimal string in minor units; `period` defaults to the period the member was
-    /// blocked on, and the requester is emailed unless `suppress_notification` is set.
+/// Approves a pending spend limit increase request and creates a per-user spend limit for the requester. Supply `amount` as a non-negative integer decimal string in minor units; `period` defaults to the period the member was blocked on, and the requester is emailed unless `suppress_notification` is set.
     ///
-    /// Approve a pending spend limit increase request. Writes a per-user spend limit at `amount` for the requester and
-    /// transitions the request to `approved`. `period` defaults to the period the member was blocked on. Anthropic
-    /// emails the requester unless `suppress_notification` is set.
-    public func approve(
-        spendLimitIncreaseRequestId: String,
-        amount: String,
-        period: SdkOptional<BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0>? = nil,
-        suppressNotification: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaApproveSpendLimitIncreaseRequestResponse {
-        try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.approveBetaOrganizationsSpendLimitIncreaseRequests(
-            config: config,
-            spendLimitIncreaseRequestId: spendLimitIncreaseRequestId,
-            amount: amount,
-            period: period,
-            suppressNotification: suppressNotification,
-            requestOptions: requestOptions
-        )
+    /// Approve a pending spend limit increase request. Writes a per-user spend limit at `amount` for the requester and transitions the request to `approved`. `period` defaults to the period the member was blocked on. Anthropic emails the requester unless `suppress_notification` is set.
+    public func approve(spendLimitIncreaseRequestId: String, amount: String, period: SdkOptional<BetaApproveSpendLimitIncreaseRequestParamsPeriodVariant0>? = nil, suppressNotification: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaApproveSpendLimitIncreaseRequestResponse {
+        return try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.approveBetaOrganizationsSpendLimitIncreaseRequests(config: config, spendLimitIncreaseRequestId: spendLimitIncreaseRequestId, amount: amount, period: period, suppressNotification: suppressNotification, requestOptions: requestOptions)
     }
 
-    /// Lists spend limit increase requests, ordered from most recent to oldest. Filter by request status or requester,
-    /// and use the `page` cursor from a previous response to continue through the results; pending requests include a
-    /// live `spend_summary`, while requests from former members are excluded.
+/// Lists spend limit increase requests, ordered from most recent to oldest. Filter by request status or requester, and use the `page` cursor from a previous response to continue through the results; pending requests include a live `spend_summary`, while requests from former members are excluded.
     ///
-    /// List spend limit increase requests, most recent first. Pending requests include a live `spend_summary` for the
-    /// requester. Requests whose requester is no longer a member are excluded.
-    public func list(
-        status: [ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem]? = nil,
-        actorIds: [String]? = nil,
-        page: String? = nil,
-        limit: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSpendLimitIncreaseRequestListResponse {
-        try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.listBetaOrganizationsSpendLimitIncreaseRequests(
-            config: config,
-            status: status,
-            actorIds: actorIds,
-            page: page,
-            limit: limit,
-            requestOptions: requestOptions
-        )
+    /// List spend limit increase requests, most recent first. Pending requests include a live `spend_summary` for the requester. Requests whose requester is no longer a member are excluded.
+    public func list(status: [ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem]? = nil, actorIds: [String]? = nil, page: String? = nil, limit: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSpendLimitIncreaseRequestListResponse {
+        return try await BetaOrganizationsSpendLimitIncreaseRequestsMethods.listBetaOrganizationsSpendLimitIncreaseRequests(config: config, status: status, actorIds: actorIds, page: page, limit: limit, requestOptions: requestOptions)
     }
 
-    /// Lists spend limit increase requests, ordered from most recent to oldest. Filter by request status or requester,
-    /// and use the `page` cursor from a previous response to continue through the results; pending requests include a
-    /// live `spend_summary`, while requests from former members are excluded.
+/// Lists spend limit increase requests, ordered from most recent to oldest. Filter by request status or requester, and use the `page` cursor from a previous response to continue through the results; pending requests include a live `spend_summary`, while requests from former members are excluded.
     ///
-    /// List spend limit increase requests, most recent first. Pending requests include a live `spend_summary` for the
-    /// requester. Requests whose requester is no longer a member are excluded.
-    public func listPaginated(
-        status: [ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem]? = nil,
-        actorIds: [String]? = nil,
-        page: String? = nil,
-        limit: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaSpendLimitIncreaseRequestSchema, Swift.Error> {
-        BetaOrganizationsSpendLimitIncreaseRequestsMethods.listBetaOrganizationsSpendLimitIncreaseRequestsPaginated(
-            config: config,
-            status: status,
-            actorIds: actorIds,
-            page: page,
-            limit: limit,
-            requestOptions: requestOptions
-        )
+    /// List spend limit increase requests, most recent first. Pending requests include a live `spend_summary` for the requester. Requests whose requester is no longer a member are excluded.
+    public func listPaginated(status: [ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem]? = nil, actorIds: [String]? = nil, page: String? = nil, limit: Int? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaSpendLimitIncreaseRequestSchema, Swift.Error> {
+        return BetaOrganizationsSpendLimitIncreaseRequestsMethods.listBetaOrganizationsSpendLimitIncreaseRequestsPaginated(config: config, status: status, actorIds: actorIds, page: page, limit: limit, requestOptions: requestOptions)
     }
 }
 
@@ -119,138 +49,39 @@ public class BetaOrganizationsTunnelsCertificatesNamespace {
         self.config = config
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Register a public CA certificate for the tunnel. Anthropic verifies the gateway's server
-    /// certificate against this CA when it terminates the inner TLS session. The PEM body must contain exactly one
-    /// X.509 certificate and no private-key material. A tunnel holds at most two non-archived certificates.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Register a public CA certificate for the tunnel. Anthropic verifies the gateway's server certificate against this CA when it terminates the inner TLS session. The PEM body must contain exactly one X.509 certificate and no private-key material. A tunnel holds at most two non-archived certificates.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func create(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        caCertificatePem: String,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelCertificate {
-        try await BetaOrganizationsTunnelsCertificatesMethods.createBetaOrganizationsTunnelsCertificates(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            caCertificatePem: caCertificatePem,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func create(tunnelId: String, anthropicBeta: [AnthropicBeta], caCertificatePem: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelCertificate {
+        return try await BetaOrganizationsTunnelsCertificatesMethods.createBetaOrganizationsTunnelsCertificates(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, caCertificatePem: caCertificatePem, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. List the certificates registered on a tunnel. Archived certificates are excluded unless
-    /// `include_archived` is set.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. List the certificates registered on a tunnel. Archived certificates are excluded unless `include_archived` is set.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func list(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaTunnelCertificateListResponse {
-        try await BetaOrganizationsTunnelsCertificatesMethods.listBetaOrganizationsTunnelsCertificates(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            page: page,
-            limit: limit,
-            includeArchived: includeArchived,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func list(tunnelId: String, anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelCertificateListResponse {
+        return try await BetaOrganizationsTunnelsCertificatesMethods.listBetaOrganizationsTunnelsCertificates(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, page: page, limit: limit, includeArchived: includeArchived, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. List the certificates registered on a tunnel. Archived certificates are excluded unless
-    /// `include_archived` is set.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. List the certificates registered on a tunnel. Archived certificates are excluded unless `include_archived` is set.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func listPaginated(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaOrganizationTunnelCertificate, Swift.Error> {
-        BetaOrganizationsTunnelsCertificatesMethods.listBetaOrganizationsTunnelsCertificatesPaginated(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            page: page,
-            limit: limit,
-            includeArchived: includeArchived,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func listPaginated(tunnelId: String, anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaOrganizationTunnelCertificate, Swift.Error> {
+        return BetaOrganizationsTunnelsCertificatesMethods.listBetaOrganizationsTunnelsCertificatesPaginated(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, page: page, limit: limit, includeArchived: includeArchived, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Retrieve a single certificate registered on a tunnel by ID.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Retrieve a single certificate registered on a tunnel by ID.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func retrieve(
-        tunnelId: String,
-        certificateId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelCertificate {
-        try await BetaOrganizationsTunnelsCertificatesMethods.retrieveBetaOrganizationsTunnelsCertificates(
-            config: config,
-            tunnelId: tunnelId,
-            certificateId: certificateId,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func retrieve(tunnelId: String, certificateId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelCertificate {
+        return try await BetaOrganizationsTunnelsCertificatesMethods.retrieveBetaOrganizationsTunnelsCertificates(config: config, tunnelId: tunnelId, certificateId: certificateId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Archive a certificate, removing it from the set Anthropic trusts for this tunnel. The
-    /// certificate record is retained. Archiving the last non-archived certificate is permitted; the tunnel rejects MCP
-    /// traffic until a new certificate is added.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Archive a certificate, removing it from the set Anthropic trusts for this tunnel. The certificate record is retained. Archiving the last non-archived certificate is permitted; the tunnel rejects MCP traffic until a new certificate is added.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func archive(
-        tunnelId: String,
-        certificateId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelCertificate {
-        try await BetaOrganizationsTunnelsCertificatesMethods.archiveBetaOrganizationsTunnelsCertificates(
-            config: config,
-            tunnelId: tunnelId,
-            certificateId: certificateId,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func archive(tunnelId: String, certificateId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelCertificate {
+        return try await BetaOrganizationsTunnelsCertificatesMethods.archiveBetaOrganizationsTunnelsCertificates(config: config, tunnelId: tunnelId, certificateId: certificateId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 }
 
@@ -262,165 +93,48 @@ public class BetaOrganizationsTunnelsNamespace {
         certificates = BetaOrganizationsTunnelsCertificatesNamespace(config: config)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation
-    /// time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless
-    /// `include_archived` is set.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless `include_archived` is set.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func list(
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        workspaceId: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaTunnelListResponse {
-        try await BetaOrganizationsTunnelsMethods.listBetaOrganizationsTunnels(
-            config: config,
-            anthropicBeta: anthropicBeta,
-            page: page,
-            limit: limit,
-            workspaceId: workspaceId,
-            includeArchived: includeArchived,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func list(anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, workspaceId: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelListResponse {
+        return try await BetaOrganizationsTunnelsMethods.listBetaOrganizationsTunnels(config: config, anthropicBeta: anthropicBeta, page: page, limit: limit, workspaceId: workspaceId, includeArchived: includeArchived, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation
-    /// time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless
-    /// `include_archived` is set.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless `include_archived` is set.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func listPaginated(
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        workspaceId: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error> {
-        BetaOrganizationsTunnelsMethods.listBetaOrganizationsTunnelsPaginated(
-            config: config,
-            anthropicBeta: anthropicBeta,
-            page: page,
-            limit: limit,
-            workspaceId: workspaceId,
-            includeArchived: includeArchived,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func listPaginated(anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, workspaceId: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error> {
+        return BetaOrganizationsTunnelsMethods.listBetaOrganizationsTunnelsPaginated(config: config, anthropicBeta: anthropicBeta, page: page, limit: limit, workspaceId: workspaceId, includeArchived: includeArchived, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Retrieve a single tunnel in the caller's organization by ID.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Retrieve a single tunnel in the caller's organization by ID.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func retrieve(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnel {
-        try await BetaOrganizationsTunnelsMethods.retrieveBetaOrganizationsTunnels(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func retrieve(tunnelId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnel {
+        return try await BetaOrganizationsTunnelsMethods.retrieveBetaOrganizationsTunnels(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Archive a tunnel. Archival is irreversible. Every non-archived certificate on the tunnel is
-    /// archived in the same operation, the hostname is retired and never re-allocated, and the tunnel token is
-    /// invalidated. Retrying against an already-archived tunnel returns the existing record unchanged.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Archive a tunnel. Archival is irreversible. Every non-archived certificate on the tunnel is archived in the same operation, the hostname is retired and never re-allocated, and the tunnel token is invalidated. Retrying against an already-archived tunnel returns the existing record unchanged.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func archive(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnel {
-        try await BetaOrganizationsTunnelsMethods.archiveBetaOrganizationsTunnels(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func archive(tunnelId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnel {
+        return try await BetaOrganizationsTunnelsMethods.archiveBetaOrganizationsTunnels(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Return the tunnel's current connection token. The value is fetched live on each call;
-    /// Anthropic does not store it. Repeated calls return the same value until the token is rotated. Exposed as `POST`
-    /// so the token does not appear in intermediary access logs.
+/// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Return the tunnel's current connection token. The value is fetched live on each call; Anthropic does not store it. Repeated calls return the same value until the token is rotated. Exposed as `POST` so the token does not appear in intermediary access logs.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func revealToken(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelToken {
-        try await BetaOrganizationsTunnelsMethods.revealBetaOrganizationsTunnelsToken(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            requestOptions: requestOptions
-        )
+    public func revealToken(tunnelId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelToken {
+        return try await BetaOrganizationsTunnelsMethods.revealBetaOrganizationsTunnelsToken(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
     }
 
-    /// Rotates a tunnel's token, invalidating the previous token for new connections and returning a fresh value.
-    /// Established connections remain active, but connectors restarted after rotation must use the new token; provide
-    /// `reason` to record operational context. This operation is closing down and will be removed after the migration
-    /// window; use the replacement tunnel endpoint for new integrations.
+/// Rotates a tunnel's token, invalidating the previous token for new connections and returning a fresh value. Established connections remain active, but connectors restarted after rotation must use the new token; provide `reason` to record operational context. This operation is closing down and will be removed after the migration window; use the replacement tunnel endpoint for new integrations.
     ///
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. Invalidate the tunnel's current token for new connections and return a fresh value.
-    /// Established connections are not severed by rotation; a connector restarted after rotation must use the new
-    /// value. An optional `reason` is captured for operational context.
+    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. Invalidate the tunnel's current token for new connections and return a fresh value. Established connections are not severed by rotation; a connector restarted after rotation must use the new value. An optional `reason` is captured for operational context.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func rotateToken(
-        tunnelId: String,
-        anthropicBeta: [AnthropicBeta],
-        anthropicVersion: String? = nil,
-        body: BetaRotateTunnelTokenParams? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaOrganizationTunnelToken {
-        try await BetaOrganizationsTunnelsMethods.rotateBetaOrganizationsTunnelsToken(
-            config: config,
-            tunnelId: tunnelId,
-            anthropicBeta: anthropicBeta,
-            anthropicVersion: anthropicVersion,
-            body: body,
-            requestOptions: requestOptions
-        )
+    public func rotateToken(tunnelId: String, anthropicBeta: [AnthropicBeta], anthropicVersion: String? = nil, body: BetaRotateTunnelTokenParams? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationTunnelToken {
+        return try await BetaOrganizationsTunnelsMethods.rotateBetaOrganizationsTunnelsToken(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicVersion: anthropicVersion, body: body, requestOptions: requestOptions)
     }
 }
 
@@ -430,68 +144,24 @@ public class BetaOrganizationsRbacGroupsMembersNamespace {
         self.config = config
     }
 
-    /// Remove a User from an RBAC Group. Membership of groups provisioned by an identity provider (source type
-    /// `"scim"`) cannot be modified via the API while an organization in the tenant uses SCIM provisioning. The RBAC
-    /// Groups API is available to Claude Enterprise organizations only.
-    public func delete(
-        groupId: String,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaDeleteRbacGroupMemberResponse {
-        try await BetaOrganizationsRbacGroupsMembersMethods.deleteBetaOrganizationsRbacGroupsMembers(
-            config: config,
-            groupId: groupId,
-            userId: userId,
-            requestOptions: requestOptions
-        )
+/// Remove a User from an RBAC Group. Membership of groups provisioned by an identity provider (source type `"scim"`) cannot be modified via the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func delete(groupId: String, userId: String, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteRbacGroupMemberResponse {
+        return try await BetaOrganizationsRbacGroupsMembersMethods.deleteBetaOrganizationsRbacGroupsMembers(config: config, groupId: groupId, userId: userId, requestOptions: requestOptions)
     }
 
-    /// List members of an RBAC Group. The RBAC Groups API is available to Claude Enterprise organizations only.
-    public func list(
-        groupId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRbacGroupMemberList {
-        try await BetaOrganizationsRbacGroupsMembersMethods.listBetaOrganizationsRbacGroupsMembers(
-            config: config,
-            groupId: groupId,
-            limit: limit,
-            page: page,
-            requestOptions: requestOptions
-        )
+/// List members of an RBAC Group. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func list(groupId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroupMemberList {
+        return try await BetaOrganizationsRbacGroupsMembersMethods.listBetaOrganizationsRbacGroupsMembers(config: config, groupId: groupId, limit: limit, page: page, requestOptions: requestOptions)
     }
 
-    /// List members of an RBAC Group. The RBAC Groups API is available to Claude Enterprise organizations only.
-    public func listPaginated(
-        groupId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaRbacGroupMember, Swift.Error> {
-        BetaOrganizationsRbacGroupsMembersMethods.listBetaOrganizationsRbacGroupsMembersPaginated(
-            config: config,
-            groupId: groupId,
-            limit: limit,
-            page: page,
-            requestOptions: requestOptions
-        )
+/// List members of an RBAC Group. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func listPaginated(groupId: String, limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaRbacGroupMember, Swift.Error> {
+        return BetaOrganizationsRbacGroupsMembersMethods.listBetaOrganizationsRbacGroupsMembersPaginated(config: config, groupId: groupId, limit: limit, page: page, requestOptions: requestOptions)
     }
 
-    /// Add a User to an RBAC Group. Membership of groups provisioned by an identity provider (source type `"scim"`)
-    /// cannot be modified via the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API
-    /// is available to Claude Enterprise organizations only.
-    public func create(
-        groupId: String,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRbacGroupMember {
-        try await BetaOrganizationsRbacGroupsMembersMethods.createBetaOrganizationsRbacGroupsMembers(
-            config: config,
-            groupId: groupId,
-            userId: userId,
-            requestOptions: requestOptions
-        )
+/// Add a User to an RBAC Group. Membership of groups provisioned by an identity provider (source type `"scim"`) cannot be modified via the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func create(groupId: String, userId: String, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroupMember {
+        return try await BetaOrganizationsRbacGroupsMembersMethods.createBetaOrganizationsRbacGroupsMembers(config: config, groupId: groupId, userId: userId, requestOptions: requestOptions)
     }
 }
 
@@ -503,82 +173,33 @@ public class BetaOrganizationsRbacGroupsNamespace {
         members = BetaOrganizationsRbacGroupsMembersNamespace(config: config)
     }
 
-    /// Create an RBAC Group in the Claude Enterprise tenant. Groups created via the API have source type `"direct"`.
-    /// The RBAC Groups API is available to Claude Enterprise organizations only.
+/// Create an RBAC Group in the Claude Enterprise tenant. Groups created via the API have source type `"direct"`. The RBAC Groups API is available to Claude Enterprise organizations only.
     public func create(name: String, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroup {
-        try await BetaOrganizationsRbacGroupsMethods.createBetaOrganizationsRbacGroups(
-            config: config,
-            name: name,
-            requestOptions: requestOptions
-        )
+        return try await BetaOrganizationsRbacGroupsMethods.createBetaOrganizationsRbacGroups(config: config, name: name, requestOptions: requestOptions)
     }
 
-    /// List RBAC Groups in the Claude Enterprise tenant. The RBAC Groups API is available to Claude Enterprise
-    /// organizations only.
-    public func list(
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRbacGroupList {
-        try await BetaOrganizationsRbacGroupsMethods.listBetaOrganizationsRbacGroups(
-            config: config,
-            limit: limit,
-            page: page,
-            requestOptions: requestOptions
-        )
+/// List RBAC Groups in the Claude Enterprise tenant. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func list(limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroupList {
+        return try await BetaOrganizationsRbacGroupsMethods.listBetaOrganizationsRbacGroups(config: config, limit: limit, page: page, requestOptions: requestOptions)
     }
 
-    /// List RBAC Groups in the Claude Enterprise tenant. The RBAC Groups API is available to Claude Enterprise
-    /// organizations only.
-    public func listPaginated(
-        limit: Int? = nil,
-        page: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaRbacGroup, Swift.Error> {
-        BetaOrganizationsRbacGroupsMethods.listBetaOrganizationsRbacGroupsPaginated(
-            config: config,
-            limit: limit,
-            page: page,
-            requestOptions: requestOptions
-        )
+/// List RBAC Groups in the Claude Enterprise tenant. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func listPaginated(limit: Int? = nil, page: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaRbacGroup, Swift.Error> {
+        return BetaOrganizationsRbacGroupsMethods.listBetaOrganizationsRbacGroupsPaginated(config: config, limit: limit, page: page, requestOptions: requestOptions)
     }
 
-    /// Update an RBAC Group's name. Groups provisioned by an identity provider (source type `"scim"`) cannot be
-    /// modified via the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API is
-    /// available to Claude Enterprise organizations only.
-    public func update(
-        groupId: String,
-        name: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaRbacGroup {
-        try await BetaOrganizationsRbacGroupsMethods.updateBetaOrganizationsRbacGroups(
-            config: config,
-            groupId: groupId,
-            name: name,
-            requestOptions: requestOptions
-        )
+/// Update an RBAC Group's name. Groups provisioned by an identity provider (source type `"scim"`) cannot be modified via the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func update(groupId: String, name: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroup {
+        return try await BetaOrganizationsRbacGroupsMethods.updateBetaOrganizationsRbacGroups(config: config, groupId: groupId, name: name, requestOptions: requestOptions)
     }
 
-    /// Delete an RBAC Group. Groups provisioned by an identity provider (source type `"scim"`) cannot be deleted via
-    /// the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API is available to Claude
-    /// Enterprise organizations only.
-    public func delete(
-        groupId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaDeleteRbacGroupResponse {
-        try await BetaOrganizationsRbacGroupsMethods.deleteBetaOrganizationsRbacGroups(
-            config: config,
-            groupId: groupId,
-            requestOptions: requestOptions
-        )
+/// Delete an RBAC Group. Groups provisioned by an identity provider (source type `"scim"`) cannot be deleted via the API while an organization in the tenant uses SCIM provisioning. The RBAC Groups API is available to Claude Enterprise organizations only.
+    public func delete(groupId: String, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteRbacGroupResponse {
+        return try await BetaOrganizationsRbacGroupsMethods.deleteBetaOrganizationsRbacGroups(config: config, groupId: groupId, requestOptions: requestOptions)
     }
 
-    /// Retrieve an RBAC Group by ID. The RBAC Groups API is available to Claude Enterprise organizations only.
+/// Retrieve an RBAC Group by ID. The RBAC Groups API is available to Claude Enterprise organizations only.
     public func retrieve(groupId: String, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroup {
-        try await BetaOrganizationsRbacGroupsMethods.retrieveBetaOrganizationsRbacGroups(
-            config: config,
-            groupId: groupId,
-            requestOptions: requestOptions
-        )
+        return try await BetaOrganizationsRbacGroupsMethods.retrieveBetaOrganizationsRbacGroups(config: config, groupId: groupId, requestOptions: requestOptions)
     }
 }

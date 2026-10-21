@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedRefusal domain models
+// SharedRefusal domain models
 /// Structured information about a refusal.
 public struct RefusalStopDetails: Codable {
     /// The policy category that triggered the refusal. `null` when the refusal doesn't map to a named category.
@@ -20,47 +20,33 @@ public struct RefusalStopDetails: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RefusalStopDetails {
-    init(from decoder: Decoder) throws {
+extension RefusalStopDetails {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.category) else {
-            throw SdkValidationError(
-                field: "category",
-                code: "required",
-                message: "Validation failed for 'category': value is required"
-            )
+            throw SdkValidationError(field: "category", code: "required", message: "Validation failed for 'category': value is required")
         }
         guard container.contains(.explanation) else {
-            throw SdkValidationError(
-                field: "explanation",
-                code: "required",
-                message: "Validation failed for 'explanation': value is required"
-            )
+            throw SdkValidationError(field: "explanation", code: "required", message: "Validation failed for 'explanation': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        category = try container.sdkDecodeNullable(.category)
-        explanation = try container.sdkDecodeNullable(.explanation)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, RefusalStopDetailsType.allCases.map(\.rawValue))
+        self.category = try container.sdkDecodeNullable(.category)
+        self.explanation = try container.sdkDecodeNullable(.explanation)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, RefusalStopDetailsType.allCases.map(\.rawValue))
     }
 }
 
-public extension RefusalStopDetails {
-    init(category: RefusalCategory?, explanation: String?, type: RefusalStopDetailsType) throws {
+extension RefusalStopDetails {
+    public init(category: RefusalCategory?, explanation: String?, type: RefusalStopDetailsType) throws {
         (self.category, self.explanation) = (category, explanation)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, RefusalStopDetailsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, RefusalStopDetailsType.allCases.map(\.rawValue))
     }
 }
 
@@ -86,10 +72,7 @@ public enum RefusalStopDetailsType: String, CaseIterable, Codable {
 public struct RefusalCategory: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let cyber = RefusalCategory(rawValue: "cyber")
     public static let bio = RefusalCategory(rawValue: "bio")
     public static let frontierLlm = RefusalCategory(rawValue: "frontier_llm")
@@ -98,7 +81,7 @@ public struct RefusalCategory: RawRepresentable, Hashable, Codable, Sendable, Sd
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

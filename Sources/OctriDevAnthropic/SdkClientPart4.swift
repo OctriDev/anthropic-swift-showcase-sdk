@@ -7,470 +7,470 @@ import Foundation
     import FoundationNetworking
 #endif
 
-func apiKeyOperationSecurityPart13(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart13(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "listBetaUserProfiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listBetaVaults":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listBetaVaultsCredentials":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listFiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listMessagesBatches":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listModels":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listSkills":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "listSkillsVersions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "pauseBetaDeployments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "permissionsBetaOrganizationsRbacRoles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "pollBetaEnvironmentsWork":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "redactBetaMemoryStoresMemoryVersions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart14(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart14(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "resultsBetaMessagesBatches":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "resultsMessagesBatches":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaAgents":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaDeploymentRuns":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaDeployments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaDreams":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaEnvironments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaEnvironmentsWork":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaEnvironmentsWorkStats":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaFiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaMemoryStores":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaMemoryStoresMemories":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart15(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart15(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "retrieveBetaMemoryStoresMemoryVersions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaMessagesBatches":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaModels":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsAnalyticsCostReport":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsAnalyticsUsageReport":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsAnalyticsUserCostReport":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsAnalyticsUserUsageReport":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsApiKeys":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsCostReport":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsExternalKeys":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsFederationIssuers":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsFederationRules":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart16(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart16(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "retrieveBetaOrganizationsInvites":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsMe":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsRbacGroups":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsRbacRoles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsServiceAccounts":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsSpendLimitIncreaseRequests":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsSpendLimits":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsSpendLimitsEffective":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsTunnels":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsTunnelsCertificates":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsUsageReportClaudeCode":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsUsers":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart17(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart17(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "retrieveBetaOrganizationsWorkspaces":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsWorkspacesMembers":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaOrganizationsWorkspacesServiceAccounts":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaSessions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaSessionsResources":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaSessionsThreads":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaSkills":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaSkillsVersions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaTunnels":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaTunnelsCertificates":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaUserProfiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveBetaVaults":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart18(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart18(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "retrieveBetaVaultsCredentials":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveFiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveMessagesBatches":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveModels":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveSkills":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "retrieveSkillsVersions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "revealBetaOrganizationsTunnelsToken":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "revealBetaTunnelsToken":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "rotateBetaOrganizationsTunnelsToken":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "rotateBetaTunnelsToken":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "runBetaDeployments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "stopBetaEnvironmentsWork":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart19(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart19(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "streamBetaSessionsEvents":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "streamBetaSessionsThreads":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "unpauseBetaDeployments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaAgents":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaDeployments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaEnvironments":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaEnvironmentsWork":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaMemoryStores":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaMemoryStoresMemories":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsApiKeys":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsExternalKeys":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsFederationIssuers":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart20(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart20(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "updateBetaOrganizationsFederationRules":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsRbacGroups":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsServiceAccounts":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsUsers":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsWorkspaces":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsWorkspacesMembers":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaOrganizationsWorkspacesServiceAccounts":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaSessions":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaSessionsResources":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaUserProfiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaVaults":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "updateBetaVaultsCredentials":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurityPart21(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurityPart21(_ operationId: String) -> [[String]]? {
     switch operationId {
     case "uploadBetaFiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "uploadFiles":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "validateBetaOrganizationsExternalKeys":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     case "validateBetaVaultsCredentialsMcpOauth":
-        [
-            ["ApiKeyAuth"],
+        return [
+            ["ApiKeyAuth"]
         ]
     default:
-        nil
+        return nil
     }
 }
 
-func apiKeyOperationSecurity(_ operationId: String) -> [[String]]? {
+internal func apiKeyOperationSecurity(_ operationId: String) -> [[String]]? {
     let lookups: [(String) -> [[String]]?] = [
         apiKeyOperationSecurityPart1,
         apiKeyOperationSecurityPart2,
@@ -495,29 +495,27 @@ func apiKeyOperationSecurity(_ operationId: String) -> [[String]]? {
         apiKeyOperationSecurityPart21,
     ]
     for lookup in lookups {
-        if let security = lookup(operationId) {
-            return security
-        }
+        if let security = lookup(operationId) { return security }
     }
     return nil
 }
 
-func isApiKeyScheme(_ name: String) -> Bool {
+internal func isApiKeyScheme(_ name: String) -> Bool {
     switch name {
     case "ApiKeyAuth":
-        true
+        return true
     default:
-        false
+        return false
     }
 }
 
 /// Whether the caller configured the credential this scheme reads.
-func hasCredential(_ auth: ClientAuthConfig, _ name: String) -> Bool {
+internal func hasCredential(_ auth: ClientAuthConfig, _ name: String) -> Bool {
     switch name {
     case "ApiKeyAuth":
-        !(auth.apiKeyAuth?.isEmpty ?? true)
+        return !(auth.apiKeyAuth?.isEmpty ?? true)
     default:
-        false
+        return false
     }
 }
 
@@ -525,7 +523,7 @@ func hasCredential(_ auth: ClientAuthConfig, _ name: String) -> Bool {
 /// credentials for several schemes usually has only some of them configured,
 /// so a configured alternative wins over the first supported one; with none
 /// configured the first supported alternative still applies.
-func selectApiKeyRequirement(_ requirements: [[String]], _ auth: ClientAuthConfig?) -> [String]? {
+internal func selectApiKeyRequirement(_ requirements: [[String]], _ auth: ClientAuthConfig?) -> [String]? {
     let supported = requirements.filter { $0.allSatisfy { isApiKeyScheme($0) } }
     if let auth, let configured = supported.first(where: { $0.allSatisfy { hasCredential(auth, $0) } }) {
         return configured
@@ -539,12 +537,14 @@ struct AuthResolved {
 }
 
 func resolveAuth(_ config: ClientConfig, operationId: String) async throws -> AuthResolved {
+
+
     var headers: [String: String] = [:]
     let query: [(String, String?)] = []
     guard let security = apiKeyOperationSecurity(operationId) else {
         return AuthResolved(headers: headers, query: query)
     }
-    if security.isEmpty || security.contains(where: \.isEmpty) {
+    if security.isEmpty || security.contains(where: { $0.isEmpty }) {
         return AuthResolved(headers: headers, query: query)
     }
     guard let selected = selectApiKeyRequirement(security, config.auth) else {
@@ -559,15 +559,14 @@ func resolveAuth(_ config: ClientConfig, operationId: String) async throws -> Au
     }
 
     if selected.contains("ApiKeyAuth") {
-        if let v = auth.apiKeyAuth {
-            headers["x-api-key"] = v
-        }
+        if let v = auth.apiKeyAuth { headers["x-api-key"] = v }
     }
 
     return AuthResolved(headers: headers, query: query)
+
 }
 
-func flattenHeaders(_ response: HTTPURLResponse) -> [String: String] {
+internal func flattenHeaders(_ response: HTTPURLResponse) -> [String: String] {
     var result: [String: String] = [:]
     for (key, value) in response.allHeaderFields {
         if let k = key as? String {
@@ -579,29 +578,23 @@ func flattenHeaders(_ response: HTTPURLResponse) -> [String: String] {
 
 /// An explicit per-call key always wins and an empty one sends none; otherwise
 /// a key is generated for the methods the idempotency config covers.
-func resolveIdempotencyKey(_ explicitKey: String?, idem: IdempotencyConfig, method: String) -> String? {
+internal func resolveIdempotencyKey(_ explicitKey: String?, idem: IdempotencyConfig, method: String) -> String? {
     if let explicitKey {
         return explicitKey.isEmpty ? nil : explicitKey
     }
     return idem.enabled && idem.methods.contains(method) ? UUID().uuidString : nil
 }
 
-func shouldRetry(method: String, statusCode: Int, retryOn: [Int]) -> Bool {
-    guard retryOn.contains(statusCode) else {
-        return false
-    }
-    if idempotentMethods.contains(method) {
-        return true
-    }
+internal func shouldRetry(method: String, statusCode: Int, retryOn: [Int]) -> Bool {
+    guard retryOn.contains(statusCode) else { return false }
+    if idempotentMethods.contains(method) { return true }
     return alwaysRetryableStatuses.contains(statusCode)
 }
 
 /// An attempt that produced no response may already have been applied, so a
 /// non-idempotent method is repeated only with a key sent to an operation
 /// that declares the server deduplicates on it.
-func mayRepeatRequest(_ method: String, _ operationId: String, _ idempotencyKey: String?) -> Bool {
-    if idempotentMethods.contains(method) {
-        return true
-    }
+internal func mayRepeatRequest(_ method: String, _ operationId: String, _ idempotencyKey: String?) -> Bool {
+    if idempotentMethods.contains(method) { return true }
     return idempotencyKey != nil && idempotencyKeyOperations.contains(operationId)
 }

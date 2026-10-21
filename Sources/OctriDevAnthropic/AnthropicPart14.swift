@@ -9,42 +9,14 @@ public class BetaOrganizationsAnalyticsPluginsNamespace {
         self.config = config
     }
 
-    /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the
-    /// organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an
-    /// aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client
-    /// did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and
-    /// to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork /
-    /// Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
-    /// Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode
-    /// like `/skills`.
-    public func list(
-        options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsPluginsResponse {
-        try await BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPlugins(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+/// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork / Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode like `/skills`.
+    public func list(options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsPluginsResponse {
+        return try await BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPlugins(config: config, options: options, requestOptions: requestOptions)
     }
 
-    /// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the
-    /// organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an
-    /// aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client
-    /// did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and
-    /// to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork /
-    /// Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
-    /// Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode
-    /// like `/skills`.
-    public func listPaginated(
-        options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
-        BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPluginsPaginated(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+/// Get per-plugin install + invocation usage for a given day, with pagination. Returns plugin usage metrics for the organization across Cowork and Claude Code, sorted by plugin name. The `plugin_name` value `third-party` is an aggregate bucket, not a plugin: it collects plugin activity, from either surface, for which the reporting client did not provide a plugin name — so an organization's own plugins can contribute both to their own named rows and to this bucket. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface (Cowork / Claude Code), and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Requires an API key with the `read:analytics` scope. `starting_date` / `ending_date` select range-rollup mode like `/skills`.
+    public func listPaginated(options: BetaOrganizationsAnalyticsPluginsMethods.ListBetaOrganizationAnalyticsPluginsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsPluginActivity, Swift.Error> {
+        return BetaOrganizationsAnalyticsPluginsMethods.listBetaOrganizationAnalyticsPluginsPaginated(config: config, options: options, requestOptions: requestOptions)
     }
 }
 
@@ -54,50 +26,14 @@ public class BetaOrganizationsAnalyticsArtifactsNamespace {
         self.config = config
     }
 
-    /// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`,
-    /// `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube
-    /// can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`.
-    /// Requires an API key with the `read:analytics` scope.
-    public func list(
-        date: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil,
-        filter: [String]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsArtifactsResponse {
-        try await BetaOrganizationsAnalyticsArtifactsMethods.listBetaOrganizationsAnalyticsArtifacts(
-            config: config,
-            date: date,
-            limit: limit,
-            page: page,
-            groupBy: groupBy,
-            filter: filter,
-            requestOptions: requestOptions
-        )
+/// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`, `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`. Requires an API key with the `read:analytics` scope.
+    public func list(date: String, limit: Int? = nil, page: String? = nil, groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsArtifactsResponse {
+        return try await BetaOrganizationsAnalyticsArtifactsMethods.listBetaOrganizationsAnalyticsArtifacts(config: config, date: date, limit: limit, page: page, groupBy: groupBy, filter: filter, requestOptions: requestOptions)
     }
 
-    /// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`,
-    /// `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube
-    /// can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`.
-    /// Requires an API key with the `read:analytics` scope.
-    public func listPaginated(
-        date: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil,
-        filter: [String]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error> {
-        BetaOrganizationsAnalyticsArtifactsMethods.listBetaOrganizationsAnalyticsArtifactsPaginated(
-            config: config,
-            date: date,
-            limit: limit,
-            page: page,
-            groupBy: groupBy,
-            filter: filter,
-            requestOptions: requestOptions
-        )
+/// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`, `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`. Requires an API key with the `read:analytics` scope.
+    public func listPaginated(date: String, limit: Int? = nil, page: String? = nil, groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error> {
+        return BetaOrganizationsAnalyticsArtifactsMethods.listBetaOrganizationsAnalyticsArtifactsPaginated(config: config, date: date, limit: limit, page: page, groupBy: groupBy, filter: filter, requestOptions: requestOptions)
     }
 }
 
@@ -208,12 +144,12 @@ public class BetaNamespace {
 
 public class Anthropic {
     var config: ClientConfig
-    public internal(set) lazy var messages: MessagesNamespace = .init(config: config)
-    public internal(set) lazy var completions: CompletionsNamespace = .init(config: config)
-    public internal(set) lazy var models: ModelsNamespace = .init(config: config)
-    public internal(set) lazy var files: FilesNamespace = .init(config: config)
-    public internal(set) lazy var skills: SkillsNamespace = .init(config: config)
-    public internal(set) lazy var beta: BetaNamespace = .init(config: config)
+    public internal(set) lazy var messages: MessagesNamespace = MessagesNamespace(config: config)
+    public internal(set) lazy var completions: CompletionsNamespace = CompletionsNamespace(config: config)
+    public internal(set) lazy var models: ModelsNamespace = ModelsNamespace(config: config)
+    public internal(set) lazy var files: FilesNamespace = FilesNamespace(config: config)
+    public internal(set) lazy var skills: SkillsNamespace = SkillsNamespace(config: config)
+    public internal(set) lazy var beta: BetaNamespace = BetaNamespace(config: config)
     public init(config: ClientConfig) {
         self.config = config
         sdkRebuildNamespaces()
@@ -228,24 +164,12 @@ public class Anthropic {
     public func setLoggingConfig(_ logging: LoggingConfig? = nil) -> LoggingConfig {
         var current = config.logging ?? LoggingConfig()
         if let overrides = logging {
-            if let endpoint = overrides.endpoint {
-                current.endpoint = endpoint
-            }
-            if let apiKey = overrides.apiKey {
-                current.apiKey = apiKey
-            }
-            if let environment = overrides.environment {
-                current.environment = environment
-            }
-            if let release = overrides.release {
-                current.release = release
-            }
-            if let user = overrides.user {
-                current.user = user
-            }
-            if let tags = overrides.tags {
-                current.tags = tags
-            }
+            if let endpoint = overrides.endpoint { current.endpoint = endpoint }
+            if let apiKey = overrides.apiKey { current.apiKey = apiKey }
+            if let environment = overrides.environment { current.environment = environment }
+            if let release = overrides.release { current.release = release }
+            if let user = overrides.user { current.user = user }
+            if let tags = overrides.tags { current.tags = tags }
             current.filterPii = overrides.filterPii
         }
         // Opting in IS the point of this call, so enabled flips to true unless the
@@ -263,11 +187,11 @@ public class Anthropic {
 
 extension Anthropic {
     func sdkRebuildNamespacesPart1() {
-        messages = MessagesNamespace(config: config)
-        completions = CompletionsNamespace(config: config)
-        models = ModelsNamespace(config: config)
-        files = FilesNamespace(config: config)
-        skills = SkillsNamespace(config: config)
-        beta = BetaNamespace(config: config)
+        self.messages = MessagesNamespace(config: self.config)
+        self.completions = CompletionsNamespace(config: self.config)
+        self.models = ModelsNamespace(config: self.config)
+        self.files = FilesNamespace(config: self.config)
+        self.skills = SkillsNamespace(config: self.config)
+        self.beta = BetaNamespace(config: self.config)
     }
 }

@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsApiKeysMethods {
-    /// Updates an API key's name, status, or both. Include the fields you want to change; `name` can be a string or
-    /// `null`, and `status` can be active, archived, inactive, or `null`. The response returns the API key object with
-    /// its current metadata.
+extension BetaOrganizationsApiKeysMethods {
+    /// Updates an API key's name, status, or both. Include the fields you want to change; `name` can be a string or `null`, and `status` can be active, archived, inactive, or `null`. The response returns the API key object with its current metadata.
     ///
     /// - Parameters:
     /// - apiKeyId: ID of the API key.
@@ -18,45 +16,11 @@ public extension BetaOrganizationsApiKeysMethods {
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
     /// - name: Name of the API key.
     /// - status: Status of the API key.
-    static func updateBetaOrganizationsApiKeys(
-        config: ClientConfig,
-        apiKeyId: String,
-        anthropicVersion: String? = nil,
-        name: SdkOptional<String>? = nil,
-        status: SdkOptional<BetaApiKeyUpdateParamsStatusVariant0>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaApiKey {
+    public static func updateBetaOrganizationsApiKeys(config: ClientConfig, apiKeyId: String, anthropicVersion: String? = nil, name: SdkOptional<String>? = nil, status: SdkOptional<BetaApiKeyUpdateParamsStatusVariant0>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaApiKey {
         let requestBody = UpdateBetaOrganizationsApiKeysRequestBody(name: name, status: status)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateBetaOrganizationsApiKeys",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaOrganizationsApiKeys", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

@@ -8,10 +8,8 @@ import Foundation
 #endif
 public enum BetaMemoryStoresMemoriesMethods {}
 
-public extension BetaMemoryStoresMemoriesMethods {
-    /// Creates a memory document at a hierarchical path in a memory store. Provide `path` and `content`; the path must
-    /// be unoccupied and the content can be an empty string when creating an empty memory. Choose `view` to control
-    /// whether the returned memory includes its content.
+extension BetaMemoryStoresMemoriesMethods {
+    /// Creates a memory document at a hierarchical path in a memory store. Provide `path` and `content`; the path must be unoccupied and the content can be an empty string when creating an empty memory. Choose `view` to control whether the returned memory includes its content.
     ///
     /// - Parameters:
     /// - memoryStoreId: Path parameter memory_store_id
@@ -28,54 +26,17 @@ public extension BetaMemoryStoresMemoriesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func createBetaMemoryStoresMemories(
-        config: ClientConfig,
-        memoryStoreId: String,
-        path: String,
-        content: String?,
-        view: BetaManagedAgentsMemoryView? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsMemory {
+    public static func createBetaMemoryStoresMemories(config: ClientConfig, memoryStoreId: String, path: String, content: String?, view: BetaManagedAgentsMemoryView? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemory {
         try validateLength("path", path, min: 2, max: 1024)
 
         let requestBody = CreateBetaMemoryStoresMemoriesRequestBody(path: path, content: content)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/v1/memory_stores/", sdkEncodePathSegment(sdkWireString(memoryStoreId)), "/memories?beta=true"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("view", value: view),
-            ],
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaMemoryStoresMemories",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaManagedAgentsErrorResponse.self,
-                "401": BetaManagedAgentsErrorResponse.self,
-                "403": BetaManagedAgentsErrorResponse.self,
-                "404": BetaManagedAgentsErrorResponse.self,
-                "408": BetaManagedAgentsErrorResponse.self,
-                "409": BetaManagedAgentsErrorResponse.self,
-                "412": BetaManagedAgentsErrorResponse.self,
-                "413": BetaManagedAgentsErrorResponse.self,
-                "429": BetaManagedAgentsErrorResponse.self,
-                "431": BetaManagedAgentsErrorResponse.self,
-                "499": BetaManagedAgentsErrorResponse.self,
-                "500": BetaManagedAgentsErrorResponse.self,
-                "501": BetaManagedAgentsErrorResponse.self,
-                "503": BetaManagedAgentsErrorResponse.self,
-                "504": BetaManagedAgentsErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/v1/memory_stores/", sdkEncodePathSegment(sdkWireString(memoryStoreId)), "/memories?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("view", value: view),
+        ], body: requestBody, decoder: .json, operationId: "createBetaMemoryStoresMemories", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaManagedAgentsErrorResponse.self, "401": BetaManagedAgentsErrorResponse.self, "403": BetaManagedAgentsErrorResponse.self, "404": BetaManagedAgentsErrorResponse.self, "408": BetaManagedAgentsErrorResponse.self, "409": BetaManagedAgentsErrorResponse.self, "412": BetaManagedAgentsErrorResponse.self, "413": BetaManagedAgentsErrorResponse.self, "429": BetaManagedAgentsErrorResponse.self, "431": BetaManagedAgentsErrorResponse.self, "499": BetaManagedAgentsErrorResponse.self, "500": BetaManagedAgentsErrorResponse.self, "501": BetaManagedAgentsErrorResponse.self, "503": BetaManagedAgentsErrorResponse.self, "504": BetaManagedAgentsErrorResponse.self])).data
     }
 }

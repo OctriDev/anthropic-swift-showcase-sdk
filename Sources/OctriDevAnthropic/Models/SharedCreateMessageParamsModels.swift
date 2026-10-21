@@ -3,78 +3,27 @@
 
 import Foundation
 
-/// SharedCreate domain models
-public extension CreateMessageParams {
-    init(
-        model: Model,
-        messages: [InputMessage],
-        maxTokens: Int,
-        cacheControl: CreateMessageParamsCacheControl? = nil,
-        container containerValue: CreateMessageParamsContainer? = nil,
-        inferenceGeo: String? = nil,
-        metadata: Metadata? = nil,
-        outputConfig: OutputConfig? = nil,
-        serviceTier: CreateMessageParamsServiceTier? = nil,
-        stopSequences: [String]? = nil,
-        stream: Bool? = nil,
-        system: CreateMessageParamsSystem? = nil,
-        temperature: Double? = nil,
-        thinking: ThinkingConfigParam? = nil,
-        toolChoice: ToolChoice? = nil,
-        tools: [CreateMessageParamsToolsItem]? = nil,
-        topK: Int? = nil,
-        topP: Double? = nil
-    ) throws {
+// SharedCreate domain models
+extension CreateMessageParams {
+    public init(model: Model, messages: [InputMessage], maxTokens: Int, cacheControl: CreateMessageParamsCacheControl? = nil, container containerValue: CreateMessageParamsContainer? = nil, inferenceGeo: String? = nil, metadata: Metadata? = nil, outputConfig: OutputConfig? = nil, serviceTier: CreateMessageParamsServiceTier? = nil, stopSequences: [String]? = nil, stream: Bool? = nil, system: CreateMessageParamsSystem? = nil, temperature: Double? = nil, thinking: ThinkingConfigParam? = nil, toolChoice: ToolChoice? = nil, tools: [CreateMessageParamsToolsItem]? = nil, topK: Int? = nil, topP: Double? = nil) throws {
         (self.model, self.messages) = (model, messages)
         (self.maxTokens, self.cacheControl) = (maxTokens, cacheControl)
-        (container, self.inferenceGeo) = (containerValue, inferenceGeo)
+        (self.container, self.inferenceGeo) = (containerValue, inferenceGeo)
         (self.metadata, self.outputConfig) = (metadata, outputConfig)
         (self.serviceTier, self.stopSequences) = (serviceTier, stopSequences)
         (self.stream, self.system) = (stream, system)
         (self.temperature, self.thinking) = (temperature, thinking)
         (self.toolChoice, self.tools) = (toolChoice, tools)
         (self.topK, self.topP) = (topK, topP)
-        try validateRange(
-            "max_tokens",
-            Double(self.maxTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+            try validateRange("max_tokens", Double(self.maxTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         if let value = self.temperature {
-            try validateRange(
-                "temperature",
-                Double(value),
-                min: 0,
-                max: 1,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
         if let value = self.topK {
-            try validateRange(
-                "top_k",
-                Double(value),
-                min: 0,
-                max: nil,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
         if let value = self.topP {
-            try validateRange(
-                "top_p",
-                Double(value),
-                min: 0,
-                max: 1,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
     }
 }
@@ -84,16 +33,13 @@ public extension CreateMessageParams {
 public struct CreateMessageParamsServiceTier: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let auto = CreateMessageParamsServiceTier(rawValue: "auto")
     public static let standardOnly = CreateMessageParamsServiceTier(rawValue: "standard_only")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

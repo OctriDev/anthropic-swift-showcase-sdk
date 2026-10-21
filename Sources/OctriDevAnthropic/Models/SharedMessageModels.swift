@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedMessage domain models
+// SharedMessage domain models
 /// Typed representation of the `MessageBatch` API schema.
 public struct MessageBatch: Codable {
     /// RFC 3339 datetime string representing the time at which the Message Batch was archived and its results
@@ -49,51 +49,38 @@ public struct MessageBatch: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension MessageBatch {
-    init(from decoder: Decoder) throws {
+extension MessageBatch {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        cancelInitiatedAt = try container.sdkDecodeNullable(.cancelInitiatedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        endedAt = try container.sdkDecodeNullable(.endedAt)
-        expiresAt = try container.sdkDecodeRequired(.expiresAt)
-        id = try container.sdkDecodeRequired(.id)
-        processingStatus = try container.sdkDecodeRequired(.processingStatus)
-        requestCounts = try container.sdkDecodeRequired(.requestCounts)
-        resultsUrl = try container.sdkDecodeNullable(.resultsUrl)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateDateTime("expires_at", sdkWireString(expiresAt))
-        try sdkValidateRawEnum("type", type, MessageBatchType.allCases.map(\.rawValue))
+        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        self.cancelInitiatedAt = try container.sdkDecodeNullable(.cancelInitiatedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.endedAt = try container.sdkDecodeNullable(.endedAt)
+        self.expiresAt = try container.sdkDecodeRequired(.expiresAt)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.processingStatus = try container.sdkDecodeRequired(.processingStatus)
+        self.requestCounts = try container.sdkDecodeRequired(.requestCounts)
+        self.resultsUrl = try container.sdkDecodeNullable(.resultsUrl)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateRawEnum("type", self.type, MessageBatchType.allCases.map(\.rawValue))
     }
 }
 
-public extension MessageBatch {
-    init(
-        archivedAt: Date?,
-        cancelInitiatedAt: Date?,
-        createdAt: Date,
-        endedAt: Date?,
-        expiresAt: Date,
-        id: String,
-        processingStatus: MessageBatchProcessingStatus,
-        requestCounts: RequestCounts,
-        resultsUrl: String?,
-        type: MessageBatchType
-    ) throws {
+extension MessageBatch {
+    public init(archivedAt: Date?, cancelInitiatedAt: Date?, createdAt: Date, endedAt: Date?, expiresAt: Date, id: String, processingStatus: MessageBatchProcessingStatus, requestCounts: RequestCounts, resultsUrl: String?, type: MessageBatchType) throws {
         (self.archivedAt, self.cancelInitiatedAt) = (archivedAt, cancelInitiatedAt)
         (self.createdAt, self.endedAt) = (createdAt, endedAt)
         (self.expiresAt, self.id) = (expiresAt, id)
         (self.processingStatus, self.requestCounts) = (processingStatus, requestCounts)
         (self.resultsUrl, self.type) = (resultsUrl, type)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
-        try sdkValidateRawEnum("type", self.type, MessageBatchType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateRawEnum("type", self.type, MessageBatchType.allCases.map(\.rawValue))
     }
 }
 
@@ -148,49 +135,36 @@ public struct Message: Codable {
         case container
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension Message {
-    init(from decoder: Decoder) throws {
+extension Message {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        role = try container.sdkDecodeRequired(.role)
-        content = try container.sdkDecodeRequired(.content)
-        model = try container.sdkDecodeRequired(.model)
-        stopReason = try container.sdkDecodeNullable(.stopReason)
-        stopSequence = try container.sdkDecodeNullable(.stopSequence)
-        stopDetails = try container.sdkDecodeNullable(.stopDetails)
-        usage = try container.sdkDecodeRequired(.usage)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.role = try container.sdkDecodeRequired(.role)
+        self.content = try container.sdkDecodeRequired(.content)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.stopReason = try container.sdkDecodeNullable(.stopReason)
+        self.stopSequence = try container.sdkDecodeNullable(.stopSequence)
+        self.stopDetails = try container.sdkDecodeNullable(.stopDetails)
+        self.usage = try container.sdkDecodeRequired(.usage)
         self.container = try container.sdkDecodeNullable(.container)
-        try sdkValidateRawEnum("type", type, MessageType.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("role", role, MessageRole.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, MessageType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("role", self.role, MessageRole.allCases.map(\.rawValue))
     }
 }
 
-public extension Message {
-    init(
-        id: String,
-        type: MessageType,
-        role: MessageRole,
-        content: [ContentBlock],
-        model: Model,
-        stopReason: StopReason?,
-        stopSequence: String?,
-        stopDetails: RefusalStopDetails?,
-        usage: Usage,
-        container containerValue: Container?
-    ) throws {
+extension Message {
+    public init(id: String, type: MessageType, role: MessageRole, content: [ContentBlock], model: Model, stopReason: StopReason?, stopSequence: String?, stopDetails: RefusalStopDetails?, usage: Usage, container containerValue: Container?) throws {
         (self.id, self.type) = (id, type)
         (self.role, self.content) = (role, content)
         (self.model, self.stopReason) = (model, stopReason)
         (self.stopSequence, self.stopDetails) = (stopSequence, stopDetails)
-        (self.usage, container) = (usage, containerValue)
-        try sdkValidateRawEnum("type", self.type, MessageType.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("role", self.role, MessageRole.allCases.map(\.rawValue))
+        (self.usage, self.container) = (usage, containerValue)
+            try sdkValidateRawEnum("type", self.type, MessageType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("role", self.role, MessageRole.allCases.map(\.rawValue))
     }
 }
 
@@ -252,17 +226,14 @@ public enum MessageBatchType: String, CaseIterable, Codable {
 public struct MessageBatchProcessingStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let inProgress = MessageBatchProcessingStatus(rawValue: "in_progress")
     public static let canceling = MessageBatchProcessingStatus(rawValue: "canceling")
     public static let ended = MessageBatchProcessingStatus(rawValue: "ended")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

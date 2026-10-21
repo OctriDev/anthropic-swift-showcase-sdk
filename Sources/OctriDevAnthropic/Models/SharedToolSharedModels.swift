@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedTool domain models
+// SharedTool domain models
 public indirect enum ToolChoice {
     case toolChoiceAuto(ToolChoiceAuto)
     case toolChoiceAny(ToolChoiceAny)
@@ -14,6 +14,7 @@ public indirect enum ToolChoice {
 }
 
 extension ToolChoice: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,16 +22,12 @@ extension ToolChoice: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -41,11 +38,11 @@ extension ToolChoice: Codable {
 extension ToolChoice {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "auto": try .toolChoiceAuto(ToolChoiceAuto(from: decoder))
-        case "any": try .toolChoiceAny(ToolChoiceAny(from: decoder))
-        case "tool": try .toolChoiceTool(ToolChoiceTool(from: decoder))
-        case "none": try .toolChoiceNone(ToolChoiceNone(from: decoder))
-        default: nil
+        case "auto": return .toolChoiceAuto(try ToolChoiceAuto(from: decoder))
+        case "any": return .toolChoiceAny(try ToolChoiceAny(from: decoder))
+        case "tool": return .toolChoiceTool(try ToolChoiceTool(from: decoder))
+        case "none": return .toolChoiceNone(try ToolChoiceNone(from: decoder))
+        default: return nil
         }
     }
 }
@@ -106,63 +103,42 @@ public struct Tool: Codable {
         case inputExamples = "input_examples"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension Tool {
-    init(from decoder: Decoder) throws {
+extension Tool {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.inputSchema) else {
-            throw SdkValidationError(
-                field: "input_schema",
-                code: "required",
-                message: "Validation failed for 'input_schema': value is required"
-            )
+            throw SdkValidationError(field: "input_schema", code: "required", message: "Validation failed for 'input_schema': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        inputSchema = try container.sdkDecodeRequired(.inputSchema)
-        type = try container.sdkDecodeIfPresent(.type)
-        description = try container.sdkDecodeIfPresent(.description)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        eagerInputStreaming = try container.sdkDecodeIfPresent(.eagerInputStreaming)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        try validateLength("name", name, min: 1, max: 128)
-        try sdkValidatePattern("name", name, sdkPattern40d4de93d94c)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.inputSchema = try container.sdkDecodeRequired(.inputSchema)
+        self.type = try container.sdkDecodeIfPresent(.type)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+        self.eagerInputStreaming = try container.sdkDecodeIfPresent(.eagerInputStreaming)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+            try validateLength("name", self.name, min: 1, max: 128)
+            try sdkValidatePattern("name", self.name, sdkPattern40d4de93d94c)
     }
 }
 
-public extension Tool {
-    init(
-        name: String,
-        inputSchema: InputSchema,
-        type: ToolTypeVariant1? = nil,
-        description: String? = nil,
-        cacheControl: ToolCacheControl? = nil,
-        strict: Bool? = nil,
-        eagerInputStreaming: Bool? = nil,
-        allowedCallers: [AllowedCaller]? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: JsonValue]]? = nil
-    ) throws {
+extension Tool {
+    public init(name: String, inputSchema: InputSchema, type: ToolTypeVariant1? = nil, description: String? = nil, cacheControl: ToolCacheControl? = nil, strict: Bool? = nil, eagerInputStreaming: Bool? = nil, allowedCallers: [AllowedCaller]? = nil, deferLoading: Bool? = nil, inputExamples: [[String: JsonValue]]? = nil) throws {
         (self.name, self.inputSchema) = (name, inputSchema)
         (self.type, self.description) = (type, description)
         (self.cacheControl, self.strict) = (cacheControl, strict)
         (self.eagerInputStreaming, self.allowedCallers) = (eagerInputStreaming, allowedCallers)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
-        try validateLength("name", self.name, min: 1, max: 128)
-        try sdkValidatePattern("name", self.name, sdkPattern40d4de93d94c)
+            try validateLength("name", self.name, min: 1, max: 128)
+            try sdkValidatePattern("name", self.name, sdkPattern40d4de93d94c)
     }
 }
 
@@ -173,6 +149,7 @@ public indirect enum ToolSearchToolRegex20251119CacheControl {
 }
 
 extension ToolSearchToolRegex20251119CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -180,16 +157,12 @@ extension ToolSearchToolRegex20251119CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -200,8 +173,8 @@ extension ToolSearchToolRegex20251119CacheControl: Codable {
 extension ToolSearchToolRegex20251119CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -229,31 +202,25 @@ public struct ToolChoiceAny: Codable {
         case disableParallelToolUse = "disable_parallel_tool_use"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ToolChoiceAny {
-    init(from decoder: Decoder) throws {
+extension ToolChoiceAny {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
-        try sdkValidateRawEnum("type", type, ToolChoiceAnyType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
+            try sdkValidateRawEnum("type", self.type, ToolChoiceAnyType.allCases.map(\.rawValue))
     }
 }
 
-public extension ToolChoiceAny {
-    init(type: ToolChoiceAnyType, disableParallelToolUse: Bool? = nil) throws {
+extension ToolChoiceAny {
+    public init(type: ToolChoiceAnyType, disableParallelToolUse: Bool? = nil) throws {
         (self.type, self.disableParallelToolUse) = (type, disableParallelToolUse)
-        try sdkValidateRawEnum("type", self.type, ToolChoiceAnyType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ToolChoiceAnyType.allCases.map(\.rawValue))
     }
 }
 
@@ -266,30 +233,24 @@ public struct ToolChoiceNone: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ToolChoiceNone {
-    init(from decoder: Decoder) throws {
+extension ToolChoiceNone {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ToolChoiceNoneType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ToolChoiceNoneType.allCases.map(\.rawValue))
     }
 }
 
-public extension ToolChoiceNone {
-    init(type: ToolChoiceNoneType) throws {
+extension ToolChoiceNone {
+    public init(type: ToolChoiceNoneType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, ToolChoiceNoneType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ToolChoiceNoneType.allCases.map(\.rawValue))
     }
 }
 
@@ -318,51 +279,34 @@ public struct ToolSearchToolBM2520251119: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ToolSearchToolBM2520251119 {
-    init(from decoder: Decoder) throws {
+extension ToolSearchToolBM2520251119 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, ToolSearchToolBM2520251119Name.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, ToolSearchToolBM2520251119Name.allCases.map(\.rawValue))
     }
 }
 
-public extension ToolSearchToolBM2520251119 {
-    init(
-        name: ToolSearchToolBM2520251119Name,
-        type: ToolSearchToolBM2520251119Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: ToolSearchToolBM2520251119CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension ToolSearchToolBM2520251119 {
+    public init(name: ToolSearchToolBM2520251119Name, type: ToolSearchToolBM2520251119Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: ToolSearchToolBM2520251119CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, ToolSearchToolBM2520251119Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, ToolSearchToolBM2520251119Name.allCases.map(\.rawValue))
     }
 }
 
@@ -373,6 +317,7 @@ public indirect enum ToolSearchToolBM2520251119CacheControl {
 }
 
 extension ToolSearchToolBM2520251119CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -380,16 +325,12 @@ extension ToolSearchToolBM2520251119CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -400,8 +341,8 @@ extension ToolSearchToolBM2520251119CacheControl: Codable {
 extension ToolSearchToolBM2520251119CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -432,40 +373,30 @@ public struct ToolChoiceTool: Codable {
         case disableParallelToolUse = "disable_parallel_tool_use"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ToolChoiceTool {
-    init(from decoder: Decoder) throws {
+extension ToolChoiceTool {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
-        try sdkValidateRawEnum("type", type, ToolChoiceToolType.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
+            try sdkValidateRawEnum("type", self.type, ToolChoiceToolType.allCases.map(\.rawValue))
     }
 }
 
-public extension ToolChoiceTool {
-    init(name: String, type: ToolChoiceToolType, disableParallelToolUse: Bool? = nil) throws {
+extension ToolChoiceTool {
+    public init(name: String, type: ToolChoiceToolType, disableParallelToolUse: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         self.disableParallelToolUse = disableParallelToolUse
-        try sdkValidateRawEnum("type", self.type, ToolChoiceToolType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ToolChoiceToolType.allCases.map(\.rawValue))
     }
 }
 
@@ -482,31 +413,25 @@ public struct ToolChoiceAuto: Codable {
         case disableParallelToolUse = "disable_parallel_tool_use"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ToolChoiceAuto {
-    init(from decoder: Decoder) throws {
+extension ToolChoiceAuto {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
-        try sdkValidateRawEnum("type", type, ToolChoiceAutoType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.disableParallelToolUse = try container.sdkDecodeIfPresent(.disableParallelToolUse)
+            try sdkValidateRawEnum("type", self.type, ToolChoiceAutoType.allCases.map(\.rawValue))
     }
 }
 
-public extension ToolChoiceAuto {
-    init(type: ToolChoiceAutoType, disableParallelToolUse: Bool? = nil) throws {
+extension ToolChoiceAuto {
+    public init(type: ToolChoiceAutoType, disableParallelToolUse: Bool? = nil) throws {
         (self.type, self.disableParallelToolUse) = (type, disableParallelToolUse)
-        try sdkValidateRawEnum("type", self.type, ToolChoiceAutoType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ToolChoiceAutoType.allCases.map(\.rawValue))
     }
 }
 
@@ -535,51 +460,34 @@ public struct ToolSearchToolRegex20251119: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ToolSearchToolRegex20251119 {
-    init(from decoder: Decoder) throws {
+extension ToolSearchToolRegex20251119 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, ToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, ToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
     }
 }
 
-public extension ToolSearchToolRegex20251119 {
-    init(
-        name: ToolSearchToolRegex20251119Name,
-        type: ToolSearchToolRegex20251119Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: ToolSearchToolRegex20251119CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension ToolSearchToolRegex20251119 {
+    public init(name: ToolSearchToolRegex20251119Name, type: ToolSearchToolRegex20251119Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: ToolSearchToolRegex20251119CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, ToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, ToolSearchToolRegex20251119Name.allCases.map(\.rawValue))
     }
 }
 
@@ -590,6 +498,7 @@ public indirect enum ToolCacheControl {
 }
 
 extension ToolCacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -597,16 +506,12 @@ extension ToolCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -617,8 +522,8 @@ extension ToolCacheControl: Codable {
 extension ToolCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }

@@ -6,14 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public struct ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let batch = ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0(rawValue: "batch")
     public static let files = ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0(rawValue: "files")
     public static let modelGroup = ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0(rawValue: "model_group")
@@ -23,7 +19,7 @@ public struct ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0: RawRep
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -32,20 +28,16 @@ public struct ListBetaOrganizationsWorkspacesRateLimitsParameterVariant0: RawRep
     }
 }
 
-public struct ListBetaOrganizationsAnalyticsUsersParameterVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct ListBetaOrganizationsAnalyticsUsersParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let asc = ListBetaOrganizationsAnalyticsUsersParameterVariant0(rawValue: "asc")
     public static let desc = ListBetaOrganizationsAnalyticsUsersParameterVariant0(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -54,20 +46,16 @@ public struct ListBetaOrganizationsAnalyticsUsersParameterVariant0: RawRepresent
     }
 }
 
-public struct ListBetaOrganizationAnalyticsPluginsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct ListBetaOrganizationAnalyticsPluginsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let asc = ListBetaOrganizationAnalyticsPluginsParameterVariant0(rawValue: "asc")
     public static let desc = ListBetaOrganizationAnalyticsPluginsParameterVariant0(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -76,21 +64,16 @@ public struct ListBetaOrganizationAnalyticsPluginsParameterVariant0: RawRepresen
     }
 }
 
-public struct RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItemX38ac4211: RawRepresentable, Hashable,
-    Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItemX38ac4211: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let fast = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItemX38ac4211(rawValue: "fast")
-    public static let standard =
-        RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItemX38ac4211(rawValue: "standard")
+    public static let standard = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItemX38ac4211(rawValue: "standard")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -99,14 +82,10 @@ public struct RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItemX38ac
     }
 }
 
-public struct ListBetaOrganizationsRateLimitsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct ListBetaOrganizationsRateLimitsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let batch = ListBetaOrganizationsRateLimitsParameterVariant0(rawValue: "batch")
     public static let files = ListBetaOrganizationsRateLimitsParameterVariant0(rawValue: "files")
     public static let modelGroup = ListBetaOrganizationsRateLimitsParameterVariant0(rawValue: "model_group")
@@ -116,7 +95,7 @@ public struct ListBetaOrganizationsRateLimitsParameterVariant0: RawRepresentable
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -125,29 +104,21 @@ public struct ListBetaOrganizationsRateLimitsParameterVariant0: RawRepresentable
     }
 }
 
-public struct RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let contextWindow =
-        RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "context_window")
-    public static let inferenceGeo =
-        RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "inference_geo")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let contextWindow = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "context_window")
+    public static let inferenceGeo = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "inference_geo")
     public static let model = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "model")
     public static let product = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "product")
-    public static let rbacGroupId =
-        RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "rbac_group_id")
-    public static let slackChannelId =
-        RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "slack_channel_id")
+    public static let rbacGroupId = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "rbac_group_id")
+    public static let slackChannelId = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "slack_channel_id")
     public static let speed = RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem(rawValue: "speed")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -156,20 +127,16 @@ public struct RetrieveBetaOrganizationsAnalyticsUsageReportParameterItem: RawRep
     }
 }
 
-public struct ListBetaOrganizationsAnalyticsAppsChatProjectsParameterVariant0: RawRepresentable, Hashable, Codable,
-    Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationsAnalyticsAppsChatProjectsParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let asc = ListBetaOrganizationsAnalyticsAppsChatProjectsParameterVariant0(rawValue: "asc")
     public static let desc = ListBetaOrganizationsAnalyticsAppsChatProjectsParameterVariant0(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -178,29 +145,21 @@ public struct ListBetaOrganizationsAnalyticsAppsChatProjectsParameterVariant0: R
     }
 }
 
-public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem: RawRepresentable, Hashable, Codable,
-    Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let contextWindow =
-        RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "context_window")
-    public static let inferenceGeo =
-        RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "inference_geo")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let contextWindow = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "context_window")
+    public static let inferenceGeo = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "inference_geo")
     public static let model = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "model")
     public static let product = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "product")
-    public static let rbacGroupId =
-        RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "rbac_group_id")
-    public static let slackChannelId =
-        RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "slack_channel_id")
+    public static let rbacGroupId = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "rbac_group_id")
+    public static let slackChannelId = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "slack_channel_id")
     public static let speed = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItem(rawValue: "speed")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

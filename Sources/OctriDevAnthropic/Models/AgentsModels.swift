@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Agents domain models
+// Agents domain models
 /// Request parameters for updating an `agent`. Omit a field to preserve its current value.
 public struct BetaManagedAgentsUpdateAgentParams: Codable {
     /// The agent's current version, used to prevent concurrent overwrites. Obtain this value from a create or
@@ -48,43 +48,32 @@ public struct BetaManagedAgentsUpdateAgentParams: Codable {
     }
 
     init() {
-        (version, name, description, model, system) = (nil, nil, nil, nil, nil)
-        (tools, mcpServers, skills, metadata, multiagent) = (nil, nil, nil, nil, nil)
+        (self.version, self.name, self.description, self.model, self.system) = (nil, nil, nil, nil, nil)
+        (self.tools, self.mcpServers, self.skills, self.metadata, self.multiagent) = (nil, nil, nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsUpdateAgentParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUpdateAgentParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        version = try container.sdkDecodeIfPresent(.version)
-        name = try container.sdkDecodeIfPresent(.name)
-        description = try container.sdkDecodeIfPresent(.description)
-        model = try container.sdkDecodeIfPresent(.model)
-        system = try container.sdkDecodeIfPresent(.system)
-        tools = try container.sdkDecodeIfPresent(.tools)
-        mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
-        skills = try container.sdkDecodeIfPresent(.skills)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
-        multiagent = try container.sdkDecodeIfPresent(.multiagent)
-        if let value = name {
+        self.version = try container.sdkDecodeIfPresent(.version)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.model = try container.sdkDecodeIfPresent(.model)
+        self.system = try container.sdkDecodeIfPresent(.system)
+        self.tools = try container.sdkDecodeIfPresent(.tools)
+        self.mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
+        self.skills = try container.sdkDecodeIfPresent(.skills)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.multiagent = try container.sdkDecodeIfPresent(.multiagent)
+        if let value = self.name {
             try validateLength("name", value, min: nil, max: 256)
         }
     }
 }
 
-public extension BetaManagedAgentsUpdateAgentParams {
-    init(
-        version: Int? = nil,
-        name: String? = nil,
-        description: String? = nil,
-        model: BetaManagedAgentsModelParams? = nil,
-        system: String? = nil,
-        tools: [BetaManagedAgentsAgentToolParams]? = nil,
-        mcpServers: [BetaManagedAgentsMCPServerParams]? = nil,
-        skills: [BetaManagedAgentsSkillParams]? = nil,
-        metadata: [String: String?]? = nil,
-        multiagent: BetaManagedAgentsMultiagentParams? = nil
-    ) throws {
+extension BetaManagedAgentsUpdateAgentParams {
+    public init(version: Int? = nil, name: String? = nil, description: String? = nil, model: BetaManagedAgentsModelParams? = nil, system: String? = nil, tools: [BetaManagedAgentsAgentToolParams]? = nil, mcpServers: [BetaManagedAgentsMCPServerParams]? = nil, skills: [BetaManagedAgentsSkillParams]? = nil, metadata: [String: String?]? = nil, multiagent: BetaManagedAgentsMultiagentParams? = nil) throws {
         self.init()
         (self.version, self.name) = (version, name)
         (self.description, self.model) = (description, model)

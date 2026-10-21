@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaOrganizationsFederationRulesMethods {}
 
-public extension BetaOrganizationsFederationRulesMethods {
-    struct CreateBetaOrganizationsFederationRulesOptions: Codable {
+extension BetaOrganizationsFederationRulesMethods {
+    public struct CreateBetaOrganizationsFederationRulesOptions: Codable {
         public var issuerId: String
         public var match: BetaRuleMatch
         public var name: String
@@ -23,13 +23,7 @@ public extension BetaOrganizationsFederationRulesMethods {
         public var tokenLifetimeSeconds: Int?
         public var workspaceId: SdkOptional<String>?
 
-        public init(
-            issuerId: String,
-            match: BetaRuleMatch,
-            name: String,
-            oauthScope: String,
-            target: BetaServiceAccountTarget
-        ) {
+        public init(issuerId: String, match: BetaRuleMatch, name: String, oauthScope: String, target: BetaServiceAccountTarget) {
             self.issuerId = issuerId
             self.match = match
             self.name = name
@@ -38,17 +32,7 @@ public extension BetaOrganizationsFederationRulesMethods {
         }
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
-    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Create a
-    /// federation rule owned by your organization. The referenced issuer and the target service account must already
-    /// exist in the same organization; invalid references are rejected with a 400 error. The workspace reference is
-    /// validated. Membership is not checked at rule creation: token exchange resolves a single enabled workspace per
-    /// call and is rejected unless the target service account is a member of that workspace (it is implicitly a member
-    /// of the default workspace). Rules on well-known shared issuers (GitHub Actions, GitLab, Buildkite, Terraform
-    /// Cloud, Google) must constrain tenant identity via an identity-bearing claim, a tenant-pinning subject prefix
-    /// (such as `repo:YOUR_ORG/...`), or a CEL condition referencing one of those identity claims (e.g.
-    /// `claims.repository_owner`). OAuth callers may only manage rules whose `oauth_scope` is `workspace:developer` or
-    /// `workspace:inference`; other scopes require a Console session.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Create a federation rule owned by your organization. The referenced issuer and the target service account must already exist in the same organization; invalid references are rejected with a 400 error. The workspace reference is validated. Membership is not checked at rule creation: token exchange resolves a single enabled workspace per call and is rejected unless the target service account is a member of that workspace (it is implicitly a member of the default workspace). Rules on well-known shared issuers (GitHub Actions, GitLab, Buildkite, Terraform Cloud, Google) must constrain tenant identity via an identity-bearing claim, a tenant-pinning subject prefix (such as `repo:YOUR_ORG/...`), or a CEL condition referencing one of those identity claims (e.g. `claims.repository_owner`). OAuth callers may only manage rules whose `oauth_scope` is `workspace:developer` or `workspace:inference`; other scopes require a Console session.
     ///
     /// - Parameters:
     /// - issuerId: Tagged ID of the federation issuer.
@@ -80,11 +64,7 @@ public extension BetaOrganizationsFederationRulesMethods {
     ///   unless `applies_to_all_workspaces` is true. Additional workspaces can be
     ///   added via the `/federation_rules/{federation_rule_id}/workspaces`
     ///   sub-resource.
-    static func createBetaOrganizationsFederationRules(
-        config: ClientConfig,
-        options: CreateBetaOrganizationsFederationRulesOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaFederationRule {
+    public static func createBetaOrganizationsFederationRules(config: ClientConfig, options: CreateBetaOrganizationsFederationRulesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaFederationRule {
         try validateLength("name", options.name, min: 1, max: 255)
 
         try validateLength("oauth_scope", options.oauthScope, min: 1)
@@ -95,36 +75,9 @@ public extension BetaOrganizationsFederationRulesMethods {
 
         let requestBody = CreateBetaOrganizationsFederationRulesRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/organizations/federation_rules?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaOrganizationsFederationRules",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/organizations/federation_rules?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsFederationRules", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

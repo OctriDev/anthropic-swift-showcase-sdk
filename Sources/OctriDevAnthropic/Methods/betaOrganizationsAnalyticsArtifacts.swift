@@ -8,11 +8,8 @@ import Foundation
 #endif
 public enum BetaOrganizationsAnalyticsArtifactsMethods {}
 
-public extension BetaOrganizationsAnalyticsArtifactsMethods {
-    /// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`,
-    /// `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube
-    /// can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`.
-    /// Requires an API key with the `read:analytics` scope.
+extension BetaOrganizationsAnalyticsArtifactsMethods {
+    /// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`, `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get artifact activity for.
@@ -43,64 +40,27 @@ public extension BetaOrganizationsAnalyticsArtifactsMethods {
     ///   each covered UTC day (time-of-usage attribution); `user_id` takes a tagged
     ///   user id (`user_...`), as emitted in responses. An unsupported dimension
     ///   returns 400. At most 100 entries.
-    static func listBetaOrganizationsAnalyticsArtifacts(
-        config: ClientConfig,
-        date: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil,
-        filter: [String]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaAnalyticsArtifactsResponse {
+    public static func listBetaOrganizationsAnalyticsArtifacts(config: ClientConfig, date: String, limit: Int? = nil, page: String? = nil, groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsArtifactsResponse {
         try sdkValidateDate("date", date)
 
-        if let groupBy {
+        if let groupBy = groupBy {
             try validateItems("group_by[]", groupBy, max: 100)
         }
 
-        if let filter {
+        if let filter = filter {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/analytics/artifacts?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("date", value: date),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("page", value: page),
-                SdkQueryParameter("group_by[]", values: groupBy, style: "form", explode: true),
-                SdkQueryParameter("filter[]", values: filter, style: "form", explode: true),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsAnalyticsArtifacts",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/analytics/artifacts?beta=true", config: config, query: [
+            SdkQueryParameter("date", value: date),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+            SdkQueryParameter("group_by[]", values: groupBy, style: "form", explode: true),
+            SdkQueryParameter("filter[]", values: filter, style: "form", explode: true),
+        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsArtifacts", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`,
-    /// `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube
-    /// can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`.
-    /// Requires an API key with the `read:analytics` scope.
+    /// Get artifact-creation activity for a given day, broken out by MIME type. Returns the full (`artifact_type`, `is_shared`) cube for the organization; `next_page` is null except for grouped queries, which paginate. The cube can be broken out per product, per member, or per RBAC group via `group_by[]`, and scoped via `filter[]`. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get artifact activity for.
@@ -131,42 +91,17 @@ public extension BetaOrganizationsAnalyticsArtifactsMethods {
     ///   each covered UTC day (time-of-usage attribution); `user_id` takes a tagged
     ///   user id (`user_...`), as emitted in responses. An unsupported dimension
     ///   returns 400. At most 100 entries.
-    static func listBetaOrganizationsAnalyticsArtifactsPaginated(
-        config: ClientConfig,
-        date: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil,
-        filter: [String]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error> {
-        AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaAnalyticsArtifactActivity,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsAnalyticsArtifactsPaginated(config: ClientConfig, date: String, limit: Int? = nil, page: String? = nil, groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error> {
+        return AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsArtifactActivity, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsAnalyticsArtifacts(
-                            config: config,
-                            date: date,
-                            limit: limit,
-                            page: pageCursor,
-                            groupBy: groupBy,
-                            filter: filter,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsArtifacts(config: config, date: date, limit: limit, page: pageCursor, groupBy: groupBy, filter: filter, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -179,57 +114,25 @@ public extension BetaOrganizationsAnalyticsArtifactsMethods {
         }
     }
 
-    struct ListBetaOrganizationsAnalyticsArtifactsPage {
+    public struct ListBetaOrganizationsAnalyticsArtifactsPage {
         public let data: BetaAnalyticsArtifactsResponse
         public let items: [BetaAnalyticsArtifactActivity]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsAnalyticsArtifactsPages(
-        config: ClientConfig,
-        date: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil,
-        filter: [String]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsArtifactsPage, Swift.Error> {
-        AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsArtifactsPage,
-            Swift.Error
-        > { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsAnalyticsArtifactsPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsAnalyticsArtifactsPages(config: ClientConfig, date: String, limit: Int? = nil, page: String? = nil, groupBy: [ListBetaOrganizationsAnalyticsArtifactsParameterItem]? = nil, filter: [String]? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsArtifactsPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaOrganizationsAnalyticsArtifactsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsAnalyticsArtifactsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsAnalyticsArtifacts(
-                            config: config,
-                            date: date,
-                            limit: limit,
-                            page: pageCursor,
-                            groupBy: groupBy,
-                            filter: filter,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsAnalyticsArtifacts(config: config, date: date, limit: limit, page: pageCursor, groupBy: groupBy, filter: filter, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsAnalyticsArtifactsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsAnalyticsArtifactsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

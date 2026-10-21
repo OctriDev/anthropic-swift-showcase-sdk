@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// WorkBetaTrue domain models
+// WorkBetaTrue domain models
 /// Response when listing work items with cursor-based pagination.
 public struct BetaSelfHostedWorkListResponse: Codable {
     /// List of work items
@@ -16,35 +16,25 @@ public struct BetaSelfHostedWorkListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSelfHostedWorkListResponse {
-    init(from decoder: Decoder) throws {
+extension BetaSelfHostedWorkListResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaSelfHostedWorkListResponse {
-    init(data: [BetaSelfHostedWork], nextPage: String?) {
+extension BetaSelfHostedWorkListResponse {
+    public init(data: [BetaSelfHostedWork], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

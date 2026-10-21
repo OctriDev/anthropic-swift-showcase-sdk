@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBrowser domain models
+// SharedBrowser domain models
 /// A file download that started during this call.
 public struct BrowserStateChangeDownloadStarted: Codable {
     /// The caller-assigned identifier for this download, stable across the state changes reporting it.
@@ -19,55 +19,41 @@ public struct BrowserStateChangeDownloadStarted: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BrowserStateChangeDownloadStarted {
-    init(from decoder: Decoder) throws {
+extension BrowserStateChangeDownloadStarted {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.downloadId) else {
-            throw SdkValidationError(
-                field: "download_id",
-                code: "required",
-                message: "Validation failed for 'download_id': value is required"
-            )
+            throw SdkValidationError(field: "download_id", code: "required", message: "Validation failed for 'download_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        downloadId = try container.sdkDecodeRequired(.downloadId)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        try validateLength("download_id", downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", type, BrowserStateChangeDownloadStartedType.allCases.map(\.rawValue))
-        try validateLength("url", url, min: nil, max: 4096)
-        try sdkValidatePattern("url", url, sdkPattern1e612264d68c)
+        self.downloadId = try container.sdkDecodeRequired(.downloadId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadStartedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
     }
 }
 
-public extension BrowserStateChangeDownloadStarted {
-    init(downloadId: String, type: BrowserStateChangeDownloadStartedType, url: String) throws {
+extension BrowserStateChangeDownloadStarted {
+    public init(downloadId: String, type: BrowserStateChangeDownloadStartedType, url: String) throws {
         (self.downloadId, self.type) = (downloadId, type)
         self.url = url
-        try validateLength("download_id", self.downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadStartedType.allCases.map(\.rawValue))
-        try validateLength("url", self.url, min: nil, max: 4096)
-        try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadStartedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
     }
 }
 
@@ -89,59 +75,45 @@ public struct BrowserStateChangeDownloadFailed: Codable {
         case error
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BrowserStateChangeDownloadFailed {
-    init(from decoder: Decoder) throws {
+extension BrowserStateChangeDownloadFailed {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.downloadId) else {
-            throw SdkValidationError(
-                field: "download_id",
-                code: "required",
-                message: "Validation failed for 'download_id': value is required"
-            )
+            throw SdkValidationError(field: "download_id", code: "required", message: "Validation failed for 'download_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        downloadId = try container.sdkDecodeRequired(.downloadId)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        error = try container.sdkDecodeIfPresent(.error)
-        try validateLength("download_id", downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", type, BrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
-        try validateLength("url", url, min: nil, max: 4096)
-        try sdkValidatePattern("url", url, sdkPattern1e612264d68c)
-        if let value = error {
+        self.downloadId = try container.sdkDecodeRequired(.downloadId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.error = try container.sdkDecodeIfPresent(.error)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+        if let value = self.error {
             try sdkValidatePattern("error", value, sdkPattern1e612264d68c)
         }
     }
 }
 
-public extension BrowserStateChangeDownloadFailed {
-    init(downloadId: String, type: BrowserStateChangeDownloadFailedType, url: String, error: String? = nil) throws {
+extension BrowserStateChangeDownloadFailed {
+    public init(downloadId: String, type: BrowserStateChangeDownloadFailedType, url: String, error: String? = nil) throws {
         (self.downloadId, self.type) = (downloadId, type)
         (self.url, self.error) = (url, error)
-        try validateLength("download_id", self.downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
-        try validateLength("url", self.url, min: nil, max: 4096)
-        try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadFailedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
         if let value = self.error {
             try sdkValidatePattern("error", value, sdkPattern1e612264d68c)
         }
@@ -172,67 +144,47 @@ public struct BrowserStateChangeDownloadCompleted: Codable {
         case sizeBytes = "size_bytes"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BrowserStateChangeDownloadCompleted {
-    init(from decoder: Decoder) throws {
+extension BrowserStateChangeDownloadCompleted {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.downloadId) else {
-            throw SdkValidationError(
-                field: "download_id",
-                code: "required",
-                message: "Validation failed for 'download_id': value is required"
-            )
+            throw SdkValidationError(field: "download_id", code: "required", message: "Validation failed for 'download_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        downloadId = try container.sdkDecodeRequired(.downloadId)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        path = try container.sdkDecodeIfPresent(.path)
-        sizeBytes = try container.sdkDecodeIfPresent(.sizeBytes)
-        try validateLength("download_id", downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", type, BrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
-        try validateLength("url", url, min: nil, max: 4096)
-        try sdkValidatePattern("url", url, sdkPattern1e612264d68c)
-        if let value = path {
+        self.downloadId = try container.sdkDecodeRequired(.downloadId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+        self.path = try container.sdkDecodeIfPresent(.path)
+        self.sizeBytes = try container.sdkDecodeIfPresent(.sizeBytes)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+        if let value = self.path {
             try sdkValidatePattern("path", value, sdkPattern1e612264d68c)
         }
     }
 }
 
-public extension BrowserStateChangeDownloadCompleted {
-    init(
-        downloadId: String,
-        type: BrowserStateChangeDownloadCompletedType,
-        url: String,
-        path: String? = nil,
-        sizeBytes: Int? = nil
-    ) throws {
+extension BrowserStateChangeDownloadCompleted {
+    public init(downloadId: String, type: BrowserStateChangeDownloadCompletedType, url: String, path: String? = nil, sizeBytes: Int? = nil) throws {
         (self.downloadId, self.type) = (downloadId, type)
         (self.url, self.path) = (url, path)
         self.sizeBytes = sizeBytes
-        try validateLength("download_id", self.downloadId, min: 1, max: 4096)
-        try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
-        try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
-        try validateLength("url", self.url, min: nil, max: 4096)
-        try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
+            try validateLength("download_id", self.downloadId, min: 1, max: 4096)
+            try sdkValidatePattern("download_id", self.downloadId, sdkPattern1e612264d68c)
+            try sdkValidateRawEnum("type", self.type, BrowserStateChangeDownloadCompletedType.allCases.map(\.rawValue))
+            try validateLength("url", self.url, min: nil, max: 4096)
+            try sdkValidatePattern("url", self.url, sdkPattern1e612264d68c)
         if let value = self.path {
             try sdkValidatePattern("path", value, sdkPattern1e612264d68c)
         }
@@ -253,20 +205,20 @@ public struct BrowserDoubleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserDoubleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserDoubleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserDoubleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserDoubleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -286,20 +238,20 @@ public struct BrowserWaitConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserWaitConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserWaitConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserWaitConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserWaitConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -319,20 +271,20 @@ public struct BrowserMiddleClickConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserMiddleClickConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserMiddleClickConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserMiddleClickConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserMiddleClickConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -352,20 +304,20 @@ public struct BrowserReadPageConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserReadPageConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserReadPageConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserReadPageConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserReadPageConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -385,20 +337,20 @@ public struct BrowserNewTabConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserNewTabConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserNewTabConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserNewTabConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserNewTabConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -418,20 +370,20 @@ public struct BrowserReadNetworkConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserReadNetworkConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserReadNetworkConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserReadNetworkConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserReadNetworkConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -444,6 +396,7 @@ public indirect enum BrowserToolset20260801CacheControl {
 }
 
 extension BrowserToolset20260801CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -451,16 +404,12 @@ extension BrowserToolset20260801CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -471,8 +420,8 @@ extension BrowserToolset20260801CacheControl: Codable {
 extension BrowserToolset20260801CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -501,20 +450,20 @@ public struct BrowserJavascriptExecConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserJavascriptExecConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserJavascriptExecConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserJavascriptExecConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserJavascriptExecConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -534,20 +483,20 @@ public struct BrowserLeftMouseUpConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserLeftMouseUpConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserLeftMouseUpConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserLeftMouseUpConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserLeftMouseUpConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -567,20 +516,20 @@ public struct BrowserHoverConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserHoverConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserHoverConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserHoverConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserHoverConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }
@@ -600,20 +549,20 @@ public struct BrowserFindConfig: Codable {
     }
 
     init() {
-        (deferLoading, enabled) = (nil, nil)
+        (self.deferLoading, self.enabled) = (nil, nil)
     }
 }
 
-public extension BrowserFindConfig {
-    init(from decoder: Decoder) throws {
+extension BrowserFindConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        enabled = try container.sdkDecodeIfPresent(.enabled)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-public extension BrowserFindConfig {
-    init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
+extension BrowserFindConfig {
+    public init(deferLoading: Bool? = nil, enabled: Bool? = nil) {
         self.init()
         (self.deferLoading, self.enabled) = (deferLoading, enabled)
     }

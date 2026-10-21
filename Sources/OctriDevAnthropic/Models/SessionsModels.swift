@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Sessions domain models
+// Sessions domain models
 /// Request parameters for updating a `session`. Omit a field to preserve its current value.
 public struct BetaManagedAgentsUpdateSessionParams: Codable {
     /// Human-readable session title.
@@ -32,29 +32,23 @@ public struct BetaManagedAgentsUpdateSessionParams: Codable {
     }
 
     init() {
-        (title, metadata, vaultIds, agent, budget) = (nil, nil, nil, nil, nil)
+        (self.title, self.metadata, self.vaultIds, self.agent, self.budget) = (nil, nil, nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsUpdateSessionParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUpdateSessionParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        title = try container.sdkDecodeIfPresent(.title)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
-        vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
-        agent = try container.sdkDecodeIfPresent(.agent)
-        budget = try container.sdkDecodeIfPresent(.budget)
+        self.title = try container.sdkDecodeIfPresent(.title)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
+        self.agent = try container.sdkDecodeIfPresent(.agent)
+        self.budget = try container.sdkDecodeIfPresent(.budget)
     }
 }
 
-public extension BetaManagedAgentsUpdateSessionParams {
-    init(
-        title: String? = nil,
-        metadata: [String: String?]? = nil,
-        vaultIds: [String]? = nil,
-        agent: BetaManagedAgentsSessionAgentUpdate? = nil,
-        budget: BetaManagedAgentsBudget? = nil
-    ) {
+extension BetaManagedAgentsUpdateSessionParams {
+    public init(title: String? = nil, metadata: [String: String?]? = nil, vaultIds: [String]? = nil, agent: BetaManagedAgentsSessionAgentUpdate? = nil, budget: BetaManagedAgentsBudget? = nil) {
         self.init()
         (self.title, self.metadata) = (title, metadata)
         (self.vaultIds, self.agent) = (vaultIds, agent)
@@ -79,20 +73,20 @@ public struct BetaManagedAgentsSessionAgentUpdate: Codable {
     }
 
     init() {
-        (tools, mcpServers) = (nil, nil)
+        (self.tools, self.mcpServers) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsSessionAgentUpdate {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsSessionAgentUpdate {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        tools = try container.sdkDecodeIfPresent(.tools)
-        mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
+        self.tools = try container.sdkDecodeIfPresent(.tools)
+        self.mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
     }
 }
 
-public extension BetaManagedAgentsSessionAgentUpdate {
-    init(tools: [BetaManagedAgentsAgentToolParams]? = nil, mcpServers: [BetaManagedAgentsMCPServerParams]? = nil) {
+extension BetaManagedAgentsSessionAgentUpdate {
+    public init(tools: [BetaManagedAgentsAgentToolParams]? = nil, mcpServers: [BetaManagedAgentsMCPServerParams]? = nil) {
         self.init()
         (self.tools, self.mcpServers) = (tools, mcpServers)
     }
@@ -110,35 +104,25 @@ public struct BetaManagedAgentsDeletedSession: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsDeletedSession {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsDeletedSession {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
     }
 }
 
-public extension BetaManagedAgentsDeletedSession {
-    init(type: BetaManagedAgentsDeletedSessionType, id: String) {
+extension BetaManagedAgentsDeletedSession {
+    public init(type: BetaManagedAgentsDeletedSessionType, id: String) {
         (self.type, self.id) = (type, id)
     }
 }
@@ -147,15 +131,12 @@ public extension BetaManagedAgentsDeletedSession {
 public struct BetaManagedAgentsDeletedSessionType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let sessionDeleted = BetaManagedAgentsDeletedSessionType(rawValue: "session_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

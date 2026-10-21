@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Invites domain models
+// Invites domain models
 /// Typed representation of the `BetaDeleteInviteResponse` API schema.
 public struct BetaDeleteInviteResponse: Codable {
     /// ID of the Invite.
@@ -16,38 +16,28 @@ public struct BetaDeleteInviteResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDeleteInviteResponse {
-    init(from decoder: Decoder) throws {
+extension BetaDeleteInviteResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaDeleteInviteResponseType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaDeleteInviteResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaDeleteInviteResponse {
-    init(id: String, type: BetaDeleteInviteResponseType) throws {
+extension BetaDeleteInviteResponse {
+    public init(id: String, type: BetaDeleteInviteResponseType) throws {
         (self.id, self.type) = (id, type)
-        try sdkValidateRawEnum("type", self.type, BetaDeleteInviteResponseType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaDeleteInviteResponseType.allCases.map(\.rawValue))
     }
 }
 

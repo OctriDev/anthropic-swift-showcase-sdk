@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaVaultsCredentialsMethods {
-    /// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit`
-    /// to set the page size and `page` to continue from a previous response; `include_archived` controls whether
-    /// archived credentials appear. The response provides a `next_page` token when more results are available.
+extension BetaVaultsCredentialsMethods {
+    /// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit` to set the page size and `page` to continue from a previous response; `include_archived` controls whether archived credentials appear. The response provides a `next_page` token when more results are available.
     ///
     /// - Parameters:
     /// - vaultId: Path parameter vault_id
@@ -22,57 +20,19 @@ public extension BetaVaultsCredentialsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaVaultsCredentials(
-        config: ClientConfig,
-        vaultId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsListCredentialsResponse {
-        try await (sdkRequest(
-            "GET",
-            ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "/credentials?beta=true"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("page", value: page),
-                SdkQueryParameter("include_archived", value: includeArchived),
-            ],
-            decoder: .json,
-            operationId: "listBetaVaultsCredentials",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func listBetaVaultsCredentials(config: ClientConfig, vaultId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListCredentialsResponse {
+        return try (await sdkRequest("GET", ["/v1/vaults/", sdkEncodePathSegment(sdkWireString(vaultId)), "/credentials?beta=true"].joined(), config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("page", value: page),
+            SdkQueryParameter("include_archived", value: includeArchived),
+        ], decoder: .json, operationId: "listBetaVaultsCredentials", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 
-    /// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit`
-    /// to set the page size and `page` to continue from a previous response; `include_archived` controls whether
-    /// archived credentials appear. The response provides a `next_page` token when more results are available.
+    /// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit` to set the page size and `page` to continue from a previous response; `include_archived` controls whether archived credentials appear. The response provides a `next_page` token when more results are available.
     ///
     /// - Parameters:
     /// - vaultId: Path parameter vault_id
@@ -85,46 +45,17 @@ public extension BetaVaultsCredentialsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaVaultsCredentialsPaginated(
-        config: ClientConfig,
-        vaultId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error> {
-        AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaManagedAgentsCredential,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaVaultsCredentialsPaginated(config: ClientConfig, vaultId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error> {
+        return AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaVaultsCredentials(
-                            config: config,
-                            vaultId: vaultId,
-                            limit: limit,
-                            page: pageCursor,
-                            includeArchived: includeArchived,
-                            anthropicVersion: anthropicVersion,
-                            anthropicBeta: anthropicBeta,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaVaultsCredentials(config: config, vaultId: vaultId, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = (pageResponse.data ?? [])
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -137,58 +68,25 @@ public extension BetaVaultsCredentialsMethods {
         }
     }
 
-    struct ListBetaVaultsCredentialsPage {
+    public struct ListBetaVaultsCredentialsPage {
         public let data: BetaManagedAgentsListCredentialsResponse
         public let items: [BetaManagedAgentsCredential]
         public let hasMore: Bool
     }
 
-    static func listBetaVaultsCredentialsPages(
-        config: ClientConfig,
-        vaultId: String,
-        limit: Int? = nil,
-        page: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaVaultsCredentialsPage, Swift.Error> {
-        AsyncThrowingStream<ListBetaVaultsCredentialsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListBetaVaultsCredentialsPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaVaultsCredentialsPages(config: ClientConfig, vaultId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaVaultsCredentialsPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaVaultsCredentialsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaVaultsCredentialsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaVaultsCredentials(
-                            config: config,
-                            vaultId: vaultId,
-                            limit: limit,
-                            page: pageCursor,
-                            includeArchived: includeArchived,
-                            anthropicVersion: anthropicVersion,
-                            anthropicBeta: anthropicBeta,
-                            anthropicWorkspaceId: anthropicWorkspaceId,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaVaultsCredentials(config: config, vaultId: vaultId, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicVersion: anthropicVersion, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
                         let pageItems = (pageResponse.data ?? [])
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaVaultsCredentialsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaVaultsCredentialsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

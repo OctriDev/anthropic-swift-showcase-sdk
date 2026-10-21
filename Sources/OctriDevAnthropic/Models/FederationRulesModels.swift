@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// FederationRules domain models
+// FederationRules domain models
 /// Partial update. Set fields are applied; omitted fields are unchanged. `issuer_id` is immutable. `match` and
 /// `target` are replaced as whole objects when set. Explicit `null` clears `description` and `attributes`; other
 /// fields can only be replaced, not cleared.
@@ -50,38 +50,28 @@ public struct BetaFederationRuleUpdateParams: Codable {
     }
 
     init() {
-        (appliesToAllWorkspaces, attributes, description, match, name) = (nil, nil, nil, nil, nil)
-        (oauthScope, target, tokenLifetimeSeconds, workspaceId) = (nil, nil, nil, nil)
+        (self.appliesToAllWorkspaces, self.attributes, self.description, self.match, self.name) = (nil, nil, nil, nil, nil)
+        (self.oauthScope, self.target, self.tokenLifetimeSeconds, self.workspaceId) = (nil, nil, nil, nil)
     }
 }
 
-public extension BetaFederationRuleUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaFederationRuleUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        appliesToAllWorkspaces = try container.sdkDecodeIfPresent(.appliesToAllWorkspaces)
-        attributes = try container.sdkDecodeIfPresent(.attributes)
-        description = try container.sdkDecodeIfPresent(.description)
-        match = try container.sdkDecodeIfPresent(.match)
-        name = try container.sdkDecodeIfPresent(.name)
-        oauthScope = try container.sdkDecodeIfPresent(.oauthScope)
-        target = try container.sdkDecodeIfPresent(.target)
-        tokenLifetimeSeconds = try container.sdkDecodeIfPresent(.tokenLifetimeSeconds)
-        workspaceId = try container.sdkDecodeIfPresent(.workspaceId)
+        self.appliesToAllWorkspaces = try container.sdkDecodeIfPresent(.appliesToAllWorkspaces)
+        self.attributes = try container.sdkDecodeIfPresent(.attributes)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.match = try container.sdkDecodeIfPresent(.match)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.oauthScope = try container.sdkDecodeIfPresent(.oauthScope)
+        self.target = try container.sdkDecodeIfPresent(.target)
+        self.tokenLifetimeSeconds = try container.sdkDecodeIfPresent(.tokenLifetimeSeconds)
+        self.workspaceId = try container.sdkDecodeIfPresent(.workspaceId)
     }
 }
 
-public extension BetaFederationRuleUpdateParams {
-    init(
-        appliesToAllWorkspaces: Bool? = nil,
-        attributes: [String: String]? = nil,
-        description: String? = nil,
-        match: BetaRuleMatch? = nil,
-        name: String? = nil,
-        oauthScope: String? = nil,
-        target: BetaServiceAccountTarget? = nil,
-        tokenLifetimeSeconds: Int? = nil,
-        workspaceId: String? = nil
-    ) {
+extension BetaFederationRuleUpdateParams {
+    public init(appliesToAllWorkspaces: Bool? = nil, attributes: [String: String]? = nil, description: String? = nil, match: BetaRuleMatch? = nil, name: String? = nil, oauthScope: String? = nil, target: BetaServiceAccountTarget? = nil, tokenLifetimeSeconds: Int? = nil, workspaceId: String? = nil) {
         self.init()
         (self.appliesToAllWorkspaces, self.attributes) = (appliesToAllWorkspaces, attributes)
         (self.description, self.match) = (description, match)

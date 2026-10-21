@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// MembersBetaTrue domain models
+// MembersBetaTrue domain models
 /// Typed representation of the `BetaRbacGroupMember` API schema.
 public struct BetaRbacGroupMember: Codable {
     /// RFC 3339 timestamp of when the User was added to the RBAC Group.
@@ -25,66 +25,44 @@ public struct BetaRbacGroupMember: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRbacGroupMember {
-    init(from decoder: Decoder) throws {
+extension BetaRbacGroupMember {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.email) else {
-            throw SdkValidationError(
-                field: "email",
-                code: "required",
-                message: "Validation failed for 'email': value is required"
-            )
+            throw SdkValidationError(field: "email", code: "required", message: "Validation failed for 'email': value is required")
         }
         guard container.contains(.groupId) else {
-            throw SdkValidationError(
-                field: "group_id",
-                code: "required",
-                message: "Validation failed for 'group_id': value is required"
-            )
+            throw SdkValidationError(field: "group_id", code: "required", message: "Validation failed for 'group_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        email = try container.sdkDecodeRequired(.email)
-        groupId = try container.sdkDecodeRequired(.groupId)
-        type = try container.sdkDecodeRequired(.type)
-        userId = try container.sdkDecodeRequired(.userId)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateRawEnum("type", type, BetaRbacGroupMemberType.allCases.map(\.rawValue))
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.email = try container.sdkDecodeRequired(.email)
+        self.groupId = try container.sdkDecodeRequired(.groupId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.userId = try container.sdkDecodeRequired(.userId)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaRbacGroupMemberType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaRbacGroupMember {
-    init(createdAt: Date, email: String, groupId: String, type: BetaRbacGroupMemberType, userId: String) throws {
+extension BetaRbacGroupMember {
+    public init(createdAt: Date, email: String, groupId: String, type: BetaRbacGroupMemberType, userId: String) throws {
         (self.createdAt, self.email) = (createdAt, email)
         (self.groupId, self.type) = (groupId, type)
         self.userId = userId
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateRawEnum("type", self.type, BetaRbacGroupMemberType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateRawEnum("type", self.type, BetaRbacGroupMemberType.allCases.map(\.rawValue))
     }
 }
 
@@ -103,43 +81,29 @@ public struct BetaRbacGroupMemberList: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaRbacGroupMemberList {
-    init(from decoder: Decoder) throws {
+extension BetaRbacGroupMemberList {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaRbacGroupMemberList {
-    init(data: [BetaRbacGroupMember], hasMore: Bool, nextPage: String?) {
+extension BetaRbacGroupMemberList {
+    public init(data: [BetaRbacGroupMember], hasMore: Bool, nextPage: String?) {
         (self.data, self.hasMore) = (data, hasMore)
         self.nextPage = nextPage
     }
@@ -163,51 +127,33 @@ public struct BetaListResponseWorkspaceMemberSchema: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaListResponseWorkspaceMemberSchema {
-    init(from decoder: Decoder) throws {
+extension BetaListResponseWorkspaceMemberSchema {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.firstId) else {
-            throw SdkValidationError(
-                field: "first_id",
-                code: "required",
-                message: "Validation failed for 'first_id': value is required"
-            )
+            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.lastId) else {
-            throw SdkValidationError(
-                field: "last_id",
-                code: "required",
-                message: "Validation failed for 'last_id': value is required"
-            )
+            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        firstId = try container.sdkDecodeNullable(.firstId)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        lastId = try container.sdkDecodeNullable(.lastId)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.firstId = try container.sdkDecodeNullable(.firstId)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.lastId = try container.sdkDecodeNullable(.lastId)
     }
 }
 
-public extension BetaListResponseWorkspaceMemberSchema {
-    init(data: [BetaWorkspaceMemberSchema], firstId: String?, hasMore: Bool, lastId: String?) {
+extension BetaListResponseWorkspaceMemberSchema {
+    public init(data: [BetaWorkspaceMemberSchema], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }
@@ -225,35 +171,25 @@ public struct BetaCreateWorkspaceMemberParams: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCreateWorkspaceMemberParams {
-    init(from decoder: Decoder) throws {
+extension BetaCreateWorkspaceMemberParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
         guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(
-                field: "workspace_role",
-                code: "required",
-                message: "Validation failed for 'workspace_role': value is required"
-            )
+            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
         }
-        userId = try container.sdkDecodeRequired(.userId)
-        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+        self.userId = try container.sdkDecodeRequired(.userId)
+        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
     }
 }
 
-public extension BetaCreateWorkspaceMemberParams {
-    init(userId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
+extension BetaCreateWorkspaceMemberParams {
+    public init(userId: String, workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
         (self.userId, self.workspaceRole) = (userId, workspaceRole)
     }
 }
@@ -267,27 +203,21 @@ public struct BetaAddRbacGroupMemberParams: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAddRbacGroupMemberParams {
-    init(from decoder: Decoder) throws {
+extension BetaAddRbacGroupMemberParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
-        userId = try container.sdkDecodeRequired(.userId)
+        self.userId = try container.sdkDecodeRequired(.userId)
     }
 }
 
-public extension BetaAddRbacGroupMemberParams {
-    init(userId: String) {
+extension BetaAddRbacGroupMemberParams {
+    public init(userId: String) {
         self.userId = userId
     }
 }

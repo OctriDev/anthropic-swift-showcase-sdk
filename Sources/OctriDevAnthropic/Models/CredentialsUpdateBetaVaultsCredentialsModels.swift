@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Credentials domain models
+// Credentials domain models
 public indirect enum BetaManagedAgentsCredentialUpdateAuth {
     case betaManagedAgentsMcpOauthUpdateParams(BetaManagedAgentsMcpOauthUpdateParams)
     case betaManagedAgentsStaticBearerUpdateParams(BetaManagedAgentsStaticBearerUpdateParams)
@@ -13,6 +13,7 @@ public indirect enum BetaManagedAgentsCredentialUpdateAuth {
 }
 
 extension BetaManagedAgentsCredentialUpdateAuth: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension BetaManagedAgentsCredentialUpdateAuth: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,16 +37,12 @@ extension BetaManagedAgentsCredentialUpdateAuth: Codable {
 extension BetaManagedAgentsCredentialUpdateAuth {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "mcp_oauth": try .betaManagedAgentsMcpOauthUpdateParams(
-                BetaManagedAgentsMcpOauthUpdateParams(from: decoder)
-            )
+        case "mcp_oauth": return .betaManagedAgentsMcpOauthUpdateParams(try BetaManagedAgentsMcpOauthUpdateParams(from: decoder))
         case "static_bearer":
-            try .betaManagedAgentsStaticBearerUpdateParams(BetaManagedAgentsStaticBearerUpdateParams(from: decoder))
+        return .betaManagedAgentsStaticBearerUpdateParams(try BetaManagedAgentsStaticBearerUpdateParams(from: decoder))
         case "environment_variable":
-            try .betaManagedAgentsEnvironmentVariableUpdateParams(
-                BetaManagedAgentsEnvironmentVariableUpdateParams(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEnvironmentVariableUpdateParams(try BetaManagedAgentsEnvironmentVariableUpdateParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -74,6 +67,7 @@ public indirect enum BetaManagedAgentsMcpOauthRefreshUpdateParamsTokenEndpointAu
 }
 
 extension BetaManagedAgentsMcpOauthRefreshUpdateParamsTokenEndpointAuth: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -81,16 +75,12 @@ extension BetaManagedAgentsMcpOauthRefreshUpdateParamsTokenEndpointAuth: Codable
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -102,14 +92,10 @@ extension BetaManagedAgentsMcpOauthRefreshUpdateParamsTokenEndpointAuth {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "client_secret_basic":
-            try .betaManagedAgentsTokenEndpointAuthBasicUpdateParam(
-                BetaManagedAgentsTokenEndpointAuthBasicUpdateParam(from: decoder)
-            )
+        return .betaManagedAgentsTokenEndpointAuthBasicUpdateParam(try BetaManagedAgentsTokenEndpointAuthBasicUpdateParam(from: decoder))
         case "client_secret_post":
-            try .betaManagedAgentsTokenEndpointAuthPostUpdateParam(
-                BetaManagedAgentsTokenEndpointAuthPostUpdateParam(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsTokenEndpointAuthPostUpdateParam(try BetaManagedAgentsTokenEndpointAuthPostUpdateParam(from: decoder))
+        default: return nil
         }
     }
 }
@@ -143,47 +129,28 @@ public struct BetaManagedAgentsEnvironmentVariableUpdateParams: Codable {
         case injectionLocation = "injection_location"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEnvironmentVariableUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEnvironmentVariableUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        secretValue = try container.sdkDecodeIfPresent(.secretValue)
-        networking = try container.sdkDecodeIfPresent(.networking)
-        injectionLocation = try container.sdkDecodeIfPresent(.injectionLocation)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsEnvironmentVariableUpdateParamsType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.secretValue = try container.sdkDecodeIfPresent(.secretValue)
+        self.networking = try container.sdkDecodeIfPresent(.networking)
+        self.injectionLocation = try container.sdkDecodeIfPresent(.injectionLocation)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEnvironmentVariableUpdateParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsEnvironmentVariableUpdateParams {
-    init(
-        type: BetaManagedAgentsEnvironmentVariableUpdateParamsType,
-        secretValue: String? = nil,
-        networking: BetaManagedAgentsCredentialNetworkingParams? = nil,
-        injectionLocation: BetaManagedAgentsInjectionLocationUpdateParams? = nil
-    ) throws {
+extension BetaManagedAgentsEnvironmentVariableUpdateParams {
+    public init(type: BetaManagedAgentsEnvironmentVariableUpdateParamsType, secretValue: String? = nil, networking: BetaManagedAgentsCredentialNetworkingParams? = nil, injectionLocation: BetaManagedAgentsInjectionLocationUpdateParams? = nil) throws {
         (self.type, self.secretValue) = (type, secretValue)
         (self.networking, self.injectionLocation) = (networking, injectionLocation)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsEnvironmentVariableUpdateParamsType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEnvironmentVariableUpdateParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -199,39 +166,25 @@ public struct BetaManagedAgentsTokenEndpointAuthBasicUpdateParam: Codable {
         case clientSecret = "client_secret"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthBasicUpdateParam {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsTokenEndpointAuthBasicUpdateParam {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthBasicUpdateParam {
-    init(type: BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType, clientSecret: String? = nil) throws {
+extension BetaManagedAgentsTokenEndpointAuthBasicUpdateParam {
+    public init(type: BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType, clientSecret: String? = nil) throws {
         (self.type, self.clientSecret) = (type, clientSecret)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType.allCases.map(\.rawValue))
     }
 }
 
@@ -247,35 +200,25 @@ public struct BetaManagedAgentsStaticBearerUpdateParams: Codable {
         case token
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsStaticBearerUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsStaticBearerUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        token = try container.sdkDecodeIfPresent(.token)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsStaticBearerUpdateParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.token = try container.sdkDecodeIfPresent(.token)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsStaticBearerUpdateParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsStaticBearerUpdateParams {
-    init(type: BetaManagedAgentsStaticBearerUpdateParamsType, token: String? = nil) throws {
+extension BetaManagedAgentsStaticBearerUpdateParams {
+    public init(type: BetaManagedAgentsStaticBearerUpdateParamsType, token: String? = nil) throws {
         (self.type, self.token) = (type, token)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsStaticBearerUpdateParamsType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsStaticBearerUpdateParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -291,39 +234,25 @@ public struct BetaManagedAgentsTokenEndpointAuthPostUpdateParam: Codable {
         case clientSecret = "client_secret"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthPostUpdateParam {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsTokenEndpointAuthPostUpdateParam {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsTokenEndpointAuthPostUpdateParamType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthPostUpdateParamType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsTokenEndpointAuthPostUpdateParam {
-    init(type: BetaManagedAgentsTokenEndpointAuthPostUpdateParamType, clientSecret: String? = nil) throws {
+extension BetaManagedAgentsTokenEndpointAuthPostUpdateParam {
+    public init(type: BetaManagedAgentsTokenEndpointAuthPostUpdateParamType, clientSecret: String? = nil) throws {
         (self.type, self.clientSecret) = (type, clientSecret)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsTokenEndpointAuthPostUpdateParamType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsTokenEndpointAuthPostUpdateParamType.allCases.map(\.rawValue))
     }
 }
 
@@ -345,39 +274,28 @@ public struct BetaManagedAgentsMcpOauthUpdateParams: Codable {
         case refresh
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsMcpOauthUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsMcpOauthUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        accessToken = try container.sdkDecodeIfPresent(.accessToken)
-        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-        refresh = try container.sdkDecodeIfPresent(.refresh)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsMcpOauthUpdateParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.accessToken = try container.sdkDecodeIfPresent(.accessToken)
+        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+        self.refresh = try container.sdkDecodeIfPresent(.refresh)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMcpOauthUpdateParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsMcpOauthUpdateParams {
-    init(
-        type: BetaManagedAgentsMcpOauthUpdateParamsType,
-        accessToken: String? = nil,
-        expiresAt: BetaTimestamp? = nil,
-        refresh: BetaManagedAgentsMcpOauthRefreshUpdateParams? = nil
-    ) throws {
+extension BetaManagedAgentsMcpOauthUpdateParams {
+    public init(type: BetaManagedAgentsMcpOauthUpdateParamsType, accessToken: String? = nil, expiresAt: BetaTimestamp? = nil, refresh: BetaManagedAgentsMcpOauthRefreshUpdateParams? = nil) throws {
         (self.type, self.accessToken) = (type, accessToken)
         (self.expiresAt, self.refresh) = (expiresAt, refresh)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMcpOauthUpdateParamsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMcpOauthUpdateParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -397,25 +315,21 @@ public struct BetaManagedAgentsMcpOauthRefreshUpdateParams: Codable {
     }
 
     init() {
-        (refreshToken, scope, tokenEndpointAuth) = (nil, nil, nil)
+        (self.refreshToken, self.scope, self.tokenEndpointAuth) = (nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsMcpOauthRefreshUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsMcpOauthRefreshUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        refreshToken = try container.sdkDecodeIfPresent(.refreshToken)
-        scope = try container.sdkDecodeIfPresent(.scope)
-        tokenEndpointAuth = try container.sdkDecodeIfPresent(.tokenEndpointAuth)
+        self.refreshToken = try container.sdkDecodeIfPresent(.refreshToken)
+        self.scope = try container.sdkDecodeIfPresent(.scope)
+        self.tokenEndpointAuth = try container.sdkDecodeIfPresent(.tokenEndpointAuth)
     }
 }
 
-public extension BetaManagedAgentsMcpOauthRefreshUpdateParams {
-    init(
-        refreshToken: String? = nil,
-        scope: String? = nil,
-        tokenEndpointAuth: BetaManagedAgentsMcpOauthRefreshUpdateParamsTokenEndpointAuth? = nil
-    ) {
+extension BetaManagedAgentsMcpOauthRefreshUpdateParams {
+    public init(refreshToken: String? = nil, scope: String? = nil, tokenEndpointAuth: BetaManagedAgentsMcpOauthRefreshUpdateParamsTokenEndpointAuth? = nil) {
         self.init()
         (self.refreshToken, self.scope) = (refreshToken, scope)
         self.tokenEndpointAuth = tokenEndpointAuth
@@ -435,20 +349,20 @@ public struct BetaManagedAgentsInjectionLocationUpdateParams: Codable {
     }
 
     init() {
-        (header, body) = (nil, nil)
+        (self.header, self.body) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsInjectionLocationUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsInjectionLocationUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        header = try container.sdkDecodeIfPresent(.header)
-        body = try container.sdkDecodeIfPresent(.body)
+        self.header = try container.sdkDecodeIfPresent(.header)
+        self.body = try container.sdkDecodeIfPresent(.body)
     }
 }
 
-public extension BetaManagedAgentsInjectionLocationUpdateParams {
-    init(header: Bool? = nil, body: Bool? = nil) {
+extension BetaManagedAgentsInjectionLocationUpdateParams {
+    public init(header: Bool? = nil, body: Bool? = nil) {
         self.init()
         (self.header, self.body) = (header, body)
     }
@@ -471,25 +385,21 @@ public struct BetaManagedAgentsUpdateCredentialRequestBody: Codable {
     }
 
     init() {
-        (displayName, metadata, auth) = (nil, nil, nil)
+        (self.displayName, self.metadata, self.auth) = (nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsUpdateCredentialRequestBody {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsUpdateCredentialRequestBody {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        displayName = try container.sdkDecodeIfPresent(.displayName)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
-        auth = try container.sdkDecodeIfPresent(.auth)
+        self.displayName = try container.sdkDecodeIfPresent(.displayName)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.auth = try container.sdkDecodeIfPresent(.auth)
     }
 }
 
-public extension BetaManagedAgentsUpdateCredentialRequestBody {
-    init(
-        displayName: String? = nil,
-        metadata: [String: String?]? = nil,
-        auth: BetaManagedAgentsCredentialUpdateAuth? = nil
-    ) {
+extension BetaManagedAgentsUpdateCredentialRequestBody {
+    public init(displayName: String? = nil, metadata: [String: String?]? = nil, auth: BetaManagedAgentsCredentialUpdateAuth? = nil) {
         self.init()
         (self.displayName, self.metadata) = (displayName, metadata)
         self.auth = auth

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedContent domain models
+// SharedContent domain models
 public indirect enum ContentBlock {
     case responseTextBlock(ResponseTextBlock)
     case responseThinkingBlock(ResponseThinkingBlock)
@@ -22,6 +22,7 @@ public indirect enum ContentBlock {
 }
 
 extension ContentBlock: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -29,16 +30,12 @@ extension ContentBlock: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -49,30 +46,22 @@ extension ContentBlock: Codable {
 extension ContentBlock {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": try .responseTextBlock(ResponseTextBlock(from: decoder))
-        case "thinking": try .responseThinkingBlock(ResponseThinkingBlock(from: decoder))
-        case "redacted_thinking": try .responseRedactedThinkingBlock(ResponseRedactedThinkingBlock(from: decoder))
-        case "tool_use": try .responseToolUseBlock(ResponseToolUseBlock(from: decoder))
-        case "server_tool_use": try .responseServerToolUseBlock(ResponseServerToolUseBlock(from: decoder))
-        case "web_search_tool_result": try .responseWebSearchToolResultBlock(
-                ResponseWebSearchToolResultBlock(from: decoder)
-            )
-        case "web_fetch_tool_result": try .responseWebFetchToolResultBlock(
-                ResponseWebFetchToolResultBlock(from: decoder)
-            )
+        case "text": return .responseTextBlock(try ResponseTextBlock(from: decoder))
+        case "thinking": return .responseThinkingBlock(try ResponseThinkingBlock(from: decoder))
+        case "redacted_thinking": return .responseRedactedThinkingBlock(try ResponseRedactedThinkingBlock(from: decoder))
+        case "tool_use": return .responseToolUseBlock(try ResponseToolUseBlock(from: decoder))
+        case "server_tool_use": return .responseServerToolUseBlock(try ResponseServerToolUseBlock(from: decoder))
+        case "web_search_tool_result": return .responseWebSearchToolResultBlock(try ResponseWebSearchToolResultBlock(from: decoder))
+        case "web_fetch_tool_result": return .responseWebFetchToolResultBlock(try ResponseWebFetchToolResultBlock(from: decoder))
         case "code_execution_tool_result":
-            try .responseCodeExecutionToolResultBlock(ResponseCodeExecutionToolResultBlock(from: decoder))
+        return .responseCodeExecutionToolResultBlock(try ResponseCodeExecutionToolResultBlock(from: decoder))
         case "bash_code_execution_tool_result":
-            try .responseBashCodeExecutionToolResultBlock(ResponseBashCodeExecutionToolResultBlock(from: decoder))
+        return .responseBashCodeExecutionToolResultBlock(try ResponseBashCodeExecutionToolResultBlock(from: decoder))
         case "text_editor_code_execution_tool_result":
-            try .responseTextEditorCodeExecutionToolResultBlock(
-                ResponseTextEditorCodeExecutionToolResultBlock(from: decoder)
-            )
-        case "tool_search_tool_result": try .responseToolSearchToolResultBlock(
-                ResponseToolSearchToolResultBlock(from: decoder)
-            )
-        case "container_upload": try .responseContainerUploadBlock(ResponseContainerUploadBlock(from: decoder))
-        default: nil
+        return .responseTextEditorCodeExecutionToolResultBlock(try ResponseTextEditorCodeExecutionToolResultBlock(from: decoder))
+        case "tool_search_tool_result": return .responseToolSearchToolResultBlock(try ResponseToolSearchToolResultBlock(from: decoder))
+        case "container_upload": return .responseContainerUploadBlock(try ResponseContainerUploadBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -106,6 +95,7 @@ public indirect enum ContentBlockSourceContentItem {
 }
 
 extension ContentBlockSourceContentItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -113,16 +103,12 @@ extension ContentBlockSourceContentItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -133,9 +119,9 @@ extension ContentBlockSourceContentItem: Codable {
 extension ContentBlockSourceContentItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "text": try .requestTextBlock(RequestTextBlock(from: decoder))
-        case "image": try .requestImageBlock(RequestImageBlock(from: decoder))
-        default: nil
+        case "text": return .requestTextBlock(try RequestTextBlock(from: decoder))
+        case "image": return .requestImageBlock(try RequestImageBlock(from: decoder))
+        default: return nil
         }
     }
 }
@@ -157,33 +143,22 @@ public indirect enum ContentBlockSourceContent {
 }
 
 extension ContentBlockSourceContent: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for ContentBlockSourceContent"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for ContentBlockSourceContent")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension ContentBlockSourceContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) {
-            return .stringValue(value)
-        }
-        if let value = try? container
-            .decode([ContentBlockSourceContentItem].self) {
-            return .contentBlockSourceContentItemList(value)
-        }
+        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode([ContentBlockSourceContentItem].self) { return .contentBlockSourceContentItemList(value) }
         return nil
     }
 }
@@ -210,38 +185,28 @@ public struct ContentBlockSource: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ContentBlockSource {
-    init(from decoder: Decoder) throws {
+extension ContentBlockSource {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ContentBlockSourceType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ContentBlockSourceType.allCases.map(\.rawValue))
     }
 }
 
-public extension ContentBlockSource {
-    init(content: ContentBlockSourceContent, type: ContentBlockSourceType) throws {
+extension ContentBlockSource {
+    public init(content: ContentBlockSourceContent, type: ContentBlockSourceType) throws {
         (self.content, self.type) = (content, type)
-        try sdkValidateRawEnum("type", self.type, ContentBlockSourceType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ContentBlockSourceType.allCases.map(\.rawValue))
     }
 }
 

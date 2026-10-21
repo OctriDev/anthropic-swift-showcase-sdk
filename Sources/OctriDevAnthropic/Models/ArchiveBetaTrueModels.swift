@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ArchiveBetaTrue domain models
+// ArchiveBetaTrue domain models
 public indirect enum BetaManagedAgentsArchiveMemoryStoreResponse {
     case betaManagedAgentsMemoryStore(BetaManagedAgentsMemoryStore)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaManagedAgentsArchiveMemoryStoreResponse {
 }
 
 extension BetaManagedAgentsArchiveMemoryStoreResponse: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaManagedAgentsArchiveMemoryStoreResponse: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -38,8 +35,8 @@ extension BetaManagedAgentsArchiveMemoryStoreResponse: Codable {
 extension BetaManagedAgentsArchiveMemoryStoreResponse {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory_store": try .betaManagedAgentsMemoryStore(BetaManagedAgentsMemoryStore(from: decoder))
-        default: nil
+        case "memory_store": return .betaManagedAgentsMemoryStore(try BetaManagedAgentsMemoryStore(from: decoder))
+        default: return nil
         }
     }
 }

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaDeploymentsMethods {
-    struct ListBetaDeploymentsOptions: Codable {
+extension BetaDeploymentsMethods {
+    public struct ListBetaDeploymentsOptions: Codable {
         public var limit: Int?
         public var page: String?
         public var agentId: String?
@@ -22,9 +22,7 @@ public extension BetaDeploymentsMethods {
         public init() {}
     }
 
-    /// Lists deployments configured to run agents. Filter results by agent, lifecycle status, creation time, or archive
-    /// state, and use `page` to continue through cursor-based results. The `status` filter cannot be combined with
-    /// `include_archived`.
+    /// Lists deployments configured to run agents. Filter results by agent, lifecycle status, creation time, or archive state, and use `page` to continue through cursor-based results. The `status` filter cannot be combined with `include_archived`.
     ///
     /// - Parameters:
     /// - limit: Maximum results per page. Default 20, maximum 100.
@@ -44,11 +42,7 @@ public extension BetaDeploymentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaDeployments(
-        config: ClientConfig,
-        options: ListBetaDeploymentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsListDeploymentsData {
+    public static func listBetaDeployments(config: ClientConfig, options: ListBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListDeploymentsData {
         if let createdAtGte = options.createdAtGte {
             try sdkValidateDateTime("created_at[gte]", createdAtGte)
         }
@@ -57,50 +51,22 @@ public extension BetaDeploymentsMethods {
             try sdkValidateDateTime("created_at[lte]", createdAtLte)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/deployments?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("agent_id", value: options.agentId),
-                SdkQueryParameter("status", value: options.status),
-                SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
-                SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
-                SdkQueryParameter("include_archived", value: options.includeArchived),
-            ],
-            decoder: .json,
-            operationId: "listBetaDeployments",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/deployments?beta=true", config: config, query: [
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("agent_id", value: options.agentId),
+            SdkQueryParameter("status", value: options.status),
+            SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
+            SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
+            SdkQueryParameter("include_archived", value: options.includeArchived),
+        ], decoder: .json, operationId: "listBetaDeployments", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 
-    /// Lists deployments configured to run agents. Filter results by agent, lifecycle status, creation time, or archive
-    /// state, and use `page` to continue through cursor-based results. The `status` filter cannot be combined with
-    /// `include_archived`.
+    /// Lists deployments configured to run agents. Filter results by agent, lifecycle status, creation time, or archive state, and use `page` to continue through cursor-based results. The `status` filter cannot be combined with `include_archived`.
     ///
     /// - Parameters:
     /// - limit: Maximum results per page. Default 20, maximum 100.
@@ -120,37 +86,20 @@ public extension BetaDeploymentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaDeploymentsPaginated(
-        config: ClientConfig,
-        options: ListBetaDeploymentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error> {
+    public static func listBetaDeploymentsPaginated(config: ClientConfig, options: ListBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaManagedAgentsDeployment,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaDeployments(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaDeployments(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -163,49 +112,28 @@ public extension BetaDeploymentsMethods {
         }
     }
 
-    struct ListBetaDeploymentsPage {
+    public struct ListBetaDeploymentsPage {
         public let data: BetaManagedAgentsListDeploymentsData
         public let items: [BetaManagedAgentsDeployment]
         public let hasMore: Bool
     }
 
-    static func listBetaDeploymentsPages(
-        config: ClientConfig,
-        options: ListBetaDeploymentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaDeploymentsPage, Swift.Error> {
+    public static func listBetaDeploymentsPages(config: ClientConfig, options: ListBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaDeploymentsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaDeploymentsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListBetaDeploymentsPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<ListBetaDeploymentsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaDeploymentsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaDeployments(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaDeployments(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaDeploymentsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaDeploymentsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

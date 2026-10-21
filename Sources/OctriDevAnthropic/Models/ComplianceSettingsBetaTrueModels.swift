@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ComplianceSettingsBetaTrue domain models
+// ComplianceSettingsBetaTrue domain models
 public indirect enum BetaComplianceSettingsState {
     case betaComplianceSettingsStateEnabled(BetaComplianceSettingsStateEnabled)
     case betaComplianceSettingsStateDisabled(BetaComplianceSettingsStateDisabled)
@@ -12,6 +12,7 @@ public indirect enum BetaComplianceSettingsState {
 }
 
 extension BetaComplianceSettingsState: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension BetaComplianceSettingsState: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension BetaComplianceSettingsState: Codable {
 extension BetaComplianceSettingsState {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "enabled": try .betaComplianceSettingsStateEnabled(BetaComplianceSettingsStateEnabled(from: decoder))
-        case "disabled": try .betaComplianceSettingsStateDisabled(BetaComplianceSettingsStateDisabled(from: decoder))
-        default: nil
+        case "enabled": return .betaComplianceSettingsStateEnabled(try BetaComplianceSettingsStateEnabled(from: decoder))
+        case "disabled": return .betaComplianceSettingsStateDisabled(try BetaComplianceSettingsStateDisabled(from: decoder))
+        default: return nil
         }
     }
 }
@@ -65,6 +62,7 @@ public indirect enum BetaComplianceSettingsUpdateParamsState {
 }
 
 extension BetaComplianceSettingsUpdateParamsState: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -72,16 +70,12 @@ extension BetaComplianceSettingsUpdateParamsState: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -92,13 +86,9 @@ extension BetaComplianceSettingsUpdateParamsState: Codable {
 extension BetaComplianceSettingsUpdateParamsState {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "enabled": try .betaComplianceSettingsStateEnabledParams(
-                BetaComplianceSettingsStateEnabledParams(from: decoder)
-            )
-        case "disabled": try .betaComplianceSettingsStateDisabledParams(
-                BetaComplianceSettingsStateDisabledParams(from: decoder)
-            )
-        default: nil
+        case "enabled": return .betaComplianceSettingsStateEnabledParams(try BetaComplianceSettingsStateEnabledParams(from: decoder))
+        case "disabled": return .betaComplianceSettingsStateDisabledParams(try BetaComplianceSettingsStateDisabledParams(from: decoder))
+        default: return nil
         }
     }
 }
@@ -123,30 +113,24 @@ public struct BetaComplianceSettingsStateEnabledParams: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComplianceSettingsStateEnabledParams {
-    init(from decoder: Decoder) throws {
+extension BetaComplianceSettingsStateEnabledParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaComplianceSettingsStateEnabledParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateEnabledParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComplianceSettingsStateEnabledParams {
-    init(type: BetaComplianceSettingsStateEnabledParamsType) throws {
+extension BetaComplianceSettingsStateEnabledParams {
+    public init(type: BetaComplianceSettingsStateEnabledParamsType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateEnabledParamsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateEnabledParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -159,34 +143,24 @@ public struct BetaComplianceSettingsStateDisabledParams: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComplianceSettingsStateDisabledParams {
-    init(from decoder: Decoder) throws {
+extension BetaComplianceSettingsStateDisabledParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaComplianceSettingsStateDisabledParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateDisabledParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComplianceSettingsStateDisabledParams {
-    init(type: BetaComplianceSettingsStateDisabledParamsType) throws {
+extension BetaComplianceSettingsStateDisabledParams {
+    public init(type: BetaComplianceSettingsStateDisabledParamsType) throws {
         self.type = type
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaComplianceSettingsStateDisabledParamsType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateDisabledParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -200,27 +174,21 @@ public struct BetaComplianceSettingsUpdateParams: Codable {
         case state
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComplianceSettingsUpdateParams {
-    init(from decoder: Decoder) throws {
+extension BetaComplianceSettingsUpdateParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.state) else {
-            throw SdkValidationError(
-                field: "state",
-                code: "required",
-                message: "Validation failed for 'state': value is required"
-            )
+            throw SdkValidationError(field: "state", code: "required", message: "Validation failed for 'state': value is required")
         }
-        state = try container.sdkDecodeRequired(.state)
+        self.state = try container.sdkDecodeRequired(.state)
     }
 }
 
-public extension BetaComplianceSettingsUpdateParams {
-    init(state: BetaComplianceSettingsUpdateParamsState) {
+extension BetaComplianceSettingsUpdateParams {
+    public init(state: BetaComplianceSettingsUpdateParamsState) {
         self.state = state
     }
 }
@@ -234,30 +202,24 @@ public struct BetaComplianceSettingsStateDisabled: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComplianceSettingsStateDisabled {
-    init(from decoder: Decoder) throws {
+extension BetaComplianceSettingsStateDisabled {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaComplianceSettingsStateDisabledType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateDisabledType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComplianceSettingsStateDisabled {
-    init(type: BetaComplianceSettingsStateDisabledType) throws {
+extension BetaComplianceSettingsStateDisabled {
+    public init(type: BetaComplianceSettingsStateDisabledType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateDisabledType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateDisabledType.allCases.map(\.rawValue))
     }
 }
 
@@ -273,38 +235,28 @@ public struct BetaComplianceSettings: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComplianceSettings {
-    init(from decoder: Decoder) throws {
+extension BetaComplianceSettings {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.state) else {
-            throw SdkValidationError(
-                field: "state",
-                code: "required",
-                message: "Validation failed for 'state': value is required"
-            )
+            throw SdkValidationError(field: "state", code: "required", message: "Validation failed for 'state': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        state = try container.sdkDecodeRequired(.state)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaComplianceSettingsType.allCases.map(\.rawValue))
+        self.state = try container.sdkDecodeRequired(.state)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComplianceSettings {
-    init(state: BetaComplianceSettingsState, type: BetaComplianceSettingsType) throws {
+extension BetaComplianceSettings {
+    public init(state: BetaComplianceSettingsState, type: BetaComplianceSettingsType) throws {
         (self.state, self.type) = (state, type)
-        try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsType.allCases.map(\.rawValue))
     }
 }
 
@@ -317,30 +269,24 @@ public struct BetaComplianceSettingsStateEnabled: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaComplianceSettingsStateEnabled {
-    init(from decoder: Decoder) throws {
+extension BetaComplianceSettingsStateEnabled {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaComplianceSettingsStateEnabledType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateEnabledType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaComplianceSettingsStateEnabled {
-    init(type: BetaComplianceSettingsStateEnabledType) throws {
+extension BetaComplianceSettingsStateEnabled {
+    public init(type: BetaComplianceSettingsStateEnabledType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateEnabledType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaComplianceSettingsStateEnabledType.allCases.map(\.rawValue))
     }
 }
 

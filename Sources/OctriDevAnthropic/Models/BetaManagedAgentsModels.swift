@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// BetaManagedAgents domain models
+// BetaManagedAgents domain models
 /// Input payload for the `edit` tool. Performs a string replacement in the named file; by default `old_string` must
 /// occur exactly once.
 public struct BetaManagedAgentsAgentToolset20260401EditInput: Codable {
@@ -23,44 +23,30 @@ public struct BetaManagedAgentsAgentToolset20260401EditInput: Codable {
         case replaceAll = "replace_all"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401EditInput {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAgentToolset20260401EditInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.filePath) else {
-            throw SdkValidationError(
-                field: "file_path",
-                code: "required",
-                message: "Validation failed for 'file_path': value is required"
-            )
+            throw SdkValidationError(field: "file_path", code: "required", message: "Validation failed for 'file_path': value is required")
         }
         guard container.contains(.oldString) else {
-            throw SdkValidationError(
-                field: "old_string",
-                code: "required",
-                message: "Validation failed for 'old_string': value is required"
-            )
+            throw SdkValidationError(field: "old_string", code: "required", message: "Validation failed for 'old_string': value is required")
         }
         guard container.contains(.newString) else {
-            throw SdkValidationError(
-                field: "new_string",
-                code: "required",
-                message: "Validation failed for 'new_string': value is required"
-            )
+            throw SdkValidationError(field: "new_string", code: "required", message: "Validation failed for 'new_string': value is required")
         }
-        filePath = try container.sdkDecodeRequired(.filePath)
-        oldString = try container.sdkDecodeRequired(.oldString)
-        newString = try container.sdkDecodeRequired(.newString)
-        replaceAll = try container.sdkDecodeIfPresent(.replaceAll)
+        self.filePath = try container.sdkDecodeRequired(.filePath)
+        self.oldString = try container.sdkDecodeRequired(.oldString)
+        self.newString = try container.sdkDecodeRequired(.newString)
+        self.replaceAll = try container.sdkDecodeIfPresent(.replaceAll)
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401EditInput {
-    init(filePath: String, oldString: String, newString: String, replaceAll: Bool? = nil) {
+extension BetaManagedAgentsAgentToolset20260401EditInput {
+    public init(filePath: String, oldString: String, newString: String, replaceAll: Bool? = nil) {
         (self.filePath, self.oldString) = (filePath, oldString)
         (self.newString, self.replaceAll) = (newString, replaceAll)
     }
@@ -79,28 +65,22 @@ public struct BetaManagedAgentsAgentToolset20260401GlobInput: Codable {
         case path
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401GlobInput {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAgentToolset20260401GlobInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.pattern) else {
-            throw SdkValidationError(
-                field: "pattern",
-                code: "required",
-                message: "Validation failed for 'pattern': value is required"
-            )
+            throw SdkValidationError(field: "pattern", code: "required", message: "Validation failed for 'pattern': value is required")
         }
-        pattern = try container.sdkDecodeRequired(.pattern)
-        path = try container.sdkDecodeIfPresent(.path)
+        self.pattern = try container.sdkDecodeRequired(.pattern)
+        self.path = try container.sdkDecodeIfPresent(.path)
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401GlobInput {
-    init(pattern: String, path: String? = nil) {
+extension BetaManagedAgentsAgentToolset20260401GlobInput {
+    public init(pattern: String, path: String? = nil) {
         (self.pattern, self.path) = (pattern, path)
     }
 }
@@ -119,31 +99,25 @@ public struct BetaManagedAgentsAgentToolset20260401ReadInput: Codable {
         case viewRange = "view_range"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401ReadInput {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAgentToolset20260401ReadInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.filePath) else {
-            throw SdkValidationError(
-                field: "file_path",
-                code: "required",
-                message: "Validation failed for 'file_path': value is required"
-            )
+            throw SdkValidationError(field: "file_path", code: "required", message: "Validation failed for 'file_path': value is required")
         }
-        filePath = try container.sdkDecodeRequired(.filePath)
-        viewRange = try container.sdkDecodeIfPresent(.viewRange)
-        if let value = viewRange {
+        self.filePath = try container.sdkDecodeRequired(.filePath)
+        self.viewRange = try container.sdkDecodeIfPresent(.viewRange)
+        if let value = self.viewRange {
             try validateItems("view_range", value, min: 2, max: 2)
         }
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401ReadInput {
-    init(filePath: String, viewRange: [Int]? = nil) throws {
+extension BetaManagedAgentsAgentToolset20260401ReadInput {
+    public init(filePath: String, viewRange: [Int]? = nil) throws {
         (self.filePath, self.viewRange) = (filePath, viewRange)
         if let value = self.viewRange {
             try validateItems("view_range", value, min: 2, max: 2)
@@ -163,35 +137,25 @@ public struct BetaManagedAgentsAgentToolset20260401WriteInput: Codable {
         case content
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401WriteInput {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAgentToolset20260401WriteInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.filePath) else {
-            throw SdkValidationError(
-                field: "file_path",
-                code: "required",
-                message: "Validation failed for 'file_path': value is required"
-            )
+            throw SdkValidationError(field: "file_path", code: "required", message: "Validation failed for 'file_path': value is required")
         }
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
-        filePath = try container.sdkDecodeRequired(.filePath)
-        content = try container.sdkDecodeRequired(.content)
+        self.filePath = try container.sdkDecodeRequired(.filePath)
+        self.content = try container.sdkDecodeRequired(.content)
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401WriteInput {
-    init(filePath: String, content: String) {
+extension BetaManagedAgentsAgentToolset20260401WriteInput {
+    public init(filePath: String, content: String) {
         (self.filePath, self.content) = (filePath, content)
     }
 }
@@ -208,28 +172,22 @@ public struct BetaManagedAgentsAgentToolset20260401GrepInput: Codable {
         case path
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401GrepInput {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAgentToolset20260401GrepInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.pattern) else {
-            throw SdkValidationError(
-                field: "pattern",
-                code: "required",
-                message: "Validation failed for 'pattern': value is required"
-            )
+            throw SdkValidationError(field: "pattern", code: "required", message: "Validation failed for 'pattern': value is required")
         }
-        pattern = try container.sdkDecodeRequired(.pattern)
-        path = try container.sdkDecodeIfPresent(.path)
+        self.pattern = try container.sdkDecodeRequired(.pattern)
+        self.path = try container.sdkDecodeIfPresent(.path)
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401GrepInput {
-    init(pattern: String, path: String? = nil) {
+extension BetaManagedAgentsAgentToolset20260401GrepInput {
+    public init(pattern: String, path: String? = nil) {
         (self.pattern, self.path) = (pattern, path)
     }
 }
@@ -252,45 +210,29 @@ public struct BetaManagedAgentsAgentToolset20260401BashInput: Codable {
     }
 
     init() {
-        (command, restart, timeoutMs) = (nil, nil, nil)
+        (self.command, self.restart, self.timeoutMs) = (nil, nil, nil)
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401BashInput {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsAgentToolset20260401BashInput {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        command = try container.sdkDecodeIfPresent(.command)
-        restart = try container.sdkDecodeIfPresent(.restart)
-        timeoutMs = try container.sdkDecodeIfPresent(.timeoutMs)
-        if let value = timeoutMs {
-            try validateRange(
-                "timeout_ms",
-                Double(value),
-                min: 0,
-                max: nil,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+        self.command = try container.sdkDecodeIfPresent(.command)
+        self.restart = try container.sdkDecodeIfPresent(.restart)
+        self.timeoutMs = try container.sdkDecodeIfPresent(.timeoutMs)
+        if let value = self.timeoutMs {
+            try validateRange("timeout_ms", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
     }
 }
 
-public extension BetaManagedAgentsAgentToolset20260401BashInput {
-    init(command: String? = nil, restart: Bool? = nil, timeoutMs: Int? = nil) throws {
+extension BetaManagedAgentsAgentToolset20260401BashInput {
+    public init(command: String? = nil, restart: Bool? = nil, timeoutMs: Int? = nil) throws {
         self.init()
         (self.command, self.restart) = (command, restart)
         self.timeoutMs = timeoutMs
         if let value = self.timeoutMs {
-            try validateRange(
-                "timeout_ms",
-                Double(value),
-                min: 0,
-                max: nil,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+            try validateRange("timeout_ms", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
     }
 }
@@ -299,10 +241,7 @@ public extension BetaManagedAgentsAgentToolset20260401BashInput {
 public struct BetaManagedAgentsAgentToolName: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let bash = BetaManagedAgentsAgentToolName(rawValue: "bash")
     public static let edit = BetaManagedAgentsAgentToolName(rawValue: "edit")
     public static let read = BetaManagedAgentsAgentToolName(rawValue: "read")
@@ -314,7 +253,7 @@ public struct BetaManagedAgentsAgentToolName: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

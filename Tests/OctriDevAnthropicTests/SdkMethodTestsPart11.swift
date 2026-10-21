@@ -26,8 +26,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -48,8 +48,7 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoriesMethods
-            .ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.pathPrefix = try decoded("\"path_prefix\"")
         options.depth = try decoded("1")
         options.limit = try decoded("1")
@@ -76,8 +75,7 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoriesMethods
-            .ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.pathPrefix = try decoded("\"path_prefix\"")
         options.depth = try decoded("1")
         options.limit = try decoded("1")
@@ -92,8 +90,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.memories.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -109,14 +107,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testListBetaMemoryStoresMemoryVersionsListBetaMemoryStoresMemoryVersionsReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaMemoryStoresMemoryVersionsListBetaMemoryStoresMemoryVersionsReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoryVersionsMethods
-            .ListBetaMemoryStoresMemoryVersionsOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.memoryId = try decoded("\"memory-1\"")
         options.sessionId = try decoded("\"session-1\"")
         options.apiKeyId = try decoded("\"api_key-1\"")
@@ -143,14 +139,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testListBetaMemoryStoresMemoryVersionsListBetaMemoryStoresMemoryVersions400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaMemoryStoresMemoryVersionsListBetaMemoryStoresMemoryVersions400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoryVersionsMethods
-            .ListBetaMemoryStoresMemoryVersionsOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.memoryId = try decoded("\"memory-1\"")
         options.sessionId = try decoded("\"session-1\"")
         options.apiKeyId = try decoded("\"api_key-1\"")
@@ -170,8 +164,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.memoryVersions.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -221,13 +215,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.messages.batches.list(
-                beforeId: decoded("\"before-1\""),
-                afterId: decoded("\"after-1\""),
-                limit: decoded("20"),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-            )
+            beforeId: decoded("\"before-1\""),
+            afterId: decoded("\"after-1\""),
+            limit: decoded("20"),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -277,13 +271,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.models.list(
-                beforeId: decoded("\"before-1\""),
-                afterId: decoded("\"after-1\""),
-                limit: decoded("20"),
-                anthropicVersion: decoded("\"anthropic-version\""),
-                anthropicBeta: decoded("[\"anthropic-beta\"]"),
-                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-            )
+            beforeId: decoded("\"before-1\""),
+            afterId: decoded("\"after-1\""),
+            limit: decoded("20"),
+            anthropicVersion: decoded("\"anthropic-version\""),
+            anthropicBeta: decoded("[\"anthropic-beta\"]"),
+            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -299,8 +293,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testListBetaOrganizationAnalyticsPluginsListBetaOrganizationAnalyticsPluginsReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationAnalyticsPluginsListBetaOrganizationAnalyticsPluginsReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -328,8 +321,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testListBetaOrganizationAnalyticsPluginsListBetaOrganizationAnalyX89c680b338ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationAnalyticsPluginsListBetaOrganizationAnalyX89c680b338ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -350,8 +342,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.plugins.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -367,14 +359,12 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testListBetaOrganizationsAnalyticsAppsChatProjectsListBetaOrganizX54886b529eReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationsAnalyticsAppsChatProjectsListBetaOrganizX54886b529eReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = BetaOrganizationsAnalyticsAppsChatProjectsMethods
-            .ListBetaOrganizationsAnalyticsAppsChatProjectsOptions()
+        var options = BetaOrganizationsAnalyticsAppsChatProjectsMethods.ListBetaOrganizationsAnalyticsAppsChatProjectsOptions()
         options.date = try decoded("\"2024-01-01\"")
         options.startingDate = try decoded("\"2024-01-01\"")
         options.endingDate = try decoded("\"2024-01-01\"")
@@ -397,14 +387,12 @@ extension SdkMethodTests {
         )
     }
 
-    func testListBetaOrganizationsAnalyticsAppsChatProjectsListBetaOrganizX90fb3bb3eeReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationsAnalyticsAppsChatProjectsListBetaOrganizX90fb3bb3eeReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = BetaOrganizationsAnalyticsAppsChatProjectsMethods
-            .ListBetaOrganizationsAnalyticsAppsChatProjectsOptions()
+        var options = BetaOrganizationsAnalyticsAppsChatProjectsMethods.ListBetaOrganizationsAnalyticsAppsChatProjectsOptions()
         options.date = try decoded("\"2024-01-01\"")
         options.startingDate = try decoded("\"2024-01-01\"")
         options.endingDate = try decoded("\"2024-01-01\"")
@@ -420,8 +408,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.apps.chat.projects.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -437,8 +425,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testListBetaOrganizationsAnalyticsArtifactsListBetaOrganizationsAX252280d230ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationsAnalyticsArtifactsListBetaOrganizationsAX252280d230ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -460,8 +447,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testListBetaOrganizationsAnalyticsArtifactsListBetaOrganizationsAXb0af513053ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationsAnalyticsArtifactsListBetaOrganizationsAXb0af513053ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -472,12 +458,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.artifacts.list(
-                date: decoded("\"2024-01-01\""),
-                limit: decoded("1"),
-                page: decoded("\"page\""),
-                groupBy: decoded("[\"product\"]"),
-                filter: decoded("[\"filter[]\"]")
-            )
+            date: decoded("\"2024-01-01\""),
+            limit: decoded("1"),
+            page: decoded("\"page\""),
+            groupBy: decoded("[\"product\"]"),
+            filter: decoded("[\"filter[]\"]")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -493,8 +479,7 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testListBetaOrganizationsAnalyticsConnectorsListBetaOrganizationsX00618389ebReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationsAnalyticsConnectorsListBetaOrganizationsX00618389ebReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -522,8 +507,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testListBetaOrganizationsAnalyticsConnectorsListBetaOrganizationsX1badc5e8b1ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testListBetaOrganizationsAnalyticsConnectorsListBetaOrganizationsX1badc5e8b1ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -544,8 +528,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.connectors.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

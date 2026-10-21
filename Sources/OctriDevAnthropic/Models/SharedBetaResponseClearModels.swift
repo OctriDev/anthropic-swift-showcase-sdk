@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaResponseClear domain models
+// SharedBetaResponseClear domain models
 /// Typed representation of the `BetaResponseClearToolUses20250919Edit` API schema.
 public struct BetaResponseClearToolUses20250919Edit: Codable {
     /// Number of input tokens cleared by this edit.
@@ -19,83 +19,37 @@ public struct BetaResponseClearToolUses20250919Edit: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseClearToolUses20250919Edit {
-    init(from decoder: Decoder) throws {
+extension BetaResponseClearToolUses20250919Edit {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.clearedInputTokens) else {
-            throw SdkValidationError(
-                field: "cleared_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cleared_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cleared_input_tokens", code: "required", message: "Validation failed for 'cleared_input_tokens': value is required")
         }
         guard container.contains(.clearedToolUses) else {
-            throw SdkValidationError(
-                field: "cleared_tool_uses",
-                code: "required",
-                message: "Validation failed for 'cleared_tool_uses': value is required"
-            )
+            throw SdkValidationError(field: "cleared_tool_uses", code: "required", message: "Validation failed for 'cleared_tool_uses': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        clearedInputTokens = try container.sdkDecodeRequired(.clearedInputTokens)
-        clearedToolUses = try container.sdkDecodeRequired(.clearedToolUses)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "cleared_input_tokens",
-            Double(clearedInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cleared_tool_uses",
-            Double(clearedToolUses),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaResponseClearToolUses20250919EditType.allCases.map(\.rawValue))
+        self.clearedInputTokens = try container.sdkDecodeRequired(.clearedInputTokens)
+        self.clearedToolUses = try container.sdkDecodeRequired(.clearedToolUses)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("cleared_input_tokens", Double(self.clearedInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cleared_tool_uses", Double(self.clearedToolUses), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponseClearToolUses20250919EditType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseClearToolUses20250919Edit {
-    init(clearedInputTokens: Int, clearedToolUses: Int, type: BetaResponseClearToolUses20250919EditType) throws {
+extension BetaResponseClearToolUses20250919Edit {
+    public init(clearedInputTokens: Int, clearedToolUses: Int, type: BetaResponseClearToolUses20250919EditType) throws {
         (self.clearedInputTokens, self.clearedToolUses) = (clearedInputTokens, clearedToolUses)
         self.type = type
-        try validateRange(
-            "cleared_input_tokens",
-            Double(self.clearedInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cleared_tool_uses",
-            Double(self.clearedToolUses),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaResponseClearToolUses20250919EditType.allCases.map(\.rawValue))
+            try validateRange("cleared_input_tokens", Double(self.clearedInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cleared_tool_uses", Double(self.clearedToolUses), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponseClearToolUses20250919EditType.allCases.map(\.rawValue))
     }
 }
 
@@ -114,83 +68,37 @@ public struct BetaResponseClearThinking20251015Edit: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseClearThinking20251015Edit {
-    init(from decoder: Decoder) throws {
+extension BetaResponseClearThinking20251015Edit {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.clearedInputTokens) else {
-            throw SdkValidationError(
-                field: "cleared_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cleared_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cleared_input_tokens", code: "required", message: "Validation failed for 'cleared_input_tokens': value is required")
         }
         guard container.contains(.clearedThinkingTurns) else {
-            throw SdkValidationError(
-                field: "cleared_thinking_turns",
-                code: "required",
-                message: "Validation failed for 'cleared_thinking_turns': value is required"
-            )
+            throw SdkValidationError(field: "cleared_thinking_turns", code: "required", message: "Validation failed for 'cleared_thinking_turns': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        clearedInputTokens = try container.sdkDecodeRequired(.clearedInputTokens)
-        clearedThinkingTurns = try container.sdkDecodeRequired(.clearedThinkingTurns)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "cleared_input_tokens",
-            Double(clearedInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cleared_thinking_turns",
-            Double(clearedThinkingTurns),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaResponseClearThinking20251015EditType.allCases.map(\.rawValue))
+        self.clearedInputTokens = try container.sdkDecodeRequired(.clearedInputTokens)
+        self.clearedThinkingTurns = try container.sdkDecodeRequired(.clearedThinkingTurns)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("cleared_input_tokens", Double(self.clearedInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cleared_thinking_turns", Double(self.clearedThinkingTurns), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponseClearThinking20251015EditType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseClearThinking20251015Edit {
-    init(clearedInputTokens: Int, clearedThinkingTurns: Int, type: BetaResponseClearThinking20251015EditType) throws {
+extension BetaResponseClearThinking20251015Edit {
+    public init(clearedInputTokens: Int, clearedThinkingTurns: Int, type: BetaResponseClearThinking20251015EditType) throws {
         (self.clearedInputTokens, self.clearedThinkingTurns) = (clearedInputTokens, clearedThinkingTurns)
         self.type = type
-        try validateRange(
-            "cleared_input_tokens",
-            Double(self.clearedInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cleared_thinking_turns",
-            Double(self.clearedThinkingTurns),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaResponseClearThinking20251015EditType.allCases.map(\.rawValue))
+            try validateRange("cleared_input_tokens", Double(self.clearedInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cleared_thinking_turns", Double(self.clearedThinkingTurns), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponseClearThinking20251015EditType.allCases.map(\.rawValue))
     }
 }
 

@@ -3,61 +3,35 @@
 
 import Foundation
 
-/// UsersBetaTrue domain models
-public extension BetaAnalyticsCoreCodeMetrics {
-    init(from decoder: Decoder) throws {
+// UsersBetaTrue domain models
+extension BetaAnalyticsCoreCodeMetrics {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.artifactsCreatedCount) else {
-            throw SdkValidationError(
-                field: "artifacts_created_count",
-                code: "required",
-                message: "Validation failed for 'artifacts_created_count': value is required"
-            )
+            throw SdkValidationError(field: "artifacts_created_count", code: "required", message: "Validation failed for 'artifacts_created_count': value is required")
         }
         guard container.contains(.commitCount) else {
-            throw SdkValidationError(
-                field: "commit_count",
-                code: "required",
-                message: "Validation failed for 'commit_count': value is required"
-            )
+            throw SdkValidationError(field: "commit_count", code: "required", message: "Validation failed for 'commit_count': value is required")
         }
         guard container.contains(.distinctSessionCount) else {
-            throw SdkValidationError(
-                field: "distinct_session_count",
-                code: "required",
-                message: "Validation failed for 'distinct_session_count': value is required"
-            )
+            throw SdkValidationError(field: "distinct_session_count", code: "required", message: "Validation failed for 'distinct_session_count': value is required")
         }
         guard container.contains(.linesOfCode) else {
-            throw SdkValidationError(
-                field: "lines_of_code",
-                code: "required",
-                message: "Validation failed for 'lines_of_code': value is required"
-            )
+            throw SdkValidationError(field: "lines_of_code", code: "required", message: "Validation failed for 'lines_of_code': value is required")
         }
         guard container.contains(.pullRequestCount) else {
-            throw SdkValidationError(
-                field: "pull_request_count",
-                code: "required",
-                message: "Validation failed for 'pull_request_count': value is required"
-            )
+            throw SdkValidationError(field: "pull_request_count", code: "required", message: "Validation failed for 'pull_request_count': value is required")
         }
-        artifactsCreatedCount = try container.sdkDecodeRequired(.artifactsCreatedCount)
-        commitCount = try container.sdkDecodeRequired(.commitCount)
-        distinctSessionCount = try container.sdkDecodeNullable(.distinctSessionCount)
-        linesOfCode = try container.sdkDecodeRequired(.linesOfCode)
-        pullRequestCount = try container.sdkDecodeRequired(.pullRequestCount)
+        self.artifactsCreatedCount = try container.sdkDecodeRequired(.artifactsCreatedCount)
+        self.commitCount = try container.sdkDecodeRequired(.commitCount)
+        self.distinctSessionCount = try container.sdkDecodeNullable(.distinctSessionCount)
+        self.linesOfCode = try container.sdkDecodeRequired(.linesOfCode)
+        self.pullRequestCount = try container.sdkDecodeRequired(.pullRequestCount)
     }
 }
 
-public extension BetaAnalyticsCoreCodeMetrics {
-    init(
-        artifactsCreatedCount: Int,
-        commitCount: Int,
-        distinctSessionCount: Int?,
-        linesOfCode: BetaAnalyticsLinesOfCode,
-        pullRequestCount: Int
-    ) {
+extension BetaAnalyticsCoreCodeMetrics {
+    public init(artifactsCreatedCount: Int, commitCount: Int, distinctSessionCount: Int?, linesOfCode: BetaAnalyticsLinesOfCode, pullRequestCount: Int) {
         (self.artifactsCreatedCount, self.commitCount) = (artifactsCreatedCount, commitCount)
         (self.distinctSessionCount, self.linesOfCode) = (distinctSessionCount, linesOfCode)
         self.pullRequestCount = pullRequestCount
@@ -76,35 +50,25 @@ public struct BetaAnalyticsToolActionCounts: Codable {
         case rejectedCount = "rejected_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsToolActionCounts {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsToolActionCounts {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.acceptedCount) else {
-            throw SdkValidationError(
-                field: "accepted_count",
-                code: "required",
-                message: "Validation failed for 'accepted_count': value is required"
-            )
+            throw SdkValidationError(field: "accepted_count", code: "required", message: "Validation failed for 'accepted_count': value is required")
         }
         guard container.contains(.rejectedCount) else {
-            throw SdkValidationError(
-                field: "rejected_count",
-                code: "required",
-                message: "Validation failed for 'rejected_count': value is required"
-            )
+            throw SdkValidationError(field: "rejected_count", code: "required", message: "Validation failed for 'rejected_count': value is required")
         }
-        acceptedCount = try container.sdkDecodeRequired(.acceptedCount)
-        rejectedCount = try container.sdkDecodeRequired(.rejectedCount)
+        self.acceptedCount = try container.sdkDecodeRequired(.acceptedCount)
+        self.rejectedCount = try container.sdkDecodeRequired(.rejectedCount)
     }
 }
 
-public extension BetaAnalyticsToolActionCounts {
-    init(acceptedCount: Int, rejectedCount: Int) {
+extension BetaAnalyticsToolActionCounts {
+    public init(acceptedCount: Int, rejectedCount: Int) {
         (self.acceptedCount, self.rejectedCount) = (acceptedCount, rejectedCount)
     }
 }
@@ -121,35 +85,25 @@ public struct BetaAnalyticsClaudeCodeMetrics: Codable {
         case toolActions = "tool_actions"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsClaudeCodeMetrics {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsClaudeCodeMetrics {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.coreMetrics) else {
-            throw SdkValidationError(
-                field: "core_metrics",
-                code: "required",
-                message: "Validation failed for 'core_metrics': value is required"
-            )
+            throw SdkValidationError(field: "core_metrics", code: "required", message: "Validation failed for 'core_metrics': value is required")
         }
         guard container.contains(.toolActions) else {
-            throw SdkValidationError(
-                field: "tool_actions",
-                code: "required",
-                message: "Validation failed for 'tool_actions': value is required"
-            )
+            throw SdkValidationError(field: "tool_actions", code: "required", message: "Validation failed for 'tool_actions': value is required")
         }
-        coreMetrics = try container.sdkDecodeRequired(.coreMetrics)
-        toolActions = try container.sdkDecodeRequired(.toolActions)
+        self.coreMetrics = try container.sdkDecodeRequired(.coreMetrics)
+        self.toolActions = try container.sdkDecodeRequired(.toolActions)
     }
 }
 
-public extension BetaAnalyticsClaudeCodeMetrics {
-    init(coreMetrics: BetaAnalyticsCoreCodeMetrics, toolActions: BetaAnalyticsToolActions) {
+extension BetaAnalyticsClaudeCodeMetrics {
+    public init(coreMetrics: BetaAnalyticsCoreCodeMetrics, toolActions: BetaAnalyticsToolActions) {
         (self.coreMetrics, self.toolActions) = (coreMetrics, toolActions)
     }
 }
@@ -227,54 +181,34 @@ public struct BetaAnalyticsCoworkMetrics: Codable {
         case writeToolCount = "write_tool_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsCoworkMetrics {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsCoworkMetrics {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        actionCount = try container.sdkDecodeRequired(.actionCount)
-        artifactsCreatedCount = try container.sdkDecodeRequired(.artifactsCreatedCount)
-        connectorsUsedCount = try container.sdkDecodeRequired(.connectorsUsedCount)
-        dispatchTurnCount = try container.sdkDecodeRequired(.dispatchTurnCount)
-        distinctConnectorsUsedCount = try container.sdkDecodeNullable(.distinctConnectorsUsedCount)
-        distinctSessionCount = try container.sdkDecodeNullable(.distinctSessionCount)
-        distinctSkillsUsedCount = try container.sdkDecodeNullable(.distinctSkillsUsedCount)
-        messageCount = try container.sdkDecodeRequired(.messageCount)
-        skillsUsedCount = try container.sdkDecodeRequired(.skillsUsedCount)
-        distinctPluginsUsedCount = try container.sdkDecodeIfPresent(.distinctPluginsUsedCount)
-        editToolCount = try container.sdkDecodeIfPresent(.editToolCount)
-        fileEditCount = try container.sdkDecodeIfPresent(.fileEditCount)
-        multiEditToolCount = try container.sdkDecodeIfPresent(.multiEditToolCount)
-        notebookEditToolCount = try container.sdkDecodeIfPresent(.notebookEditToolCount)
-        pluginsUsedCount = try container.sdkDecodeIfPresent(.pluginsUsedCount)
-        sessionsWithFileEditsCount = try container.sdkDecodeIfPresent(.sessionsWithFileEditsCount)
-        writeToolCount = try container.sdkDecodeIfPresent(.writeToolCount)
+        self.actionCount = try container.sdkDecodeRequired(.actionCount)
+        self.artifactsCreatedCount = try container.sdkDecodeRequired(.artifactsCreatedCount)
+        self.connectorsUsedCount = try container.sdkDecodeRequired(.connectorsUsedCount)
+        self.dispatchTurnCount = try container.sdkDecodeRequired(.dispatchTurnCount)
+        self.distinctConnectorsUsedCount = try container.sdkDecodeNullable(.distinctConnectorsUsedCount)
+        self.distinctSessionCount = try container.sdkDecodeNullable(.distinctSessionCount)
+        self.distinctSkillsUsedCount = try container.sdkDecodeNullable(.distinctSkillsUsedCount)
+        self.messageCount = try container.sdkDecodeRequired(.messageCount)
+        self.skillsUsedCount = try container.sdkDecodeRequired(.skillsUsedCount)
+        self.distinctPluginsUsedCount = try container.sdkDecodeIfPresent(.distinctPluginsUsedCount)
+        self.editToolCount = try container.sdkDecodeIfPresent(.editToolCount)
+        self.fileEditCount = try container.sdkDecodeIfPresent(.fileEditCount)
+        self.multiEditToolCount = try container.sdkDecodeIfPresent(.multiEditToolCount)
+        self.notebookEditToolCount = try container.sdkDecodeIfPresent(.notebookEditToolCount)
+        self.pluginsUsedCount = try container.sdkDecodeIfPresent(.pluginsUsedCount)
+        self.sessionsWithFileEditsCount = try container.sdkDecodeIfPresent(.sessionsWithFileEditsCount)
+        self.writeToolCount = try container.sdkDecodeIfPresent(.writeToolCount)
     }
 }
 
-public extension BetaAnalyticsCoworkMetrics {
-    init(
-        actionCount: Int,
-        artifactsCreatedCount: Int,
-        connectorsUsedCount: Int,
-        dispatchTurnCount: Int,
-        distinctConnectorsUsedCount: Int?,
-        distinctSessionCount: Int?,
-        distinctSkillsUsedCount: Int?,
-        messageCount: Int,
-        skillsUsedCount: Int,
-        distinctPluginsUsedCount: Int? = nil,
-        editToolCount: Int? = nil,
-        fileEditCount: Int? = nil,
-        multiEditToolCount: Int? = nil,
-        notebookEditToolCount: Int? = nil,
-        pluginsUsedCount: Int? = nil,
-        sessionsWithFileEditsCount: Int? = nil,
-        writeToolCount: Int? = nil
-    ) {
+extension BetaAnalyticsCoworkMetrics {
+    public init(actionCount: Int, artifactsCreatedCount: Int, connectorsUsedCount: Int, dispatchTurnCount: Int, distinctConnectorsUsedCount: Int?, distinctSessionCount: Int?, distinctSkillsUsedCount: Int?, messageCount: Int, skillsUsedCount: Int, distinctPluginsUsedCount: Int? = nil, editToolCount: Int? = nil, fileEditCount: Int? = nil, multiEditToolCount: Int? = nil, notebookEditToolCount: Int? = nil, pluginsUsedCount: Int? = nil, sessionsWithFileEditsCount: Int? = nil, writeToolCount: Int? = nil) {
         (self.actionCount, self.artifactsCreatedCount) = (actionCount, artifactsCreatedCount)
         (self.connectorsUsedCount, self.dispatchTurnCount) = (connectorsUsedCount, dispatchTurnCount)
         self.distinctConnectorsUsedCount = distinctConnectorsUsedCount
@@ -307,56 +241,33 @@ public struct BetaAnalyticsToolActions: Codable {
         case writeTool = "write_tool"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsToolActions {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsToolActions {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.editTool) else {
-            throw SdkValidationError(
-                field: "edit_tool",
-                code: "required",
-                message: "Validation failed for 'edit_tool': value is required"
-            )
+            throw SdkValidationError(field: "edit_tool", code: "required", message: "Validation failed for 'edit_tool': value is required")
         }
         guard container.contains(.multiEditTool) else {
-            throw SdkValidationError(
-                field: "multi_edit_tool",
-                code: "required",
-                message: "Validation failed for 'multi_edit_tool': value is required"
-            )
+            throw SdkValidationError(field: "multi_edit_tool", code: "required", message: "Validation failed for 'multi_edit_tool': value is required")
         }
         guard container.contains(.notebookEditTool) else {
-            throw SdkValidationError(
-                field: "notebook_edit_tool",
-                code: "required",
-                message: "Validation failed for 'notebook_edit_tool': value is required"
-            )
+            throw SdkValidationError(field: "notebook_edit_tool", code: "required", message: "Validation failed for 'notebook_edit_tool': value is required")
         }
         guard container.contains(.writeTool) else {
-            throw SdkValidationError(
-                field: "write_tool",
-                code: "required",
-                message: "Validation failed for 'write_tool': value is required"
-            )
+            throw SdkValidationError(field: "write_tool", code: "required", message: "Validation failed for 'write_tool': value is required")
         }
-        editTool = try container.sdkDecodeRequired(.editTool)
-        multiEditTool = try container.sdkDecodeRequired(.multiEditTool)
-        notebookEditTool = try container.sdkDecodeRequired(.notebookEditTool)
-        writeTool = try container.sdkDecodeRequired(.writeTool)
+        self.editTool = try container.sdkDecodeRequired(.editTool)
+        self.multiEditTool = try container.sdkDecodeRequired(.multiEditTool)
+        self.notebookEditTool = try container.sdkDecodeRequired(.notebookEditTool)
+        self.writeTool = try container.sdkDecodeRequired(.writeTool)
     }
 }
 
-public extension BetaAnalyticsToolActions {
-    init(
-        editTool: BetaAnalyticsToolActionCounts,
-        multiEditTool: BetaAnalyticsToolActionCounts,
-        notebookEditTool: BetaAnalyticsToolActionCounts,
-        writeTool: BetaAnalyticsToolActionCounts
-    ) {
+extension BetaAnalyticsToolActions {
+    public init(editTool: BetaAnalyticsToolActionCounts, multiEditTool: BetaAnalyticsToolActionCounts, notebookEditTool: BetaAnalyticsToolActionCounts, writeTool: BetaAnalyticsToolActionCounts) {
         (self.editTool, self.multiEditTool) = (editTool, multiEditTool)
         (self.notebookEditTool, self.writeTool) = (notebookEditTool, writeTool)
     }
@@ -384,65 +295,37 @@ public struct BetaAnalyticsScienceMetrics: Codable {
         case skillsUsedCount = "skills_used_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsScienceMetrics {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsScienceMetrics {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.delegationCount) else {
-            throw SdkValidationError(
-                field: "delegation_count",
-                code: "required",
-                message: "Validation failed for 'delegation_count': value is required"
-            )
+            throw SdkValidationError(field: "delegation_count", code: "required", message: "Validation failed for 'delegation_count': value is required")
         }
         guard container.contains(.distinctSessionCount) else {
-            throw SdkValidationError(
-                field: "distinct_session_count",
-                code: "required",
-                message: "Validation failed for 'distinct_session_count': value is required"
-            )
+            throw SdkValidationError(field: "distinct_session_count", code: "required", message: "Validation failed for 'distinct_session_count': value is required")
         }
         guard container.contains(.messageCount) else {
-            throw SdkValidationError(
-                field: "message_count",
-                code: "required",
-                message: "Validation failed for 'message_count': value is required"
-            )
+            throw SdkValidationError(field: "message_count", code: "required", message: "Validation failed for 'message_count': value is required")
         }
         guard container.contains(.remoteComputeJobCount) else {
-            throw SdkValidationError(
-                field: "remote_compute_job_count",
-                code: "required",
-                message: "Validation failed for 'remote_compute_job_count': value is required"
-            )
+            throw SdkValidationError(field: "remote_compute_job_count", code: "required", message: "Validation failed for 'remote_compute_job_count': value is required")
         }
         guard container.contains(.skillsUsedCount) else {
-            throw SdkValidationError(
-                field: "skills_used_count",
-                code: "required",
-                message: "Validation failed for 'skills_used_count': value is required"
-            )
+            throw SdkValidationError(field: "skills_used_count", code: "required", message: "Validation failed for 'skills_used_count': value is required")
         }
-        delegationCount = try container.sdkDecodeRequired(.delegationCount)
-        distinctSessionCount = try container.sdkDecodeNullable(.distinctSessionCount)
-        messageCount = try container.sdkDecodeRequired(.messageCount)
-        remoteComputeJobCount = try container.sdkDecodeRequired(.remoteComputeJobCount)
-        skillsUsedCount = try container.sdkDecodeRequired(.skillsUsedCount)
+        self.delegationCount = try container.sdkDecodeRequired(.delegationCount)
+        self.distinctSessionCount = try container.sdkDecodeNullable(.distinctSessionCount)
+        self.messageCount = try container.sdkDecodeRequired(.messageCount)
+        self.remoteComputeJobCount = try container.sdkDecodeRequired(.remoteComputeJobCount)
+        self.skillsUsedCount = try container.sdkDecodeRequired(.skillsUsedCount)
     }
 }
 
-public extension BetaAnalyticsScienceMetrics {
-    init(
-        delegationCount: Int,
-        distinctSessionCount: Int?,
-        messageCount: Int,
-        remoteComputeJobCount: Int,
-        skillsUsedCount: Int
-    ) {
+extension BetaAnalyticsScienceMetrics {
+    public init(delegationCount: Int, distinctSessionCount: Int?, messageCount: Int, remoteComputeJobCount: Int, skillsUsedCount: Int) {
         (self.delegationCount, self.distinctSessionCount) = (delegationCount, distinctSessionCount)
         (self.messageCount, self.remoteComputeJobCount) = (messageCount, remoteComputeJobCount)
         self.skillsUsedCount = skillsUsedCount

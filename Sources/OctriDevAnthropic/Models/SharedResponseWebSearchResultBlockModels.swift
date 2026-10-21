@@ -3,66 +3,40 @@
 
 import Foundation
 
-/// SharedResponseWeb domain models
-public extension ResponseWebSearchResultBlock {
-    init(from decoder: Decoder) throws {
+// SharedResponseWeb domain models
+extension ResponseWebSearchResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.encryptedContent) else {
-            throw SdkValidationError(
-                field: "encrypted_content",
-                code: "required",
-                message: "Validation failed for 'encrypted_content': value is required"
-            )
+            throw SdkValidationError(field: "encrypted_content", code: "required", message: "Validation failed for 'encrypted_content': value is required")
         }
         guard container.contains(.pageAge) else {
-            throw SdkValidationError(
-                field: "page_age",
-                code: "required",
-                message: "Validation failed for 'page_age': value is required"
-            )
+            throw SdkValidationError(field: "page_age", code: "required", message: "Validation failed for 'page_age': value is required")
         }
         guard container.contains(.title) else {
-            throw SdkValidationError(
-                field: "title",
-                code: "required",
-                message: "Validation failed for 'title': value is required"
-            )
+            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        encryptedContent = try container.sdkDecodeRequired(.encryptedContent)
-        pageAge = try container.sdkDecodeNullable(.pageAge)
-        title = try container.sdkDecodeRequired(.title)
-        type = try container.sdkDecodeRequired(.type)
-        url = try container.sdkDecodeRequired(.url)
-        try sdkValidateRawEnum("type", type, ResponseWebSearchResultBlockType.allCases.map(\.rawValue))
+        self.encryptedContent = try container.sdkDecodeRequired(.encryptedContent)
+        self.pageAge = try container.sdkDecodeNullable(.pageAge)
+        self.title = try container.sdkDecodeRequired(.title)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.url = try container.sdkDecodeRequired(.url)
+            try sdkValidateRawEnum("type", self.type, ResponseWebSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension ResponseWebSearchResultBlock {
-    init(
-        encryptedContent: String,
-        pageAge: String?,
-        title: String,
-        type: ResponseWebSearchResultBlockType,
-        url: String
-    ) throws {
+extension ResponseWebSearchResultBlock {
+    public init(encryptedContent: String, pageAge: String?, title: String, type: ResponseWebSearchResultBlockType, url: String) throws {
         (self.encryptedContent, self.pageAge) = (encryptedContent, pageAge)
         (self.title, self.type) = (title, type)
         self.url = url
-        try sdkValidateRawEnum("type", self.type, ResponseWebSearchResultBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ResponseWebSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -84,62 +58,39 @@ public struct ResponseWebFetchToolResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ResponseWebFetchToolResultBlock {
-    init(from decoder: Decoder) throws {
+extension ResponseWebFetchToolResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.caller) else {
-            throw SdkValidationError(
-                field: "caller",
-                code: "required",
-                message: "Validation failed for 'caller': value is required"
-            )
+            throw SdkValidationError(field: "caller", code: "required", message: "Validation failed for 'caller': value is required")
         }
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.toolUseId) else {
-            throw SdkValidationError(
-                field: "tool_use_id",
-                code: "required",
-                message: "Validation failed for 'tool_use_id': value is required"
-            )
+            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        caller = try container.sdkDecodeRequired(.caller)
-        content = try container.sdkDecodeRequired(.content)
-        toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidatePattern("tool_use_id", toolUseId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", type, ResponseWebFetchToolResultBlockType.allCases.map(\.rawValue))
+        self.caller = try container.sdkDecodeRequired(.caller)
+        self.content = try container.sdkDecodeRequired(.content)
+        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, ResponseWebFetchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension ResponseWebFetchToolResultBlock {
-    init(
-        caller: ResponseWebFetchToolResultBlockCaller,
-        content: ResponseWebFetchToolResultBlockContent,
-        toolUseId: String,
-        type: ResponseWebFetchToolResultBlockType
-    ) throws {
+extension ResponseWebFetchToolResultBlock {
+    public init(caller: ResponseWebFetchToolResultBlockCaller, content: ResponseWebFetchToolResultBlockContent, toolUseId: String, type: ResponseWebFetchToolResultBlockType) throws {
         (self.caller, self.content) = (caller, content)
         (self.toolUseId, self.type) = (toolUseId, type)
-        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-        try sdkValidateRawEnum("type", self.type, ResponseWebFetchToolResultBlockType.allCases.map(\.rawValue))
+            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+            try sdkValidateRawEnum("type", self.type, ResponseWebFetchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 

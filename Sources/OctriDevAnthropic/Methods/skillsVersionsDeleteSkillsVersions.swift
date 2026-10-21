@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SkillsVersionsMethods {
-    /// Deletes a specific version of a skill. Supply the skill and version identifiers to select the version to remove.
-    /// The response confirms the deletion with the deleted version's ID.
+extension SkillsVersionsMethods {
+    /// Deletes a specific version of a skill. Supply the skill and version identifiers to select the version to remove. The response confirms the deletion with the deleted version's ID.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -24,48 +23,10 @@ public extension SkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func deleteSkillsVersions(
-        config: ClientConfig,
-        skillId: String,
-        version: String,
-        anthropicVersion: String? = nil,
-        anthropicWorkspaceId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedSkillVersion {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/v1/skills/",
-                sdkEncodePathSegment(sdkWireString(skillId)),
-                "/versions/",
-                sdkEncodePathSegment(sdkWireString(version)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteSkillsVersions",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": ErrorResponse.self,
-                "401": ErrorResponse.self,
-                "403": ErrorResponse.self,
-                "404": ErrorResponse.self,
-                "408": ErrorResponse.self,
-                "409": ErrorResponse.self,
-                "412": ErrorResponse.self,
-                "413": ErrorResponse.self,
-                "429": ErrorResponse.self,
-                "431": ErrorResponse.self,
-                "499": ErrorResponse.self,
-                "500": ErrorResponse.self,
-                "501": ErrorResponse.self,
-                "503": ErrorResponse.self,
-                "504": ErrorResponse.self,
-                "529": ErrorResponse.self,
-            ]
-        )).data
+    public static func deleteSkillsVersions(config: ClientConfig, skillId: String, version: String, anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> DeletedSkillVersion {
+        return try (await sdkRequest("DELETE", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions/", sdkEncodePathSegment(sdkWireString(version))].joined(), config: config, decoder: .json, operationId: "deleteSkillsVersions", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Credentials domain models
+// Credentials domain models
 /// Confirmation of a deleted credential.
 public struct BetaManagedAgentsDeletedCredential: Codable {
     /// Required enumerated value serialized in the `type` wire field.
@@ -16,54 +16,39 @@ public struct BetaManagedAgentsDeletedCredential: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsDeletedCredential {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsDeletedCredential {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
     }
 }
 
-public extension BetaManagedAgentsDeletedCredential {
-    init(type: BetaManagedAgentsDeletedCredentialType, id: String) {
+extension BetaManagedAgentsDeletedCredential {
+    public init(type: BetaManagedAgentsDeletedCredentialType, id: String) {
         (self.type, self.id) = (type, id)
     }
 }
 
 /// Required enumerated value serialized in the `type` wire field.
-public struct BetaManagedAgentsDeletedCredentialType: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaManagedAgentsDeletedCredentialType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let vaultCredentialDeleted =
-        BetaManagedAgentsDeletedCredentialType(rawValue: "vault_credential_deleted")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let vaultCredentialDeleted = BetaManagedAgentsDeletedCredentialType(rawValue: "vault_credential_deleted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

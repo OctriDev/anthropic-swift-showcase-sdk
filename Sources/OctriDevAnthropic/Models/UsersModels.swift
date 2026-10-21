@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Users domain models
+// Users domain models
 /// Typed representation of the `BetaUpdateUserParams` API schema.
 public struct BetaUpdateUserParams: Codable {
     /// New role for the User. The accepted values depend on the organization type. Console and API organizations
@@ -15,27 +15,21 @@ public struct BetaUpdateUserParams: Codable {
         case role
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaUpdateUserParams {
-    init(from decoder: Decoder) throws {
+extension BetaUpdateUserParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.role) else {
-            throw SdkValidationError(
-                field: "role",
-                code: "required",
-                message: "Validation failed for 'role': value is required"
-            )
+            throw SdkValidationError(field: "role", code: "required", message: "Validation failed for 'role': value is required")
         }
-        role = try container.sdkDecodeRequired(.role)
+        self.role = try container.sdkDecodeRequired(.role)
     }
 }
 
-public extension BetaUpdateUserParams {
-    init(role: BetaUpdateUserParamsRole) {
+extension BetaUpdateUserParams {
+    public init(role: BetaUpdateUserParamsRole) {
         self.role = role
     }
 }
@@ -52,38 +46,28 @@ public struct BetaDeleteUserResponse: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaDeleteUserResponse {
-    init(from decoder: Decoder) throws {
+extension BetaDeleteUserResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaDeleteUserResponseType.allCases.map(\.rawValue))
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaDeleteUserResponseType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaDeleteUserResponse {
-    init(id: String, type: BetaDeleteUserResponseType) throws {
+extension BetaDeleteUserResponse {
+    public init(id: String, type: BetaDeleteUserResponseType) throws {
         (self.id, self.type) = (id, type)
-        try sdkValidateRawEnum("type", self.type, BetaDeleteUserResponseType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaDeleteUserResponseType.allCases.map(\.rawValue))
     }
 }
 
@@ -93,10 +77,7 @@ public extension BetaDeleteUserResponse {
 public struct BetaUpdateUserParamsRole: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let billing = BetaUpdateUserParamsRole(rawValue: "billing")
     public static let claudeCodeUser = BetaUpdateUserParamsRole(rawValue: "claude_code_user")
     public static let developer = BetaUpdateUserParamsRole(rawValue: "developer")
@@ -105,7 +86,7 @@ public struct BetaUpdateUserParamsRole: RawRepresentable, Hashable, Codable, Sen
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

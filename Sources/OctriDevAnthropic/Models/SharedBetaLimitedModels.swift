@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaLimited domain models
+// SharedBetaLimited domain models
 /// Limited network request params. Fields default to null; on update, omitted fields preserve the existing value.
 public struct BetaLimitedNetworkParams: Codable {
     /// Network policy type
@@ -24,39 +24,28 @@ public struct BetaLimitedNetworkParams: Codable {
         case allowedHosts = "allowed_hosts"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaLimitedNetworkParams {
-    init(from decoder: Decoder) throws {
+extension BetaLimitedNetworkParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        allowMcpServers = try container.sdkDecodeIfPresent(.allowMcpServers)
-        allowPackageManagers = try container.sdkDecodeIfPresent(.allowPackageManagers)
-        allowedHosts = try container.sdkDecodeIfPresent(.allowedHosts)
-        try sdkValidateRawEnum("type", type, BetaLimitedNetworkParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowMcpServers = try container.sdkDecodeIfPresent(.allowMcpServers)
+        self.allowPackageManagers = try container.sdkDecodeIfPresent(.allowPackageManagers)
+        self.allowedHosts = try container.sdkDecodeIfPresent(.allowedHosts)
+            try sdkValidateRawEnum("type", self.type, BetaLimitedNetworkParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaLimitedNetworkParams {
-    init(
-        type: BetaLimitedNetworkParamsType,
-        allowMcpServers: Bool? = nil,
-        allowPackageManagers: Bool? = nil,
-        allowedHosts: [String]? = nil
-    ) throws {
+extension BetaLimitedNetworkParams {
+    public init(type: BetaLimitedNetworkParamsType, allowMcpServers: Bool? = nil, allowPackageManagers: Bool? = nil, allowedHosts: [String]? = nil) throws {
         (self.type, self.allowMcpServers) = (type, allowMcpServers)
         (self.allowPackageManagers, self.allowedHosts) = (allowPackageManagers, allowedHosts)
-        try sdkValidateRawEnum("type", self.type, BetaLimitedNetworkParamsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaLimitedNetworkParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -80,60 +69,37 @@ public struct BetaLimitedNetwork: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaLimitedNetwork {
-    init(from decoder: Decoder) throws {
+extension BetaLimitedNetwork {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.allowMcpServers) else {
-            throw SdkValidationError(
-                field: "allow_mcp_servers",
-                code: "required",
-                message: "Validation failed for 'allow_mcp_servers': value is required"
-            )
+            throw SdkValidationError(field: "allow_mcp_servers", code: "required", message: "Validation failed for 'allow_mcp_servers': value is required")
         }
         guard container.contains(.allowPackageManagers) else {
-            throw SdkValidationError(
-                field: "allow_package_managers",
-                code: "required",
-                message: "Validation failed for 'allow_package_managers': value is required"
-            )
+            throw SdkValidationError(field: "allow_package_managers", code: "required", message: "Validation failed for 'allow_package_managers': value is required")
         }
         guard container.contains(.allowedHosts) else {
-            throw SdkValidationError(
-                field: "allowed_hosts",
-                code: "required",
-                message: "Validation failed for 'allowed_hosts': value is required"
-            )
+            throw SdkValidationError(field: "allowed_hosts", code: "required", message: "Validation failed for 'allowed_hosts': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        allowMcpServers = try container.sdkDecodeRequired(.allowMcpServers)
-        allowPackageManagers = try container.sdkDecodeRequired(.allowPackageManagers)
-        allowedHosts = try container.sdkDecodeRequired(.allowedHosts)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaLimitedNetworkType.allCases.map(\.rawValue))
+        self.allowMcpServers = try container.sdkDecodeRequired(.allowMcpServers)
+        self.allowPackageManagers = try container.sdkDecodeRequired(.allowPackageManagers)
+        self.allowedHosts = try container.sdkDecodeRequired(.allowedHosts)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaLimitedNetworkType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaLimitedNetwork {
-    init(
-        allowMcpServers: Bool,
-        allowPackageManagers: Bool,
-        allowedHosts: [String],
-        type: BetaLimitedNetworkType
-    ) throws {
+extension BetaLimitedNetwork {
+    public init(allowMcpServers: Bool, allowPackageManagers: Bool, allowedHosts: [String], type: BetaLimitedNetworkType) throws {
         (self.allowMcpServers, self.allowPackageManagers) = (allowMcpServers, allowPackageManagers)
         (self.allowedHosts, self.type) = (allowedHosts, type)
-        try sdkValidateRawEnum("type", self.type, BetaLimitedNetworkType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaLimitedNetworkType.allCases.map(\.rawValue))
     }
 }
 

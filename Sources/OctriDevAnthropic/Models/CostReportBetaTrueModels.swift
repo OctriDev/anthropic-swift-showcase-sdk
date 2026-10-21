@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// CostReportBetaTrue domain models
+// CostReportBetaTrue domain models
 /// Typed representation of the `BetaAnalyticsCostBucketedResult` API schema.
 public struct BetaAnalyticsCostBucketedResult: Codable {
     /// Amount (post-discount, pre-credit) in fractional cents.
@@ -63,47 +63,31 @@ public struct BetaAnalyticsCostBucketedResult: Codable {
         case tokenType = "token_type"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsCostBucketedResult {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsCostBucketedResult {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        amount = try container.sdkDecodeRequired(.amount)
-        contextWindow = try container.sdkDecodeNullable(.contextWindow)
-        costType = try container.sdkDecodeNullable(.costType)
-        currency = try container.sdkDecodeRequired(.currency)
-        inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
-        listAmount = try container.sdkDecodeRequired(.listAmount)
-        model = try container.sdkDecodeNullable(.model)
-        product = try container.sdkDecodeNullable(.product)
-        rbacGroupId = try container.sdkDecodeNullable(.rbacGroupId)
-        requests = try container.sdkDecodeNullable(.requests)
-        slackChannelId = try container.sdkDecodeNullable(.slackChannelId)
-        speed = try container.sdkDecodeNullable(.speed)
-        tokenType = try container.sdkDecodeNullable(.tokenType)
-        try sdkValidateRawEnum("currency", currency, BetaAnalyticsCostBucketedResultCurrency.allCases.map(\.rawValue))
+        self.amount = try container.sdkDecodeRequired(.amount)
+        self.contextWindow = try container.sdkDecodeNullable(.contextWindow)
+        self.costType = try container.sdkDecodeNullable(.costType)
+        self.currency = try container.sdkDecodeRequired(.currency)
+        self.inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
+        self.listAmount = try container.sdkDecodeRequired(.listAmount)
+        self.model = try container.sdkDecodeNullable(.model)
+        self.product = try container.sdkDecodeNullable(.product)
+        self.rbacGroupId = try container.sdkDecodeNullable(.rbacGroupId)
+        self.requests = try container.sdkDecodeNullable(.requests)
+        self.slackChannelId = try container.sdkDecodeNullable(.slackChannelId)
+        self.speed = try container.sdkDecodeNullable(.speed)
+        self.tokenType = try container.sdkDecodeNullable(.tokenType)
+            try sdkValidateRawEnum("currency", self.currency, BetaAnalyticsCostBucketedResultCurrency.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaAnalyticsCostBucketedResult {
-    init(
-        amount: String,
-        contextWindow: BetaMessagesUsageReportContextWindow?,
-        costType: BetaAnalyticsCostType?,
-        currency: BetaAnalyticsCostBucketedResultCurrency,
-        inferenceGeo: BetaInferenceGeo?,
-        listAmount: String,
-        model: String?,
-        product: String?,
-        rbacGroupId: String?,
-        requests: Int?,
-        slackChannelId: String?,
-        speed: BetaAnalyticsCostBucketedResultSpeedVariant0?,
-        tokenType: BetaCostReportTokenType?
-    ) throws {
+extension BetaAnalyticsCostBucketedResult {
+    public init(amount: String, contextWindow: BetaMessagesUsageReportContextWindow?, costType: BetaAnalyticsCostType?, currency: BetaAnalyticsCostBucketedResultCurrency, inferenceGeo: BetaInferenceGeo?, listAmount: String, model: String?, product: String?, rbacGroupId: String?, requests: Int?, slackChannelId: String?, speed: BetaAnalyticsCostBucketedResultSpeedVariant0?, tokenType: BetaCostReportTokenType?) throws {
         (self.amount, self.contextWindow) = (amount, contextWindow)
         (self.costType, self.currency) = (costType, currency)
         (self.inferenceGeo, self.listAmount) = (inferenceGeo, listAmount)
@@ -111,11 +95,7 @@ public extension BetaAnalyticsCostBucketedResult {
         (self.rbacGroupId, self.requests) = (rbacGroupId, requests)
         (self.slackChannelId, self.speed) = (slackChannelId, speed)
         self.tokenType = tokenType
-        try sdkValidateRawEnum(
-            "currency",
-            self.currency,
-            BetaAnalyticsCostBucketedResultCurrency.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("currency", self.currency, BetaAnalyticsCostBucketedResultCurrency.allCases.map(\.rawValue))
     }
 }
 
@@ -159,40 +139,27 @@ public struct BetaCostReportItem: Codable {
         case inferenceGeo = "inference_geo"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCostReportItem {
-    init(from decoder: Decoder) throws {
+extension BetaCostReportItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        currency = try container.sdkDecodeRequired(.currency)
-        amount = try container.sdkDecodeRequired(.amount)
-        workspaceId = try container.sdkDecodeNullable(.workspaceId)
-        description = try container.sdkDecodeNullable(.description)
-        costType = try container.sdkDecodeNullable(.costType)
-        contextWindow = try container.sdkDecodeNullable(.contextWindow)
-        model = try container.sdkDecodeNullable(.model)
-        serviceTier = try container.sdkDecodeNullable(.serviceTier)
-        tokenType = try container.sdkDecodeNullable(.tokenType)
-        inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
+        self.currency = try container.sdkDecodeRequired(.currency)
+        self.amount = try container.sdkDecodeRequired(.amount)
+        self.workspaceId = try container.sdkDecodeNullable(.workspaceId)
+        self.description = try container.sdkDecodeNullable(.description)
+        self.costType = try container.sdkDecodeNullable(.costType)
+        self.contextWindow = try container.sdkDecodeNullable(.contextWindow)
+        self.model = try container.sdkDecodeNullable(.model)
+        self.serviceTier = try container.sdkDecodeNullable(.serviceTier)
+        self.tokenType = try container.sdkDecodeNullable(.tokenType)
+        self.inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
     }
 }
 
-public extension BetaCostReportItem {
-    init(
-        currency: String,
-        amount: String,
-        workspaceId: String?,
-        description: String?,
-        costType: BetaCostType?,
-        contextWindow: BetaMessagesUsageReportContextWindow?,
-        model: String?,
-        serviceTier: BetaCostReportServiceTier?,
-        tokenType: BetaCostReportTokenType?,
-        inferenceGeo: BetaInferenceGeoFilter?
-    ) {
+extension BetaCostReportItem {
+    public init(currency: String, amount: String, workspaceId: String?, description: String?, costType: BetaCostType?, contextWindow: BetaMessagesUsageReportContextWindow?, model: String?, serviceTier: BetaCostReportServiceTier?, tokenType: BetaCostReportTokenType?, inferenceGeo: BetaInferenceGeoFilter?) {
         (self.currency, self.amount) = (currency, amount)
         (self.workspaceId, self.description) = (workspaceId, description)
         (self.costType, self.contextWindow) = (costType, contextWindow)
@@ -229,65 +196,37 @@ public struct BetaAnalyticsCostBucketedResponse: Codable {
         case organizationId = "organization_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsCostBucketedResponse {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsCostBucketedResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.dataRefreshedAt) else {
-            throw SdkValidationError(
-                field: "data_refreshed_at",
-                code: "required",
-                message: "Validation failed for 'data_refreshed_at': value is required"
-            )
+            throw SdkValidationError(field: "data_refreshed_at", code: "required", message: "Validation failed for 'data_refreshed_at': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
         guard container.contains(.organizationId) else {
-            throw SdkValidationError(
-                field: "organization_id",
-                code: "required",
-                message: "Validation failed for 'organization_id': value is required"
-            )
+            throw SdkValidationError(field: "organization_id", code: "required", message: "Validation failed for 'organization_id': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        dataRefreshedAt = try container.sdkDecodeNullable(.dataRefreshedAt)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
-        organizationId = try container.sdkDecodeRequired(.organizationId)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.dataRefreshedAt = try container.sdkDecodeNullable(.dataRefreshedAt)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.organizationId = try container.sdkDecodeRequired(.organizationId)
     }
 }
 
-public extension BetaAnalyticsCostBucketedResponse {
-    init(
-        data: [BetaAnalyticsCostReportTimeBucket],
-        dataRefreshedAt: Date?,
-        hasMore: Bool,
-        nextPage: String?,
-        organizationId: String
-    ) {
+extension BetaAnalyticsCostBucketedResponse {
+    public init(data: [BetaAnalyticsCostReportTimeBucket], dataRefreshedAt: Date?, hasMore: Bool, nextPage: String?, organizationId: String) {
         (self.data, self.dataRefreshedAt) = (data, dataRefreshedAt)
         (self.hasMore, self.nextPage) = (hasMore, nextPage)
         self.organizationId = organizationId
@@ -310,49 +249,35 @@ public struct BetaCostReportTimeBucket: Codable {
         case results
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCostReportTimeBucket {
-    init(from decoder: Decoder) throws {
+extension BetaCostReportTimeBucket {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.startingAt) else {
-            throw SdkValidationError(
-                field: "starting_at",
-                code: "required",
-                message: "Validation failed for 'starting_at': value is required"
-            )
+            throw SdkValidationError(field: "starting_at", code: "required", message: "Validation failed for 'starting_at': value is required")
         }
         guard container.contains(.endingAt) else {
-            throw SdkValidationError(
-                field: "ending_at",
-                code: "required",
-                message: "Validation failed for 'ending_at': value is required"
-            )
+            throw SdkValidationError(field: "ending_at", code: "required", message: "Validation failed for 'ending_at': value is required")
         }
         guard container.contains(.results) else {
-            throw SdkValidationError(
-                field: "results",
-                code: "required",
-                message: "Validation failed for 'results': value is required"
-            )
+            throw SdkValidationError(field: "results", code: "required", message: "Validation failed for 'results': value is required")
         }
-        startingAt = try container.sdkDecodeRequired(.startingAt)
-        endingAt = try container.sdkDecodeRequired(.endingAt)
-        results = try container.sdkDecodeRequired(.results)
-        try sdkValidateDateTime("starting_at", sdkWireString(startingAt))
-        try sdkValidateDateTime("ending_at", sdkWireString(endingAt))
+        self.startingAt = try container.sdkDecodeRequired(.startingAt)
+        self.endingAt = try container.sdkDecodeRequired(.endingAt)
+        self.results = try container.sdkDecodeRequired(.results)
+            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
     }
 }
 
-public extension BetaCostReportTimeBucket {
-    init(startingAt: Date, endingAt: Date, results: [BetaCostReportItem]) throws {
+extension BetaCostReportTimeBucket {
+    public init(startingAt: Date, endingAt: Date, results: [BetaCostReportItem]) throws {
         (self.startingAt, self.endingAt) = (startingAt, endingAt)
         self.results = results
-        try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
-        try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
+            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
     }
 }
 
@@ -373,49 +298,35 @@ public struct BetaAnalyticsCostReportTimeBucket: Codable {
         case startingAt = "starting_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsCostReportTimeBucket {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsCostReportTimeBucket {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.endingAt) else {
-            throw SdkValidationError(
-                field: "ending_at",
-                code: "required",
-                message: "Validation failed for 'ending_at': value is required"
-            )
+            throw SdkValidationError(field: "ending_at", code: "required", message: "Validation failed for 'ending_at': value is required")
         }
         guard container.contains(.results) else {
-            throw SdkValidationError(
-                field: "results",
-                code: "required",
-                message: "Validation failed for 'results': value is required"
-            )
+            throw SdkValidationError(field: "results", code: "required", message: "Validation failed for 'results': value is required")
         }
         guard container.contains(.startingAt) else {
-            throw SdkValidationError(
-                field: "starting_at",
-                code: "required",
-                message: "Validation failed for 'starting_at': value is required"
-            )
+            throw SdkValidationError(field: "starting_at", code: "required", message: "Validation failed for 'starting_at': value is required")
         }
-        endingAt = try container.sdkDecodeRequired(.endingAt)
-        results = try container.sdkDecodeRequired(.results)
-        startingAt = try container.sdkDecodeRequired(.startingAt)
-        try sdkValidateDateTime("ending_at", sdkWireString(endingAt))
-        try sdkValidateDateTime("starting_at", sdkWireString(startingAt))
+        self.endingAt = try container.sdkDecodeRequired(.endingAt)
+        self.results = try container.sdkDecodeRequired(.results)
+        self.startingAt = try container.sdkDecodeRequired(.startingAt)
+            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
+            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
     }
 }
 
-public extension BetaAnalyticsCostReportTimeBucket {
-    init(endingAt: Date, results: [BetaAnalyticsCostBucketedResult], startingAt: Date) throws {
+extension BetaAnalyticsCostReportTimeBucket {
+    public init(endingAt: Date, results: [BetaAnalyticsCostBucketedResult], startingAt: Date) throws {
         (self.endingAt, self.results) = (endingAt, results)
         self.startingAt = startingAt
-        try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
-        try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
+            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
     }
 }
 
@@ -436,43 +347,29 @@ public struct BetaGetCostReportResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaGetCostReportResponse {
-    init(from decoder: Decoder) throws {
+extension BetaGetCostReportResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.hasMore) else {
-            throw SdkValidationError(
-                field: "has_more",
-                code: "required",
-                message: "Validation failed for 'has_more': value is required"
-            )
+            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        hasMore = try container.sdkDecodeRequired(.hasMore)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.hasMore = try container.sdkDecodeRequired(.hasMore)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaGetCostReportResponse {
-    init(data: [BetaCostReportTimeBucket], hasMore: Bool, nextPage: String?) {
+extension BetaGetCostReportResponse {
+    public init(data: [BetaCostReportTimeBucket], hasMore: Bool, nextPage: String?) {
         (self.data, self.hasMore) = (data, hasMore)
         self.nextPage = nextPage
     }
@@ -500,10 +397,7 @@ public enum BetaAnalyticsCostBucketedResultCurrency: String, CaseIterable, Codab
 public struct BetaCostType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let codeExecution = BetaCostType(rawValue: "code_execution")
     public static let sessionUsage = BetaCostType(rawValue: "session_usage")
     public static let tokens = BetaCostType(rawValue: "tokens")
@@ -511,7 +405,7 @@ public struct BetaCostType: RawRepresentable, Hashable, Codable, Sendable, SdkWi
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -524,15 +418,12 @@ public struct BetaCostType: RawRepresentable, Hashable, Codable, Sendable, SdkWi
 public struct BetaCostReportTimeBucketWidth: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let value1d = BetaCostReportTimeBucketWidth(rawValue: "1d")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -542,20 +433,16 @@ public struct BetaCostReportTimeBucketWidth: RawRepresentable, Hashable, Codable
 }
 
 /// Required enumerated value serialized in the `speed` wire field.
-public struct BetaAnalyticsCostBucketedResultSpeedVariant0: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct BetaAnalyticsCostBucketedResultSpeedVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let fast = BetaAnalyticsCostBucketedResultSpeedVariant0(rawValue: "fast")
     public static let standard = BetaAnalyticsCostBucketedResultSpeedVariant0(rawValue: "standard")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -568,16 +455,13 @@ public struct BetaAnalyticsCostBucketedResultSpeedVariant0: RawRepresentable, Ha
 public struct BetaCostReportGroupBy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let description = BetaCostReportGroupBy(rawValue: "description")
     public static let workspaceId = BetaCostReportGroupBy(rawValue: "workspace_id")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -590,16 +474,13 @@ public struct BetaCostReportGroupBy: RawRepresentable, Hashable, Codable, Sendab
 public struct BetaCostReportServiceTier: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let batch = BetaCostReportServiceTier(rawValue: "batch")
     public static let standard = BetaCostReportServiceTier(rawValue: "standard")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

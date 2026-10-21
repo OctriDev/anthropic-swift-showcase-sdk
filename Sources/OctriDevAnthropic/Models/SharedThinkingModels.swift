@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedThinking domain models
+// SharedThinking domain models
 public indirect enum ThinkingConfigParam {
     case thinkingConfigEnabled(ThinkingConfigEnabled)
     case thinkingConfigDisabled(ThinkingConfigDisabled)
@@ -13,6 +13,7 @@ public indirect enum ThinkingConfigParam {
 }
 
 extension ThinkingConfigParam: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,16 +21,12 @@ extension ThinkingConfigParam: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,10 +37,10 @@ extension ThinkingConfigParam: Codable {
 extension ThinkingConfigParam {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "enabled": try .thinkingConfigEnabled(ThinkingConfigEnabled(from: decoder))
-        case "disabled": try .thinkingConfigDisabled(ThinkingConfigDisabled(from: decoder))
-        case "adaptive": try .thinkingConfigAdaptive(ThinkingConfigAdaptive(from: decoder))
-        default: nil
+        case "enabled": return .thinkingConfigEnabled(try ThinkingConfigEnabled(from: decoder))
+        case "disabled": return .thinkingConfigDisabled(try ThinkingConfigDisabled(from: decoder))
+        case "adaptive": return .thinkingConfigAdaptive(try ThinkingConfigAdaptive(from: decoder))
+        default: return nil
         }
     }
 }
@@ -69,30 +66,24 @@ public struct ThinkingConfigDisabled: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ThinkingConfigDisabled {
-    init(from decoder: Decoder) throws {
+extension ThinkingConfigDisabled {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, ThinkingConfigDisabledType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, ThinkingConfigDisabledType.allCases.map(\.rawValue))
     }
 }
 
-public extension ThinkingConfigDisabled {
-    init(type: ThinkingConfigDisabledType) throws {
+extension ThinkingConfigDisabled {
+    public init(type: ThinkingConfigDisabledType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, ThinkingConfigDisabledType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ThinkingConfigDisabledType.allCases.map(\.rawValue))
     }
 }
 
@@ -110,31 +101,25 @@ public struct ThinkingConfigAdaptive: Codable {
         case display
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ThinkingConfigAdaptive {
-    init(from decoder: Decoder) throws {
+extension ThinkingConfigAdaptive {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        display = try container.sdkDecodeIfPresent(.display)
-        try sdkValidateRawEnum("type", type, ThinkingConfigAdaptiveType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.display = try container.sdkDecodeIfPresent(.display)
+            try sdkValidateRawEnum("type", self.type, ThinkingConfigAdaptiveType.allCases.map(\.rawValue))
     }
 }
 
-public extension ThinkingConfigAdaptive {
-    init(type: ThinkingConfigAdaptiveType, display: ThinkingDisplayMode? = nil) throws {
+extension ThinkingConfigAdaptive {
+    public init(type: ThinkingConfigAdaptiveType, display: ThinkingDisplayMode? = nil) throws {
         (self.type, self.display) = (type, display)
-        try sdkValidateRawEnum("type", self.type, ThinkingConfigAdaptiveType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, ThinkingConfigAdaptiveType.allCases.map(\.rawValue))
     }
 }
 
@@ -157,58 +142,32 @@ public struct ThinkingConfigEnabled: Codable {
         case display
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ThinkingConfigEnabled {
-    init(from decoder: Decoder) throws {
+extension ThinkingConfigEnabled {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.budgetTokens) else {
-            throw SdkValidationError(
-                field: "budget_tokens",
-                code: "required",
-                message: "Validation failed for 'budget_tokens': value is required"
-            )
+            throw SdkValidationError(field: "budget_tokens", code: "required", message: "Validation failed for 'budget_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        budgetTokens = try container.sdkDecodeRequired(.budgetTokens)
-        type = try container.sdkDecodeRequired(.type)
-        display = try container.sdkDecodeIfPresent(.display)
-        try validateRange(
-            "budget_tokens",
-            Double(budgetTokens),
-            min: 1024,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, ThinkingConfigEnabledType.allCases.map(\.rawValue))
+        self.budgetTokens = try container.sdkDecodeRequired(.budgetTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.display = try container.sdkDecodeIfPresent(.display)
+            try validateRange("budget_tokens", Double(self.budgetTokens), min: 1024, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, ThinkingConfigEnabledType.allCases.map(\.rawValue))
     }
 }
 
-public extension ThinkingConfigEnabled {
-    init(budgetTokens: Int, type: ThinkingConfigEnabledType, display: ThinkingDisplayMode? = nil) throws {
+extension ThinkingConfigEnabled {
+    public init(budgetTokens: Int, type: ThinkingConfigEnabledType, display: ThinkingDisplayMode? = nil) throws {
         (self.budgetTokens, self.type) = (budgetTokens, type)
         self.display = display
-        try validateRange(
-            "budget_tokens",
-            Double(self.budgetTokens),
-            min: 1024,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, ThinkingConfigEnabledType.allCases.map(\.rawValue))
+            try validateRange("budget_tokens", Double(self.budgetTokens), min: 1024, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, ThinkingConfigEnabledType.allCases.map(\.rawValue))
     }
 }
 
@@ -216,16 +175,13 @@ public extension ThinkingConfigEnabled {
 public struct ThinkingDisplayMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let summarized = ThinkingDisplayMode(rawValue: "summarized")
     public static let omitted = ThinkingDisplayMode(rawValue: "omitted")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

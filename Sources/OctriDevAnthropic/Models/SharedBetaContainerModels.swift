@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaContainer domain models
+// SharedBetaContainer domain models
 /// Information about the container used in the request (for the code execution tool)
 public struct BetaContainer: Codable {
     /// The time at which the container will expire.
@@ -19,47 +19,33 @@ public struct BetaContainer: Codable {
         case skills
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaContainer {
-    init(from decoder: Decoder) throws {
+extension BetaContainer {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.expiresAt) else {
-            throw SdkValidationError(
-                field: "expires_at",
-                code: "required",
-                message: "Validation failed for 'expires_at': value is required"
-            )
+            throw SdkValidationError(field: "expires_at", code: "required", message: "Validation failed for 'expires_at': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.skills) else {
-            throw SdkValidationError(
-                field: "skills",
-                code: "required",
-                message: "Validation failed for 'skills': value is required"
-            )
+            throw SdkValidationError(field: "skills", code: "required", message: "Validation failed for 'skills': value is required")
         }
-        expiresAt = try container.sdkDecodeRequired(.expiresAt)
-        id = try container.sdkDecodeRequired(.id)
-        skills = try container.sdkDecodeNullable(.skills)
-        try sdkValidateDateTime("expires_at", sdkWireString(expiresAt))
+        self.expiresAt = try container.sdkDecodeRequired(.expiresAt)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.skills = try container.sdkDecodeNullable(.skills)
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
     }
 }
 
-public extension BetaContainer {
-    init(expiresAt: Date, id: String, skills: [BetaContainerSkill]?) throws {
+extension BetaContainer {
+    public init(expiresAt: Date, id: String, skills: [BetaContainerSkill]?) throws {
         (self.expiresAt, self.id) = (expiresAt, id)
         self.skills = skills
-        try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
     }
 }
 
@@ -78,49 +64,35 @@ public struct BetaContainerSkill: Codable {
         case version
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaContainerSkill {
-    init(from decoder: Decoder) throws {
+extension BetaContainerSkill {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.skillId) else {
-            throw SdkValidationError(
-                field: "skill_id",
-                code: "required",
-                message: "Validation failed for 'skill_id': value is required"
-            )
+            throw SdkValidationError(field: "skill_id", code: "required", message: "Validation failed for 'skill_id': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.version) else {
-            throw SdkValidationError(
-                field: "version",
-                code: "required",
-                message: "Validation failed for 'version': value is required"
-            )
+            throw SdkValidationError(field: "version", code: "required", message: "Validation failed for 'version': value is required")
         }
-        skillId = try container.sdkDecodeRequired(.skillId)
-        type = try container.sdkDecodeRequired(.type)
-        version = try container.sdkDecodeRequired(.version)
-        try validateLength("skill_id", skillId, min: 1, max: 64)
-        try validateLength("version", version, min: 1, max: 64)
+        self.skillId = try container.sdkDecodeRequired(.skillId)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.version = try container.sdkDecodeRequired(.version)
+            try validateLength("skill_id", self.skillId, min: 1, max: 64)
+            try validateLength("version", self.version, min: 1, max: 64)
     }
 }
 
-public extension BetaContainerSkill {
-    init(skillId: String, type: BetaContainerSkillType, version: String) throws {
+extension BetaContainerSkill {
+    public init(skillId: String, type: BetaContainerSkillType, version: String) throws {
         (self.skillId, self.type) = (skillId, type)
         self.version = version
-        try validateLength("skill_id", self.skillId, min: 1, max: 64)
-        try validateLength("version", self.version, min: 1, max: 64)
+            try validateLength("skill_id", self.skillId, min: 1, max: 64)
+            try validateLength("version", self.version, min: 1, max: 64)
     }
 }
 
@@ -137,23 +109,23 @@ public struct BetaContainerParams: Codable {
     }
 
     init() {
-        (id, skills) = (nil, nil)
+        (self.id, self.skills) = (nil, nil)
     }
 }
 
-public extension BetaContainerParams {
-    init(from decoder: Decoder) throws {
+extension BetaContainerParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.sdkDecodeIfPresent(.id)
-        skills = try container.sdkDecodeIfPresent(.skills)
-        if let value = skills {
+        self.id = try container.sdkDecodeIfPresent(.id)
+        self.skills = try container.sdkDecodeIfPresent(.skills)
+        if let value = self.skills {
             try validateItems("skills", value, min: nil, max: 20)
         }
     }
 }
 
-public extension BetaContainerParams {
-    init(id: String? = nil, skills: [BetaSkillParams]? = nil) throws {
+extension BetaContainerParams {
+    public init(id: String? = nil, skills: [BetaSkillParams]? = nil) throws {
         self.init()
         (self.id, self.skills) = (id, skills)
         if let value = self.skills {
@@ -166,16 +138,13 @@ public extension BetaContainerParams {
 public struct BetaContainerSkillType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let anthropic = BetaContainerSkillType(rawValue: "anthropic")
     public static let custom = BetaContainerSkillType(rawValue: "custom")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

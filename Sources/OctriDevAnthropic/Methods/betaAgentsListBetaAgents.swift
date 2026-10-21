@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaAgentsMethods {
-    struct ListBetaAgentsOptions: Codable {
+extension BetaAgentsMethods {
+    public struct ListBetaAgentsOptions: Codable {
         public var limit: Int?
         public var page: String?
         public var createdAtGte: BetaTimestamp?
@@ -20,9 +20,7 @@ public extension BetaAgentsMethods {
         public init() {}
     }
 
-    /// Lists agents available in the selected workspace. Use the creation-time filters and `include_archived` to narrow
-    /// the results, and use `page` to continue through the cursor-based results. Each response includes a `next_page`
-    /// cursor when another page is available.
+    /// Lists agents available in the selected workspace. Use the creation-time filters and `include_archived` to narrow the results, and use `page` to continue through the cursor-based results. Each response includes a `next_page` cursor when another page is available.
     ///
     /// - Parameters:
     /// - limit: Maximum results per page. Default 20, maximum 100.
@@ -35,11 +33,7 @@ public extension BetaAgentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaAgents(
-        config: ClientConfig,
-        options: ListBetaAgentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaManagedAgentsListAgents {
+    public static func listBetaAgents(config: ClientConfig, options: ListBetaAgentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListAgents {
         if let createdAtGte = options.createdAtGte {
             try sdkValidateDateTime("created_at[gte]", createdAtGte)
         }
@@ -48,48 +42,20 @@ public extension BetaAgentsMethods {
             try sdkValidateDateTime("created_at[lte]", createdAtLte)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/agents?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("page", value: options.page),
-                SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
-                SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
-                SdkQueryParameter("include_archived", value: options.includeArchived),
-            ],
-            decoder: .json,
-            operationId: "listBetaAgents",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/agents?beta=true", config: config, query: [
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("page", value: options.page),
+            SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
+            SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
+            SdkQueryParameter("include_archived", value: options.includeArchived),
+        ], decoder: .json, operationId: "listBetaAgents", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
     }
 
-    /// Lists agents available in the selected workspace. Use the creation-time filters and `include_archived` to narrow
-    /// the results, and use `page` to continue through the cursor-based results. Each response includes a `next_page`
-    /// cursor when another page is available.
+    /// Lists agents available in the selected workspace. Use the creation-time filters and `include_archived` to narrow the results, and use `page` to continue through the cursor-based results. Each response includes a `next_page` cursor when another page is available.
     ///
     /// - Parameters:
     /// - limit: Maximum results per page. Default 20, maximum 100.
@@ -102,37 +68,20 @@ public extension BetaAgentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    static func listBetaAgentsPaginated(
-        config: ClientConfig,
-        options: ListBetaAgentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> {
+    public static func listBetaAgentsPaginated(config: ClientConfig, options: ListBetaAgentsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaManagedAgentsAgent,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaAgents(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaAgents(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -145,49 +94,28 @@ public extension BetaAgentsMethods {
         }
     }
 
-    struct ListBetaAgentsPage {
+    public struct ListBetaAgentsPage {
         public let data: BetaManagedAgentsListAgents
         public let items: [BetaManagedAgentsAgent]
         public let hasMore: Bool
     }
 
-    static func listBetaAgentsPages(
-        config: ClientConfig,
-        options: ListBetaAgentsOptions,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaAgentsPage, Swift.Error> {
+    public static func listBetaAgentsPages(config: ClientConfig, options: ListBetaAgentsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaAgentsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaAgentsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListBetaAgentsPage,
-            Swift.Error
-        >.Continuation) in
+        return AsyncThrowingStream<ListBetaAgentsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaAgentsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaAgents(
-                            config: config,
-                            options: nextOptions,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaAgents(config: config, options: nextOptions, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaAgentsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaAgentsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

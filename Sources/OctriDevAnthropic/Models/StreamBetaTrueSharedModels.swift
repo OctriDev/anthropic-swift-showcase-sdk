@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// StreamBetaTrue domain models
+// StreamBetaTrue domain models
 public indirect enum BetaManagedAgentsEventDeltaEventDelta {
     case betaManagedAgentsEventDeltaEventContentDelta(BetaManagedAgentsEventDeltaEventContentDelta)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaManagedAgentsEventDeltaEventDelta {
 }
 
 extension BetaManagedAgentsEventDeltaEventDelta: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaManagedAgentsEventDeltaEventDelta: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,10 +36,8 @@ extension BetaManagedAgentsEventDeltaEventDelta {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "content_delta":
-            try .betaManagedAgentsEventDeltaEventContentDelta(
-                BetaManagedAgentsEventDeltaEventContentDelta(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEventDeltaEventContentDelta(try BetaManagedAgentsEventDeltaEventContentDelta(from: decoder))
+        default: return nil
         }
     }
 }
@@ -65,6 +60,7 @@ public indirect enum BetaManagedAgentsEventStartEventEvent {
 }
 
 extension BetaManagedAgentsEventStartEventEvent: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -72,16 +68,12 @@ extension BetaManagedAgentsEventStartEventEvent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -93,14 +85,12 @@ extension BetaManagedAgentsEventStartEventEvent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "agent.message":
-            try .betaManagedAgentsEventStartEventAgentMessagePreview(
-                BetaManagedAgentsEventStartEventAgentMessagePreview(from: decoder)
-            )
+        return .betaManagedAgentsEventStartEventAgentMessagePreview(try BetaManagedAgentsEventStartEventAgentMessagePreview(from: decoder))
         case "agent.thinking":
-            try .betaManagedAgentsEventStartEventAgentThinkingPreview(
-                BetaManagedAgentsEventStartEventAgentThinkingPreview(from: decoder)
-            )
-        default: nil
+        return .betaManagedAgentsEventStartEventAgentThinkingPreview(
+            try BetaManagedAgentsEventStartEventAgentThinkingPreview(from: decoder)
+        )
+        default: return nil
         }
     }
 }
@@ -136,51 +126,33 @@ public struct BetaManagedAgentsEventDeltaEvent: Codable {
         case delta
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEventDeltaEvent {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEventDeltaEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.eventId) else {
-            throw SdkValidationError(
-                field: "event_id",
-                code: "required",
-                message: "Validation failed for 'event_id': value is required"
-            )
+            throw SdkValidationError(field: "event_id", code: "required", message: "Validation failed for 'event_id': value is required")
         }
         guard container.contains(.delta) else {
-            throw SdkValidationError(
-                field: "delta",
-                code: "required",
-                message: "Validation failed for 'delta': value is required"
-            )
+            throw SdkValidationError(field: "delta", code: "required", message: "Validation failed for 'delta': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        eventId = try container.sdkDecodeRequired(.eventId)
-        delta = try container.sdkDecodeRequired(.delta)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsEventDeltaEventType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.eventId = try container.sdkDecodeRequired(.eventId)
+        self.delta = try container.sdkDecodeRequired(.delta)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventDeltaEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsEventDeltaEvent {
-    init(
-        type: BetaManagedAgentsEventDeltaEventType,
-        eventId: String,
-        delta: BetaManagedAgentsEventDeltaEventDelta
-    ) throws {
+extension BetaManagedAgentsEventDeltaEvent {
+    public init(type: BetaManagedAgentsEventDeltaEventType, eventId: String, delta: BetaManagedAgentsEventDeltaEventDelta) throws {
         (self.type, self.eventId) = (type, eventId)
         self.delta = delta
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventDeltaEventType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventDeltaEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -202,38 +174,28 @@ public struct BetaManagedAgentsEventStartEvent: Codable {
         case event
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEventStartEvent {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEventStartEvent {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.event) else {
-            throw SdkValidationError(
-                field: "event",
-                code: "required",
-                message: "Validation failed for 'event': value is required"
-            )
+            throw SdkValidationError(field: "event", code: "required", message: "Validation failed for 'event': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        event = try container.sdkDecodeRequired(.event)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsEventStartEventType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.event = try container.sdkDecodeRequired(.event)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsEventStartEvent {
-    init(type: BetaManagedAgentsEventStartEventType, event: BetaManagedAgentsEventStartEventEvent) throws {
+extension BetaManagedAgentsEventStartEvent {
+    public init(type: BetaManagedAgentsEventStartEventType, event: BetaManagedAgentsEventStartEventEvent) throws {
         (self.type, self.event) = (type, event)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventType.allCases.map(\.rawValue))
     }
 }
 
@@ -249,46 +211,28 @@ public struct BetaManagedAgentsEventStartEventAgentThinkingPreview: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEventStartEventAgentThinkingPreview {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEventStartEventAgentThinkingPreview {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsEventStartEventAgentThinkingPreviewType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventAgentThinkingPreviewType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsEventStartEventAgentThinkingPreview {
-    init(type: BetaManagedAgentsEventStartEventAgentThinkingPreviewType, id: String) throws {
+extension BetaManagedAgentsEventStartEventAgentThinkingPreview {
+    public init(type: BetaManagedAgentsEventStartEventAgentThinkingPreviewType, id: String) throws {
         (self.type, self.id) = (type, id)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsEventStartEventAgentThinkingPreviewType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventAgentThinkingPreviewType.allCases.map(\.rawValue))
     }
 }
 
@@ -310,48 +254,30 @@ public struct BetaManagedAgentsEventDeltaEventContentDelta: Codable {
         case index
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEventDeltaEventContentDelta {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEventDeltaEventContentDelta {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        content = try container.sdkDecodeRequired(.content)
-        index = try container.sdkDecodeIfPresent(.index)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsEventDeltaEventContentDeltaType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.content = try container.sdkDecodeRequired(.content)
+        self.index = try container.sdkDecodeIfPresent(.index)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventDeltaEventContentDeltaType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsEventDeltaEventContentDelta {
-    init(
-        type: BetaManagedAgentsEventDeltaEventContentDeltaType,
-        content: BetaManagedAgentsTextBlock,
-        index: Int? = nil
-    ) throws {
+extension BetaManagedAgentsEventDeltaEventContentDelta {
+    public init(type: BetaManagedAgentsEventDeltaEventContentDeltaType, content: BetaManagedAgentsTextBlock, index: Int? = nil) throws {
         (self.type, self.content) = (type, content)
         self.index = index
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsEventDeltaEventContentDeltaType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventDeltaEventContentDeltaType.allCases.map(\.rawValue))
     }
 }
 
@@ -368,46 +294,28 @@ public struct BetaManagedAgentsEventStartEventAgentMessagePreview: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsEventStartEventAgentMessagePreview {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsEventStartEventAgentMessagePreview {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        id = try container.sdkDecodeRequired(.id)
-        try sdkValidateRawEnum(
-            "type",
-            type,
-            BetaManagedAgentsEventStartEventAgentMessagePreviewType.allCases.map(\.rawValue)
-        )
+        self.type = try container.sdkDecodeRequired(.type)
+        self.id = try container.sdkDecodeRequired(.id)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventAgentMessagePreviewType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsEventStartEventAgentMessagePreview {
-    init(type: BetaManagedAgentsEventStartEventAgentMessagePreviewType, id: String) throws {
+extension BetaManagedAgentsEventStartEventAgentMessagePreview {
+    public init(type: BetaManagedAgentsEventStartEventAgentMessagePreviewType, id: String) throws {
         (self.type, self.id) = (type, id)
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaManagedAgentsEventStartEventAgentMessagePreviewType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsEventStartEventAgentMessagePreviewType.allCases.map(\.rawValue))
     }
 }
 
@@ -415,16 +323,13 @@ public extension BetaManagedAgentsEventStartEventAgentMessagePreview {
 public struct BetaManagedAgentsEventDeltaType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let agentMessage = BetaManagedAgentsEventDeltaType(rawValue: "agent.message")
     public static let agentThinking = BetaManagedAgentsEventDeltaType(rawValue: "agent.thinking")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

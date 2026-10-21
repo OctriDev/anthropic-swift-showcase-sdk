@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaCode domain models
+// SharedBetaCode domain models
 public indirect enum BetaCodeExecutionTool20260521CacheControl {
     case betaCacheControlEphemeral(BetaCacheControlEphemeral)
     /// A member whose `type` names no branch this SDK knows, kept as received.
@@ -11,6 +11,7 @@ public indirect enum BetaCodeExecutionTool20260521CacheControl {
 }
 
 extension BetaCodeExecutionTool20260521CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -18,16 +19,12 @@ extension BetaCodeExecutionTool20260521CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -38,8 +35,8 @@ extension BetaCodeExecutionTool20260521CacheControl: Codable {
 extension BetaCodeExecutionTool20260521CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -61,6 +58,7 @@ public indirect enum BetaCodeExecutionTool20250522CacheControl {
 }
 
 extension BetaCodeExecutionTool20250522CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -68,16 +66,12 @@ extension BetaCodeExecutionTool20250522CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -88,8 +82,8 @@ extension BetaCodeExecutionTool20250522CacheControl: Codable {
 extension BetaCodeExecutionTool20250522CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -129,53 +123,36 @@ public struct BetaCodeExecutionTool20250825: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCodeExecutionTool20250825 {
-    init(from decoder: Decoder) throws {
+extension BetaCodeExecutionTool20250825 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaCodeExecutionTool20250825Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaCodeExecutionTool20250825Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20250825Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20250825Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCodeExecutionTool20250825 {
-    init(
-        name: BetaCodeExecutionTool20250825Name,
-        type: BetaCodeExecutionTool20250825Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaCodeExecutionTool20250825CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaCodeExecutionTool20250825 {
+    public init(name: BetaCodeExecutionTool20250825Name, type: BetaCodeExecutionTool20250825Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaCodeExecutionTool20250825CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20250825Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20250825Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20250825Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20250825Type.allCases.map(\.rawValue))
     }
 }
 
@@ -204,53 +181,36 @@ public struct BetaCodeExecutionTool20250522: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCodeExecutionTool20250522 {
-    init(from decoder: Decoder) throws {
+extension BetaCodeExecutionTool20250522 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaCodeExecutionTool20250522Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaCodeExecutionTool20250522Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20250522Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20250522Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCodeExecutionTool20250522 {
-    init(
-        name: BetaCodeExecutionTool20250522Name,
-        type: BetaCodeExecutionTool20250522Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaCodeExecutionTool20250522CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaCodeExecutionTool20250522 {
+    public init(name: BetaCodeExecutionTool20250522Name, type: BetaCodeExecutionTool20250522Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaCodeExecutionTool20250522CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20250522Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20250522Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20250522Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20250522Type.allCases.map(\.rawValue))
     }
 }
 
@@ -279,53 +239,36 @@ public struct BetaCodeExecutionTool20260120: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCodeExecutionTool20260120 {
-    init(from decoder: Decoder) throws {
+extension BetaCodeExecutionTool20260120 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaCodeExecutionTool20260120Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaCodeExecutionTool20260120Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20260120Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20260120Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCodeExecutionTool20260120 {
-    init(
-        name: BetaCodeExecutionTool20260120Name,
-        type: BetaCodeExecutionTool20260120Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaCodeExecutionTool20260120CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaCodeExecutionTool20260120 {
+    public init(name: BetaCodeExecutionTool20260120Name, type: BetaCodeExecutionTool20260120Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaCodeExecutionTool20260120CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20260120Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20260120Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20260120Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20260120Type.allCases.map(\.rawValue))
     }
 }
 
@@ -336,6 +279,7 @@ public indirect enum BetaCodeExecutionTool20260120CacheControl {
 }
 
 extension BetaCodeExecutionTool20260120CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -343,16 +287,12 @@ extension BetaCodeExecutionTool20260120CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -363,8 +303,8 @@ extension BetaCodeExecutionTool20260120CacheControl: Codable {
 extension BetaCodeExecutionTool20260120CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -386,6 +326,7 @@ public indirect enum BetaCodeExecutionTool20250825CacheControl {
 }
 
 extension BetaCodeExecutionTool20250825CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -393,16 +334,12 @@ extension BetaCodeExecutionTool20250825CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -413,8 +350,8 @@ extension BetaCodeExecutionTool20250825CacheControl: Codable {
 extension BetaCodeExecutionTool20250825CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -454,53 +391,36 @@ public struct BetaCodeExecutionTool20260521: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCodeExecutionTool20260521 {
-    init(from decoder: Decoder) throws {
+extension BetaCodeExecutionTool20260521 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BetaCodeExecutionTool20260521Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BetaCodeExecutionTool20260521Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20260521Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20260521Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCodeExecutionTool20260521 {
-    init(
-        name: BetaCodeExecutionTool20260521Name,
-        type: BetaCodeExecutionTool20260521Type,
-        allowedCallers: [BetaAllowedCaller]? = nil,
-        cacheControl: BetaCodeExecutionTool20260521CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BetaCodeExecutionTool20260521 {
+    public init(name: BetaCodeExecutionTool20260521Name, type: BetaCodeExecutionTool20260521Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaCodeExecutionTool20260521CacheControl? = nil, deferLoading: Bool? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.strict) = (deferLoading, strict)
-        try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20260521Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20260521Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BetaCodeExecutionTool20260521Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCodeExecutionTool20260521Type.allCases.map(\.rawValue))
     }
 }
 
@@ -598,10 +518,7 @@ public enum BetaCodeExecutionTool20260521Name: String, CaseIterable, Codable {
 public struct BetaCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = BetaCodeExecutionToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = BetaCodeExecutionToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = BetaCodeExecutionToolResultErrorCode(rawValue: "too_many_requests")
@@ -609,7 +526,7 @@ public struct BetaCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

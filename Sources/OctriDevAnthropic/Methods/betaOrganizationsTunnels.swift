@@ -8,14 +8,8 @@ import Foundation
 #endif
 public enum BetaOrganizationsTunnelsMethods {}
 
-public extension BetaOrganizationsTunnelsMethods {
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation
-    /// time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless
-    /// `include_archived` is set.
+extension BetaOrganizationsTunnelsMethods {
+    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless `include_archived` is set.
     ///
     /// - Parameters:
     /// - anthropicBeta: This endpoint is in beta: requests must send
@@ -32,65 +26,23 @@ public extension BetaOrganizationsTunnelsMethods {
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func listBetaOrganizationsTunnels(
-        config: ClientConfig,
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        workspaceId: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaTunnelListResponse {
-        if let limit {
+    public static func listBetaOrganizationsTunnels(config: ClientConfig, anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, workspaceId: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelListResponse {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/tunnels?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("page", value: page),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("workspace_id", value: workspaceId),
-                SdkQueryParameter("include_archived", value: includeArchived),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsTunnels",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/tunnels?beta=true", config: config, query: [
+            SdkQueryParameter("page", value: page),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("workspace_id", value: workspaceId),
+            SdkQueryParameter("include_archived", value: includeArchived),
+        ], decoder: .json, operationId: "listBetaOrganizationsTunnels", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 
-    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed
-    /// after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta:
-    /// mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing
-    /// integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the
-    /// migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation
-    /// time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless
-    /// `include_archived` is set.
+    /// **Deprecated.** This Admin API endpoint is superseded by `/v1/tunnels` on the Claude API and will be removed after a migration window. New integrations should use `/v1/tunnels` with the `anthropic-beta: mcp-tunnels-2026-06-22` header and a WIF token carrying the `workspace:manage_tunnels` scope. Existing integrations continue to work with the `mcp-tunnels-2026-05-19` header and `org:manage_tunnels` scope during the migration window. List the organization's tunnels. Results span the caller's organization, ordered by creation time (newest first). Use `workspace_id` to filter to a single workspace; archived tunnels are excluded unless `include_archived` is set.
     ///
     /// - Parameters:
     /// - anthropicBeta: This endpoint is in beta: requests must send
@@ -107,44 +59,17 @@ public extension BetaOrganizationsTunnelsMethods {
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func listBetaOrganizationsTunnelsPaginated(
-        config: ClientConfig,
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        workspaceId: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error> {
-        AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error> { (continuation: AsyncThrowingStream<
-            BetaOrganizationTunnel,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsTunnelsPaginated(config: ClientConfig, anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, workspaceId: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error> {
+        return AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error> { (continuation: AsyncThrowingStream<BetaOrganizationTunnel, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsTunnels(
-                            config: config,
-                            anthropicBeta: anthropicBeta,
-                            page: pageCursor,
-                            limit: limit,
-                            workspaceId: workspaceId,
-                            includeArchived: includeArchived,
-                            anthropicVersion: anthropicVersion,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsTunnels(config: config, anthropicBeta: anthropicBeta, page: pageCursor, limit: limit, workspaceId: workspaceId, includeArchived: includeArchived, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
-                        for item in pageItems {
-                            continuation.yield(item)
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
+                        for item in pageItems { continuation.yield(item) }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -157,56 +82,25 @@ public extension BetaOrganizationsTunnelsMethods {
         }
     }
 
-    struct ListBetaOrganizationsTunnelsPage {
+    public struct ListBetaOrganizationsTunnelsPage {
         public let data: BetaTunnelListResponse
         public let items: [BetaOrganizationTunnel]
         public let hasMore: Bool
     }
 
-    static func listBetaOrganizationsTunnelsPages(
-        config: ClientConfig,
-        anthropicBeta: [AnthropicBeta],
-        page: String? = nil,
-        limit: Int? = nil,
-        workspaceId: String? = nil,
-        includeArchived: Bool? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) -> AsyncThrowingStream<ListBetaOrganizationsTunnelsPage, Swift.Error> {
-        AsyncThrowingStream<ListBetaOrganizationsTunnelsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
-            ListBetaOrganizationsTunnelsPage,
-            Swift.Error
-        >.Continuation) in
+    public static func listBetaOrganizationsTunnelsPages(config: ClientConfig, anthropicBeta: [AnthropicBeta], page: String? = nil, limit: Int? = nil, workspaceId: String? = nil, includeArchived: Bool? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsTunnelsPage, Swift.Error> {
+        return AsyncThrowingStream<ListBetaOrganizationsTunnelsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsTunnelsPage, Swift.Error>.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsTunnels(
-                            config: config,
-                            anthropicBeta: anthropicBeta,
-                            page: pageCursor,
-                            limit: limit,
-                            workspaceId: workspaceId,
-                            includeArchived: includeArchived,
-                            anthropicVersion: anthropicVersion,
-                            requestOptions: requestOptions
-                        )
+                        let pageResponse = try await listBetaOrganizationsTunnels(config: config, anthropicBeta: anthropicBeta, page: pageCursor, limit: limit, workspaceId: workspaceId, includeArchived: includeArchived, anthropicVersion: anthropicVersion, requestOptions: requestOptions)
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty {
-                            break
-                        }
+                        if pageItems.isEmpty { break }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsTunnelsPage(
-                            data: pageResponse,
-                            items: pageItems,
-                            hasMore: hasMore
-                        ))
-                        if !hasMore {
-                            break
-                        }
-                        guard let nextCursor = pageResponse.nextPage else {
-                            break
-                        }
+                        pageContinuation.yield(ListBetaOrganizationsTunnelsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
+                        if !hasMore { break }
+                        guard let nextCursor = pageResponse.nextPage else { break }
                         pageCursor = nextCursor
                     }
                 } catch {

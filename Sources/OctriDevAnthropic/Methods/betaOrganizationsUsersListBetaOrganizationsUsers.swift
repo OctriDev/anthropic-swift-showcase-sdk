@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsUsersMethods {
-    /// Lists members of the organization, with cursor-based pagination and optional filters. Use `before_id` or
-    /// `after_id` to navigate pages, and filter by `email` or one or more `roles[]` values. The response includes
-    /// pagination cursors and a `has_more` flag.
+extension BetaOrganizationsUsersMethods {
+    /// Lists members of the organization, with cursor-based pagination and optional filters. Use `before_id` or `after_id` to navigate pages, and filter by `email` or one or more `roles[]` values. The response includes pagination cursors and a `has_more` flag.
     ///
     /// List the organization's members.
     ///
@@ -29,59 +27,23 @@ public extension BetaOrganizationsUsersMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    static func listBetaOrganizationsUsers(
-        config: ClientConfig,
-        beforeId: String? = nil,
-        afterId: String? = nil,
-        limit: Int? = nil,
-        email: String? = nil,
-        roles: [String]? = nil,
-        anthropicVersion: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaListResponseUser {
-        if let limit {
+    public static func listBetaOrganizationsUsers(config: ClientConfig, beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, email: String? = nil, roles: [String]? = nil, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseUser {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        if let email {
+        if let email = email {
             try sdkValidateEmail("email", email)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/v1/organizations/users?beta=true",
-            config: config,
-            query: [
-                SdkQueryParameter("before_id", value: beforeId),
-                SdkQueryParameter("after_id", value: afterId),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("email", value: email),
-                SdkQueryParameter("roles[]", values: roles, style: "form", explode: true),
-            ],
-            decoder: .json,
-            operationId: "listBetaOrganizationsUsers",
-            extraHeaders: sdkHeaders([
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/v1/organizations/users?beta=true", config: config, query: [
+            SdkQueryParameter("before_id", value: beforeId),
+            SdkQueryParameter("after_id", value: afterId),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("email", value: email),
+            SdkQueryParameter("roles[]", values: roles, style: "form", explode: true),
+        ], decoder: .json, operationId: "listBetaOrganizationsUsers", extraHeaders: sdkHeaders([
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

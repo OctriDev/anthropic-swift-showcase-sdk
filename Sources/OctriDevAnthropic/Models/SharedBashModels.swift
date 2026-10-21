@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBash domain models
+// SharedBash domain models
 /// Typed representation of the `BashTool_20250124` API schema.
 public struct BashTool20250124: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -32,56 +32,38 @@ public struct BashTool20250124: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BashTool20250124 {
-    init(from decoder: Decoder) throws {
+extension BashTool20250124 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        name = try container.sdkDecodeRequired(.name)
-        type = try container.sdkDecodeRequired(.type)
-        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        strict = try container.sdkDecodeIfPresent(.strict)
-        try sdkValidateRawEnum("name", name, BashTool20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", type, BashTool20250124Type.allCases.map(\.rawValue))
+        self.name = try container.sdkDecodeRequired(.name)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        self.strict = try container.sdkDecodeIfPresent(.strict)
+            try sdkValidateRawEnum("name", self.name, BashTool20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BashTool20250124Type.allCases.map(\.rawValue))
     }
 }
 
-public extension BashTool20250124 {
-    init(
-        name: BashTool20250124Name,
-        type: BashTool20250124Type,
-        allowedCallers: [AllowedCaller]? = nil,
-        cacheControl: BashTool20250124CacheControl? = nil,
-        deferLoading: Bool? = nil,
-        inputExamples: [[String: JsonValue]]? = nil,
-        strict: Bool? = nil
-    ) throws {
+extension BashTool20250124 {
+    public init(name: BashTool20250124Name, type: BashTool20250124Type, allowedCallers: [AllowedCaller]? = nil, cacheControl: BashTool20250124CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: JsonValue]]? = nil, strict: Bool? = nil) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-        try sdkValidateRawEnum("name", self.name, BashTool20250124Name.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("type", self.type, BashTool20250124Type.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("name", self.name, BashTool20250124Name.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BashTool20250124Type.allCases.map(\.rawValue))
     }
 }
 
@@ -92,6 +74,7 @@ public indirect enum BashTool20250124CacheControl {
 }
 
 extension BashTool20250124CacheControl: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -99,16 +82,12 @@ extension BashTool20250124CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -119,8 +98,8 @@ extension BashTool20250124CacheControl: Codable {
 extension BashTool20250124CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
-        default: nil
+        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
+        default: return nil
         }
     }
 }
@@ -139,10 +118,7 @@ extension BashTool20250124CacheControl {
 public struct BashCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let invalidToolInput = BashCodeExecutionToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = BashCodeExecutionToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = BashCodeExecutionToolResultErrorCode(rawValue: "too_many_requests")
@@ -151,7 +127,7 @@ public struct BashCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

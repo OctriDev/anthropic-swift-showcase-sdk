@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaCache domain models
+// SharedBetaCache domain models
 /// Typed representation of the `BetaCacheMissModelChanged` API schema.
 public struct BetaCacheMissModelChanged: Codable {
     /// Approximate number of input tokens that would have been read from cache had the prefix matched the previous
@@ -17,38 +17,28 @@ public struct BetaCacheMissModelChanged: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheMissModelChanged {
-    init(from decoder: Decoder) throws {
+extension BetaCacheMissModelChanged {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.cacheMissedInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_missed_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_missed_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_missed_input_tokens", code: "required", message: "Validation failed for 'cache_missed_input_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCacheMissModelChangedType.allCases.map(\.rawValue))
+        self.cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissModelChangedType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheMissModelChanged {
-    init(cacheMissedInputTokens: Int, type: BetaCacheMissModelChangedType) throws {
+extension BetaCacheMissModelChanged {
+    public init(cacheMissedInputTokens: Int, type: BetaCacheMissModelChangedType) throws {
         (self.cacheMissedInputTokens, self.type) = (cacheMissedInputTokens, type)
-        try sdkValidateRawEnum("type", self.type, BetaCacheMissModelChangedType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissModelChangedType.allCases.map(\.rawValue))
     }
 }
 
@@ -65,38 +55,28 @@ public struct BetaCacheMissSystemChanged: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheMissSystemChanged {
-    init(from decoder: Decoder) throws {
+extension BetaCacheMissSystemChanged {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.cacheMissedInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_missed_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_missed_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_missed_input_tokens", code: "required", message: "Validation failed for 'cache_missed_input_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCacheMissSystemChangedType.allCases.map(\.rawValue))
+        self.cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissSystemChangedType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheMissSystemChanged {
-    init(cacheMissedInputTokens: Int, type: BetaCacheMissSystemChangedType) throws {
+extension BetaCacheMissSystemChanged {
+    public init(cacheMissedInputTokens: Int, type: BetaCacheMissSystemChangedType) throws {
         (self.cacheMissedInputTokens, self.type) = (cacheMissedInputTokens, type)
-        try sdkValidateRawEnum("type", self.type, BetaCacheMissSystemChangedType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissSystemChangedType.allCases.map(\.rawValue))
     }
 }
 
@@ -109,30 +89,24 @@ public struct BetaCacheMissUnavailable: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheMissUnavailable {
-    init(from decoder: Decoder) throws {
+extension BetaCacheMissUnavailable {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCacheMissUnavailableType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissUnavailableType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheMissUnavailable {
-    init(type: BetaCacheMissUnavailableType) throws {
+extension BetaCacheMissUnavailable {
+    public init(type: BetaCacheMissUnavailableType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaCacheMissUnavailableType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissUnavailableType.allCases.map(\.rawValue))
     }
 }
 
@@ -149,31 +123,25 @@ public struct BetaCacheControlEphemeral: Codable {
         case ttl
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheControlEphemeral {
-    init(from decoder: Decoder) throws {
+extension BetaCacheControlEphemeral {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        ttl = try container.sdkDecodeIfPresent(.ttl)
-        try sdkValidateRawEnum("type", type, BetaCacheControlEphemeralType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.ttl = try container.sdkDecodeIfPresent(.ttl)
+            try sdkValidateRawEnum("type", self.type, BetaCacheControlEphemeralType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheControlEphemeral {
-    init(type: BetaCacheControlEphemeralType, ttl: BetaCacheControlEphemeralTtl? = nil) throws {
+extension BetaCacheControlEphemeral {
+    public init(type: BetaCacheControlEphemeralType, ttl: BetaCacheControlEphemeralTtl? = nil) throws {
         (self.type, self.ttl) = (type, ttl)
-        try sdkValidateRawEnum("type", self.type, BetaCacheControlEphemeralType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheControlEphemeralType.allCases.map(\.rawValue))
     }
 }
 
@@ -189,73 +157,31 @@ public struct BetaCacheCreation: Codable {
         case ephemeral5mInputTokens = "ephemeral_5m_input_tokens"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheCreation {
-    init(from decoder: Decoder) throws {
+extension BetaCacheCreation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.ephemeral1hInputTokens) else {
-            throw SdkValidationError(
-                field: "ephemeral_1h_input_tokens",
-                code: "required",
-                message: "Validation failed for 'ephemeral_1h_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "ephemeral_1h_input_tokens", code: "required", message: "Validation failed for 'ephemeral_1h_input_tokens': value is required")
         }
         guard container.contains(.ephemeral5mInputTokens) else {
-            throw SdkValidationError(
-                field: "ephemeral_5m_input_tokens",
-                code: "required",
-                message: "Validation failed for 'ephemeral_5m_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "ephemeral_5m_input_tokens", code: "required", message: "Validation failed for 'ephemeral_5m_input_tokens': value is required")
         }
-        ephemeral1hInputTokens = try container.sdkDecodeRequired(.ephemeral1hInputTokens)
-        ephemeral5mInputTokens = try container.sdkDecodeRequired(.ephemeral5mInputTokens)
-        try validateRange(
-            "ephemeral_1h_input_tokens",
-            Double(ephemeral1hInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "ephemeral_5m_input_tokens",
-            Double(ephemeral5mInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+        self.ephemeral1hInputTokens = try container.sdkDecodeRequired(.ephemeral1hInputTokens)
+        self.ephemeral5mInputTokens = try container.sdkDecodeRequired(.ephemeral5mInputTokens)
+            try validateRange("ephemeral_1h_input_tokens", Double(self.ephemeral1hInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("ephemeral_5m_input_tokens", Double(self.ephemeral5mInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
     }
 }
 
-public extension BetaCacheCreation {
-    init(ephemeral1hInputTokens: Int, ephemeral5mInputTokens: Int) throws {
+extension BetaCacheCreation {
+    public init(ephemeral1hInputTokens: Int, ephemeral5mInputTokens: Int) throws {
         self.ephemeral1hInputTokens = ephemeral1hInputTokens
         self.ephemeral5mInputTokens = ephemeral5mInputTokens
-        try validateRange(
-            "ephemeral_1h_input_tokens",
-            Double(self.ephemeral1hInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "ephemeral_5m_input_tokens",
-            Double(self.ephemeral5mInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+            try validateRange("ephemeral_1h_input_tokens", Double(self.ephemeral1hInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("ephemeral_5m_input_tokens", Double(self.ephemeral5mInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
     }
 }
 
@@ -268,30 +194,24 @@ public struct BetaCacheMissPreviousMessageNotFound: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheMissPreviousMessageNotFound {
-    init(from decoder: Decoder) throws {
+extension BetaCacheMissPreviousMessageNotFound {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCacheMissPreviousMessageNotFoundType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissPreviousMessageNotFoundType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheMissPreviousMessageNotFound {
-    init(type: BetaCacheMissPreviousMessageNotFoundType) throws {
+extension BetaCacheMissPreviousMessageNotFound {
+    public init(type: BetaCacheMissPreviousMessageNotFoundType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaCacheMissPreviousMessageNotFoundType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissPreviousMessageNotFoundType.allCases.map(\.rawValue))
     }
 }
 
@@ -308,38 +228,28 @@ public struct BetaCacheMissMessagesChanged: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheMissMessagesChanged {
-    init(from decoder: Decoder) throws {
+extension BetaCacheMissMessagesChanged {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.cacheMissedInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_missed_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_missed_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_missed_input_tokens", code: "required", message: "Validation failed for 'cache_missed_input_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCacheMissMessagesChangedType.allCases.map(\.rawValue))
+        self.cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissMessagesChangedType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheMissMessagesChanged {
-    init(cacheMissedInputTokens: Int, type: BetaCacheMissMessagesChangedType) throws {
+extension BetaCacheMissMessagesChanged {
+    public init(cacheMissedInputTokens: Int, type: BetaCacheMissMessagesChangedType) throws {
         (self.cacheMissedInputTokens, self.type) = (cacheMissedInputTokens, type)
-        try sdkValidateRawEnum("type", self.type, BetaCacheMissMessagesChangedType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissMessagesChangedType.allCases.map(\.rawValue))
     }
 }
 
@@ -356,38 +266,28 @@ public struct BetaCacheMissToolsChanged: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaCacheMissToolsChanged {
-    init(from decoder: Decoder) throws {
+extension BetaCacheMissToolsChanged {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.cacheMissedInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_missed_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_missed_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_missed_input_tokens", code: "required", message: "Validation failed for 'cache_missed_input_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaCacheMissToolsChangedType.allCases.map(\.rawValue))
+        self.cacheMissedInputTokens = try container.sdkDecodeRequired(.cacheMissedInputTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissToolsChangedType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaCacheMissToolsChanged {
-    init(cacheMissedInputTokens: Int, type: BetaCacheMissToolsChangedType) throws {
+extension BetaCacheMissToolsChanged {
+    public init(cacheMissedInputTokens: Int, type: BetaCacheMissToolsChangedType) throws {
         (self.cacheMissedInputTokens, self.type) = (cacheMissedInputTokens, type)
-        try sdkValidateRawEnum("type", self.type, BetaCacheMissToolsChangedType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaCacheMissToolsChangedType.allCases.map(\.rawValue))
     }
 }
 
@@ -396,16 +296,13 @@ public extension BetaCacheMissToolsChanged {
 public struct BetaCacheControlEphemeralTtl: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let value5m = BetaCacheControlEphemeralTtl(rawValue: "5m")
     public static let value1h = BetaCacheControlEphemeralTtl(rawValue: "1h")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaMessage domain models
+// SharedBetaMessage domain models
 /// Token usage for a sampling iteration.
 public struct BetaMessageIterationUsage: Codable {
     /// Breakdown of cached tokens by TTL
@@ -31,161 +31,59 @@ public struct BetaMessageIterationUsage: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaMessageIterationUsage {
-    init(from decoder: Decoder) throws {
+extension BetaMessageIterationUsage {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.cacheCreation) else {
-            throw SdkValidationError(
-                field: "cache_creation",
-                code: "required",
-                message: "Validation failed for 'cache_creation': value is required"
-            )
+            throw SdkValidationError(field: "cache_creation", code: "required", message: "Validation failed for 'cache_creation': value is required")
         }
         guard container.contains(.cacheCreationInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_creation_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_creation_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_creation_input_tokens", code: "required", message: "Validation failed for 'cache_creation_input_tokens': value is required")
         }
         guard container.contains(.cacheReadInputTokens) else {
-            throw SdkValidationError(
-                field: "cache_read_input_tokens",
-                code: "required",
-                message: "Validation failed for 'cache_read_input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "cache_read_input_tokens", code: "required", message: "Validation failed for 'cache_read_input_tokens': value is required")
         }
         guard container.contains(.inputTokens) else {
-            throw SdkValidationError(
-                field: "input_tokens",
-                code: "required",
-                message: "Validation failed for 'input_tokens': value is required"
-            )
+            throw SdkValidationError(field: "input_tokens", code: "required", message: "Validation failed for 'input_tokens': value is required")
         }
         guard container.contains(.model) else {
-            throw SdkValidationError(
-                field: "model",
-                code: "required",
-                message: "Validation failed for 'model': value is required"
-            )
+            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
         }
         guard container.contains(.outputTokens) else {
-            throw SdkValidationError(
-                field: "output_tokens",
-                code: "required",
-                message: "Validation failed for 'output_tokens': value is required"
-            )
+            throw SdkValidationError(field: "output_tokens", code: "required", message: "Validation failed for 'output_tokens': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
-        cacheCreationInputTokens = try container.sdkDecodeRequired(.cacheCreationInputTokens)
-        cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
-        inputTokens = try container.sdkDecodeRequired(.inputTokens)
-        model = try container.sdkDecodeRequired(.model)
-        outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "cache_creation_input_tokens",
-            Double(cacheCreationInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cache_read_input_tokens",
-            Double(cacheReadInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "input_tokens",
-            Double(inputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "output_tokens",
-            Double(outputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaMessageIterationUsageType.allCases.map(\.rawValue))
+        self.cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
+        self.cacheCreationInputTokens = try container.sdkDecodeRequired(.cacheCreationInputTokens)
+        self.cacheReadInputTokens = try container.sdkDecodeRequired(.cacheReadInputTokens)
+        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("cache_creation_input_tokens", Double(self.cacheCreationInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cache_read_input_tokens", Double(self.cacheReadInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaMessageIterationUsageType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaMessageIterationUsage {
-    init(
-        cacheCreation: BetaCacheCreation?,
-        cacheCreationInputTokens: Int,
-        cacheReadInputTokens: Int,
-        inputTokens: Int,
-        model: Model,
-        outputTokens: Int,
-        type: BetaMessageIterationUsageType
-    ) throws {
+extension BetaMessageIterationUsage {
+    public init(cacheCreation: BetaCacheCreation?, cacheCreationInputTokens: Int, cacheReadInputTokens: Int, inputTokens: Int, model: Model, outputTokens: Int, type: BetaMessageIterationUsageType) throws {
         (self.cacheCreation, self.cacheCreationInputTokens) = (cacheCreation, cacheCreationInputTokens)
         (self.cacheReadInputTokens, self.inputTokens) = (cacheReadInputTokens, inputTokens)
         (self.model, self.outputTokens) = (model, outputTokens)
         self.type = type
-        try validateRange(
-            "cache_creation_input_tokens",
-            Double(self.cacheCreationInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "cache_read_input_tokens",
-            Double(self.cacheReadInputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "input_tokens",
-            Double(self.inputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "output_tokens",
-            Double(self.outputTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaMessageIterationUsageType.allCases.map(\.rawValue))
+            try validateRange("cache_creation_input_tokens", Double(self.cacheCreationInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("cache_read_input_tokens", Double(self.cacheReadInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaMessageIterationUsageType.allCases.map(\.rawValue))
     }
 }
 
@@ -254,57 +152,41 @@ public struct BetaMessage: Codable {
         case inputTransformations = "input_transformations"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaMessage {
-    init(from decoder: Decoder) throws {
+extension BetaMessage {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        role = try container.sdkDecodeRequired(.role)
-        content = try container.sdkDecodeRequired(.content)
-        model = try container.sdkDecodeRequired(.model)
-        stopReason = try container.sdkDecodeNullable(.stopReason)
-        stopSequence = try container.sdkDecodeNullable(.stopSequence)
-        stopDetails = try container.sdkDecodeNullable(.stopDetails)
-        usage = try container.sdkDecodeRequired(.usage)
-        diagnostics = try container.sdkDecodeNullable(.diagnostics)
-        contextManagement = try container.sdkDecodeNullable(.contextManagement)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.role = try container.sdkDecodeRequired(.role)
+        self.content = try container.sdkDecodeRequired(.content)
+        self.model = try container.sdkDecodeRequired(.model)
+        self.stopReason = try container.sdkDecodeNullable(.stopReason)
+        self.stopSequence = try container.sdkDecodeNullable(.stopSequence)
+        self.stopDetails = try container.sdkDecodeNullable(.stopDetails)
+        self.usage = try container.sdkDecodeRequired(.usage)
+        self.diagnostics = try container.sdkDecodeNullable(.diagnostics)
+        self.contextManagement = try container.sdkDecodeNullable(.contextManagement)
         self.container = try container.sdkDecodeNullable(.container)
-        inputTransformations = try container.sdkDecodeIfPresent(.inputTransformations)
-        try sdkValidateRawEnum("type", type, BetaMessageType.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("role", role, BetaMessageRole.allCases.map(\.rawValue))
+        self.inputTransformations = try container.sdkDecodeIfPresent(.inputTransformations)
+            try sdkValidateRawEnum("type", self.type, BetaMessageType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("role", self.role, BetaMessageRole.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaMessage {
-    init(
-        id: String,
-        type: BetaMessageType,
-        role: BetaMessageRole,
-        content: [BetaContentBlock],
-        model: Model,
-        stopReason: BetaStopReason?,
-        stopSequence: String?,
-        stopDetails: BetaRefusalStopDetails?,
-        usage: BetaUsage,
-        diagnostics: BetaDiagnostics?,
-        contextManagement: BetaResponseContextManagement?,
-        container containerValue: BetaContainer?,
-        inputTransformations: [BetaThinkingDroppedInputTransformation]? = nil
-    ) throws {
+extension BetaMessage {
+    public init(id: String, type: BetaMessageType, role: BetaMessageRole, content: [BetaContentBlock], model: Model, stopReason: BetaStopReason?, stopSequence: String?, stopDetails: BetaRefusalStopDetails?, usage: BetaUsage, diagnostics: BetaDiagnostics?, contextManagement: BetaResponseContextManagement?, container containerValue: BetaContainer?, inputTransformations: [BetaThinkingDroppedInputTransformation]? = nil) throws {
         (self.id, self.type) = (id, type)
         (self.role, self.content) = (role, content)
         (self.model, self.stopReason) = (model, stopReason)
         (self.stopSequence, self.stopDetails) = (stopSequence, stopDetails)
         (self.usage, self.diagnostics) = (usage, diagnostics)
-        (self.contextManagement, container) = (contextManagement, containerValue)
+        (self.contextManagement, self.container) = (contextManagement, containerValue)
         self.inputTransformations = inputTransformations
-        try sdkValidateRawEnum("type", self.type, BetaMessageType.allCases.map(\.rawValue))
-        try sdkValidateRawEnum("role", self.role, BetaMessageRole.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaMessageType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("role", self.role, BetaMessageRole.allCases.map(\.rawValue))
     }
 }
 
@@ -353,51 +235,38 @@ public struct BetaMessageBatch: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaMessageBatch {
-    init(from decoder: Decoder) throws {
+extension BetaMessageBatch {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        archivedAt = try container.sdkDecodeNullable(.archivedAt)
-        cancelInitiatedAt = try container.sdkDecodeNullable(.cancelInitiatedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        endedAt = try container.sdkDecodeNullable(.endedAt)
-        expiresAt = try container.sdkDecodeRequired(.expiresAt)
-        id = try container.sdkDecodeRequired(.id)
-        processingStatus = try container.sdkDecodeRequired(.processingStatus)
-        requestCounts = try container.sdkDecodeRequired(.requestCounts)
-        resultsUrl = try container.sdkDecodeNullable(.resultsUrl)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
-        try sdkValidateDateTime("expires_at", sdkWireString(expiresAt))
-        try sdkValidateRawEnum("type", type, BetaMessageBatchType.allCases.map(\.rawValue))
+        self.archivedAt = try container.sdkDecodeNullable(.archivedAt)
+        self.cancelInitiatedAt = try container.sdkDecodeNullable(.cancelInitiatedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.endedAt = try container.sdkDecodeNullable(.endedAt)
+        self.expiresAt = try container.sdkDecodeRequired(.expiresAt)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.processingStatus = try container.sdkDecodeRequired(.processingStatus)
+        self.requestCounts = try container.sdkDecodeRequired(.requestCounts)
+        self.resultsUrl = try container.sdkDecodeNullable(.resultsUrl)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateRawEnum("type", self.type, BetaMessageBatchType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaMessageBatch {
-    init(
-        archivedAt: Date?,
-        cancelInitiatedAt: Date?,
-        createdAt: Date,
-        endedAt: Date?,
-        expiresAt: Date,
-        id: String,
-        processingStatus: BetaMessageBatchProcessingStatus,
-        requestCounts: BetaRequestCounts,
-        resultsUrl: String?,
-        type: BetaMessageBatchType
-    ) throws {
+extension BetaMessageBatch {
+    public init(archivedAt: Date?, cancelInitiatedAt: Date?, createdAt: Date, endedAt: Date?, expiresAt: Date, id: String, processingStatus: BetaMessageBatchProcessingStatus, requestCounts: BetaRequestCounts, resultsUrl: String?, type: BetaMessageBatchType) throws {
         (self.archivedAt, self.cancelInitiatedAt) = (archivedAt, cancelInitiatedAt)
         (self.createdAt, self.endedAt) = (createdAt, endedAt)
         (self.expiresAt, self.id) = (expiresAt, id)
         (self.processingStatus, self.requestCounts) = (processingStatus, requestCounts)
         (self.resultsUrl, self.type) = (resultsUrl, type)
-        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-        try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
-        try sdkValidateRawEnum("type", self.type, BetaMessageBatchType.allCases.map(\.rawValue))
+            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+            try sdkValidateDateTime("expires_at", sdkWireString(self.expiresAt))
+            try sdkValidateRawEnum("type", self.type, BetaMessageBatchType.allCases.map(\.rawValue))
     }
 }
 
@@ -423,17 +292,14 @@ public enum BetaMessageRole: String, CaseIterable, Codable {
 public struct BetaMessageBatchProcessingStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let inProgress = BetaMessageBatchProcessingStatus(rawValue: "in_progress")
     public static let canceling = BetaMessageBatchProcessingStatus(rawValue: "canceling")
     public static let ended = BetaMessageBatchProcessingStatus(rawValue: "ended")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaResponse domain models
+// SharedBetaResponse domain models
 /// Typed representation of the `BetaResponseRedactedThinkingBlock` API schema.
 public struct BetaResponseRedactedThinkingBlock: Codable {
     /// The contents of this redacted thinking block, returned when portions of the model's thinking were
@@ -19,38 +19,28 @@ public struct BetaResponseRedactedThinkingBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseRedactedThinkingBlock {
-    init(from decoder: Decoder) throws {
+extension BetaResponseRedactedThinkingBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaResponseRedactedThinkingBlockType.allCases.map(\.rawValue))
+        self.data = try container.sdkDecodeRequired(.data)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaResponseRedactedThinkingBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseRedactedThinkingBlock {
-    init(data: String, type: BetaResponseRedactedThinkingBlockType) throws {
+extension BetaResponseRedactedThinkingBlock {
+    public init(data: String, type: BetaResponseRedactedThinkingBlockType) throws {
         (self.data, self.type) = (data, type)
-        try sdkValidateRawEnum("type", self.type, BetaResponseRedactedThinkingBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaResponseRedactedThinkingBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -81,125 +71,55 @@ public struct BetaResponseCharLocationCitation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseCharLocationCitation {
-    init(from decoder: Decoder) throws {
+extension BetaResponseCharLocationCitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(
-                field: "cited_text",
-                code: "required",
-                message: "Validation failed for 'cited_text': value is required"
-            )
+            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
         }
         guard container.contains(.documentIndex) else {
-            throw SdkValidationError(
-                field: "document_index",
-                code: "required",
-                message: "Validation failed for 'document_index': value is required"
-            )
+            throw SdkValidationError(field: "document_index", code: "required", message: "Validation failed for 'document_index': value is required")
         }
         guard container.contains(.documentTitle) else {
-            throw SdkValidationError(
-                field: "document_title",
-                code: "required",
-                message: "Validation failed for 'document_title': value is required"
-            )
+            throw SdkValidationError(field: "document_title", code: "required", message: "Validation failed for 'document_title': value is required")
         }
         guard container.contains(.endCharIndex) else {
-            throw SdkValidationError(
-                field: "end_char_index",
-                code: "required",
-                message: "Validation failed for 'end_char_index': value is required"
-            )
+            throw SdkValidationError(field: "end_char_index", code: "required", message: "Validation failed for 'end_char_index': value is required")
         }
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.startCharIndex) else {
-            throw SdkValidationError(
-                field: "start_char_index",
-                code: "required",
-                message: "Validation failed for 'start_char_index': value is required"
-            )
+            throw SdkValidationError(field: "start_char_index", code: "required", message: "Validation failed for 'start_char_index': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        citedText = try container.sdkDecodeRequired(.citedText)
-        documentIndex = try container.sdkDecodeRequired(.documentIndex)
-        documentTitle = try container.sdkDecodeNullable(.documentTitle)
-        endCharIndex = try container.sdkDecodeRequired(.endCharIndex)
-        fileId = try container.sdkDecodeNullable(.fileId)
-        startCharIndex = try container.sdkDecodeRequired(.startCharIndex)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "document_index",
-            Double(documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_char_index",
-            Double(startCharIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaResponseCharLocationCitationType.allCases.map(\.rawValue))
+        self.citedText = try container.sdkDecodeRequired(.citedText)
+        self.documentIndex = try container.sdkDecodeRequired(.documentIndex)
+        self.documentTitle = try container.sdkDecodeNullable(.documentTitle)
+        self.endCharIndex = try container.sdkDecodeRequired(.endCharIndex)
+        self.fileId = try container.sdkDecodeNullable(.fileId)
+        self.startCharIndex = try container.sdkDecodeRequired(.startCharIndex)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_char_index", Double(self.startCharIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponseCharLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseCharLocationCitation {
-    init(
-        citedText: String,
-        documentIndex: Int,
-        documentTitle: String?,
-        endCharIndex: Int,
-        fileId: String?,
-        startCharIndex: Int,
-        type: BetaResponseCharLocationCitationType
-    ) throws {
+extension BetaResponseCharLocationCitation {
+    public init(citedText: String, documentIndex: Int, documentTitle: String?, endCharIndex: Int, fileId: String?, startCharIndex: Int, type: BetaResponseCharLocationCitationType) throws {
         (self.citedText, self.documentIndex) = (citedText, documentIndex)
         (self.documentTitle, self.endCharIndex) = (documentTitle, endCharIndex)
         (self.fileId, self.startCharIndex) = (fileId, startCharIndex)
         self.type = type
-        try validateRange(
-            "document_index",
-            Double(self.documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_char_index",
-            Double(self.startCharIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaResponseCharLocationCitationType.allCases.map(\.rawValue))
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_char_index", Double(self.startCharIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponseCharLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -220,47 +140,33 @@ public struct BetaResponseCompactionBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseCompactionBlock {
-    init(from decoder: Decoder) throws {
+extension BetaResponseCompactionBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.encryptedContent) else {
-            throw SdkValidationError(
-                field: "encrypted_content",
-                code: "required",
-                message: "Validation failed for 'encrypted_content': value is required"
-            )
+            throw SdkValidationError(field: "encrypted_content", code: "required", message: "Validation failed for 'encrypted_content': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeNullable(.content)
-        encryptedContent = try container.sdkDecodeNullable(.encryptedContent)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaResponseCompactionBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeNullable(.content)
+        self.encryptedContent = try container.sdkDecodeNullable(.encryptedContent)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaResponseCompactionBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseCompactionBlock {
-    init(content: String?, encryptedContent: String?, type: BetaResponseCompactionBlockType) throws {
+extension BetaResponseCompactionBlock {
+    public init(content: String?, encryptedContent: String?, type: BetaResponseCompactionBlockType) throws {
         (self.content, self.encryptedContent) = (content, encryptedContent)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaResponseCompactionBlockType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaResponseCompactionBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -291,125 +197,55 @@ public struct BetaResponsePageLocationCitation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponsePageLocationCitation {
-    init(from decoder: Decoder) throws {
+extension BetaResponsePageLocationCitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.citedText) else {
-            throw SdkValidationError(
-                field: "cited_text",
-                code: "required",
-                message: "Validation failed for 'cited_text': value is required"
-            )
+            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
         }
         guard container.contains(.documentIndex) else {
-            throw SdkValidationError(
-                field: "document_index",
-                code: "required",
-                message: "Validation failed for 'document_index': value is required"
-            )
+            throw SdkValidationError(field: "document_index", code: "required", message: "Validation failed for 'document_index': value is required")
         }
         guard container.contains(.documentTitle) else {
-            throw SdkValidationError(
-                field: "document_title",
-                code: "required",
-                message: "Validation failed for 'document_title': value is required"
-            )
+            throw SdkValidationError(field: "document_title", code: "required", message: "Validation failed for 'document_title': value is required")
         }
         guard container.contains(.endPageNumber) else {
-            throw SdkValidationError(
-                field: "end_page_number",
-                code: "required",
-                message: "Validation failed for 'end_page_number': value is required"
-            )
+            throw SdkValidationError(field: "end_page_number", code: "required", message: "Validation failed for 'end_page_number': value is required")
         }
         guard container.contains(.fileId) else {
-            throw SdkValidationError(
-                field: "file_id",
-                code: "required",
-                message: "Validation failed for 'file_id': value is required"
-            )
+            throw SdkValidationError(field: "file_id", code: "required", message: "Validation failed for 'file_id': value is required")
         }
         guard container.contains(.startPageNumber) else {
-            throw SdkValidationError(
-                field: "start_page_number",
-                code: "required",
-                message: "Validation failed for 'start_page_number': value is required"
-            )
+            throw SdkValidationError(field: "start_page_number", code: "required", message: "Validation failed for 'start_page_number': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        citedText = try container.sdkDecodeRequired(.citedText)
-        documentIndex = try container.sdkDecodeRequired(.documentIndex)
-        documentTitle = try container.sdkDecodeNullable(.documentTitle)
-        endPageNumber = try container.sdkDecodeRequired(.endPageNumber)
-        fileId = try container.sdkDecodeNullable(.fileId)
-        startPageNumber = try container.sdkDecodeRequired(.startPageNumber)
-        type = try container.sdkDecodeRequired(.type)
-        try validateRange(
-            "document_index",
-            Double(documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_page_number",
-            Double(startPageNumber),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", type, BetaResponsePageLocationCitationType.allCases.map(\.rawValue))
+        self.citedText = try container.sdkDecodeRequired(.citedText)
+        self.documentIndex = try container.sdkDecodeRequired(.documentIndex)
+        self.documentTitle = try container.sdkDecodeNullable(.documentTitle)
+        self.endPageNumber = try container.sdkDecodeRequired(.endPageNumber)
+        self.fileId = try container.sdkDecodeNullable(.fileId)
+        self.startPageNumber = try container.sdkDecodeRequired(.startPageNumber)
+        self.type = try container.sdkDecodeRequired(.type)
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_page_number", Double(self.startPageNumber), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponsePageLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponsePageLocationCitation {
-    init(
-        citedText: String,
-        documentIndex: Int,
-        documentTitle: String?,
-        endPageNumber: Int,
-        fileId: String?,
-        startPageNumber: Int,
-        type: BetaResponsePageLocationCitationType
-    ) throws {
+extension BetaResponsePageLocationCitation {
+    public init(citedText: String, documentIndex: Int, documentTitle: String?, endPageNumber: Int, fileId: String?, startPageNumber: Int, type: BetaResponsePageLocationCitationType) throws {
         (self.citedText, self.documentIndex) = (citedText, documentIndex)
         (self.documentTitle, self.endPageNumber) = (documentTitle, endPageNumber)
         (self.fileId, self.startPageNumber) = (fileId, startPageNumber)
         self.type = type
-        try validateRange(
-            "document_index",
-            Double(self.documentIndex),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try validateRange(
-            "start_page_number",
-            Double(self.startPageNumber),
-            min: 1,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
-        try sdkValidateRawEnum("type", self.type, BetaResponsePageLocationCitationType.allCases.map(\.rawValue))
+            try validateRange("document_index", Double(self.documentIndex), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange("start_page_number", Double(self.startPageNumber), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try sdkValidateRawEnum("type", self.type, BetaResponsePageLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -434,74 +270,42 @@ public struct BetaResponseEncryptedCodeExecutionResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseEncryptedCodeExecutionResultBlock {
-    init(from decoder: Decoder) throws {
+extension BetaResponseEncryptedCodeExecutionResultBlock {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
         guard container.contains(.encryptedStdout) else {
-            throw SdkValidationError(
-                field: "encrypted_stdout",
-                code: "required",
-                message: "Validation failed for 'encrypted_stdout': value is required"
-            )
+            throw SdkValidationError(field: "encrypted_stdout", code: "required", message: "Validation failed for 'encrypted_stdout': value is required")
         }
         guard container.contains(.returnCode) else {
-            throw SdkValidationError(
-                field: "return_code",
-                code: "required",
-                message: "Validation failed for 'return_code': value is required"
-            )
+            throw SdkValidationError(field: "return_code", code: "required", message: "Validation failed for 'return_code': value is required")
         }
         guard container.contains(.stderr) else {
-            throw SdkValidationError(
-                field: "stderr",
-                code: "required",
-                message: "Validation failed for 'stderr': value is required"
-            )
+            throw SdkValidationError(field: "stderr", code: "required", message: "Validation failed for 'stderr': value is required")
         }
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        content = try container.sdkDecodeRequired(.content)
-        encryptedStdout = try container.sdkDecodeRequired(.encryptedStdout)
-        returnCode = try container.sdkDecodeRequired(.returnCode)
-        stderr = try container.sdkDecodeRequired(.stderr)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaResponseEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
+        self.content = try container.sdkDecodeRequired(.content)
+        self.encryptedStdout = try container.sdkDecodeRequired(.encryptedStdout)
+        self.returnCode = try container.sdkDecodeRequired(.returnCode)
+        self.stderr = try container.sdkDecodeRequired(.stderr)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaResponseEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaResponseEncryptedCodeExecutionResultBlock {
-    init(
-        content: [BetaResponseCodeExecutionOutputBlock],
-        encryptedStdout: String,
-        returnCode: Int,
-        stderr: String,
-        type: BetaResponseEncryptedCodeExecutionResultBlockType
-    ) throws {
+extension BetaResponseEncryptedCodeExecutionResultBlock {
+    public init(content: [BetaResponseCodeExecutionOutputBlock], encryptedStdout: String, returnCode: Int, stderr: String, type: BetaResponseEncryptedCodeExecutionResultBlockType) throws {
         (self.content, self.encryptedStdout) = (content, encryptedStdout)
         (self.returnCode, self.stderr) = (returnCode, stderr)
         self.type = type
-        try sdkValidateRawEnum(
-            "type",
-            self.type,
-            BetaResponseEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue)
-        )
+            try sdkValidateRawEnum("type", self.type, BetaResponseEncryptedCodeExecutionResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -514,27 +318,21 @@ public struct BetaResponseCitationsConfig: Codable {
         case enabled
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaResponseCitationsConfig {
-    init(from decoder: Decoder) throws {
+extension BetaResponseCitationsConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.enabled) else {
-            throw SdkValidationError(
-                field: "enabled",
-                code: "required",
-                message: "Validation failed for 'enabled': value is required"
-            )
+            throw SdkValidationError(field: "enabled", code: "required", message: "Validation failed for 'enabled': value is required")
         }
-        enabled = try container.sdkDecodeRequired(.enabled)
+        self.enabled = try container.sdkDecodeRequired(.enabled)
     }
 }
 
-public extension BetaResponseCitationsConfig {
-    init(enabled: Bool) {
+extension BetaResponseCitationsConfig {
+    public init(enabled: Bool) {
         self.enabled = enabled
     }
 }
@@ -572,7 +370,5 @@ public struct BetaResponseSearchResultLocationCitation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }

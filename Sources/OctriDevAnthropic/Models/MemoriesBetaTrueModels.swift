@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// MemoriesBetaTrue domain models
+// MemoriesBetaTrue domain models
 public indirect enum BetaManagedAgentsMemoryListItem {
     case betaManagedAgentsMemory(BetaManagedAgentsMemory)
     case betaManagedAgentsMemoryPrefix(BetaManagedAgentsMemoryPrefix)
@@ -12,6 +12,7 @@ public indirect enum BetaManagedAgentsMemoryListItem {
 }
 
 extension BetaManagedAgentsMemoryListItem: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -19,16 +20,12 @@ extension BetaManagedAgentsMemoryListItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-            self = value; return
-        }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,9 +36,9 @@ extension BetaManagedAgentsMemoryListItem: Codable {
 extension BetaManagedAgentsMemoryListItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "memory": try .betaManagedAgentsMemory(BetaManagedAgentsMemory(from: decoder))
-        case "memory_prefix": try .betaManagedAgentsMemoryPrefix(BetaManagedAgentsMemoryPrefix(from: decoder))
-        default: nil
+        case "memory": return .betaManagedAgentsMemory(try BetaManagedAgentsMemory(from: decoder))
+        case "memory_prefix": return .betaManagedAgentsMemoryPrefix(try BetaManagedAgentsMemoryPrefix(from: decoder))
+        default: return nil
         }
     }
 }
@@ -76,38 +73,28 @@ public struct BetaManagedAgentsCreateMemoryParams: Codable {
         case content
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsCreateMemoryParams {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsCreateMemoryParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.path) else {
-            throw SdkValidationError(
-                field: "path",
-                code: "required",
-                message: "Validation failed for 'path': value is required"
-            )
+            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
         }
         guard container.contains(.content) else {
-            throw SdkValidationError(
-                field: "content",
-                code: "required",
-                message: "Validation failed for 'content': value is required"
-            )
+            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
         }
-        path = try container.sdkDecodeRequired(.path)
-        content = try container.sdkDecodeNullable(.content)
-        try validateLength("path", path, min: 2, max: 1024)
+        self.path = try container.sdkDecodeRequired(.path)
+        self.content = try container.sdkDecodeNullable(.content)
+            try validateLength("path", self.path, min: 2, max: 1024)
     }
 }
 
-public extension BetaManagedAgentsCreateMemoryParams {
-    init(path: String, content: String?) throws {
+extension BetaManagedAgentsCreateMemoryParams {
+    public init(path: String, content: String?) throws {
         (self.path, self.content) = (path, content)
-        try validateLength("path", self.path, min: 2, max: 1024)
+            try validateLength("path", self.path, min: 2, max: 1024)
     }
 }
 
@@ -127,38 +114,28 @@ public struct BetaManagedAgentsMemoryPrefix: Codable {
         case path
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaManagedAgentsMemoryPrefix {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsMemoryPrefix {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
         guard container.contains(.path) else {
-            throw SdkValidationError(
-                field: "path",
-                code: "required",
-                message: "Validation failed for 'path': value is required"
-            )
+            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        path = try container.sdkDecodeRequired(.path)
-        try sdkValidateRawEnum("type", type, BetaManagedAgentsMemoryPrefixType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+        self.path = try container.sdkDecodeRequired(.path)
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMemoryPrefixType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaManagedAgentsMemoryPrefix {
-    init(type: BetaManagedAgentsMemoryPrefixType, path: String) throws {
+extension BetaManagedAgentsMemoryPrefix {
+    public init(type: BetaManagedAgentsMemoryPrefixType, path: String) throws {
         (self.type, self.path) = (type, path)
-        try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMemoryPrefixType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsMemoryPrefixType.allCases.map(\.rawValue))
     }
 }
 
@@ -177,20 +154,20 @@ public struct BetaManagedAgentsListMemoriesResult: Codable {
     }
 
     init() {
-        (data, nextPage) = (nil, nil)
+        (self.data, self.nextPage) = (nil, nil)
     }
 }
 
-public extension BetaManagedAgentsListMemoriesResult {
-    init(from decoder: Decoder) throws {
+extension BetaManagedAgentsListMemoriesResult {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        data = try container.sdkDecodeIfPresent(.data)
-        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        self.data = try container.sdkDecodeIfPresent(.data)
+        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-public extension BetaManagedAgentsListMemoriesResult {
-    init(data: [BetaManagedAgentsMemoryListItem]? = nil, nextPage: String? = nil) {
+extension BetaManagedAgentsListMemoriesResult {
+    public init(data: [BetaManagedAgentsMemoryListItem]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }

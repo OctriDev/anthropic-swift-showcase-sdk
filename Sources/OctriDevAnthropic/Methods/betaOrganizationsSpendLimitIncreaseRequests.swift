@@ -8,46 +8,12 @@ import Foundation
 #endif
 public enum BetaOrganizationsSpendLimitIncreaseRequestsMethods {}
 
-public extension BetaOrganizationsSpendLimitIncreaseRequestsMethods {
-    /// Retrieve a spend limit increase request. While `pending`, the response includes a live `spend_summary` for the
-    /// requester at the request's period.
+extension BetaOrganizationsSpendLimitIncreaseRequestsMethods {
+    /// Retrieve a spend limit increase request. While `pending`, the response includes a live `spend_summary` for the requester at the request's period.
     ///
     /// - Parameters:
     /// - spendLimitIncreaseRequestId: ID of the spend limit increase request.
-    static func retrieveBetaOrganizationsSpendLimitIncreaseRequests(
-        config: ClientConfig,
-        spendLimitIncreaseRequestId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaSpendLimitIncreaseRequestSchema {
-        try await (sdkRequest(
-            "GET",
-            [
-                "/v1/organizations/spend_limit_increase_requests/",
-                sdkEncodePathSegment(sdkWireString(spendLimitIncreaseRequestId)),
-                "?beta=true",
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "retrieveBetaOrganizationsSpendLimitIncreaseRequests",
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+    public static func retrieveBetaOrganizationsSpendLimitIncreaseRequests(config: ClientConfig, spendLimitIncreaseRequestId: String, requestOptions: RequestOptions? = nil) async throws -> BetaSpendLimitIncreaseRequestSchema {
+        return try (await sdkRequest("GET", ["/v1/organizations/spend_limit_increase_requests/", sdkEncodePathSegment(sdkWireString(spendLimitIncreaseRequestId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaOrganizationsSpendLimitIncreaseRequests", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

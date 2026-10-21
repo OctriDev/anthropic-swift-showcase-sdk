@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// UserProfilesBetaTrue domain models
+// UserProfilesBetaTrue domain models
 /// Typed representation of the `BetaListUserProfilesResponse` API schema.
 public struct BetaListUserProfilesResponse: Codable {
     /// User profiles on this page.
@@ -16,35 +16,25 @@ public struct BetaListUserProfilesResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaListUserProfilesResponse {
-    init(from decoder: Decoder) throws {
+extension BetaListUserProfilesResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaListUserProfilesResponse {
-    init(data: [BetaUserProfile], nextPage: String?) {
+extension BetaListUserProfilesResponse {
+    public init(data: [BetaUserProfile], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -78,29 +68,23 @@ public struct BetaCreateUserProfileRequest: Codable {
     }
 
     init() {
-        (externalId, name, accessType, externalUserOnboardedAt, metadata) = (nil, nil, nil, nil, nil)
+        (self.externalId, self.name, self.accessType, self.externalUserOnboardedAt, self.metadata) = (nil, nil, nil, nil, nil)
     }
 }
 
-public extension BetaCreateUserProfileRequest {
-    init(from decoder: Decoder) throws {
+extension BetaCreateUserProfileRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        externalId = try container.sdkDecodeIfPresent(.externalId)
-        name = try container.sdkDecodeIfPresent(.name)
-        accessType = try container.sdkDecodeIfPresent(.accessType)
-        externalUserOnboardedAt = try container.sdkDecodeIfPresent(.externalUserOnboardedAt)
-        metadata = try container.sdkDecodeIfPresent(.metadata)
+        self.externalId = try container.sdkDecodeIfPresent(.externalId)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.accessType = try container.sdkDecodeIfPresent(.accessType)
+        self.externalUserOnboardedAt = try container.sdkDecodeIfPresent(.externalUserOnboardedAt)
+        self.metadata = try container.sdkDecodeIfPresent(.metadata)
     }
 }
 
-public extension BetaCreateUserProfileRequest {
-    init(
-        externalId: String? = nil,
-        name: String? = nil,
-        accessType: BetaUserProfileAccessType? = nil,
-        externalUserOnboardedAt: BetaTimestamp? = nil,
-        metadata: [String: String]? = nil
-    ) {
+extension BetaCreateUserProfileRequest {
+    public init(externalId: String? = nil, name: String? = nil, accessType: BetaUserProfileAccessType? = nil, externalUserOnboardedAt: BetaTimestamp? = nil, metadata: [String: String]? = nil) {
         self.init()
         (self.externalId, self.name) = (externalId, name)
         (self.accessType, self.externalUserOnboardedAt) = (accessType, externalUserOnboardedAt)
@@ -113,16 +97,13 @@ public extension BetaCreateUserProfileRequest {
 public struct BetaUserProfileListOrderBy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let createdAt = BetaUserProfileListOrderBy(rawValue: "created_at")
     public static let name = BetaUserProfileListOrderBy(rawValue: "name")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -135,16 +116,13 @@ public struct BetaUserProfileListOrderBy: RawRepresentable, Hashable, Codable, S
 public struct BetaUserProfileListOrder: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let asc = BetaUserProfileListOrder(rawValue: "asc")
     public static let desc = BetaUserProfileListOrder(rawValue: "desc")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

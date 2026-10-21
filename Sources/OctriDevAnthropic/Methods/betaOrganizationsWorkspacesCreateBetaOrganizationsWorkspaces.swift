@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaOrganizationsWorkspacesMethods {
-    /// Creates a workspace in the organization. Supply a `name` and optionally configure its data residency, display
-    /// color, encryption key, and tags. The response contains the created workspace and its generated identifier.
+extension BetaOrganizationsWorkspacesMethods {
+    /// Creates a workspace in the organization. Supply a `name` and optionally configure its data residency, display color, encryption key, and tags. The response contains the created workspace and its generated identifier.
     ///
     /// - Parameters:
     /// - name: Name of the Workspace.
@@ -36,57 +35,14 @@ public extension BetaOrganizationsWorkspacesMethods {
     ///   the underlying key on your cloud KMS; the `external_key_id` stays the same.
     /// - tags: User-defined tags as string key-value pairs. Keys may not begin with
     ///   `anthropic`.
-    static func createBetaOrganizationsWorkspaces(
-        config: ClientConfig,
-        name: String,
-        anthropicBeta: [AnthropicBeta]? = nil,
-        anthropicVersion: String? = nil,
-        dataResidency: SdkOptional<BetaDataResidencyCreateParams>? = nil,
-        displayColor: SdkOptional<String>? = nil,
-        externalKeyId: SdkOptional<String>? = nil,
-        tags: SdkOptional<[String: String]>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BetaWorkspace {
+    public static func createBetaOrganizationsWorkspaces(config: ClientConfig, name: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, dataResidency: SdkOptional<BetaDataResidencyCreateParams>? = nil, displayColor: SdkOptional<String>? = nil, externalKeyId: SdkOptional<String>? = nil, tags: SdkOptional<[String: String]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
         try validateLength("name", name, min: 1, max: 40)
 
-        let requestBody = CreateBetaOrganizationsWorkspacesRequestBody(
-            name: name,
-            dataResidency: dataResidency,
-            displayColor: displayColor,
-            externalKeyId: externalKeyId,
-            tags: tags
-        )
+        let requestBody = CreateBetaOrganizationsWorkspacesRequestBody(name: name, dataResidency: dataResidency, displayColor: displayColor, externalKeyId: externalKeyId, tags: tags)
 
-        return try await (sdkRequest(
-            "POST",
-            "/v1/organizations/workspaces?beta=true",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createBetaOrganizationsWorkspaces",
-            extraHeaders: sdkHeaders([
-                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ]),
-            options: requestOptions,
-            errors: [
-                "400": BetaErrorResponse.self,
-                "401": BetaErrorResponse.self,
-                "403": BetaErrorResponse.self,
-                "404": BetaErrorResponse.self,
-                "408": BetaErrorResponse.self,
-                "409": BetaErrorResponse.self,
-                "412": BetaErrorResponse.self,
-                "413": BetaErrorResponse.self,
-                "429": BetaErrorResponse.self,
-                "431": BetaErrorResponse.self,
-                "499": BetaErrorResponse.self,
-                "500": BetaErrorResponse.self,
-                "501": BetaErrorResponse.self,
-                "503": BetaErrorResponse.self,
-                "504": BetaErrorResponse.self,
-                "529": BetaErrorResponse.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/v1/organizations/workspaces?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsWorkspaces", extraHeaders: sdkHeaders([
+            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
     }
 }

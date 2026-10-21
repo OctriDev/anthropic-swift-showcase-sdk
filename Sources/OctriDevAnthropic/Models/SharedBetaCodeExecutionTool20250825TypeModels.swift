@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaCode domain models
+// SharedBetaCode domain models
 /// Required `string` value serialized in the `type` wire field.
 public enum BetaCodeExecutionTool20250825Type: String, CaseIterable, Codable {
     case codeExecution20250825 = "code_execution_20250825"

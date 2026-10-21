@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedBetaSelf domain models
+// SharedBetaSelf domain models
 /// Work resource representing a unit of work in a self-hosted environment. Work items are queued when sessions are
 /// created or when long-dormant sessions receive new messages. The environment worker polls for work to execute in
 /// a self-hosted sandbox.
@@ -52,47 +52,31 @@ public struct BetaSelfHostedWork: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSelfHostedWork {
-    init(from decoder: Decoder) throws {
+extension BetaSelfHostedWork {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        acknowledgedAt = try container.sdkDecodeNullable(.acknowledgedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        data = try container.sdkDecodeRequired(.data)
-        environmentId = try container.sdkDecodeRequired(.environmentId)
-        id = try container.sdkDecodeRequired(.id)
-        latestHeartbeatAt = try container.sdkDecodeNullable(.latestHeartbeatAt)
-        metadata = try container.sdkDecodeRequired(.metadata)
-        secret = try container.sdkDecodeNullable(.secret)
-        startedAt = try container.sdkDecodeNullable(.startedAt)
-        state = try container.sdkDecodeRequired(.state)
-        stopRequestedAt = try container.sdkDecodeNullable(.stopRequestedAt)
-        stoppedAt = try container.sdkDecodeNullable(.stoppedAt)
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaSelfHostedWorkType.allCases.map(\.rawValue))
+        self.acknowledgedAt = try container.sdkDecodeNullable(.acknowledgedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.environmentId = try container.sdkDecodeRequired(.environmentId)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.latestHeartbeatAt = try container.sdkDecodeNullable(.latestHeartbeatAt)
+        self.metadata = try container.sdkDecodeRequired(.metadata)
+        self.secret = try container.sdkDecodeNullable(.secret)
+        self.startedAt = try container.sdkDecodeNullable(.startedAt)
+        self.state = try container.sdkDecodeRequired(.state)
+        self.stopRequestedAt = try container.sdkDecodeNullable(.stopRequestedAt)
+        self.stoppedAt = try container.sdkDecodeNullable(.stoppedAt)
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaSelfHostedWork {
-    init(
-        acknowledgedAt: String?,
-        createdAt: String,
-        data: BetaSessionWorkData,
-        environmentId: String,
-        id: String,
-        latestHeartbeatAt: String?,
-        metadata: [String: String],
-        secret: String?,
-        startedAt: String?,
-        state: BetaSelfHostedWorkState,
-        stopRequestedAt: String?,
-        stoppedAt: String?,
-        type: BetaSelfHostedWorkType
-    ) throws {
+extension BetaSelfHostedWork {
+    public init(acknowledgedAt: String?, createdAt: String, data: BetaSessionWorkData, environmentId: String, id: String, latestHeartbeatAt: String?, metadata: [String: String], secret: String?, startedAt: String?, state: BetaSelfHostedWorkState, stopRequestedAt: String?, stoppedAt: String?, type: BetaSelfHostedWorkType) throws {
         (self.acknowledgedAt, self.createdAt) = (acknowledgedAt, createdAt)
         (self.data, self.environmentId) = (data, environmentId)
         (self.id, self.latestHeartbeatAt) = (id, latestHeartbeatAt)
@@ -100,7 +84,7 @@ public extension BetaSelfHostedWork {
         (self.startedAt, self.state) = (startedAt, state)
         (self.stopRequestedAt, self.stoppedAt) = (stopRequestedAt, stoppedAt)
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedWorkType.allCases.map(\.rawValue))
     }
 }
 
@@ -113,30 +97,24 @@ public struct BetaSelfHostedConfigParams: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSelfHostedConfigParams {
-    init(from decoder: Decoder) throws {
+extension BetaSelfHostedConfigParams {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaSelfHostedConfigParamsType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedConfigParamsType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaSelfHostedConfigParams {
-    init(type: BetaSelfHostedConfigParamsType) throws {
+extension BetaSelfHostedConfigParams {
+    public init(type: BetaSelfHostedConfigParamsType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaSelfHostedConfigParamsType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedConfigParamsType.allCases.map(\.rawValue))
     }
 }
 
@@ -149,30 +127,24 @@ public struct BetaSelfHostedConfig: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaSelfHostedConfig {
-    init(from decoder: Decoder) throws {
+extension BetaSelfHostedConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.type) else {
-            throw SdkValidationError(
-                field: "type",
-                code: "required",
-                message: "Validation failed for 'type': value is required"
-            )
+            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
         }
-        type = try container.sdkDecodeRequired(.type)
-        try sdkValidateRawEnum("type", type, BetaSelfHostedConfigType.allCases.map(\.rawValue))
+        self.type = try container.sdkDecodeRequired(.type)
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedConfigType.allCases.map(\.rawValue))
     }
 }
 
-public extension BetaSelfHostedConfig {
-    init(type: BetaSelfHostedConfigType) throws {
+extension BetaSelfHostedConfig {
+    public init(type: BetaSelfHostedConfigType) throws {
         self.type = type
-        try sdkValidateRawEnum("type", self.type, BetaSelfHostedConfigType.allCases.map(\.rawValue))
+            try sdkValidateRawEnum("type", self.type, BetaSelfHostedConfigType.allCases.map(\.rawValue))
     }
 }
 
@@ -216,10 +188,7 @@ public enum BetaSelfHostedConfigParamsType: String, CaseIterable, Codable {
 public struct BetaSelfHostedWorkState: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let queued = BetaSelfHostedWorkState(rawValue: "queued")
     public static let starting = BetaSelfHostedWorkState(rawValue: "starting")
     public static let active = BetaSelfHostedWorkState(rawValue: "active")
@@ -228,7 +197,7 @@ public struct BetaSelfHostedWorkState: RawRepresentable, Hashable, Codable, Send
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

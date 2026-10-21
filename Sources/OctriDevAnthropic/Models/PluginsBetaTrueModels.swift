@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// PluginsBetaTrue domain models
+// PluginsBetaTrue domain models
 /// Claude Code activity metrics for a single plugin on a given day.
 public struct BetaAnalyticsPluginClaudeCodeMetrics: Codable {
     /// Number of distinct Claude Code sessions in which the plugin was invoked. Null on aggregated rows where a
@@ -14,27 +14,21 @@ public struct BetaAnalyticsPluginClaudeCodeMetrics: Codable {
         case distinctSessionPluginUsedCount = "distinct_session_plugin_used_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsPluginClaudeCodeMetrics {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsPluginClaudeCodeMetrics {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.distinctSessionPluginUsedCount) else {
-            throw SdkValidationError(
-                field: "distinct_session_plugin_used_count",
-                code: "required",
-                message: "Validation failed for 'distinct_session_plugin_used_count': value is required"
-            )
+            throw SdkValidationError(field: "distinct_session_plugin_used_count", code: "required", message: "Validation failed for 'distinct_session_plugin_used_count': value is required")
         }
-        distinctSessionPluginUsedCount = try container.sdkDecodeNullable(.distinctSessionPluginUsedCount)
+        self.distinctSessionPluginUsedCount = try container.sdkDecodeNullable(.distinctSessionPluginUsedCount)
     }
 }
 
-public extension BetaAnalyticsPluginClaudeCodeMetrics {
-    init(distinctSessionPluginUsedCount: Int?) {
+extension BetaAnalyticsPluginClaudeCodeMetrics {
+    public init(distinctSessionPluginUsedCount: Int?) {
         self.distinctSessionPluginUsedCount = distinctSessionPluginUsedCount
     }
 }
@@ -49,27 +43,21 @@ public struct BetaAnalyticsPluginCoworkMetrics: Codable {
         case distinctSessionPluginUsedCount = "distinct_session_plugin_used_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsPluginCoworkMetrics {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsPluginCoworkMetrics {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.distinctSessionPluginUsedCount) else {
-            throw SdkValidationError(
-                field: "distinct_session_plugin_used_count",
-                code: "required",
-                message: "Validation failed for 'distinct_session_plugin_used_count': value is required"
-            )
+            throw SdkValidationError(field: "distinct_session_plugin_used_count", code: "required", message: "Validation failed for 'distinct_session_plugin_used_count': value is required")
         }
-        distinctSessionPluginUsedCount = try container.sdkDecodeNullable(.distinctSessionPluginUsedCount)
+        self.distinctSessionPluginUsedCount = try container.sdkDecodeNullable(.distinctSessionPluginUsedCount)
     }
 }
 
-public extension BetaAnalyticsPluginCoworkMetrics {
-    init(distinctSessionPluginUsedCount: Int?) {
+extension BetaAnalyticsPluginCoworkMetrics {
+    public init(distinctSessionPluginUsedCount: Int?) {
         self.distinctSessionPluginUsedCount = distinctSessionPluginUsedCount
     }
 }
@@ -86,35 +74,25 @@ public struct BetaAnalyticsPluginsResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsPluginsResponse {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsPluginsResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.nextPage) else {
-            throw SdkValidationError(
-                field: "next_page",
-                code: "required",
-                message: "Validation failed for 'next_page': value is required"
-            )
+            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        nextPage = try container.sdkDecodeNullable(.nextPage)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.nextPage = try container.sdkDecodeNullable(.nextPage)
     }
 }
 
-public extension BetaAnalyticsPluginsResponse {
-    init(data: [BetaAnalyticsPluginActivity], nextPage: String?) {
+extension BetaAnalyticsPluginsResponse {
+    public init(data: [BetaAnalyticsPluginActivity], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -172,84 +150,46 @@ public struct BetaAnalyticsPluginActivity: Codable {
         case userId = "user_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BetaAnalyticsPluginActivity {
-    init(from decoder: Decoder) throws {
+extension BetaAnalyticsPluginActivity {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.claudeCodeMetrics) else {
-            throw SdkValidationError(
-                field: "claude_code_metrics",
-                code: "required",
-                message: "Validation failed for 'claude_code_metrics': value is required"
-            )
+            throw SdkValidationError(field: "claude_code_metrics", code: "required", message: "Validation failed for 'claude_code_metrics': value is required")
         }
         guard container.contains(.coworkMetrics) else {
-            throw SdkValidationError(
-                field: "cowork_metrics",
-                code: "required",
-                message: "Validation failed for 'cowork_metrics': value is required"
-            )
+            throw SdkValidationError(field: "cowork_metrics", code: "required", message: "Validation failed for 'cowork_metrics': value is required")
         }
         guard container.contains(.distinctUserCount) else {
-            throw SdkValidationError(
-                field: "distinct_user_count",
-                code: "required",
-                message: "Validation failed for 'distinct_user_count': value is required"
-            )
+            throw SdkValidationError(field: "distinct_user_count", code: "required", message: "Validation failed for 'distinct_user_count': value is required")
         }
         guard container.contains(.installCount) else {
-            throw SdkValidationError(
-                field: "install_count",
-                code: "required",
-                message: "Validation failed for 'install_count': value is required"
-            )
+            throw SdkValidationError(field: "install_count", code: "required", message: "Validation failed for 'install_count': value is required")
         }
         guard container.contains(.invocationCount) else {
-            throw SdkValidationError(
-                field: "invocation_count",
-                code: "required",
-                message: "Validation failed for 'invocation_count': value is required"
-            )
+            throw SdkValidationError(field: "invocation_count", code: "required", message: "Validation failed for 'invocation_count': value is required")
         }
         guard container.contains(.pluginName) else {
-            throw SdkValidationError(
-                field: "plugin_name",
-                code: "required",
-                message: "Validation failed for 'plugin_name': value is required"
-            )
+            throw SdkValidationError(field: "plugin_name", code: "required", message: "Validation failed for 'plugin_name': value is required")
         }
-        claudeCodeMetrics = try container.sdkDecodeRequired(.claudeCodeMetrics)
-        coworkMetrics = try container.sdkDecodeRequired(.coworkMetrics)
-        distinctUserCount = try container.sdkDecodeRequired(.distinctUserCount)
-        installCount = try container.sdkDecodeNullable(.installCount)
-        invocationCount = try container.sdkDecodeRequired(.invocationCount)
-        pluginName = try container.sdkDecodeRequired(.pluginName)
-        pluginId = try container.sdkDecodeIfPresent(.pluginId)
-        product = try container.sdkDecodeIfPresent(.product)
-        rbacGroupId = try container.sdkDecodeIfPresent(.rbacGroupId)
-        rbacGroupName = try container.sdkDecodeIfPresent(.rbacGroupName)
-        userId = try container.sdkDecodeIfPresent(.userId)
+        self.claudeCodeMetrics = try container.sdkDecodeRequired(.claudeCodeMetrics)
+        self.coworkMetrics = try container.sdkDecodeRequired(.coworkMetrics)
+        self.distinctUserCount = try container.sdkDecodeRequired(.distinctUserCount)
+        self.installCount = try container.sdkDecodeNullable(.installCount)
+        self.invocationCount = try container.sdkDecodeRequired(.invocationCount)
+        self.pluginName = try container.sdkDecodeRequired(.pluginName)
+        self.pluginId = try container.sdkDecodeIfPresent(.pluginId)
+        self.product = try container.sdkDecodeIfPresent(.product)
+        self.rbacGroupId = try container.sdkDecodeIfPresent(.rbacGroupId)
+        self.rbacGroupName = try container.sdkDecodeIfPresent(.rbacGroupName)
+        self.userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-public extension BetaAnalyticsPluginActivity {
-    init(
-        claudeCodeMetrics: BetaAnalyticsPluginClaudeCodeMetrics,
-        coworkMetrics: BetaAnalyticsPluginCoworkMetrics,
-        distinctUserCount: Int,
-        installCount: Int?,
-        invocationCount: Int,
-        pluginName: String,
-        pluginId: String? = nil,
-        product: String? = nil,
-        rbacGroupId: String? = nil,
-        rbacGroupName: String? = nil,
-        userId: String? = nil
-    ) {
+extension BetaAnalyticsPluginActivity {
+    public init(claudeCodeMetrics: BetaAnalyticsPluginClaudeCodeMetrics, coworkMetrics: BetaAnalyticsPluginCoworkMetrics, distinctUserCount: Int, installCount: Int?, invocationCount: Int, pluginName: String, pluginId: String? = nil, product: String? = nil, rbacGroupId: String? = nil, rbacGroupName: String? = nil, userId: String? = nil) {
         (self.claudeCodeMetrics, self.coworkMetrics) = (claudeCodeMetrics, coworkMetrics)
         (self.distinctUserCount, self.installCount) = (distinctUserCount, installCount)
         (self.invocationCount, self.pluginName) = (invocationCount, pluginName)

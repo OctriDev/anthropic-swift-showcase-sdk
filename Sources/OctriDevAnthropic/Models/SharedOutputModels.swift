@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedOutput domain models
+// SharedOutput domain models
 /// Typed representation of the `OutputConfig` API schema.
 public struct OutputConfig: Codable {
     /// How much effort the model should put into its response. Higher effort levels may result in more thorough
@@ -18,20 +18,20 @@ public struct OutputConfig: Codable {
     }
 
     init() {
-        (effort, format) = (nil, nil)
+        (self.effort, self.format) = (nil, nil)
     }
 }
 
-public extension OutputConfig {
-    init(from decoder: Decoder) throws {
+extension OutputConfig {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        effort = try container.sdkDecodeIfPresent(.effort)
-        format = try container.sdkDecodeIfPresent(.format)
+        self.effort = try container.sdkDecodeIfPresent(.effort)
+        self.format = try container.sdkDecodeIfPresent(.format)
     }
 }
 
-public extension OutputConfig {
-    init(effort: EffortLevel? = nil, format: JsonOutputFormat? = nil) {
+extension OutputConfig {
+    public init(effort: EffortLevel? = nil, format: JsonOutputFormat? = nil) {
         self.init()
         (self.effort, self.format) = (effort, format)
     }
@@ -50,45 +50,23 @@ public struct OutputTokensDetails: Codable {
         case thinkingTokens = "thinking_tokens"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension OutputTokensDetails {
-    init(from decoder: Decoder) throws {
+extension OutputTokensDetails {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.thinkingTokens) else {
-            throw SdkValidationError(
-                field: "thinking_tokens",
-                code: "required",
-                message: "Validation failed for 'thinking_tokens': value is required"
-            )
+            throw SdkValidationError(field: "thinking_tokens", code: "required", message: "Validation failed for 'thinking_tokens': value is required")
         }
-        thinkingTokens = try container.sdkDecodeRequired(.thinkingTokens)
-        try validateRange(
-            "thinking_tokens",
-            Double(thinkingTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+        self.thinkingTokens = try container.sdkDecodeRequired(.thinkingTokens)
+            try validateRange("thinking_tokens", Double(self.thinkingTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
     }
 }
 
-public extension OutputTokensDetails {
-    init(thinkingTokens: Int) throws {
+extension OutputTokensDetails {
+    public init(thinkingTokens: Int) throws {
         self.thinkingTokens = thinkingTokens
-        try validateRange(
-            "thinking_tokens",
-            Double(self.thinkingTokens),
-            min: 0,
-            max: nil,
-            exclusiveMin: nil,
-            exclusiveMax: nil,
-            multipleOf: nil
-        )
+            try validateRange("thinking_tokens", Double(self.thinkingTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
     }
 }
