@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaDeploymentRunsMethods {}
 
-extension BetaDeploymentRunsMethods {
-    public struct ListBetaDeploymentRunsOptions: Codable {
+public extension BetaDeploymentRunsMethods {
+    struct ListBetaDeploymentRunsOptions: Codable {
         public var limit: Int?
         public var page: String?
         public var deploymentId: String?
@@ -26,7 +26,9 @@ extension BetaDeploymentRunsMethods {
         public init() {}
     }
 
-    /// Lists deployment runs, sorted from newest to oldest, with optional filters for deployment, trigger type, outcome, and creation time. Use `page` as the opaque cursor from the previous response's `next_page` field, and set `limit` to control the page size.
+    /// Lists deployment runs, sorted from newest to oldest, with optional filters for deployment, trigger type,
+    /// outcome, and creation time. Use `page` as the opaque cursor from the previous response's `next_page` field, and
+    /// set `limit` to control the page size.
     ///
     /// - Parameters:
     /// - limit: Maximum results per page. Default 20, maximum 1000.
@@ -47,7 +49,11 @@ extension BetaDeploymentRunsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaDeploymentRuns(config: ClientConfig, options: ListBetaDeploymentRunsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListDeploymentRunsData {
+    static func listBetaDeploymentRuns(
+        config: ClientConfig,
+        options: ListBetaDeploymentRunsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListDeploymentRunsData {
         if let createdAtGte = options.createdAtGte {
             try sdkValidateDateTime("created_at[gte]", createdAtGte)
         }
@@ -64,24 +70,52 @@ extension BetaDeploymentRunsMethods {
             try sdkValidateDateTime("created_at[lt]", createdAtLt)
         }
 
-        return try (await sdkRequest("GET", "/v1/deployment_runs?beta=true", config: config, query: [
-            SdkQueryParameter("limit", value: options.limit),
-            SdkQueryParameter("page", value: options.page),
-            SdkQueryParameter("deployment_id", value: options.deploymentId),
-            SdkQueryParameter("trigger_type", value: options.triggerType),
-            SdkQueryParameter("has_error", value: options.hasError),
-            SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
-            SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
-            SdkQueryParameter("created_at[gt]", value: options.createdAtGt),
-            SdkQueryParameter("created_at[lt]", value: options.createdAtLt),
-        ], decoder: .json, operationId: "listBetaDeploymentRuns", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/deployment_runs?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("page", value: options.page),
+                SdkQueryParameter("deployment_id", value: options.deploymentId),
+                SdkQueryParameter("trigger_type", value: options.triggerType),
+                SdkQueryParameter("has_error", value: options.hasError),
+                SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
+                SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
+                SdkQueryParameter("created_at[gt]", value: options.createdAtGt),
+                SdkQueryParameter("created_at[lt]", value: options.createdAtLt),
+            ],
+            decoder: .json,
+            operationId: "listBetaDeploymentRuns",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(options.anthropicVersion)),
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Lists deployment runs, sorted from newest to oldest, with optional filters for deployment, trigger type, outcome, and creation time. Use `page` as the opaque cursor from the previous response's `next_page` field, and set `limit` to control the page size.
+    /// Lists deployment runs, sorted from newest to oldest, with optional filters for deployment, trigger type,
+    /// outcome, and creation time. Use `page` as the opaque cursor from the previous response's `next_page` field, and
+    /// set `limit` to control the page size.
     ///
     /// - Parameters:
     /// - limit: Maximum results per page. Default 20, maximum 1000.
@@ -102,20 +136,37 @@ extension BetaDeploymentRunsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaDeploymentRunsPaginated(config: ClientConfig, options: ListBetaDeploymentRunsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error> {
+    static func listBetaDeploymentRunsPaginated(
+        config: ClientConfig,
+        options: ListBetaDeploymentRunsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaManagedAgentsDeploymentRun,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaDeploymentRuns(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaDeploymentRuns(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -128,28 +179,49 @@ extension BetaDeploymentRunsMethods {
         }
     }
 
-    public struct ListBetaDeploymentRunsPage {
+    struct ListBetaDeploymentRunsPage {
         public let data: BetaManagedAgentsListDeploymentRunsData
         public let items: [BetaManagedAgentsDeploymentRun]
         public let hasMore: Bool
     }
 
-    public static func listBetaDeploymentRunsPages(config: ClientConfig, options: ListBetaDeploymentRunsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaDeploymentRunsPage, Swift.Error> {
+    static func listBetaDeploymentRunsPages(
+        config: ClientConfig,
+        options: ListBetaDeploymentRunsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaDeploymentRunsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaDeploymentRunsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaDeploymentRunsPage, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<ListBetaDeploymentRunsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaDeploymentRunsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaDeploymentRuns(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaDeploymentRuns(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaDeploymentRunsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaDeploymentRunsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

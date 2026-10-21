@@ -8,8 +8,15 @@ import Foundation
 #endif
 public enum BetaOrganizationsFederationIssuersMethods {}
 
-extension BetaOrganizationsFederationIssuersMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Register an OIDC issuer that Anthropic will trust for workload identity federation in your organization. The `jwks` field controls how the issuer's signing keys are obtained and takes one of three shapes selected by `type`: `discovery` (resolve keys through OIDC discovery), `explicit_url` (fetch keys from a fixed JWKS URL), or `inline` (provide a static key set). When `jwks.type` is `discovery` and no `discovery_base` is set, the issuer URL must be publicly reachable over HTTPS so Anthropic can fetch the discovery document; for `explicit_url` and `inline` modes the issuer URL is only matched as the JWT's `iss` claim and is not fetched.
+public extension BetaOrganizationsFederationIssuersMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. Register
+    /// an OIDC issuer that Anthropic will trust for workload identity federation in your organization. The `jwks` field
+    /// controls how the issuer's signing keys are obtained and takes one of three shapes selected by `type`:
+    /// `discovery` (resolve keys through OIDC discovery), `explicit_url` (fetch keys from a fixed JWKS URL), or
+    /// `inline` (provide a static key set). When `jwks.type` is `discovery` and no `discovery_base` is set, the issuer
+    /// URL must be publicly reachable over HTTPS so Anthropic can fetch the discovery document; for `explicit_url` and
+    /// `inline` modes the issuer URL is only matched as the JWT's `iss` claim and is not fetched.
     ///
     /// - Parameters:
     /// - issuerUrl: The `iss` claim value to match against.
@@ -29,16 +36,59 @@ extension BetaOrganizationsFederationIssuersMethods {
     /// - maxJwtLifetimeSeconds: Maximum allowed iat→exp spread for assertions from
     ///   this issuer (1-176400 seconds, i.e. up to 49h). Defaults to 3600 (1h).
     ///   Assertions must carry both `iat` and `exp`; a missing `iat` is rejected.
-    public static func createBetaOrganizationsFederationIssuers(config: ClientConfig, issuerUrl: String, name: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicVersion: String? = nil, checkJti: SdkOptional<Bool>? = nil, jwks: BetaFederationIssuerCreateParamsJwks? = nil, maxJwtLifetimeSeconds: SdkOptional<Int>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFederationIssuer {
+    static func createBetaOrganizationsFederationIssuers(
+        config: ClientConfig,
+        issuerUrl: String,
+        name: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicVersion: String? = nil,
+        checkJti: SdkOptional<Bool>? = nil,
+        jwks: BetaFederationIssuerCreateParamsJwks? = nil,
+        maxJwtLifetimeSeconds: SdkOptional<Int>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFederationIssuer {
         try validateLength("issuer_url", issuerUrl, min: 1)
 
         try validateLength("name", name, min: 1, max: 255)
 
-        let requestBody = CreateBetaOrganizationsFederationIssuersRequestBody(issuerUrl: issuerUrl, name: name, checkJti: checkJti, jwks: jwks, maxJwtLifetimeSeconds: maxJwtLifetimeSeconds)
+        let requestBody = CreateBetaOrganizationsFederationIssuersRequestBody(
+            issuerUrl: issuerUrl,
+            name: name,
+            checkJti: checkJti,
+            jwks: jwks,
+            maxJwtLifetimeSeconds: maxJwtLifetimeSeconds
+        )
 
-        return try (await sdkRequest("POST", "/v1/organizations/federation_issuers?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsFederationIssuers", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/organizations/federation_issuers?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaOrganizationsFederationIssuers",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsExternalKeysMethods {
+public extension BetaOrganizationsExternalKeysMethods {
     /// Retrieve a single external key config in the caller's organization by ID.
     ///
     /// - Parameters:
@@ -14,11 +14,43 @@ extension BetaOrganizationsExternalKeysMethods {
     /// - anthropicVersion: The version of the Claude API you want to use. Read more
     ///   about versioning and our version history
     ///   [here](https://platform.claude.com/docs/en/api/versioning).
-    public static func retrieveBetaOrganizationsExternalKeys(config: ClientConfig, externalKeyId: String, anthropicVersion: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaExternalKey {
+    static func retrieveBetaOrganizationsExternalKeys(
+        config: ClientConfig,
+        externalKeyId: String,
+        anthropicVersion: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaExternalKey {
         try validateLength("external_key_id", externalKeyId, max: 2048)
 
-        return try (await sdkRequest("GET", ["/v1/organizations/external_keys/", sdkEncodePathSegment(sdkWireString(externalKeyId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaOrganizationsExternalKeys", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/v1/organizations/external_keys/", sdkEncodePathSegment(sdkWireString(externalKeyId)), "?beta=true"]
+                .joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsExternalKeys",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

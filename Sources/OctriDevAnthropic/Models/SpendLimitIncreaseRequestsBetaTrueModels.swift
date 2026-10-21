@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SpendLimitIncreaseRequestsBetaTrue domain models
+/// SpendLimitIncreaseRequestsBetaTrue domain models
 /// Typed representation of the `BetaSpendLimitIncreaseRequestListResponse` API schema.
 public struct BetaSpendLimitIncreaseRequestListResponse: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,25 +16,35 @@ public struct BetaSpendLimitIncreaseRequestListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaSpendLimitIncreaseRequestListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaSpendLimitIncreaseRequestListResponse {
-    public init(data: [BetaSpendLimitIncreaseRequestSchema], nextPage: String?) {
+public extension BetaSpendLimitIncreaseRequestListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaSpendLimitIncreaseRequestListResponse {
+    init(data: [BetaSpendLimitIncreaseRequestSchema], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// MemoryVersionsBetaTrue domain models
+/// MemoryVersionsBetaTrue domain models
 /// Response payload for List memory versions.
 public struct BetaManagedAgentsListMemoryVersionsResult: Codable {
     /// One page of `memory_version` objects, ordered by `created_at` descending (newest first), with `id` as
@@ -19,20 +19,20 @@ public struct BetaManagedAgentsListMemoryVersionsResult: Codable {
     }
 
     init() {
-        (self.data, self.nextPage) = (nil, nil)
+        (data, nextPage) = (nil, nil)
     }
 }
 
-extension BetaManagedAgentsListMemoryVersionsResult {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsListMemoryVersionsResult {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.sdkDecodeIfPresent(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        data = try container.sdkDecodeIfPresent(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-extension BetaManagedAgentsListMemoryVersionsResult {
-    public init(data: [BetaManagedAgentsMemoryVersion]? = nil, nextPage: String? = nil) {
+public extension BetaManagedAgentsListMemoryVersionsResult {
+    init(data: [BetaManagedAgentsMemoryVersion]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }

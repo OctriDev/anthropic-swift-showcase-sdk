@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaText domain models
+/// SharedBetaText domain models
 /// Typed representation of the `BetaTextEditor_20241022` API schema.
 public struct BetaTextEditor20241022: Codable {
     /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
@@ -32,38 +32,56 @@ public struct BetaTextEditor20241022: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTextEditor20241022 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20241022Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20241022Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTextEditor20241022 {
-    public init(name: BetaTextEditor20241022Name, type: BetaTextEditor20241022Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaTextEditor20241022CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, strict: Bool? = nil) throws {
+public extension BetaTextEditor20241022 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, BetaTextEditor20241022Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, BetaTextEditor20241022Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTextEditor20241022 {
+    init(
+        name: BetaTextEditor20241022Name,
+        type: BetaTextEditor20241022Type,
+        allowedCallers: [BetaAllowedCaller]? = nil,
+        cacheControl: BetaTextEditor20241022CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        inputExamples: [[String: BetaJsonValue]]? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20241022Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20241022Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, BetaTextEditor20241022Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTextEditor20241022Type.allCases.map(\.rawValue))
     }
 }
 
@@ -95,38 +113,56 @@ public struct BetaTextEditor20250124: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTextEditor20250124 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20250124Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20250124Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTextEditor20250124 {
-    public init(name: BetaTextEditor20250124Name, type: BetaTextEditor20250124Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaTextEditor20250124CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, strict: Bool? = nil) throws {
+public extension BetaTextEditor20250124 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, BetaTextEditor20250124Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, BetaTextEditor20250124Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTextEditor20250124 {
+    init(
+        name: BetaTextEditor20250124Name,
+        type: BetaTextEditor20250124Type,
+        allowedCallers: [BetaAllowedCaller]? = nil,
+        cacheControl: BetaTextEditor20250124CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        inputExamples: [[String: BetaJsonValue]]? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20250124Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20250124Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, BetaTextEditor20250124Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTextEditor20250124Type.allCases.map(\.rawValue))
     }
 }
 
@@ -162,39 +198,58 @@ public struct BetaTextEditor20250728: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTextEditor20250728 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        self.maxCharacters = try container.sdkDecodeIfPresent(.maxCharacters)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20250728Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20250728Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTextEditor20250728 {
-    public init(name: BetaTextEditor20250728Name, type: BetaTextEditor20250728Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaTextEditor20250728CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, maxCharacters: Int? = nil, strict: Bool? = nil) throws {
+public extension BetaTextEditor20250728 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        maxCharacters = try container.sdkDecodeIfPresent(.maxCharacters)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, BetaTextEditor20250728Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, BetaTextEditor20250728Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTextEditor20250728 {
+    init(
+        name: BetaTextEditor20250728Name,
+        type: BetaTextEditor20250728Type,
+        allowedCallers: [BetaAllowedCaller]? = nil,
+        cacheControl: BetaTextEditor20250728CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        inputExamples: [[String: BetaJsonValue]]? = nil,
+        maxCharacters: Int? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         (self.maxCharacters, self.strict) = (maxCharacters, strict)
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20250728Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20250728Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, BetaTextEditor20250728Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTextEditor20250728Type.allCases.map(\.rawValue))
     }
 }
 
@@ -205,7 +260,6 @@ public indirect enum BetaTextEditor20250429CacheControl {
 }
 
 extension BetaTextEditor20250429CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -213,12 +267,16 @@ extension BetaTextEditor20250429CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -229,8 +287,8 @@ extension BetaTextEditor20250429CacheControl: Codable {
 extension BetaTextEditor20250429CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -273,38 +331,56 @@ public struct BetaTextEditor20250429: Codable {
         case strict
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTextEditor20250429 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
-        self.inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
-        self.strict = try container.sdkDecodeIfPresent(.strict)
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20250429Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20250429Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTextEditor20250429 {
-    public init(name: BetaTextEditor20250429Name, type: BetaTextEditor20250429Type, allowedCallers: [BetaAllowedCaller]? = nil, cacheControl: BetaTextEditor20250429CacheControl? = nil, deferLoading: Bool? = nil, inputExamples: [[String: BetaJsonValue]]? = nil, strict: Bool? = nil) throws {
+public extension BetaTextEditor20250429 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        allowedCallers = try container.sdkDecodeIfPresent(.allowedCallers)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        deferLoading = try container.sdkDecodeIfPresent(.deferLoading)
+        inputExamples = try container.sdkDecodeIfPresent(.inputExamples)
+        strict = try container.sdkDecodeIfPresent(.strict)
+        try sdkValidateRawEnum("name", name, BetaTextEditor20250429Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", type, BetaTextEditor20250429Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaTextEditor20250429 {
+    init(
+        name: BetaTextEditor20250429Name,
+        type: BetaTextEditor20250429Type,
+        allowedCallers: [BetaAllowedCaller]? = nil,
+        cacheControl: BetaTextEditor20250429CacheControl? = nil,
+        deferLoading: Bool? = nil,
+        inputExamples: [[String: BetaJsonValue]]? = nil,
+        strict: Bool? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.allowedCallers, self.cacheControl) = (allowedCallers, cacheControl)
         (self.deferLoading, self.inputExamples) = (deferLoading, inputExamples)
         self.strict = strict
-            try sdkValidateRawEnum("name", self.name, BetaTextEditor20250429Name.allCases.map(\.rawValue))
-            try sdkValidateRawEnum("type", self.type, BetaTextEditor20250429Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("name", self.name, BetaTextEditor20250429Name.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaTextEditor20250429Type.allCases.map(\.rawValue))
     }
 }
 
@@ -315,7 +391,6 @@ public indirect enum BetaTextEditor20250124CacheControl {
 }
 
 extension BetaTextEditor20250124CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -323,12 +398,16 @@ extension BetaTextEditor20250124CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -339,8 +418,8 @@ extension BetaTextEditor20250124CacheControl: Codable {
 extension BetaTextEditor20250124CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -362,7 +441,6 @@ public indirect enum BetaTextEditor20250728CacheControl {
 }
 
 extension BetaTextEditor20250728CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -370,12 +448,16 @@ extension BetaTextEditor20250728CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -386,8 +468,8 @@ extension BetaTextEditor20250728CacheControl: Codable {
 extension BetaTextEditor20250728CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -409,7 +491,6 @@ public indirect enum BetaTextEditor20241022CacheControl {
 }
 
 extension BetaTextEditor20241022CacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -417,12 +498,16 @@ extension BetaTextEditor20241022CacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -433,8 +518,8 @@ extension BetaTextEditor20241022CacheControl: Codable {
 extension BetaTextEditor20241022CacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }

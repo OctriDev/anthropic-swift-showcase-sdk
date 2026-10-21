@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Models domain models
+/// Models domain models
 /// Model capability information.
 public struct ModelCapabilities: Codable {
     /// Whether the model supports the Batch API.
@@ -37,26 +37,38 @@ public struct ModelCapabilities: Codable {
         case thinking
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ModelCapabilities {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.batch = try container.sdkDecodeRequired(.batch)
-        self.citations = try container.sdkDecodeRequired(.citations)
-        self.codeExecution = try container.sdkDecodeRequired(.codeExecution)
-        self.contextManagement = try container.sdkDecodeRequired(.contextManagement)
-        self.effort = try container.sdkDecodeRequired(.effort)
-        self.imageInput = try container.sdkDecodeRequired(.imageInput)
-        self.pdfInput = try container.sdkDecodeRequired(.pdfInput)
-        self.structuredOutputs = try container.sdkDecodeRequired(.structuredOutputs)
-        self.thinking = try container.sdkDecodeRequired(.thinking)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ModelCapabilities {
-    public init(batch: CapabilitySupport, citations: CapabilitySupport, codeExecution: CapabilitySupport, contextManagement: ContextManagementCapability, effort: EffortCapability, imageInput: CapabilitySupport, pdfInput: CapabilitySupport, structuredOutputs: CapabilitySupport, thinking: ThinkingCapability) {
+public extension ModelCapabilities {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        batch = try container.sdkDecodeRequired(.batch)
+        citations = try container.sdkDecodeRequired(.citations)
+        codeExecution = try container.sdkDecodeRequired(.codeExecution)
+        contextManagement = try container.sdkDecodeRequired(.contextManagement)
+        effort = try container.sdkDecodeRequired(.effort)
+        imageInput = try container.sdkDecodeRequired(.imageInput)
+        pdfInput = try container.sdkDecodeRequired(.pdfInput)
+        structuredOutputs = try container.sdkDecodeRequired(.structuredOutputs)
+        thinking = try container.sdkDecodeRequired(.thinking)
+    }
+}
+
+public extension ModelCapabilities {
+    init(
+        batch: CapabilitySupport,
+        citations: CapabilitySupport,
+        codeExecution: CapabilitySupport,
+        contextManagement: ContextManagementCapability,
+        effort: EffortCapability,
+        imageInput: CapabilitySupport,
+        pdfInput: CapabilitySupport,
+        structuredOutputs: CapabilitySupport,
+        thinking: ThinkingCapability
+    ) {
         (self.batch, self.citations) = (batch, citations)
         (self.codeExecution, self.contextManagement) = (codeExecution, contextManagement)
         (self.effort, self.imageInput) = (effort, imageInput)
@@ -77,25 +89,35 @@ public struct ThinkingCapability: Codable {
         case types
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ThinkingCapability {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.supported) else {
-            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
-        }
-        guard container.contains(.types) else {
-            throw SdkValidationError(field: "types", code: "required", message: "Validation failed for 'types': value is required")
-        }
-        self.supported = try container.sdkDecodeRequired(.supported)
-        self.types = try container.sdkDecodeRequired(.types)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ThinkingCapability {
-    public init(supported: Bool, types: ThinkingTypes) {
+public extension ThinkingCapability {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.supported) else {
+            throw SdkValidationError(
+                field: "supported",
+                code: "required",
+                message: "Validation failed for 'supported': value is required"
+            )
+        }
+        guard container.contains(.types) else {
+            throw SdkValidationError(
+                field: "types",
+                code: "required",
+                message: "Validation failed for 'types': value is required"
+            )
+        }
+        supported = try container.sdkDecodeRequired(.supported)
+        types = try container.sdkDecodeRequired(.types)
+    }
+}
+
+public extension ThinkingCapability {
+    init(supported: Bool, types: ThinkingTypes) {
         (self.supported, self.types) = (supported, types)
     }
 }
@@ -124,41 +146,74 @@ public struct EffortCapability: Codable {
         case xhigh
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension EffortCapability {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.high) else {
-            throw SdkValidationError(field: "high", code: "required", message: "Validation failed for 'high': value is required")
-        }
-        guard container.contains(.low) else {
-            throw SdkValidationError(field: "low", code: "required", message: "Validation failed for 'low': value is required")
-        }
-        guard container.contains(.max) else {
-            throw SdkValidationError(field: "max", code: "required", message: "Validation failed for 'max': value is required")
-        }
-        guard container.contains(.medium) else {
-            throw SdkValidationError(field: "medium", code: "required", message: "Validation failed for 'medium': value is required")
-        }
-        guard container.contains(.supported) else {
-            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
-        }
-        guard container.contains(.xhigh) else {
-            throw SdkValidationError(field: "xhigh", code: "required", message: "Validation failed for 'xhigh': value is required")
-        }
-        self.high = try container.sdkDecodeRequired(.high)
-        self.low = try container.sdkDecodeRequired(.low)
-        self.max = try container.sdkDecodeRequired(.max)
-        self.medium = try container.sdkDecodeRequired(.medium)
-        self.supported = try container.sdkDecodeRequired(.supported)
-        self.xhigh = try container.sdkDecodeNullable(.xhigh)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension EffortCapability {
-    public init(high: CapabilitySupport, low: CapabilitySupport, max: CapabilitySupport, medium: CapabilitySupport, supported: Bool, xhigh: CapabilitySupport?) {
+public extension EffortCapability {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.high) else {
+            throw SdkValidationError(
+                field: "high",
+                code: "required",
+                message: "Validation failed for 'high': value is required"
+            )
+        }
+        guard container.contains(.low) else {
+            throw SdkValidationError(
+                field: "low",
+                code: "required",
+                message: "Validation failed for 'low': value is required"
+            )
+        }
+        guard container.contains(.max) else {
+            throw SdkValidationError(
+                field: "max",
+                code: "required",
+                message: "Validation failed for 'max': value is required"
+            )
+        }
+        guard container.contains(.medium) else {
+            throw SdkValidationError(
+                field: "medium",
+                code: "required",
+                message: "Validation failed for 'medium': value is required"
+            )
+        }
+        guard container.contains(.supported) else {
+            throw SdkValidationError(
+                field: "supported",
+                code: "required",
+                message: "Validation failed for 'supported': value is required"
+            )
+        }
+        guard container.contains(.xhigh) else {
+            throw SdkValidationError(
+                field: "xhigh",
+                code: "required",
+                message: "Validation failed for 'xhigh': value is required"
+            )
+        }
+        high = try container.sdkDecodeRequired(.high)
+        low = try container.sdkDecodeRequired(.low)
+        self.max = try container.sdkDecodeRequired(.max)
+        medium = try container.sdkDecodeRequired(.medium)
+        supported = try container.sdkDecodeRequired(.supported)
+        xhigh = try container.sdkDecodeNullable(.xhigh)
+    }
+}
+
+public extension EffortCapability {
+    init(
+        high: CapabilitySupport,
+        low: CapabilitySupport,
+        max: CapabilitySupport,
+        medium: CapabilitySupport,
+        supported: Bool,
+        xhigh: CapabilitySupport?
+    ) {
         (self.high, self.low) = (high, low)
         (self.max, self.medium) = (max, medium)
         (self.supported, self.xhigh) = (supported, xhigh)
@@ -174,21 +229,27 @@ public struct CapabilitySupport: Codable {
         case supported
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CapabilitySupport {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.supported) else {
-            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
-        }
-        self.supported = try container.sdkDecodeRequired(.supported)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CapabilitySupport {
-    public init(supported: Bool) {
+public extension CapabilitySupport {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.supported) else {
+            throw SdkValidationError(
+                field: "supported",
+                code: "required",
+                message: "Validation failed for 'supported': value is required"
+            )
+        }
+        supported = try container.sdkDecodeRequired(.supported)
+    }
+}
+
+public extension CapabilitySupport {
+    init(supported: Bool) {
         self.supported = supported
     }
 }
@@ -222,53 +283,91 @@ public struct ModelInfo: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ModelInfo {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.capabilities) else {
-            throw SdkValidationError(field: "capabilities", code: "required", message: "Validation failed for 'capabilities': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.displayName) else {
-            throw SdkValidationError(field: "display_name", code: "required", message: "Validation failed for 'display_name': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.maxInputTokens) else {
-            throw SdkValidationError(field: "max_input_tokens", code: "required", message: "Validation failed for 'max_input_tokens': value is required")
-        }
-        guard container.contains(.maxTokens) else {
-            throw SdkValidationError(field: "max_tokens", code: "required", message: "Validation failed for 'max_tokens': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.capabilities = try container.sdkDecodeNullable(.capabilities)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.displayName = try container.sdkDecodeRequired(.displayName)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.maxInputTokens = try container.sdkDecodeNullable(.maxInputTokens)
-        self.maxTokens = try container.sdkDecodeNullable(.maxTokens)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, ModelInfoType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ModelInfo {
-    public init(capabilities: ModelCapabilities?, createdAt: Date, displayName: String, id: String, maxInputTokens: Int?, maxTokens: Int?, type: ModelInfoType) throws {
+public extension ModelInfo {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.capabilities) else {
+            throw SdkValidationError(
+                field: "capabilities",
+                code: "required",
+                message: "Validation failed for 'capabilities': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.displayName) else {
+            throw SdkValidationError(
+                field: "display_name",
+                code: "required",
+                message: "Validation failed for 'display_name': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.maxInputTokens) else {
+            throw SdkValidationError(
+                field: "max_input_tokens",
+                code: "required",
+                message: "Validation failed for 'max_input_tokens': value is required"
+            )
+        }
+        guard container.contains(.maxTokens) else {
+            throw SdkValidationError(
+                field: "max_tokens",
+                code: "required",
+                message: "Validation failed for 'max_tokens': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        capabilities = try container.sdkDecodeNullable(.capabilities)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        displayName = try container.sdkDecodeRequired(.displayName)
+        id = try container.sdkDecodeRequired(.id)
+        maxInputTokens = try container.sdkDecodeNullable(.maxInputTokens)
+        maxTokens = try container.sdkDecodeNullable(.maxTokens)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+        try sdkValidateRawEnum("type", type, ModelInfoType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ModelInfo {
+    init(
+        capabilities: ModelCapabilities?,
+        createdAt: Date,
+        displayName: String,
+        id: String,
+        maxInputTokens: Int?,
+        maxTokens: Int?,
+        type: ModelInfoType
+    ) throws {
         (self.capabilities, self.createdAt) = (capabilities, createdAt)
         (self.displayName, self.id) = (displayName, id)
         (self.maxInputTokens, self.maxTokens) = (maxInputTokens, maxTokens)
         self.type = type
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
-            try sdkValidateRawEnum("type", self.type, ModelInfoType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, ModelInfoType.allCases.map(\.rawValue))
     }
 }
 
@@ -290,33 +389,51 @@ public struct ListResponseModelInfo: Codable {
         case lastId = "last_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListResponseModelInfo {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.firstId) else {
-            throw SdkValidationError(field: "first_id", code: "required", message: "Validation failed for 'first_id': value is required")
-        }
-        guard container.contains(.hasMore) else {
-            throw SdkValidationError(field: "has_more", code: "required", message: "Validation failed for 'has_more': value is required")
-        }
-        guard container.contains(.lastId) else {
-            throw SdkValidationError(field: "last_id", code: "required", message: "Validation failed for 'last_id': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.firstId = try container.sdkDecodeNullable(.firstId)
-        self.hasMore = try container.sdkDecodeRequired(.hasMore)
-        self.lastId = try container.sdkDecodeNullable(.lastId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ListResponseModelInfo {
-    public init(data: [ModelInfo], firstId: String?, hasMore: Bool, lastId: String?) {
+public extension ListResponseModelInfo {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.firstId) else {
+            throw SdkValidationError(
+                field: "first_id",
+                code: "required",
+                message: "Validation failed for 'first_id': value is required"
+            )
+        }
+        guard container.contains(.hasMore) else {
+            throw SdkValidationError(
+                field: "has_more",
+                code: "required",
+                message: "Validation failed for 'has_more': value is required"
+            )
+        }
+        guard container.contains(.lastId) else {
+            throw SdkValidationError(
+                field: "last_id",
+                code: "required",
+                message: "Validation failed for 'last_id': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        firstId = try container.sdkDecodeNullable(.firstId)
+        hasMore = try container.sdkDecodeRequired(.hasMore)
+        lastId = try container.sdkDecodeNullable(.lastId)
+    }
+}
+
+public extension ListResponseModelInfo {
+    init(data: [ModelInfo], firstId: String?, hasMore: Bool, lastId: String?) {
         (self.data, self.firstId) = (data, firstId)
         (self.hasMore, self.lastId) = (hasMore, lastId)
     }
@@ -334,25 +451,35 @@ public struct ThinkingTypes: Codable {
         case enabled
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ThinkingTypes {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.adaptive) else {
-            throw SdkValidationError(field: "adaptive", code: "required", message: "Validation failed for 'adaptive': value is required")
-        }
-        guard container.contains(.enabled) else {
-            throw SdkValidationError(field: "enabled", code: "required", message: "Validation failed for 'enabled': value is required")
-        }
-        self.adaptive = try container.sdkDecodeRequired(.adaptive)
-        self.enabled = try container.sdkDecodeRequired(.enabled)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ThinkingTypes {
-    public init(adaptive: CapabilitySupport, enabled: CapabilitySupport) {
+public extension ThinkingTypes {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.adaptive) else {
+            throw SdkValidationError(
+                field: "adaptive",
+                code: "required",
+                message: "Validation failed for 'adaptive': value is required"
+            )
+        }
+        guard container.contains(.enabled) else {
+            throw SdkValidationError(
+                field: "enabled",
+                code: "required",
+                message: "Validation failed for 'enabled': value is required"
+            )
+        }
+        adaptive = try container.sdkDecodeRequired(.adaptive)
+        enabled = try container.sdkDecodeRequired(.enabled)
+    }
+}
+
+public extension ThinkingTypes {
+    init(adaptive: CapabilitySupport, enabled: CapabilitySupport) {
         (self.adaptive, self.enabled) = (adaptive, enabled)
     }
 }
@@ -375,33 +502,56 @@ public struct ContextManagementCapability: Codable {
         case supported
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ContextManagementCapability {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.clearThinking20251015) else {
-            throw SdkValidationError(field: "clear_thinking_20251015", code: "required", message: "Validation failed for 'clear_thinking_20251015': value is required")
-        }
-        guard container.contains(.clearToolUses20250919) else {
-            throw SdkValidationError(field: "clear_tool_uses_20250919", code: "required", message: "Validation failed for 'clear_tool_uses_20250919': value is required")
-        }
-        guard container.contains(.compact20260112) else {
-            throw SdkValidationError(field: "compact_20260112", code: "required", message: "Validation failed for 'compact_20260112': value is required")
-        }
-        guard container.contains(.supported) else {
-            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
-        }
-        self.clearThinking20251015 = try container.sdkDecodeNullable(.clearThinking20251015)
-        self.clearToolUses20250919 = try container.sdkDecodeNullable(.clearToolUses20250919)
-        self.compact20260112 = try container.sdkDecodeNullable(.compact20260112)
-        self.supported = try container.sdkDecodeRequired(.supported)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ContextManagementCapability {
-    public init(clearThinking20251015: CapabilitySupport?, clearToolUses20250919: CapabilitySupport?, compact20260112: CapabilitySupport?, supported: Bool) {
+public extension ContextManagementCapability {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.clearThinking20251015) else {
+            throw SdkValidationError(
+                field: "clear_thinking_20251015",
+                code: "required",
+                message: "Validation failed for 'clear_thinking_20251015': value is required"
+            )
+        }
+        guard container.contains(.clearToolUses20250919) else {
+            throw SdkValidationError(
+                field: "clear_tool_uses_20250919",
+                code: "required",
+                message: "Validation failed for 'clear_tool_uses_20250919': value is required"
+            )
+        }
+        guard container.contains(.compact20260112) else {
+            throw SdkValidationError(
+                field: "compact_20260112",
+                code: "required",
+                message: "Validation failed for 'compact_20260112': value is required"
+            )
+        }
+        guard container.contains(.supported) else {
+            throw SdkValidationError(
+                field: "supported",
+                code: "required",
+                message: "Validation failed for 'supported': value is required"
+            )
+        }
+        clearThinking20251015 = try container.sdkDecodeNullable(.clearThinking20251015)
+        clearToolUses20250919 = try container.sdkDecodeNullable(.clearToolUses20250919)
+        compact20260112 = try container.sdkDecodeNullable(.compact20260112)
+        supported = try container.sdkDecodeRequired(.supported)
+    }
+}
+
+public extension ContextManagementCapability {
+    init(
+        clearThinking20251015: CapabilitySupport?,
+        clearToolUses20250919: CapabilitySupport?,
+        compact20260112: CapabilitySupport?,
+        supported: Bool
+    ) {
         self.clearThinking20251015 = clearThinking20251015
         (self.clearToolUses20250919, self.compact20260112) = (clearToolUses20250919, compact20260112)
         self.supported = supported

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaClear domain models
+/// SharedBetaClear domain models
 public indirect enum BetaClearToolUses20250919Trigger {
     case betaInputTokensTrigger(BetaInputTokensTrigger)
     case betaToolUsesTrigger(BetaToolUsesTrigger)
@@ -12,7 +12,6 @@ public indirect enum BetaClearToolUses20250919Trigger {
 }
 
 extension BetaClearToolUses20250919Trigger: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaClearToolUses20250919Trigger: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaClearToolUses20250919Trigger: Codable {
 extension BetaClearToolUses20250919Trigger {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "input_tokens": return .betaInputTokensTrigger(try BetaInputTokensTrigger(from: decoder))
-        case "tool_uses": return .betaToolUsesTrigger(try BetaToolUsesTrigger(from: decoder))
-        default: return nil
+        case "input_tokens": try .betaInputTokensTrigger(BetaInputTokensTrigger(from: decoder))
+        case "tool_uses": try .betaToolUsesTrigger(BetaToolUsesTrigger(from: decoder))
+        default: nil
         }
     }
 }
@@ -62,7 +65,6 @@ public indirect enum BetaClearThinking20251015KeepVariant0 {
 }
 
 extension BetaClearThinking20251015KeepVariant0: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -70,12 +72,16 @@ extension BetaClearThinking20251015KeepVariant0: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -86,9 +92,9 @@ extension BetaClearThinking20251015KeepVariant0: Codable {
 extension BetaClearThinking20251015KeepVariant0 {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "thinking_turns": return .betaThinkingTurns(try BetaThinkingTurns(from: decoder))
-        case "all": return .betaAllThinkingTurns(try BetaAllThinkingTurns(from: decoder))
-        default: return nil
+        case "thinking_turns": try .betaThinkingTurns(BetaThinkingTurns(from: decoder))
+        case "all": try .betaAllThinkingTurns(BetaAllThinkingTurns(from: decoder))
+        default: nil
         }
     }
 }
@@ -110,15 +116,21 @@ public indirect enum BetaClearThinking20251015Keep {
 }
 
 extension BetaClearThinking20251015Keep: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaClearThinking20251015Keep")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaClearThinking20251015Keep"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
@@ -127,9 +139,11 @@ extension BetaClearThinking20251015Keep {
         if let value = try? container.decode(
             BetaClearThinking20251015KeepVariant0.self
         ) {
-            return             .betaClearThinking20251015KeepVariant0(value)
+            return .betaClearThinking20251015KeepVariant0(value)
         }
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
         return nil
     }
 }
@@ -151,7 +165,6 @@ public indirect enum BetaClearToolUses20250919Keep {
 }
 
 extension BetaClearToolUses20250919Keep: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -159,12 +172,16 @@ extension BetaClearToolUses20250919Keep: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -175,8 +192,8 @@ extension BetaClearToolUses20250919Keep: Codable {
 extension BetaClearToolUses20250919Keep {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "tool_uses": return .betaToolUsesKeep(try BetaToolUsesKeep(from: decoder))
-        default: return nil
+        case "tool_uses": try .betaToolUsesKeep(BetaToolUsesKeep(from: decoder))
+        default: nil
         }
     }
 }
@@ -216,31 +233,44 @@ public struct BetaClearToolUses20250919: Codable {
         case trigger
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaClearToolUses20250919 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.clearAtLeast = try container.sdkDecodeIfPresent(.clearAtLeast)
-        self.clearToolInputs = try container.sdkDecodeIfPresent(.clearToolInputs)
-        self.excludeTools = try container.sdkDecodeIfPresent(.excludeTools)
-        self.keep = try container.sdkDecodeIfPresent(.keep)
-        self.trigger = try container.sdkDecodeIfPresent(.trigger)
-            try sdkValidateRawEnum("type", self.type, BetaClearToolUses20250919Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaClearToolUses20250919 {
-    public init(type: BetaClearToolUses20250919Type, clearAtLeast: BetaInputTokensClearAtLeast? = nil, clearToolInputs: BetaClearToolUses20250919ClearToolInputs? = nil, excludeTools: [String]? = nil, keep: BetaClearToolUses20250919Keep? = nil, trigger: BetaClearToolUses20250919Trigger? = nil) throws {
+public extension BetaClearToolUses20250919 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        clearAtLeast = try container.sdkDecodeIfPresent(.clearAtLeast)
+        clearToolInputs = try container.sdkDecodeIfPresent(.clearToolInputs)
+        excludeTools = try container.sdkDecodeIfPresent(.excludeTools)
+        keep = try container.sdkDecodeIfPresent(.keep)
+        trigger = try container.sdkDecodeIfPresent(.trigger)
+        try sdkValidateRawEnum("type", type, BetaClearToolUses20250919Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaClearToolUses20250919 {
+    init(
+        type: BetaClearToolUses20250919Type,
+        clearAtLeast: BetaInputTokensClearAtLeast? = nil,
+        clearToolInputs: BetaClearToolUses20250919ClearToolInputs? = nil,
+        excludeTools: [String]? = nil,
+        keep: BetaClearToolUses20250919Keep? = nil,
+        trigger: BetaClearToolUses20250919Trigger? = nil
+    ) throws {
         (self.type, self.clearAtLeast) = (type, clearAtLeast)
         (self.clearToolInputs, self.excludeTools) = (clearToolInputs, excludeTools)
         (self.keep, self.trigger) = (keep, trigger)
-            try sdkValidateRawEnum("type", self.type, BetaClearToolUses20250919Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaClearToolUses20250919Type.allCases.map(\.rawValue))
     }
 }
 
@@ -257,25 +287,31 @@ public struct BetaClearThinking20251015: Codable {
         case keep
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaClearThinking20251015 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.keep = try container.sdkDecodeIfPresent(.keep)
-            try sdkValidateRawEnum("type", self.type, BetaClearThinking20251015Type.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaClearThinking20251015 {
-    public init(type: BetaClearThinking20251015Type, keep: BetaClearThinking20251015Keep? = nil) throws {
+public extension BetaClearThinking20251015 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        keep = try container.sdkDecodeIfPresent(.keep)
+        try sdkValidateRawEnum("type", type, BetaClearThinking20251015Type.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaClearThinking20251015 {
+    init(type: BetaClearThinking20251015Type, keep: BetaClearThinking20251015Keep? = nil) throws {
         (self.type, self.keep) = (type, keep)
-            try sdkValidateRawEnum("type", self.type, BetaClearThinking20251015Type.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaClearThinking20251015Type.allCases.map(\.rawValue))
     }
 }
 
@@ -286,23 +322,35 @@ public indirect enum BetaClearToolUses20250919ClearToolInputs {
 }
 
 extension BetaClearToolUses20250919ClearToolInputs: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaClearToolUses20250919ClearToolInputs")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaClearToolUses20250919ClearToolInputs"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaClearToolUses20250919ClearToolInputs {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(Bool.self) { return .boolValue(value) }
-        if let value = try? container.decode([String].self) { return .stringList(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
+        if let value = try? container.decode(Bool.self) {
+            return .boolValue(value)
+        }
+        if let value = try? container.decode([String].self) {
+            return .stringList(value)
+        }
+        if let value = try? container.decode(JSONValue.self) {
+            return .jsonValue(value)
+        }
         return nil
     }
 }

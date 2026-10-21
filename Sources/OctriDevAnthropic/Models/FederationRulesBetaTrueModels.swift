@@ -3,7 +3,7 @@
 
 import Foundation
 
-// FederationRulesBetaTrue domain models
+/// FederationRulesBetaTrue domain models
 /// Typed representation of the `BetaFederationRuleCreateParams` API schema.
 public struct BetaFederationRuleCreateParams: Codable {
     /// Tagged ID of the federation issuer.
@@ -46,56 +46,105 @@ public struct BetaFederationRuleCreateParams: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaFederationRuleCreateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaFederationRuleCreateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.issuerId) else {
-            throw SdkValidationError(field: "issuer_id", code: "required", message: "Validation failed for 'issuer_id': value is required")
+            throw SdkValidationError(
+                field: "issuer_id",
+                code: "required",
+                message: "Validation failed for 'issuer_id': value is required"
+            )
         }
         guard container.contains(.match) else {
-            throw SdkValidationError(field: "match", code: "required", message: "Validation failed for 'match': value is required")
+            throw SdkValidationError(
+                field: "match",
+                code: "required",
+                message: "Validation failed for 'match': value is required"
+            )
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
         }
         guard container.contains(.oauthScope) else {
-            throw SdkValidationError(field: "oauth_scope", code: "required", message: "Validation failed for 'oauth_scope': value is required")
+            throw SdkValidationError(
+                field: "oauth_scope",
+                code: "required",
+                message: "Validation failed for 'oauth_scope': value is required"
+            )
         }
         guard container.contains(.target) else {
-            throw SdkValidationError(field: "target", code: "required", message: "Validation failed for 'target': value is required")
+            throw SdkValidationError(
+                field: "target",
+                code: "required",
+                message: "Validation failed for 'target': value is required"
+            )
         }
-        self.issuerId = try container.sdkDecodeRequired(.issuerId)
-        self.match = try container.sdkDecodeRequired(.match)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.oauthScope = try container.sdkDecodeRequired(.oauthScope)
-        self.target = try container.sdkDecodeRequired(.target)
-        self.appliesToAllWorkspaces = try container.sdkDecodeIfPresent(.appliesToAllWorkspaces)
-        self.attributes = try container.sdkDecodeIfPresent(.attributes)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.tokenLifetimeSeconds = try container.sdkDecodeIfPresent(.tokenLifetimeSeconds)
-        self.workspaceId = try container.sdkDecodeIfPresent(.workspaceId)
-            try validateLength("name", self.name, min: 1, max: 255)
-            try validateLength("oauth_scope", self.oauthScope, min: 1, max: nil)
-        if let value = self.tokenLifetimeSeconds {
-            try validateRange("token_lifetime_seconds", Double(value), min: 60, max: 86400, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        issuerId = try container.sdkDecodeRequired(.issuerId)
+        match = try container.sdkDecodeRequired(.match)
+        name = try container.sdkDecodeRequired(.name)
+        oauthScope = try container.sdkDecodeRequired(.oauthScope)
+        target = try container.sdkDecodeRequired(.target)
+        appliesToAllWorkspaces = try container.sdkDecodeIfPresent(.appliesToAllWorkspaces)
+        attributes = try container.sdkDecodeIfPresent(.attributes)
+        description = try container.sdkDecodeIfPresent(.description)
+        tokenLifetimeSeconds = try container.sdkDecodeIfPresent(.tokenLifetimeSeconds)
+        workspaceId = try container.sdkDecodeIfPresent(.workspaceId)
+        try validateLength("name", name, min: 1, max: 255)
+        try validateLength("oauth_scope", oauthScope, min: 1, max: nil)
+        if let value = tokenLifetimeSeconds {
+            try validateRange(
+                "token_lifetime_seconds",
+                Double(value),
+                min: 60,
+                max: 86400,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension BetaFederationRuleCreateParams {
-    public init(issuerId: String, match: BetaRuleMatch, name: String, oauthScope: String, target: BetaServiceAccountTarget, appliesToAllWorkspaces: Bool? = nil, attributes: [String: String]? = nil, description: String? = nil, tokenLifetimeSeconds: Int? = nil, workspaceId: String? = nil) throws {
+public extension BetaFederationRuleCreateParams {
+    init(
+        issuerId: String,
+        match: BetaRuleMatch,
+        name: String,
+        oauthScope: String,
+        target: BetaServiceAccountTarget,
+        appliesToAllWorkspaces: Bool? = nil,
+        attributes: [String: String]? = nil,
+        description: String? = nil,
+        tokenLifetimeSeconds: Int? = nil,
+        workspaceId: String? = nil
+    ) throws {
         (self.issuerId, self.match) = (issuerId, match)
         (self.name, self.oauthScope) = (name, oauthScope)
         (self.target, self.appliesToAllWorkspaces) = (target, appliesToAllWorkspaces)
         (self.attributes, self.description) = (attributes, description)
         (self.tokenLifetimeSeconds, self.workspaceId) = (tokenLifetimeSeconds, workspaceId)
-            try validateLength("name", self.name, min: 1, max: 255)
-            try validateLength("oauth_scope", self.oauthScope, min: 1, max: nil)
+        try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("oauth_scope", self.oauthScope, min: 1, max: nil)
         if let value = self.tokenLifetimeSeconds {
-            try validateRange("token_lifetime_seconds", Double(value), min: 60, max: 86400, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "token_lifetime_seconds",
+                Double(value),
+                min: 60,
+                max: 86400,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -112,25 +161,35 @@ public struct BetaFederationRuleListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaFederationRuleListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaFederationRuleListResponse {
-    public init(data: [BetaFederationRule], nextPage: String?) {
+public extension BetaFederationRuleListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaFederationRuleListResponse {
+    init(data: [BetaFederationRule], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

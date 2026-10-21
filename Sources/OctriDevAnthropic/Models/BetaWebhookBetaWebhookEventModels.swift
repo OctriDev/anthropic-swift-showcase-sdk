@@ -3,7 +3,7 @@
 
 import Foundation
 
-// BetaWebhookBetaWebhookEvent domain models
+/// BetaWebhookBetaWebhookEvent domain models
 public indirect enum BetaWebhookEventData {
     case betaWebhookSessionCreatedEventData(BetaWebhookSessionCreatedEventData)
     case betaWebhookSessionPendingEventData(BetaWebhookSessionPendingEventData)
@@ -54,7 +54,6 @@ public indirect enum BetaWebhookEventData {
 }
 
 extension BetaWebhookEventData: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -62,17 +61,31 @@ extension BetaWebhookEventData: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
-        if let value = try Self.decodeGroup2(discriminator, from: decoder) { self = value; return }
-        if let value = try Self.decodeGroup3(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
+        if let value = try Self.decodeGroup2(discriminator, from: decoder) {
+            self = value; return
+        }
+        if let value = try Self.decodeGroup3(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-        if try encodeGroup2(to: encoder) { return }
-        if try encodeGroup3(to: encoder) { return }
-        if try encodeGroup4(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
+        if try encodeGroup2(to: encoder) {
+            return
+        }
+        if try encodeGroup3(to: encoder) {
+            return
+        }
+        if try encodeGroup4(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -83,38 +96,52 @@ extension BetaWebhookEventData: Codable {
 extension BetaWebhookEventData {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "session.created": return .betaWebhookSessionCreatedEventData(try BetaWebhookSessionCreatedEventData(from: decoder))
-        case "session.pending": return .betaWebhookSessionPendingEventData(try BetaWebhookSessionPendingEventData(from: decoder))
-        case "session.running": return .betaWebhookSessionRunningEventData(try BetaWebhookSessionRunningEventData(from: decoder))
-        case "session.idled": return .betaWebhookSessionIdledEventData(try BetaWebhookSessionIdledEventData(from: decoder))
+        case "session.created": try .betaWebhookSessionCreatedEventData(
+                BetaWebhookSessionCreatedEventData(from: decoder)
+            )
+        case "session.pending": try .betaWebhookSessionPendingEventData(
+                BetaWebhookSessionPendingEventData(from: decoder)
+            )
+        case "session.running": try .betaWebhookSessionRunningEventData(
+                BetaWebhookSessionRunningEventData(from: decoder)
+            )
+        case "session.idled": try .betaWebhookSessionIdledEventData(BetaWebhookSessionIdledEventData(from: decoder))
         case "session.requires_action":
-        return .betaWebhookSessionRequiresActionEventData(try BetaWebhookSessionRequiresActionEventData(from: decoder))
-        case "session.archived": return .betaWebhookSessionArchivedEventData(try BetaWebhookSessionArchivedEventData(from: decoder))
-        case "session.deleted": return .betaWebhookSessionDeletedEventData(try BetaWebhookSessionDeletedEventData(from: decoder))
+            try .betaWebhookSessionRequiresActionEventData(BetaWebhookSessionRequiresActionEventData(from: decoder))
+        case "session.archived": try .betaWebhookSessionArchivedEventData(
+                BetaWebhookSessionArchivedEventData(from: decoder)
+            )
+        case "session.deleted": try .betaWebhookSessionDeletedEventData(
+                BetaWebhookSessionDeletedEventData(from: decoder)
+            )
         case "session.status_rescheduled":
-        return .betaWebhookSessionStatusRescheduledEventData(try BetaWebhookSessionStatusRescheduledEventData(from: decoder))
+            try .betaWebhookSessionStatusRescheduledEventData(
+                BetaWebhookSessionStatusRescheduledEventData(from: decoder)
+            )
         case "session.status_run_started":
-        return .betaWebhookSessionStatusRunStartedEventData(try BetaWebhookSessionStatusRunStartedEventData(from: decoder))
+            try .betaWebhookSessionStatusRunStartedEventData(BetaWebhookSessionStatusRunStartedEventData(from: decoder))
         case "session.status_idled":
-        return .betaWebhookSessionStatusIdledEventData(try BetaWebhookSessionStatusIdledEventData(from: decoder))
+            try .betaWebhookSessionStatusIdledEventData(BetaWebhookSessionStatusIdledEventData(from: decoder))
         case "session.status_terminated":
-        return .betaWebhookSessionStatusTerminatedEventData(try BetaWebhookSessionStatusTerminatedEventData(from: decoder))
+            try .betaWebhookSessionStatusTerminatedEventData(BetaWebhookSessionStatusTerminatedEventData(from: decoder))
         case "session.thread_created":
-        return .betaWebhookSessionThreadCreatedEventData(try BetaWebhookSessionThreadCreatedEventData(from: decoder))
+            try .betaWebhookSessionThreadCreatedEventData(BetaWebhookSessionThreadCreatedEventData(from: decoder))
         case "session.thread_idled":
-        return .betaWebhookSessionThreadIdledEventData(try BetaWebhookSessionThreadIdledEventData(from: decoder))
+            try .betaWebhookSessionThreadIdledEventData(BetaWebhookSessionThreadIdledEventData(from: decoder))
         case "session.thread_terminated":
-        return .betaWebhookSessionThreadTerminatedEventData(try BetaWebhookSessionThreadTerminatedEventData(from: decoder))
+            try .betaWebhookSessionThreadTerminatedEventData(BetaWebhookSessionThreadTerminatedEventData(from: decoder))
         case "session.outcome_evaluation_ended":
-        return .betaWebhookSessionOutcomeEvaluationEndedEventData(try BetaWebhookSessionOutcomeEvaluationEndedEventData(from: decoder))
-        case "vault.created": return .betaWebhookVaultCreatedEventData(try BetaWebhookVaultCreatedEventData(from: decoder))
-        case "vault.archived": return .betaWebhookVaultArchivedEventData(try BetaWebhookVaultArchivedEventData(from: decoder))
-        case "vault.deleted": return .betaWebhookVaultDeletedEventData(try BetaWebhookVaultDeletedEventData(from: decoder))
+            try .betaWebhookSessionOutcomeEvaluationEndedEventData(
+                BetaWebhookSessionOutcomeEvaluationEndedEventData(from: decoder)
+            )
+        case "vault.created": try .betaWebhookVaultCreatedEventData(BetaWebhookVaultCreatedEventData(from: decoder))
+        case "vault.archived": try .betaWebhookVaultArchivedEventData(BetaWebhookVaultArchivedEventData(from: decoder))
+        case "vault.deleted": try .betaWebhookVaultDeletedEventData(BetaWebhookVaultDeletedEventData(from: decoder))
         case "vault_credential.created":
-        return .betaWebhookVaultCredentialCreatedEventData(try BetaWebhookVaultCredentialCreatedEventData(from: decoder))
+            try .betaWebhookVaultCredentialCreatedEventData(BetaWebhookVaultCredentialCreatedEventData(from: decoder))
         case "vault_credential.archived":
-        return .betaWebhookVaultCredentialArchivedEventData(try BetaWebhookVaultCredentialArchivedEventData(from: decoder))
-        default: return nil
+            try .betaWebhookVaultCredentialArchivedEventData(BetaWebhookVaultCredentialArchivedEventData(from: decoder))
+        default: nil
         }
     }
 }
@@ -123,37 +150,49 @@ extension BetaWebhookEventData {
     static func decodeGroup2(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "vault_credential.deleted":
-        return .betaWebhookVaultCredentialDeletedEventData(try BetaWebhookVaultCredentialDeletedEventData(from: decoder))
+            try .betaWebhookVaultCredentialDeletedEventData(BetaWebhookVaultCredentialDeletedEventData(from: decoder))
         case "vault_credential.refresh_failed":
-        return .betaWebhookVaultCredentialRefreshFailedEventData(try BetaWebhookVaultCredentialRefreshFailedEventData(from: decoder))
-        case "session.updated": return .betaWebhookSessionUpdatedEventData(try BetaWebhookSessionUpdatedEventData(from: decoder))
-        case "agent.created": return .betaWebhookAgentCreatedEventData(try BetaWebhookAgentCreatedEventData(from: decoder))
-        case "agent.archived": return .betaWebhookAgentArchivedEventData(try BetaWebhookAgentArchivedEventData(from: decoder))
-        case "agent.deleted": return .betaWebhookAgentDeletedEventData(try BetaWebhookAgentDeletedEventData(from: decoder))
-        case "deployment.paused": return .betaWebhookDeploymentPausedEventData(try BetaWebhookDeploymentPausedEventData(from: decoder))
+            try .betaWebhookVaultCredentialRefreshFailedEventData(
+                BetaWebhookVaultCredentialRefreshFailedEventData(from: decoder)
+            )
+        case "session.updated": try .betaWebhookSessionUpdatedEventData(
+                BetaWebhookSessionUpdatedEventData(from: decoder)
+            )
+        case "agent.created": try .betaWebhookAgentCreatedEventData(BetaWebhookAgentCreatedEventData(from: decoder))
+        case "agent.archived": try .betaWebhookAgentArchivedEventData(BetaWebhookAgentArchivedEventData(from: decoder))
+        case "agent.deleted": try .betaWebhookAgentDeletedEventData(BetaWebhookAgentDeletedEventData(from: decoder))
+        case "deployment.paused": try .betaWebhookDeploymentPausedEventData(
+                BetaWebhookDeploymentPausedEventData(from: decoder)
+            )
         case "deployment_run.failed":
-        return .betaWebhookDeploymentRunFailedEventData(try BetaWebhookDeploymentRunFailedEventData(from: decoder))
-        case "deployment.created": return .betaWebhookDeploymentCreatedEventData(try BetaWebhookDeploymentCreatedEventData(from: decoder))
-        case "deployment.updated": return .betaWebhookDeploymentUpdatedEventData(try BetaWebhookDeploymentUpdatedEventData(from: decoder))
+            try .betaWebhookDeploymentRunFailedEventData(BetaWebhookDeploymentRunFailedEventData(from: decoder))
+        case "deployment.created": try .betaWebhookDeploymentCreatedEventData(
+                BetaWebhookDeploymentCreatedEventData(from: decoder)
+            )
+        case "deployment.updated": try .betaWebhookDeploymentUpdatedEventData(
+                BetaWebhookDeploymentUpdatedEventData(from: decoder)
+            )
         case "deployment.unpaused":
-        return .betaWebhookDeploymentUnpausedEventData(try BetaWebhookDeploymentUnpausedEventData(from: decoder))
-        case "agent.updated": return .betaWebhookAgentUpdatedEventData(try BetaWebhookAgentUpdatedEventData(from: decoder))
+            try .betaWebhookDeploymentUnpausedEventData(BetaWebhookDeploymentUnpausedEventData(from: decoder))
+        case "agent.updated": try .betaWebhookAgentUpdatedEventData(BetaWebhookAgentUpdatedEventData(from: decoder))
         case "deployment.archived":
-        return .betaWebhookDeploymentArchivedEventData(try BetaWebhookDeploymentArchivedEventData(from: decoder))
+            try .betaWebhookDeploymentArchivedEventData(BetaWebhookDeploymentArchivedEventData(from: decoder))
         case "deployment_run.started":
-        return .betaWebhookDeploymentRunStartedEventData(try BetaWebhookDeploymentRunStartedEventData(from: decoder))
-        case "deployment.deleted": return .betaWebhookDeploymentDeletedEventData(try BetaWebhookDeploymentDeletedEventData(from: decoder))
+            try .betaWebhookDeploymentRunStartedEventData(BetaWebhookDeploymentRunStartedEventData(from: decoder))
+        case "deployment.deleted": try .betaWebhookDeploymentDeletedEventData(
+                BetaWebhookDeploymentDeletedEventData(from: decoder)
+            )
         case "deployment_run.succeeded":
-        return .betaWebhookDeploymentRunSucceededEventData(try BetaWebhookDeploymentRunSucceededEventData(from: decoder))
+            try .betaWebhookDeploymentRunSucceededEventData(BetaWebhookDeploymentRunSucceededEventData(from: decoder))
         case "environment.created":
-        return .betaWebhookEnvironmentCreatedEventData(try BetaWebhookEnvironmentCreatedEventData(from: decoder))
+            try .betaWebhookEnvironmentCreatedEventData(BetaWebhookEnvironmentCreatedEventData(from: decoder))
         case "environment.updated":
-        return .betaWebhookEnvironmentUpdatedEventData(try BetaWebhookEnvironmentUpdatedEventData(from: decoder))
+            try .betaWebhookEnvironmentUpdatedEventData(BetaWebhookEnvironmentUpdatedEventData(from: decoder))
         case "environment.archived":
-        return .betaWebhookEnvironmentArchivedEventData(try BetaWebhookEnvironmentArchivedEventData(from: decoder))
+            try .betaWebhookEnvironmentArchivedEventData(BetaWebhookEnvironmentArchivedEventData(from: decoder))
         case "environment.deleted":
-        return .betaWebhookEnvironmentDeletedEventData(try BetaWebhookEnvironmentDeletedEventData(from: decoder))
-        default: return nil
+            try .betaWebhookEnvironmentDeletedEventData(BetaWebhookEnvironmentDeletedEventData(from: decoder))
+        default: nil
         }
     }
 }
@@ -162,14 +201,14 @@ extension BetaWebhookEventData {
     static func decodeGroup3(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "memory_store.created":
-        return .betaWebhookMemoryStoreCreatedEventData(try BetaWebhookMemoryStoreCreatedEventData(from: decoder))
+            try .betaWebhookMemoryStoreCreatedEventData(BetaWebhookMemoryStoreCreatedEventData(from: decoder))
         case "memory_store.archived":
-        return .betaWebhookMemoryStoreArchivedEventData(try BetaWebhookMemoryStoreArchivedEventData(from: decoder))
+            try .betaWebhookMemoryStoreArchivedEventData(BetaWebhookMemoryStoreArchivedEventData(from: decoder))
         case "memory_store.deleted":
-        return .betaWebhookMemoryStoreDeletedEventData(try BetaWebhookMemoryStoreDeletedEventData(from: decoder))
+            try .betaWebhookMemoryStoreDeletedEventData(BetaWebhookMemoryStoreDeletedEventData(from: decoder))
         case "session.budget_reached":
-        return .betaWebhookSessionBudgetReachedEventData(try BetaWebhookSessionBudgetReachedEventData(from: decoder))
-        default: return nil
+            try .betaWebhookSessionBudgetReachedEventData(BetaWebhookSessionBudgetReachedEventData(from: decoder))
+        default: nil
         }
     }
 }
@@ -272,39 +311,57 @@ public struct BetaWebhookEvent: Codable {
         case data
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaWebhookEvent {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.data = try container.sdkDecodeRequired(.data)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookEventType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaWebhookEvent {
-    public init(type: BetaWebhookEventType, id: String, createdAt: Date, data: BetaWebhookEventData) throws {
+public extension BetaWebhookEvent {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        data = try container.sdkDecodeRequired(.data)
+        try sdkValidateRawEnum("type", type, BetaWebhookEventType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(createdAt))
+    }
+}
+
+public extension BetaWebhookEvent {
+    init(type: BetaWebhookEventType, id: String, createdAt: Date, data: BetaWebhookEventData) throws {
         (self.type, self.id) = (type, id)
         (self.createdAt, self.data) = (createdAt, data)
-            try sdkValidateRawEnum("type", self.type, BetaWebhookEventType.allCases.map(\.rawValue))
-            try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
+        try sdkValidateRawEnum("type", self.type, BetaWebhookEventType.allCases.map(\.rawValue))
+        try sdkValidateDateTime("created_at", sdkWireString(self.createdAt))
     }
 }
 

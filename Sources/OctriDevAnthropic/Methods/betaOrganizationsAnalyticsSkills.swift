@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaOrganizationsAnalyticsSkillsMethods {}
 
-extension BetaOrganizationsAnalyticsSkillsMethods {
-    public struct ListBetaOrganizationsAnalyticsSkillsOptions: Codable {
+public extension BetaOrganizationsAnalyticsSkillsMethods {
+    struct ListBetaOrganizationsAnalyticsSkillsOptions: Codable {
         public var date: String?
         public var startingDate: String?
         public var endingDate: String?
@@ -23,7 +23,10 @@ extension BetaOrganizationsAnalyticsSkillsMethods {
         public init() {}
     }
 
-    /// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the
+    /// organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per
+    /// product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
+    /// Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get skill usage for. Data
@@ -76,7 +79,11 @@ extension BetaOrganizationsAnalyticsSkillsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    public static func listBetaOrganizationsAnalyticsSkills(config: ClientConfig, options: ListBetaOrganizationsAnalyticsSkillsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaAnalyticsSkillsResponse {
+    static func listBetaOrganizationsAnalyticsSkills(
+        config: ClientConfig,
+        options: ListBetaOrganizationsAnalyticsSkillsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaAnalyticsSkillsResponse {
         if let groupBy = options.groupBy {
             try validateItems("group_by[]", groupBy, max: 100)
         }
@@ -85,20 +92,49 @@ extension BetaOrganizationsAnalyticsSkillsMethods {
             try validateItems("filter[]", filter, max: 100)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/analytics/skills?beta=true", config: config, query: [
-            SdkQueryParameter("date", value: options.date),
-            SdkQueryParameter("starting_date", value: options.startingDate),
-            SdkQueryParameter("ending_date", value: options.endingDate),
-            SdkQueryParameter("limit", value: options.limit),
-            SdkQueryParameter("page", value: options.page),
-            SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
-            SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
-            SdkQueryParameter("order_by", value: options.orderBy),
-            SdkQueryParameter("order", value: options.order),
-        ], decoder: .json, operationId: "listBetaOrganizationsAnalyticsSkills", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/analytics/skills?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("date", value: options.date),
+                SdkQueryParameter("starting_date", value: options.startingDate),
+                SdkQueryParameter("ending_date", value: options.endingDate),
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("page", value: options.page),
+                SdkQueryParameter("group_by[]", values: options.groupBy, style: "form", explode: true),
+                SdkQueryParameter("filter[]", values: options.filter, style: "form", explode: true),
+                SdkQueryParameter("order_by", value: options.orderBy),
+                SdkQueryParameter("order", value: options.order),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsAnalyticsSkills",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 
-    /// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+    /// Get per-skill usage for a given day, with cursor-based pagination. Returns skill usage metrics for the
+    /// organization, sorted by skill name. Use `group_by[]` to break usage out per member, per RBAC group, or per
+    /// product surface, and `filter[]` to scope results; the parameter descriptions list the supported dimensions.
+    /// Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
     ///
     /// - Parameters:
     /// - date: UTC date in YYYY-MM-DD format. The day to get skill usage for. Data
@@ -151,20 +187,37 @@ extension BetaOrganizationsAnalyticsSkillsMethods {
     ///   endpoint's sort column and to `desc` when `order_by` names a metric (a top-N
     ///   ranking). Applies to `order_by`, or to the endpoint's default sort field
     ///   when `order_by` is omitted.
-    public static func listBetaOrganizationsAnalyticsSkillsPaginated(config: ClientConfig, options: ListBetaOrganizationsAnalyticsSkillsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error> {
+    static func listBetaOrganizationsAnalyticsSkillsPaginated(
+        config: ClientConfig,
+        options: ListBetaOrganizationsAnalyticsSkillsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error> { (continuation: AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<BetaAnalyticsSkillActivity, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaAnalyticsSkillActivity,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsSkills(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsAnalyticsSkills(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -177,28 +230,52 @@ extension BetaOrganizationsAnalyticsSkillsMethods {
         }
     }
 
-    public struct ListBetaOrganizationsAnalyticsSkillsPage {
+    struct ListBetaOrganizationsAnalyticsSkillsPage {
         public let data: BetaAnalyticsSkillsResponse
         public let items: [BetaAnalyticsSkillActivity]
         public let hasMore: Bool
     }
 
-    public static func listBetaOrganizationsAnalyticsSkillsPages(config: ClientConfig, options: ListBetaOrganizationsAnalyticsSkillsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsSkillsPage, Swift.Error> {
+    static func listBetaOrganizationsAnalyticsSkillsPages(
+        config: ClientConfig,
+        options: ListBetaOrganizationsAnalyticsSkillsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaOrganizationsAnalyticsSkillsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaOrganizationsAnalyticsSkillsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsAnalyticsSkillsPage, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<
+            ListBetaOrganizationsAnalyticsSkillsPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaOrganizationsAnalyticsSkillsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaOrganizationsAnalyticsSkills(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsAnalyticsSkills(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsAnalyticsSkillsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaOrganizationsAnalyticsSkillsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

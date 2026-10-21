@@ -3,7 +3,7 @@
 
 import Foundation
 
-// FederationIssuersBetaTrue domain models
+/// FederationIssuersBetaTrue domain models
 public indirect enum BetaFederationIssuerCreateParamsJwks {
     case betaJwksDiscovery(BetaJwksDiscovery)
     case betaJwksExplicitUrl(BetaJwksExplicitUrl)
@@ -13,7 +13,6 @@ public indirect enum BetaFederationIssuerCreateParamsJwks {
 }
 
 extension BetaFederationIssuerCreateParamsJwks: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension BetaFederationIssuerCreateParamsJwks: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension BetaFederationIssuerCreateParamsJwks: Codable {
 extension BetaFederationIssuerCreateParamsJwks {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "discovery": return .betaJwksDiscovery(try BetaJwksDiscovery(from: decoder))
-        case "explicit_url": return .betaJwksExplicitUrl(try BetaJwksExplicitUrl(from: decoder))
-        case "inline": return .betaJwksInline(try BetaJwksInline(from: decoder))
-        default: return nil
+        case "discovery": try .betaJwksDiscovery(BetaJwksDiscovery(from: decoder))
+        case "explicit_url": try .betaJwksExplicitUrl(BetaJwksExplicitUrl(from: decoder))
+        case "inline": try .betaJwksInline(BetaJwksInline(from: decoder))
+        default: nil
         }
     }
 }
@@ -69,25 +72,35 @@ public struct BetaFederationIssuerListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaFederationIssuerListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaFederationIssuerListResponse {
-    public init(data: [BetaFederationIssuer], nextPage: String?) {
+public extension BetaFederationIssuerListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaFederationIssuerListResponse {
+    init(data: [BetaFederationIssuer], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -116,34 +129,50 @@ public struct BetaFederationIssuerCreateParams: Codable {
         case maxJwtLifetimeSeconds = "max_jwt_lifetime_seconds"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaFederationIssuerCreateParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.issuerUrl) else {
-            throw SdkValidationError(field: "issuer_url", code: "required", message: "Validation failed for 'issuer_url': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        self.issuerUrl = try container.sdkDecodeRequired(.issuerUrl)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.checkJti = try container.sdkDecodeIfPresent(.checkJti)
-        self.jwks = try container.sdkDecodeIfPresent(.jwks)
-        self.maxJwtLifetimeSeconds = try container.sdkDecodeIfPresent(.maxJwtLifetimeSeconds)
-            try validateLength("issuer_url", self.issuerUrl, min: 1, max: nil)
-            try validateLength("name", self.name, min: 1, max: 255)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaFederationIssuerCreateParams {
-    public init(issuerUrl: String, name: String, checkJti: Bool? = nil, jwks: BetaFederationIssuerCreateParamsJwks? = nil, maxJwtLifetimeSeconds: Int? = nil) throws {
+public extension BetaFederationIssuerCreateParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.issuerUrl) else {
+            throw SdkValidationError(
+                field: "issuer_url",
+                code: "required",
+                message: "Validation failed for 'issuer_url': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        issuerUrl = try container.sdkDecodeRequired(.issuerUrl)
+        name = try container.sdkDecodeRequired(.name)
+        checkJti = try container.sdkDecodeIfPresent(.checkJti)
+        jwks = try container.sdkDecodeIfPresent(.jwks)
+        maxJwtLifetimeSeconds = try container.sdkDecodeIfPresent(.maxJwtLifetimeSeconds)
+        try validateLength("issuer_url", issuerUrl, min: 1, max: nil)
+        try validateLength("name", name, min: 1, max: 255)
+    }
+}
+
+public extension BetaFederationIssuerCreateParams {
+    init(
+        issuerUrl: String,
+        name: String,
+        checkJti: Bool? = nil,
+        jwks: BetaFederationIssuerCreateParamsJwks? = nil,
+        maxJwtLifetimeSeconds: Int? = nil
+    ) throws {
         (self.issuerUrl, self.name) = (issuerUrl, name)
         (self.checkJti, self.jwks) = (checkJti, jwks)
         self.maxJwtLifetimeSeconds = maxJwtLifetimeSeconds
-            try validateLength("issuer_url", self.issuerUrl, min: 1, max: nil)
-            try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("issuer_url", self.issuerUrl, min: 1, max: nil)
+        try validateLength("name", self.name, min: 1, max: 255)
     }
 }

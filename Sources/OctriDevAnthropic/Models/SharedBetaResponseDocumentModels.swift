@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaResponseDocument domain models
+/// SharedBetaResponseDocument domain models
 public indirect enum BetaResponseDocumentBlockSource {
     case betaBase64PdfSource(BetaBase64PDFSource)
     case betaPlainTextSource(BetaPlainTextSource)
@@ -12,7 +12,6 @@ public indirect enum BetaResponseDocumentBlockSource {
 }
 
 extension BetaResponseDocumentBlockSource: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaResponseDocumentBlockSource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaResponseDocumentBlockSource: Codable {
 extension BetaResponseDocumentBlockSource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "base64": return .betaBase64PdfSource(try BetaBase64PDFSource(from: decoder))
-        case "text": return .betaPlainTextSource(try BetaPlainTextSource(from: decoder))
-        default: return nil
+        case "base64": try .betaBase64PdfSource(BetaBase64PDFSource(from: decoder))
+        case "text": try .betaPlainTextSource(BetaPlainTextSource(from: decoder))
+        default: nil
         }
     }
 }
@@ -72,37 +75,60 @@ public struct BetaResponseDocumentBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaResponseDocumentBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.citations) else {
-            throw SdkValidationError(field: "citations", code: "required", message: "Validation failed for 'citations': value is required")
-        }
-        guard container.contains(.source) else {
-            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
-        }
-        guard container.contains(.title) else {
-            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.citations = try container.sdkDecodeNullable(.citations)
-        self.source = try container.sdkDecodeRequired(.source)
-        self.title = try container.sdkDecodeNullable(.title)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaResponseDocumentBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaResponseDocumentBlock {
-    public init(citations: BetaResponseCitationsConfig?, source: BetaResponseDocumentBlockSource, title: String?, type: BetaResponseDocumentBlockType) throws {
+public extension BetaResponseDocumentBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.citations) else {
+            throw SdkValidationError(
+                field: "citations",
+                code: "required",
+                message: "Validation failed for 'citations': value is required"
+            )
+        }
+        guard container.contains(.source) else {
+            throw SdkValidationError(
+                field: "source",
+                code: "required",
+                message: "Validation failed for 'source': value is required"
+            )
+        }
+        guard container.contains(.title) else {
+            throw SdkValidationError(
+                field: "title",
+                code: "required",
+                message: "Validation failed for 'title': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        citations = try container.sdkDecodeNullable(.citations)
+        source = try container.sdkDecodeRequired(.source)
+        title = try container.sdkDecodeNullable(.title)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaResponseDocumentBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaResponseDocumentBlock {
+    init(
+        citations: BetaResponseCitationsConfig?,
+        source: BetaResponseDocumentBlockSource,
+        title: String?,
+        type: BetaResponseDocumentBlockType
+    ) throws {
         (self.citations, self.source) = (citations, source)
         (self.title, self.type) = (title, type)
-            try sdkValidateRawEnum("type", self.type, BetaResponseDocumentBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaResponseDocumentBlockType.allCases.map(\.rawValue))
     }
 }
 

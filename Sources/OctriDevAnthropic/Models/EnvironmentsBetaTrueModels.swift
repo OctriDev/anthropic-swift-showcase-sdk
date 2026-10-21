@@ -3,7 +3,7 @@
 
 import Foundation
 
-// EnvironmentsBetaTrue domain models
+/// EnvironmentsBetaTrue domain models
 public indirect enum BetaPublicEnvironmentCreateRequestConfig {
     case betaCloudConfigParams(BetaCloudConfigParams)
     case betaSelfHostedConfigParams(BetaSelfHostedConfigParams)
@@ -12,7 +12,6 @@ public indirect enum BetaPublicEnvironmentCreateRequestConfig {
 }
 
 extension BetaPublicEnvironmentCreateRequestConfig: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaPublicEnvironmentCreateRequestConfig: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaPublicEnvironmentCreateRequestConfig: Codable {
 extension BetaPublicEnvironmentCreateRequestConfig {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "cloud": return .betaCloudConfigParams(try BetaCloudConfigParams(from: decoder))
-        case "self_hosted": return .betaSelfHostedConfigParams(try BetaSelfHostedConfigParams(from: decoder))
-        default: return nil
+        case "cloud": try .betaCloudConfigParams(BetaCloudConfigParams(from: decoder))
+        case "self_hosted": try .betaSelfHostedConfigParams(BetaSelfHostedConfigParams(from: decoder))
+        default: nil
         }
     }
 }
@@ -68,25 +71,35 @@ public struct BetaEnvironmentListResponse: Codable {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaEnvironmentListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaEnvironmentListResponse {
-    public init(data: [BetaEnvironment], nextPage: String?) {
+public extension BetaEnvironmentListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaEnvironmentListResponse {
+    init(data: [BetaEnvironment], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -114,44 +127,60 @@ public struct BetaPublicEnvironmentCreateRequest: Codable {
         case scope
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaPublicEnvironmentCreateRequest {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.config = try container.sdkDecodeIfPresent(.config)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.scope = try container.sdkDecodeIfPresent(.scope)
-            try validateLength("name", self.name, min: 1, max: 256)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaPublicEnvironmentCreateRequest {
-    public init(name: String, config: BetaPublicEnvironmentCreateRequestConfig? = nil, description: String? = nil, metadata: [String: String]? = nil, scope: BetaPublicEnvironmentCreateRequestScopeVariant0? = nil) throws {
+public extension BetaPublicEnvironmentCreateRequest {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        config = try container.sdkDecodeIfPresent(.config)
+        description = try container.sdkDecodeIfPresent(.description)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        scope = try container.sdkDecodeIfPresent(.scope)
+        try validateLength("name", name, min: 1, max: 256)
+    }
+}
+
+public extension BetaPublicEnvironmentCreateRequest {
+    init(
+        name: String,
+        config: BetaPublicEnvironmentCreateRequestConfig? = nil,
+        description: String? = nil,
+        metadata: [String: String]? = nil,
+        scope: BetaPublicEnvironmentCreateRequestScopeVariant0? = nil
+    ) throws {
         (self.name, self.config) = (name, config)
         (self.description, self.metadata) = (description, metadata)
         self.scope = scope
-            try validateLength("name", self.name, min: 1, max: 256)
+        try validateLength("name", self.name, min: 1, max: 256)
     }
 }
 
 /// Optional enumerated value serialized in the `scope` wire field.
-public struct BetaPublicEnvironmentCreateRequestScopeVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaPublicEnvironmentCreateRequestScopeVariant0: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let organization = BetaPublicEnvironmentCreateRequestScopeVariant0(rawValue: "organization")
     public static let account = BetaPublicEnvironmentCreateRequestScopeVariant0(rawValue: "account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

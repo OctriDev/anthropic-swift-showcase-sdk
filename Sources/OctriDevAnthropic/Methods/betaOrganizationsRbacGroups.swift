@@ -8,16 +8,47 @@ import Foundation
 #endif
 public enum BetaOrganizationsRbacGroupsMethods {}
 
-extension BetaOrganizationsRbacGroupsMethods {
-    /// Create an RBAC Group in the Claude Enterprise tenant. Groups created via the API have source type `"direct"`. The RBAC Groups API is available to Claude Enterprise organizations only.
+public extension BetaOrganizationsRbacGroupsMethods {
+    /// Create an RBAC Group in the Claude Enterprise tenant. Groups created via the API have source type `"direct"`.
+    /// The RBAC Groups API is available to Claude Enterprise organizations only.
     ///
     /// - Parameters:
     /// - name: Name of the RBAC Group. Not uniqueness-enforced.
-    public static func createBetaOrganizationsRbacGroups(config: ClientConfig, name: String, requestOptions: RequestOptions? = nil) async throws -> BetaRbacGroup {
+    static func createBetaOrganizationsRbacGroups(
+        config: ClientConfig,
+        name: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaRbacGroup {
         try validateLength("name", name, min: 1, max: 255)
 
         let requestBody = CreateBetaOrganizationsRbacGroupsRequestBody(name: name)
 
-        return try (await sdkRequest("POST", "/v1/organizations/rbac_groups?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaOrganizationsRbacGroups", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/organizations/rbac_groups?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaOrganizationsRbacGroups",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

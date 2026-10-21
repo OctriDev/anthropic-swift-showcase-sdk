@@ -3,7 +3,7 @@
 
 import Foundation
 
-// EventsBetaTrue domain models
+/// EventsBetaTrue domain models
 /// Paginated list of events for a `session`.
 public struct BetaManagedAgentsListSessionEvents: Codable {
     /// Events for the session, ordered by `processed_at`.
@@ -17,20 +17,20 @@ public struct BetaManagedAgentsListSessionEvents: Codable {
     }
 
     init() {
-        (self.data, self.nextPage) = (nil, nil)
+        (data, nextPage) = (nil, nil)
     }
 }
 
-extension BetaManagedAgentsListSessionEvents {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsListSessionEvents {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.sdkDecodeIfPresent(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        data = try container.sdkDecodeIfPresent(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-extension BetaManagedAgentsListSessionEvents {
-    public init(data: [BetaManagedAgentsSessionEvent]? = nil, nextPage: String? = nil) {
+public extension BetaManagedAgentsListSessionEvents {
+    init(data: [BetaManagedAgentsSessionEvent]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }

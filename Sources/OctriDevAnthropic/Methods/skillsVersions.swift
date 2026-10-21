@@ -8,8 +8,10 @@ import Foundation
 #endif
 public enum SkillsVersionsMethods {}
 
-extension SkillsVersionsMethods {
-    /// Creates a new version of a skill by uploading its files. Put all files in the same top-level directory and include `SKILL.md` at that directory's root. The response contains the created skill version and its generated identifier.
+public extension SkillsVersionsMethods {
+    /// Creates a new version of a skill by uploading its files. Put all files in the same top-level directory and
+    /// include `SKILL.md` at that directory's root. The response contains the created skill version and its generated
+    /// identifier.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -25,16 +27,51 @@ extension SkillsVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func createSkillsVersions(config: ClientConfig, skillId: String, files: [SdkUploadFile], anthropicVersion: String? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> SkillVersion {
+    static func createSkillsVersions(
+        config: ClientConfig,
+        skillId: String,
+        files: [SdkUploadFile],
+        anthropicVersion: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SkillVersion {
         var multipartParts: [SdkMultipartField] = []
         for item in files {
             multipartParts.append(.file("files", item))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try (await sdkRequest("POST", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions"].joined(), config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "createSkillsVersions", extraHeaders: sdkHeaders([
-            ("anthropic-version", sdkHeaderValue(anthropicVersion)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId)), "/versions"].joined(),
+            config: config,
+            rawBody: multipart.data,
+            contentType: multipart.contentType,
+            decoder: .json,
+            operationId: "createSkillsVersions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-version", sdkHeaderValue(anthropicVersion)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).data
     }
 }

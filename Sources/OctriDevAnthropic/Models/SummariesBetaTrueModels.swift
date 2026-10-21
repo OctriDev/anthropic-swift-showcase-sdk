@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SummariesBetaTrue domain models
+/// SummariesBetaTrue domain models
 /// Per-day entry in the /summaries response.
 public struct BetaAnalyticsSingleDayActivitySummary: Codable {
     /// Number of seats currently assigned to members. Null when the response is scoped to an RBAC group — seat
@@ -119,48 +119,80 @@ public struct BetaAnalyticsSingleDayActivitySummary: Codable {
         case scienceWeeklyActiveUserCount = "science_weekly_active_user_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAnalyticsSingleDayActivitySummary {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.assignedSeatCount = try container.sdkDecodeNullable(.assignedSeatCount)
-        self.coworkDailyActiveUserCount = try container.sdkDecodeRequired(.coworkDailyActiveUserCount)
-        self.coworkMonthlyActiveUserCount = try container.sdkDecodeRequired(.coworkMonthlyActiveUserCount)
-        self.coworkWeeklyActiveUserCount = try container.sdkDecodeRequired(.coworkWeeklyActiveUserCount)
-        self.dailyActiveUserCount = try container.sdkDecodeRequired(.dailyActiveUserCount)
-        self.dailyAdoptionRate = try container.sdkDecodeNullable(.dailyAdoptionRate)
-        self.endingAt = try container.sdkDecodeRequired(.endingAt)
-        self.monthlyActiveUserCount = try container.sdkDecodeRequired(.monthlyActiveUserCount)
-        self.monthlyAdoptionRate = try container.sdkDecodeNullable(.monthlyAdoptionRate)
-        self.pendingInviteCount = try container.sdkDecodeNullable(.pendingInviteCount)
-        self.startingAt = try container.sdkDecodeRequired(.startingAt)
-        self.weeklyActiveUserCount = try container.sdkDecodeRequired(.weeklyActiveUserCount)
-        self.weeklyAdoptionRate = try container.sdkDecodeNullable(.weeklyAdoptionRate)
-        self.chatDailyActiveUserCount = try container.sdkDecodeIfPresent(.chatDailyActiveUserCount)
-        self.chatMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.chatMonthlyActiveUserCount)
-        self.chatWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.chatWeeklyActiveUserCount)
-        self.claudeCodeDailyActiveUserCount = try container.sdkDecodeIfPresent(.claudeCodeDailyActiveUserCount)
-        self.claudeCodeMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.claudeCodeMonthlyActiveUserCount)
-        self.claudeCodeWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.claudeCodeWeeklyActiveUserCount)
-        self.claudeDesignDailyActiveUserCount = try container.sdkDecodeIfPresent(.claudeDesignDailyActiveUserCount)
-        self.claudeDesignMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.claudeDesignMonthlyActiveUserCount)
-        self.claudeDesignWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.claudeDesignWeeklyActiveUserCount)
-        self.officeAgentDailyActiveUserCount = try container.sdkDecodeIfPresent(.officeAgentDailyActiveUserCount)
-        self.officeAgentMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.officeAgentMonthlyActiveUserCount)
-        self.officeAgentWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.officeAgentWeeklyActiveUserCount)
-        self.scienceDailyActiveUserCount = try container.sdkDecodeIfPresent(.scienceDailyActiveUserCount)
-        self.scienceEntitledUserCount = try container.sdkDecodeIfPresent(.scienceEntitledUserCount)
-        self.scienceMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.scienceMonthlyActiveUserCount)
-        self.scienceWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.scienceWeeklyActiveUserCount)
-            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
-            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAnalyticsSingleDayActivitySummary {
-    public init(assignedSeatCount: Int?, coworkDailyActiveUserCount: Int, coworkMonthlyActiveUserCount: Int, coworkWeeklyActiveUserCount: Int, dailyActiveUserCount: Int, dailyAdoptionRate: Double?, endingAt: Date, monthlyActiveUserCount: Int, monthlyAdoptionRate: Double?, pendingInviteCount: Int?, startingAt: Date, weeklyActiveUserCount: Int, weeklyAdoptionRate: Double?, chatDailyActiveUserCount: Int? = nil, chatMonthlyActiveUserCount: Int? = nil, chatWeeklyActiveUserCount: Int? = nil, claudeCodeDailyActiveUserCount: Int? = nil, claudeCodeMonthlyActiveUserCount: Int? = nil, claudeCodeWeeklyActiveUserCount: Int? = nil, claudeDesignDailyActiveUserCount: Int? = nil, claudeDesignMonthlyActiveUserCount: Int? = nil, claudeDesignWeeklyActiveUserCount: Int? = nil, officeAgentDailyActiveUserCount: Int? = nil, officeAgentMonthlyActiveUserCount: Int? = nil, officeAgentWeeklyActiveUserCount: Int? = nil, scienceDailyActiveUserCount: Int? = nil, scienceEntitledUserCount: Int? = nil, scienceMonthlyActiveUserCount: Int? = nil, scienceWeeklyActiveUserCount: Int? = nil) throws {
+public extension BetaAnalyticsSingleDayActivitySummary {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        assignedSeatCount = try container.sdkDecodeNullable(.assignedSeatCount)
+        coworkDailyActiveUserCount = try container.sdkDecodeRequired(.coworkDailyActiveUserCount)
+        coworkMonthlyActiveUserCount = try container.sdkDecodeRequired(.coworkMonthlyActiveUserCount)
+        coworkWeeklyActiveUserCount = try container.sdkDecodeRequired(.coworkWeeklyActiveUserCount)
+        dailyActiveUserCount = try container.sdkDecodeRequired(.dailyActiveUserCount)
+        dailyAdoptionRate = try container.sdkDecodeNullable(.dailyAdoptionRate)
+        endingAt = try container.sdkDecodeRequired(.endingAt)
+        monthlyActiveUserCount = try container.sdkDecodeRequired(.monthlyActiveUserCount)
+        monthlyAdoptionRate = try container.sdkDecodeNullable(.monthlyAdoptionRate)
+        pendingInviteCount = try container.sdkDecodeNullable(.pendingInviteCount)
+        startingAt = try container.sdkDecodeRequired(.startingAt)
+        weeklyActiveUserCount = try container.sdkDecodeRequired(.weeklyActiveUserCount)
+        weeklyAdoptionRate = try container.sdkDecodeNullable(.weeklyAdoptionRate)
+        chatDailyActiveUserCount = try container.sdkDecodeIfPresent(.chatDailyActiveUserCount)
+        chatMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.chatMonthlyActiveUserCount)
+        chatWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.chatWeeklyActiveUserCount)
+        claudeCodeDailyActiveUserCount = try container.sdkDecodeIfPresent(.claudeCodeDailyActiveUserCount)
+        claudeCodeMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.claudeCodeMonthlyActiveUserCount)
+        claudeCodeWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.claudeCodeWeeklyActiveUserCount)
+        claudeDesignDailyActiveUserCount = try container.sdkDecodeIfPresent(.claudeDesignDailyActiveUserCount)
+        claudeDesignMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.claudeDesignMonthlyActiveUserCount)
+        claudeDesignWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.claudeDesignWeeklyActiveUserCount)
+        officeAgentDailyActiveUserCount = try container.sdkDecodeIfPresent(.officeAgentDailyActiveUserCount)
+        officeAgentMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.officeAgentMonthlyActiveUserCount)
+        officeAgentWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.officeAgentWeeklyActiveUserCount)
+        scienceDailyActiveUserCount = try container.sdkDecodeIfPresent(.scienceDailyActiveUserCount)
+        scienceEntitledUserCount = try container.sdkDecodeIfPresent(.scienceEntitledUserCount)
+        scienceMonthlyActiveUserCount = try container.sdkDecodeIfPresent(.scienceMonthlyActiveUserCount)
+        scienceWeeklyActiveUserCount = try container.sdkDecodeIfPresent(.scienceWeeklyActiveUserCount)
+        try sdkValidateDateTime("ending_at", sdkWireString(endingAt))
+        try sdkValidateDateTime("starting_at", sdkWireString(startingAt))
+    }
+}
+
+public extension BetaAnalyticsSingleDayActivitySummary {
+    init(
+        assignedSeatCount: Int?,
+        coworkDailyActiveUserCount: Int,
+        coworkMonthlyActiveUserCount: Int,
+        coworkWeeklyActiveUserCount: Int,
+        dailyActiveUserCount: Int,
+        dailyAdoptionRate: Double?,
+        endingAt: Date,
+        monthlyActiveUserCount: Int,
+        monthlyAdoptionRate: Double?,
+        pendingInviteCount: Int?,
+        startingAt: Date,
+        weeklyActiveUserCount: Int,
+        weeklyAdoptionRate: Double?,
+        chatDailyActiveUserCount: Int? = nil,
+        chatMonthlyActiveUserCount: Int? = nil,
+        chatWeeklyActiveUserCount: Int? = nil,
+        claudeCodeDailyActiveUserCount: Int? = nil,
+        claudeCodeMonthlyActiveUserCount: Int? = nil,
+        claudeCodeWeeklyActiveUserCount: Int? = nil,
+        claudeDesignDailyActiveUserCount: Int? = nil,
+        claudeDesignMonthlyActiveUserCount: Int? = nil,
+        claudeDesignWeeklyActiveUserCount: Int? = nil,
+        officeAgentDailyActiveUserCount: Int? = nil,
+        officeAgentMonthlyActiveUserCount: Int? = nil,
+        officeAgentWeeklyActiveUserCount: Int? = nil,
+        scienceDailyActiveUserCount: Int? = nil,
+        scienceEntitledUserCount: Int? = nil,
+        scienceMonthlyActiveUserCount: Int? = nil,
+        scienceWeeklyActiveUserCount: Int? = nil
+    ) throws {
         self.assignedSeatCount = assignedSeatCount
         self.coworkDailyActiveUserCount = coworkDailyActiveUserCount
         self.coworkMonthlyActiveUserCount = coworkMonthlyActiveUserCount
@@ -186,8 +218,8 @@ extension BetaAnalyticsSingleDayActivitySummary {
         self.scienceEntitledUserCount = scienceEntitledUserCount
         self.scienceMonthlyActiveUserCount = scienceMonthlyActiveUserCount
         self.scienceWeeklyActiveUserCount = scienceWeeklyActiveUserCount
-            try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
-            try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
+        try sdkValidateDateTime("ending_at", sdkWireString(self.endingAt))
+        try sdkValidateDateTime("starting_at", sdkWireString(self.startingAt))
     }
 }
 
@@ -200,21 +232,27 @@ public struct BetaAnalyticsActivitySummaryResponse: Codable {
         case summaries
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAnalyticsActivitySummaryResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.summaries) else {
-            throw SdkValidationError(field: "summaries", code: "required", message: "Validation failed for 'summaries': value is required")
-        }
-        self.summaries = try container.sdkDecodeRequired(.summaries)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAnalyticsActivitySummaryResponse {
-    public init(summaries: [BetaAnalyticsSingleDayActivitySummary]) {
+public extension BetaAnalyticsActivitySummaryResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.summaries) else {
+            throw SdkValidationError(
+                field: "summaries",
+                code: "required",
+                message: "Validation failed for 'summaries': value is required"
+            )
+        }
+        summaries = try container.sdkDecodeRequired(.summaries)
+    }
+}
+
+public extension BetaAnalyticsActivitySummaryResponse {
+    init(summaries: [BetaAnalyticsSingleDayActivitySummary]) {
         self.summaries = summaries
     }
 }

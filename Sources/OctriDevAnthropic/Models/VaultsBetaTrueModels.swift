@@ -3,7 +3,7 @@
 
 import Foundation
 
-// VaultsBetaTrue domain models
+/// VaultsBetaTrue domain models
 /// Response containing a paginated list of vaults.
 public struct BetaManagedAgentsListVaultsResponse: Codable {
     /// List of vaults.
@@ -17,20 +17,20 @@ public struct BetaManagedAgentsListVaultsResponse: Codable {
     }
 
     init() {
-        (self.data, self.nextPage) = (nil, nil)
+        (data, nextPage) = (nil, nil)
     }
 }
 
-extension BetaManagedAgentsListVaultsResponse {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsListVaultsResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.sdkDecodeIfPresent(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        data = try container.sdkDecodeIfPresent(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
     }
 }
 
-extension BetaManagedAgentsListVaultsResponse {
-    public init(data: [BetaManagedAgentsVault]? = nil, nextPage: String? = nil) {
+public extension BetaManagedAgentsListVaultsResponse {
+    init(data: [BetaManagedAgentsVault]? = nil, nextPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
     }
@@ -49,24 +49,30 @@ public struct BetaManagedAgentsCreateVaultRequest: Codable {
         case metadata
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsCreateVaultRequest {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.displayName) else {
-            throw SdkValidationError(field: "display_name", code: "required", message: "Validation failed for 'display_name': value is required")
-        }
-        self.displayName = try container.sdkDecodeRequired(.displayName)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-            try validateLength("display_name", self.displayName, min: 1, max: 255)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsCreateVaultRequest {
-    public init(displayName: String, metadata: [String: String]? = nil) throws {
+public extension BetaManagedAgentsCreateVaultRequest {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.displayName) else {
+            throw SdkValidationError(
+                field: "display_name",
+                code: "required",
+                message: "Validation failed for 'display_name': value is required"
+            )
+        }
+        displayName = try container.sdkDecodeRequired(.displayName)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        try validateLength("display_name", displayName, min: 1, max: 255)
+    }
+}
+
+public extension BetaManagedAgentsCreateVaultRequest {
+    init(displayName: String, metadata: [String: String]? = nil) throws {
         (self.displayName, self.metadata) = (displayName, metadata)
-            try validateLength("display_name", self.displayName, min: 1, max: 255)
+        try validateLength("display_name", self.displayName, min: 1, max: 255)
     }
 }

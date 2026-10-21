@@ -3,32 +3,40 @@
 
 import Foundation
 
-// SessionsBetaTrue domain models
+/// SessionsBetaTrue domain models
 public indirect enum BetaManagedAgentsCreateSessionAgentUnionParams {
     case stringValue(String)
     case betaManagedAgentsCreateSessionAgentUnionParamsVariant1(BetaManagedAgentsCreateSessionAgentUnionParamsVariant1)
 }
 
 extension BetaManagedAgentsCreateSessionAgentUnionParams: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for BetaManagedAgentsCreateSessionAgentUnionParams")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for BetaManagedAgentsCreateSessionAgentUnionParams"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension BetaManagedAgentsCreateSessionAgentUnionParams {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
         if let value = try? container.decode(
             BetaManagedAgentsCreateSessionAgentUnionParamsVariant1.self
         ) {
-            return             .betaManagedAgentsCreateSessionAgentUnionParamsVariant1(value)
+            return .betaManagedAgentsCreateSessionAgentUnionParamsVariant1(value)
         }
         return nil
     }
@@ -39,7 +47,8 @@ extension BetaManagedAgentsCreateSessionAgentUnionParams {
         var container = encoder.singleValueContainer()
         switch self {
         case let .stringValue(value): try container.encode(value); return true
-        case let .betaManagedAgentsCreateSessionAgentUnionParamsVariant1(value): try container.encode(value); return true
+        case let .betaManagedAgentsCreateSessionAgentUnionParamsVariant1(value): try container
+            .encode(value); return true
         }
     }
 }
@@ -52,7 +61,6 @@ public indirect enum BetaManagedAgentsSessionInitialEventParams {
 }
 
 extension BetaManagedAgentsSessionInitialEventParams: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -60,12 +68,16 @@ extension BetaManagedAgentsSessionInitialEventParams: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -76,10 +88,14 @@ extension BetaManagedAgentsSessionInitialEventParams: Codable {
 extension BetaManagedAgentsSessionInitialEventParams {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "user.message": return .betaManagedAgentsUserMessageEventParams(try BetaManagedAgentsUserMessageEventParams(from: decoder))
+        case "user.message": try .betaManagedAgentsUserMessageEventParams(
+                BetaManagedAgentsUserMessageEventParams(from: decoder)
+            )
         case "user.define_outcome":
-        return .betaManagedAgentsUserDefineOutcomeEventParams(try BetaManagedAgentsUserDefineOutcomeEventParams(from: decoder))
-        default: return nil
+            try .betaManagedAgentsUserDefineOutcomeEventParams(
+                BetaManagedAgentsUserDefineOutcomeEventParams(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -103,7 +119,6 @@ public indirect enum BetaManagedAgentsCreateSessionAgentUnionParamsVariant1 {
 }
 
 extension BetaManagedAgentsCreateSessionAgentUnionParamsVariant1: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -111,12 +126,16 @@ extension BetaManagedAgentsCreateSessionAgentUnionParamsVariant1: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -127,10 +146,10 @@ extension BetaManagedAgentsCreateSessionAgentUnionParamsVariant1: Codable {
 extension BetaManagedAgentsCreateSessionAgentUnionParamsVariant1 {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "agent": return .betaManagedAgentsAgentParams(try BetaManagedAgentsAgentParams(from: decoder))
+        case "agent": try .betaManagedAgentsAgentParams(BetaManagedAgentsAgentParams(from: decoder))
         case "agent_with_overrides":
-        return .betaManagedAgentsAgentWithOverridesParams(try BetaManagedAgentsAgentWithOverridesParams(from: decoder))
-        default: return nil
+            try .betaManagedAgentsAgentWithOverridesParams(BetaManagedAgentsAgentWithOverridesParams(from: decoder))
+        default: nil
         }
     }
 }
@@ -182,39 +201,62 @@ public struct BetaManagedAgentsAgentWithOverridesParams: Codable {
         case skills
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsAgentWithOverridesParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.version = try container.sdkDecodeIfPresent(.version)
-        self.model = try container.sdkDecodeIfPresent(.model)
-        self.system = try container.sdkDecodeIfPresent(.system)
-        self.tools = try container.sdkDecodeIfPresent(.tools)
-        self.mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
-        self.skills = try container.sdkDecodeIfPresent(.skills)
-            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsAgentWithOverridesParamsType.allCases.map(\.rawValue))
-            try validateLength("id", self.id, min: 1, max: 128)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsAgentWithOverridesParams {
-    public init(type: BetaManagedAgentsAgentWithOverridesParamsType, id: String, version: Int? = nil, model: BetaManagedAgentsModelParams? = nil, system: String? = nil, tools: [BetaManagedAgentsAgentToolParams]? = nil, mcpServers: [BetaManagedAgentsMCPServerParams]? = nil, skills: [BetaManagedAgentsSkillParams]? = nil) throws {
+public extension BetaManagedAgentsAgentWithOverridesParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        version = try container.sdkDecodeIfPresent(.version)
+        model = try container.sdkDecodeIfPresent(.model)
+        system = try container.sdkDecodeIfPresent(.system)
+        tools = try container.sdkDecodeIfPresent(.tools)
+        mcpServers = try container.sdkDecodeIfPresent(.mcpServers)
+        skills = try container.sdkDecodeIfPresent(.skills)
+        try sdkValidateRawEnum("type", type, BetaManagedAgentsAgentWithOverridesParamsType.allCases.map(\.rawValue))
+        try validateLength("id", id, min: 1, max: 128)
+    }
+}
+
+public extension BetaManagedAgentsAgentWithOverridesParams {
+    init(
+        type: BetaManagedAgentsAgentWithOverridesParamsType,
+        id: String,
+        version: Int? = nil,
+        model: BetaManagedAgentsModelParams? = nil,
+        system: String? = nil,
+        tools: [BetaManagedAgentsAgentToolParams]? = nil,
+        mcpServers: [BetaManagedAgentsMCPServerParams]? = nil,
+        skills: [BetaManagedAgentsSkillParams]? = nil
+    ) throws {
         (self.type, self.id) = (type, id)
         (self.version, self.model) = (version, model)
         (self.system, self.tools) = (system, tools)
         (self.mcpServers, self.skills) = (mcpServers, skills)
-            try sdkValidateRawEnum("type", self.type, BetaManagedAgentsAgentWithOverridesParamsType.allCases.map(\.rawValue))
-            try validateLength("id", self.id, min: 1, max: 128)
+        try sdkValidateRawEnum(
+            "type",
+            self.type,
+            BetaManagedAgentsAgentWithOverridesParamsType.allCases.map(\.rawValue)
+        )
+        try validateLength("id", self.id, min: 1, max: 128)
     }
 }
 
@@ -235,21 +277,21 @@ public struct BetaManagedAgentsListSessions: Codable {
     }
 
     init() {
-        (self.data, self.nextPage, self.prevPage) = (nil, nil, nil)
+        (data, nextPage, prevPage) = (nil, nil, nil)
     }
 }
 
-extension BetaManagedAgentsListSessions {
-    public init(from decoder: Decoder) throws {
+public extension BetaManagedAgentsListSessions {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.sdkDecodeIfPresent(.data)
-        self.nextPage = try container.sdkDecodeIfPresent(.nextPage)
-        self.prevPage = try container.sdkDecodeIfPresent(.prevPage)
+        data = try container.sdkDecodeIfPresent(.data)
+        nextPage = try container.sdkDecodeIfPresent(.nextPage)
+        prevPage = try container.sdkDecodeIfPresent(.prevPage)
     }
 }
 
-extension BetaManagedAgentsListSessions {
-    public init(data: [BetaManagedAgentsSession]? = nil, nextPage: String? = nil, prevPage: String? = nil) {
+public extension BetaManagedAgentsListSessions {
+    init(data: [BetaManagedAgentsSession]? = nil, nextPage: String? = nil, prevPage: String? = nil) {
         self.init()
         (self.data, self.nextPage) = (data, nextPage)
         self.prevPage = prevPage
@@ -291,37 +333,56 @@ public struct BetaManagedAgentsCreateSessionParams: Codable {
         case budget
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaManagedAgentsCreateSessionParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.agent) else {
-            throw SdkValidationError(field: "agent", code: "required", message: "Validation failed for 'agent': value is required")
-        }
-        guard container.contains(.environmentId) else {
-            throw SdkValidationError(field: "environment_id", code: "required", message: "Validation failed for 'environment_id': value is required")
-        }
-        self.agent = try container.sdkDecodeRequired(.agent)
-        self.environmentId = try container.sdkDecodeRequired(.environmentId)
-        self.title = try container.sdkDecodeIfPresent(.title)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.resources = try container.sdkDecodeIfPresent(.resources)
-        self.vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
-        self.initialEvents = try container.sdkDecodeIfPresent(.initialEvents)
-        self.budget = try container.sdkDecodeIfPresent(.budget)
-            try validateLength("environment_id", self.environmentId, min: 1, max: 128)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaManagedAgentsCreateSessionParams {
-    public init(agent: BetaManagedAgentsCreateSessionAgentUnionParams, environmentId: String, title: String? = nil, metadata: [String: String]? = nil, resources: [BetaManagedAgentsSessionResourceParams]? = nil, vaultIds: [String]? = nil, initialEvents: [BetaManagedAgentsSessionInitialEventParams]? = nil, budget: BetaManagedAgentsBudget? = nil) throws {
+public extension BetaManagedAgentsCreateSessionParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.agent) else {
+            throw SdkValidationError(
+                field: "agent",
+                code: "required",
+                message: "Validation failed for 'agent': value is required"
+            )
+        }
+        guard container.contains(.environmentId) else {
+            throw SdkValidationError(
+                field: "environment_id",
+                code: "required",
+                message: "Validation failed for 'environment_id': value is required"
+            )
+        }
+        agent = try container.sdkDecodeRequired(.agent)
+        environmentId = try container.sdkDecodeRequired(.environmentId)
+        title = try container.sdkDecodeIfPresent(.title)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        resources = try container.sdkDecodeIfPresent(.resources)
+        vaultIds = try container.sdkDecodeIfPresent(.vaultIds)
+        initialEvents = try container.sdkDecodeIfPresent(.initialEvents)
+        budget = try container.sdkDecodeIfPresent(.budget)
+        try validateLength("environment_id", environmentId, min: 1, max: 128)
+    }
+}
+
+public extension BetaManagedAgentsCreateSessionParams {
+    init(
+        agent: BetaManagedAgentsCreateSessionAgentUnionParams,
+        environmentId: String,
+        title: String? = nil,
+        metadata: [String: String]? = nil,
+        resources: [BetaManagedAgentsSessionResourceParams]? = nil,
+        vaultIds: [String]? = nil,
+        initialEvents: [BetaManagedAgentsSessionInitialEventParams]? = nil,
+        budget: BetaManagedAgentsBudget? = nil
+    ) throws {
         (self.agent, self.environmentId) = (agent, environmentId)
         (self.title, self.metadata) = (title, metadata)
         (self.resources, self.vaultIds) = (resources, vaultIds)
         (self.initialEvents, self.budget) = (initialEvents, budget)
-            try validateLength("environment_id", self.environmentId, min: 1, max: 128)
+        try validateLength("environment_id", self.environmentId, min: 1, max: 128)
     }
 }
 

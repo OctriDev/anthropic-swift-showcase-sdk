@@ -5,15 +5,15 @@
 
 import PackageDescription
 
-// HTTP transport: URLSession (Foundation)
+/// HTTP transport: URLSession (Foundation)
 let package = Package(
     name: "OctriDevAnthropic",
     platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v15), .watchOS(.v8)],
     products: [
-        .library(name: "OctriDevAnthropic", targets: ["OctriDevAnthropic"])
+        .library(name: "OctriDevAnthropic", targets: ["OctriDevAnthropic"]),
     ],
     targets: [
         .target(name: "OctriDevAnthropic"),
-        .testTarget(name: "OctriDevAnthropicTests", dependencies: ["OctriDevAnthropic"])
+        .testTarget(name: "OctriDevAnthropicTests", dependencies: ["OctriDevAnthropic"]),
     ]
 )
