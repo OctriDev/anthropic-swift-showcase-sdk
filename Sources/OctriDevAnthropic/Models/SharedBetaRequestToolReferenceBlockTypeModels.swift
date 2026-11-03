@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaRequestTool domain models
+/// SharedBetaRequestTool domain models
 /// Required `string` value serialized in the `type` wire field.
 public enum BetaRequestToolReferenceBlockType: String, CaseIterable, Codable {
     case toolReference = "tool_reference"

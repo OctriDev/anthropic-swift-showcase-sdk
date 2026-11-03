@@ -38,11 +38,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.work.retrieve(
-            environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
-            workId: decoded("\"work-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
+                workId: decoded("\"work-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -58,7 +58,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaEnvironmentsWorkStatsRetrieveBetaEnvironmentsWorkStatsReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaEnvironmentsWorkStatsRetrieveBetaEnvironmentsWorkStatsReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -79,7 +80,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaEnvironmentsWorkStatsRetrieveBetaEnvironmentsWorkStats400ReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaEnvironmentsWorkStatsRetrieveBetaEnvironmentsWorkStats400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -90,11 +92,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.work.retrieveStats(
-            environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            authorization: decoded("\"authorization\""),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                authorization: decoded("\"authorization\""),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -141,10 +143,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.files.retrieve(
-            fileId: decoded("\"file-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                fileId: decoded("\"file-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -191,10 +193,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.retrieve(
-            memoryStoreId: decoded("\"memory_store-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                memoryStoreId: decoded("\"memory_store-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -210,7 +212,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaMemoryStoresMemoriesRetrieveBetaMemoryStoresMemoriesReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaMemoryStoresMemoriesRetrieveBetaMemoryStoresMemoriesReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -232,7 +235,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaMemoryStoresMemoriesRetrieveBetaMemoryStoresMemories400ReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaMemoryStoresMemoriesRetrieveBetaMemoryStoresMemories400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -243,12 +247,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.memories.retrieve(
-            memoryStoreId: decoded("\"memory_store-1\""),
-            memoryId: decoded("\"memory-1\""),
-            view: decoded("\"basic\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                memoryStoreId: decoded("\"memory_store-1\""),
+                memoryId: decoded("\"memory-1\""),
+                view: decoded("\"basic\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -264,7 +268,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaMemoryStoresMemoryVersionsRetrieveBetaMemoryStoreXf8911d7eadReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaMemoryStoresMemoryVersionsRetrieveBetaMemoryStoreXf8911d7eadReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -286,7 +291,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaMemoryStoresMemoryVersionsRetrieveBetaMemoryStoreX4c9febaf99ReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaMemoryStoresMemoryVersionsRetrieveBetaMemoryStoreX4c9febaf99ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -297,12 +303,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.memoryVersions.retrieve(
-            memoryStoreId: decoded("\"memory_store-1\""),
-            memoryVersionId: decoded("\"memory_version-1\""),
-            view: decoded("\"basic\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                memoryStoreId: decoded("\"memory_store-1\""),
+                memoryVersionId: decoded("\"memory_version-1\""),
+                view: decoded("\"basic\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -349,10 +355,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.messages.batches.retrieve(
-            messageBatchId: decoded("\"message_batch-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                messageBatchId: decoded("\"message_batch-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -399,10 +405,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.models.retrieve(
-            modelId: decoded("\"model-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                modelId: decoded("\"model-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -418,12 +424,14 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX182ddf1355ReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX182ddf1355ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsCostReportMethods
+            .RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")
@@ -450,12 +458,14 @@ extension SdkMethodTests {
         )
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX4983a88655ReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaOrganizationsAnalyticsCostReportRetrieveBetaOrganX4983a88655ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsCostReportMethods.RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsCostReportMethods
+            .RetrieveBetaOrganizationsAnalyticsCostReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")
@@ -475,8 +485,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.analytics.costReport.retrieve(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -492,12 +502,14 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testRetrieveBetaOrganizationsAnalyticsUsageReportRetrieveBetaOrgaX235cba5774ReachesMockAndDecodesResponse() async throws {
+    func testRetrieveBetaOrganizationsAnalyticsUsageReportRetrieveBetaOrgaX235cba5774ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaOrganizationsAnalyticsUsageReportMethods.RetrieveBetaOrganizationsAnalyticsUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
+        var options = try BetaOrganizationsAnalyticsUsageReportMethods
+            .RetrieveBetaOrganizationsAnalyticsUsageReportOptions(startingAt: decoded("\"2024-01-01T00:00:00Z\""))
         options.endingAt = try decoded("\"2024-01-01T00:00:00Z\"")
         options.bucketWidth = try decoded("\"1d\"")
         options.products = try decoded("[\"chat\"]")

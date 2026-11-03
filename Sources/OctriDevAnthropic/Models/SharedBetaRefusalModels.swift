@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaRefusal domain models
+/// SharedBetaRefusal domain models
 /// Structured information about a refusal.
 public struct BetaRefusalStopDetails: Codable {
     /// The policy category that triggered the refusal. `null` when the refusal doesn't map to a named category.
@@ -39,47 +39,80 @@ public struct BetaRefusalStopDetails: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRefusalStopDetails {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.category) else {
-            throw SdkValidationError(field: "category", code: "required", message: "Validation failed for 'category': value is required")
-        }
-        guard container.contains(.explanation) else {
-            throw SdkValidationError(field: "explanation", code: "required", message: "Validation failed for 'explanation': value is required")
-        }
-        guard container.contains(.fallbackCreditToken) else {
-            throw SdkValidationError(field: "fallback_credit_token", code: "required", message: "Validation failed for 'fallback_credit_token': value is required")
-        }
-        guard container.contains(.fallbackHasPrefillClaim) else {
-            throw SdkValidationError(field: "fallback_has_prefill_claim", code: "required", message: "Validation failed for 'fallback_has_prefill_claim': value is required")
-        }
-        guard container.contains(.recommendedModel) else {
-            throw SdkValidationError(field: "recommended_model", code: "required", message: "Validation failed for 'recommended_model': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.category = try container.sdkDecodeNullable(.category)
-        self.explanation = try container.sdkDecodeNullable(.explanation)
-        self.fallbackCreditToken = try container.sdkDecodeNullable(.fallbackCreditToken)
-        self.fallbackHasPrefillClaim = try container.sdkDecodeNullable(.fallbackHasPrefillClaim)
-        self.recommendedModel = try container.sdkDecodeNullable(.recommendedModel)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaRefusalStopDetailsType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRefusalStopDetails {
-    public init(category: BetaRefusalCategory?, explanation: String?, fallbackCreditToken: String?, fallbackHasPrefillClaim: Bool?, recommendedModel: String?, type: BetaRefusalStopDetailsType) throws {
+public extension BetaRefusalStopDetails {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.category) else {
+            throw SdkValidationError(
+                field: "category",
+                code: "required",
+                message: "Validation failed for 'category': value is required"
+            )
+        }
+        guard container.contains(.explanation) else {
+            throw SdkValidationError(
+                field: "explanation",
+                code: "required",
+                message: "Validation failed for 'explanation': value is required"
+            )
+        }
+        guard container.contains(.fallbackCreditToken) else {
+            throw SdkValidationError(
+                field: "fallback_credit_token",
+                code: "required",
+                message: "Validation failed for 'fallback_credit_token': value is required"
+            )
+        }
+        guard container.contains(.fallbackHasPrefillClaim) else {
+            throw SdkValidationError(
+                field: "fallback_has_prefill_claim",
+                code: "required",
+                message: "Validation failed for 'fallback_has_prefill_claim': value is required"
+            )
+        }
+        guard container.contains(.recommendedModel) else {
+            throw SdkValidationError(
+                field: "recommended_model",
+                code: "required",
+                message: "Validation failed for 'recommended_model': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        category = try container.sdkDecodeNullable(.category)
+        explanation = try container.sdkDecodeNullable(.explanation)
+        fallbackCreditToken = try container.sdkDecodeNullable(.fallbackCreditToken)
+        fallbackHasPrefillClaim = try container.sdkDecodeNullable(.fallbackHasPrefillClaim)
+        recommendedModel = try container.sdkDecodeNullable(.recommendedModel)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaRefusalStopDetailsType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRefusalStopDetails {
+    init(
+        category: BetaRefusalCategory?,
+        explanation: String?,
+        fallbackCreditToken: String?,
+        fallbackHasPrefillClaim: Bool?,
+        recommendedModel: String?,
+        type: BetaRefusalStopDetailsType
+    ) throws {
         (self.category, self.explanation) = (category, explanation)
         self.fallbackCreditToken = fallbackCreditToken
         (self.fallbackHasPrefillClaim, self.recommendedModel) = (fallbackHasPrefillClaim, recommendedModel)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaRefusalStopDetailsType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRefusalStopDetailsType.allCases.map(\.rawValue))
     }
 }
 
@@ -105,7 +138,10 @@ public enum BetaRefusalStopDetailsType: String, CaseIterable, Codable {
 public struct BetaRefusalCategory: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let cyber = BetaRefusalCategory(rawValue: "cyber")
     public static let bio = BetaRefusalCategory(rawValue: "bio")
     public static let frontierLlm = BetaRefusalCategory(rawValue: "frontier_llm")
@@ -114,7 +150,7 @@ public struct BetaRefusalCategory: RawRepresentable, Hashable, Codable, Sendable
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -8,8 +8,11 @@ import Foundation
 #endif
 public enum BetaDreamsMethods {}
 
-extension BetaDreamsMethods {
-    /// Creates an asynchronous Dream job that reads memory-store data or session transcripts and writes consolidated memories to an output memory store. Supply `inputs` and `model`; use `output_behavior` to choose whether the job creates a new output store or writes to an existing one, and provide optional `instructions` to guide consolidation. Poll the returned Dream's status to follow the job through its lifecycle.
+public extension BetaDreamsMethods {
+    /// Creates an asynchronous Dream job that reads memory-store data or session transcripts and writes consolidated
+    /// memories to an output memory store. Supply `inputs` and `model`; use `output_behavior` to choose whether the job
+    /// creates a new output store or writes to an existing one, and provide optional `instructions` to guide
+    /// consolidation. Poll the returned Dream's status to follow the job through its lifecycle.
     ///
     /// - Parameters:
     /// - inputs: Required array value serialized in the `inputs` wire field.
@@ -23,12 +26,52 @@ extension BetaDreamsMethods {
     ///   field.
     /// - outputBehavior: Optional object value serialized in the `output_behavior`
     ///   wire field.
-    public static func createBetaDreams(config: ClientConfig, inputs: [BetaDreamInput], model: BetaDreamModelParams, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, instructions: SdkOptional<String>? = nil, outputBehavior: BetaOutputBehavior? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaDream {
-        let requestBody = CreateBetaDreamsRequestBody(inputs: inputs, model: model, instructions: instructions, outputBehavior: outputBehavior)
+    static func createBetaDreams(
+        config: ClientConfig,
+        inputs: [BetaDreamInput],
+        model: BetaDreamModelParams,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        instructions: SdkOptional<String>? = nil,
+        outputBehavior: BetaOutputBehavior? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDream {
+        let requestBody = CreateBetaDreamsRequestBody(
+            inputs: inputs,
+            model: model,
+            instructions: instructions,
+            outputBehavior: outputBehavior
+        )
 
-        return try (await sdkRequest("POST", "/v1/dreams?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaDreams", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaDreamingErrorResponse.self, "401": BetaDreamingErrorResponse.self, "403": BetaDreamingErrorResponse.self, "404": BetaDreamingErrorResponse.self, "408": BetaDreamingErrorResponse.self, "409": BetaDreamingErrorResponse.self, "412": BetaDreamingErrorResponse.self, "413": BetaDreamingErrorResponse.self, "429": BetaDreamingErrorResponse.self, "431": BetaDreamingErrorResponse.self, "499": BetaDreamingErrorResponse.self, "500": BetaDreamingErrorResponse.self, "501": BetaDreamingErrorResponse.self, "503": BetaDreamingErrorResponse.self, "504": BetaDreamingErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            "/v1/dreams?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaDreams",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaDreamingErrorResponse.self,
+                "401": BetaDreamingErrorResponse.self,
+                "403": BetaDreamingErrorResponse.self,
+                "404": BetaDreamingErrorResponse.self,
+                "408": BetaDreamingErrorResponse.self,
+                "409": BetaDreamingErrorResponse.self,
+                "412": BetaDreamingErrorResponse.self,
+                "413": BetaDreamingErrorResponse.self,
+                "429": BetaDreamingErrorResponse.self,
+                "431": BetaDreamingErrorResponse.self,
+                "499": BetaDreamingErrorResponse.self,
+                "500": BetaDreamingErrorResponse.self,
+                "501": BetaDreamingErrorResponse.self,
+                "503": BetaDreamingErrorResponse.self,
+                "504": BetaDreamingErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

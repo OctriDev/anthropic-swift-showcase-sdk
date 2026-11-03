@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaContext domain models
+/// SharedBetaContext domain models
 public indirect enum BetaContextManagementConfigEditsItem {
     case betaClearToolUses20250919(BetaClearToolUses20250919)
     case betaClearThinking20251015(BetaClearThinking20251015)
@@ -13,7 +13,6 @@ public indirect enum BetaContextManagementConfigEditsItem {
 }
 
 extension BetaContextManagementConfigEditsItem: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension BetaContextManagementConfigEditsItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension BetaContextManagementConfigEditsItem: Codable {
 extension BetaContextManagementConfigEditsItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "clear_tool_uses_20250919": return .betaClearToolUses20250919(try BetaClearToolUses20250919(from: decoder))
-        case "clear_thinking_20251015": return .betaClearThinking20251015(try BetaClearThinking20251015(from: decoder))
-        case "compact_20260112": return .betaCompact20260112(try BetaCompact20260112(from: decoder))
-        default: return nil
+        case "clear_tool_uses_20250919": try .betaClearToolUses20250919(BetaClearToolUses20250919(from: decoder))
+        case "clear_thinking_20251015": try .betaClearThinking20251015(BetaClearThinking20251015(from: decoder))
+        case "compact_20260112": try .betaCompact20260112(BetaCompact20260112(from: decoder))
+        default: nil
         }
     }
 }
@@ -67,22 +70,22 @@ public struct BetaContextManagementConfig: Codable {
     }
 
     init() {
-        self.edits = nil
+        edits = nil
     }
 }
 
-extension BetaContextManagementConfig {
-    public init(from decoder: Decoder) throws {
+public extension BetaContextManagementConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.edits = try container.sdkDecodeIfPresent(.edits)
-        if let value = self.edits {
+        edits = try container.sdkDecodeIfPresent(.edits)
+        if let value = edits {
             try validateItems("edits", value, min: 0, max: nil)
         }
     }
 }
 
-extension BetaContextManagementConfig {
-    public init(edits: [BetaContextManagementConfigEditsItem]? = nil) throws {
+public extension BetaContextManagementConfig {
+    init(edits: [BetaContextManagementConfigEditsItem]? = nil) throws {
         self.init()
         self.edits = edits
         if let value = self.edits {
@@ -109,33 +112,56 @@ public struct BetaContextManagementCapability: Codable {
         case supported
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaContextManagementCapability {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.clearThinking20251015) else {
-            throw SdkValidationError(field: "clear_thinking_20251015", code: "required", message: "Validation failed for 'clear_thinking_20251015': value is required")
-        }
-        guard container.contains(.clearToolUses20250919) else {
-            throw SdkValidationError(field: "clear_tool_uses_20250919", code: "required", message: "Validation failed for 'clear_tool_uses_20250919': value is required")
-        }
-        guard container.contains(.compact20260112) else {
-            throw SdkValidationError(field: "compact_20260112", code: "required", message: "Validation failed for 'compact_20260112': value is required")
-        }
-        guard container.contains(.supported) else {
-            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
-        }
-        self.clearThinking20251015 = try container.sdkDecodeNullable(.clearThinking20251015)
-        self.clearToolUses20250919 = try container.sdkDecodeNullable(.clearToolUses20250919)
-        self.compact20260112 = try container.sdkDecodeNullable(.compact20260112)
-        self.supported = try container.sdkDecodeRequired(.supported)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaContextManagementCapability {
-    public init(clearThinking20251015: BetaCapabilitySupport?, clearToolUses20250919: BetaCapabilitySupport?, compact20260112: BetaCapabilitySupport?, supported: Bool) {
+public extension BetaContextManagementCapability {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.clearThinking20251015) else {
+            throw SdkValidationError(
+                field: "clear_thinking_20251015",
+                code: "required",
+                message: "Validation failed for 'clear_thinking_20251015': value is required"
+            )
+        }
+        guard container.contains(.clearToolUses20250919) else {
+            throw SdkValidationError(
+                field: "clear_tool_uses_20250919",
+                code: "required",
+                message: "Validation failed for 'clear_tool_uses_20250919': value is required"
+            )
+        }
+        guard container.contains(.compact20260112) else {
+            throw SdkValidationError(
+                field: "compact_20260112",
+                code: "required",
+                message: "Validation failed for 'compact_20260112': value is required"
+            )
+        }
+        guard container.contains(.supported) else {
+            throw SdkValidationError(
+                field: "supported",
+                code: "required",
+                message: "Validation failed for 'supported': value is required"
+            )
+        }
+        clearThinking20251015 = try container.sdkDecodeNullable(.clearThinking20251015)
+        clearToolUses20250919 = try container.sdkDecodeNullable(.clearToolUses20250919)
+        compact20260112 = try container.sdkDecodeNullable(.compact20260112)
+        supported = try container.sdkDecodeRequired(.supported)
+    }
+}
+
+public extension BetaContextManagementCapability {
+    init(
+        clearThinking20251015: BetaCapabilitySupport?,
+        clearToolUses20250919: BetaCapabilitySupport?,
+        compact20260112: BetaCapabilitySupport?,
+        supported: Bool
+    ) {
         self.clearThinking20251015 = clearThinking20251015
         (self.clearToolUses20250919, self.compact20260112) = (clearToolUses20250919, compact20260112)
         self.supported = supported

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedRequestDocument domain models
+/// SharedRequestDocument domain models
 public indirect enum RequestDocumentBlockSource {
     case base64PdfSource(Base64PDFSource)
     case plainTextSource(PlainTextSource)
@@ -15,7 +15,6 @@ public indirect enum RequestDocumentBlockSource {
 }
 
 extension RequestDocumentBlockSource: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -23,12 +22,16 @@ extension RequestDocumentBlockSource: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -39,12 +42,12 @@ extension RequestDocumentBlockSource: Codable {
 extension RequestDocumentBlockSource {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "base64": return .base64PdfSource(try Base64PDFSource(from: decoder))
-        case "text": return .plainTextSource(try PlainTextSource(from: decoder))
-        case "content": return .contentBlockSource(try ContentBlockSource(from: decoder))
-        case "url": return .uRlpdfSource(try URLPDFSource(from: decoder))
-        case "file": return .fileDocumentSource(try FileDocumentSource(from: decoder))
-        default: return nil
+        case "base64": try .base64PdfSource(Base64PDFSource(from: decoder))
+        case "text": try .plainTextSource(PlainTextSource(from: decoder))
+        case "content": try .contentBlockSource(ContentBlockSource(from: decoder))
+        case "url": try .uRlpdfSource(URLPDFSource(from: decoder))
+        case "file": try .fileDocumentSource(FileDocumentSource(from: decoder))
+        default: nil
         }
     }
 }
@@ -87,34 +90,51 @@ public struct RequestDocumentBlock: Codable {
         case title
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RequestDocumentBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.source) else {
-            throw SdkValidationError(field: "source", code: "required", message: "Validation failed for 'source': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.source = try container.sdkDecodeRequired(.source)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
-        self.citations = try container.sdkDecodeIfPresent(.citations)
-        self.context = try container.sdkDecodeIfPresent(.context)
-        self.title = try container.sdkDecodeIfPresent(.title)
-            try sdkValidateRawEnum("type", self.type, RequestDocumentBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RequestDocumentBlock {
-    public init(source: RequestDocumentBlockSource, type: RequestDocumentBlockType, cacheControl: RequestDocumentBlockCacheControl? = nil, citations: RequestCitationsConfig? = nil, context: String? = nil, title: String? = nil) throws {
+public extension RequestDocumentBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.source) else {
+            throw SdkValidationError(
+                field: "source",
+                code: "required",
+                message: "Validation failed for 'source': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        source = try container.sdkDecodeRequired(.source)
+        type = try container.sdkDecodeRequired(.type)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        citations = try container.sdkDecodeIfPresent(.citations)
+        context = try container.sdkDecodeIfPresent(.context)
+        title = try container.sdkDecodeIfPresent(.title)
+        try sdkValidateRawEnum("type", type, RequestDocumentBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension RequestDocumentBlock {
+    init(
+        source: RequestDocumentBlockSource,
+        type: RequestDocumentBlockType,
+        cacheControl: RequestDocumentBlockCacheControl? = nil,
+        citations: RequestCitationsConfig? = nil,
+        context: String? = nil,
+        title: String? = nil
+    ) throws {
         (self.source, self.type) = (source, type)
         (self.cacheControl, self.citations) = (cacheControl, citations)
         (self.context, self.title) = (context, title)
-            try sdkValidateRawEnum("type", self.type, RequestDocumentBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, RequestDocumentBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -125,7 +145,6 @@ public indirect enum RequestDocumentBlockCacheControl {
 }
 
 extension RequestDocumentBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -133,12 +152,16 @@ extension RequestDocumentBlockCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -149,8 +172,8 @@ extension RequestDocumentBlockCacheControl: Codable {
 extension RequestDocumentBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// CreateMessageParams domain models
+/// CreateMessageParams domain models
 public indirect enum CreateMessageParamsWithoutStreamToolsItem {
     case tool(Tool)
     case bashTool20250124(BashTool20250124)
@@ -29,22 +29,38 @@ public indirect enum CreateMessageParamsWithoutStreamToolsItem {
 }
 
 extension CreateMessageParamsWithoutStreamToolsItem: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
-            if let value = Self.decodeLossless2(from: container, raw) { self = value; return }
-            if let value = Self.decodeLossless3(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless1(from: container, raw) {
+                self = value; return
+            }
+            if let value = Self.decodeLossless2(from: container, raw) {
+                self = value; return
+            }
+            if let value = Self.decodeLossless3(from: container, raw) {
+                self = value; return
+            }
         }
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        if let value = Self.decodeGroup2(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for CreateMessageParamsWithoutStreamToolsItem")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        if let value = Self.decodeGroup2(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for CreateMessageParamsWithoutStreamToolsItem"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-        if try encodeGroup2(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
+        if try encodeGroup2(to: encoder) {
+            return
+        }
     }
 }
 
@@ -131,33 +147,81 @@ extension CreateMessageParamsWithoutStreamToolsItem {
 
 extension CreateMessageParamsWithoutStreamToolsItem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(Tool.self) { return .tool(value) }
-        if let value = try? container.decode(BashTool20250124.self) { return .bashTool20250124(value) }
-        if let value = try? container.decode(CodeExecutionTool20250522.self) { return .codeExecutionTool20250522(value) }
-        if let value = try? container.decode(CodeExecutionTool20250825.self) { return .codeExecutionTool20250825(value) }
-        if let value = try? container.decode(CodeExecutionTool20260120.self) { return .codeExecutionTool20260120(value) }
-        if let value = try? container.decode(CodeExecutionTool20260521.self) { return .codeExecutionTool20260521(value) }
-        if let value = try? container.decode(BrowserToolset20260801.self) { return .browserToolset20260801(value) }
-        if let value = try? container.decode(MemoryTool20250818.self) { return .memoryTool20250818(value) }
-        if let value = try? container.decode(ComputerToolset20260801.self) { return .computerToolset20260801(value) }
-        if let value = try? container.decode(TextEditor20250124.self) { return .textEditor20250124(value) }
-        if let value = try? container.decode(TextEditor20250429.self) { return .textEditor20250429(value) }
-        if let value = try? container.decode(TextEditor20250728.self) { return .textEditor20250728(value) }
+        if let value = try? container.decode(Tool.self) {
+            return .tool(value)
+        }
+        if let value = try? container.decode(BashTool20250124.self) {
+            return .bashTool20250124(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20250522.self) {
+            return .codeExecutionTool20250522(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20250825.self) {
+            return .codeExecutionTool20250825(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20260120.self) {
+            return .codeExecutionTool20260120(value)
+        }
+        if let value = try? container
+            .decode(CodeExecutionTool20260521.self) {
+            return .codeExecutionTool20260521(value)
+        }
+        if let value = try? container.decode(BrowserToolset20260801.self) {
+            return .browserToolset20260801(value)
+        }
+        if let value = try? container.decode(MemoryTool20250818.self) {
+            return .memoryTool20250818(value)
+        }
+        if let value = try? container.decode(ComputerToolset20260801.self) {
+            return .computerToolset20260801(value)
+        }
+        if let value = try? container.decode(TextEditor20250124.self) {
+            return .textEditor20250124(value)
+        }
+        if let value = try? container.decode(TextEditor20250429.self) {
+            return .textEditor20250429(value)
+        }
+        if let value = try? container.decode(TextEditor20250728.self) {
+            return .textEditor20250728(value)
+        }
         return nil
     }
 }
 
 extension CreateMessageParamsWithoutStreamToolsItem {
     static func decodeGroup2(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(WebSearchTool20250305.self) { return .webSearchTool20250305(value) }
-        if let value = try? container.decode(WebFetchTool20250910.self) { return .webFetchTool20250910(value) }
-        if let value = try? container.decode(WebSearchTool20260209.self) { return .webSearchTool20260209(value) }
-        if let value = try? container.decode(WebFetchTool20260209.self) { return .webFetchTool20260209(value) }
-        if let value = try? container.decode(WebFetchTool20260309.self) { return .webFetchTool20260309(value) }
-        if let value = try? container.decode(WebSearchTool20260318.self) { return .webSearchTool20260318(value) }
-        if let value = try? container.decode(WebFetchTool20260318.self) { return .webFetchTool20260318(value) }
-        if let value = try? container.decode(ToolSearchToolBM2520251119.self) { return .toolSearchToolBm2520251119(value) }
-        if let value = try? container.decode(ToolSearchToolRegex20251119.self) { return .toolSearchToolRegex20251119(value) }
+        if let value = try? container.decode(WebSearchTool20250305.self) {
+            return .webSearchTool20250305(value)
+        }
+        if let value = try? container.decode(WebFetchTool20250910.self) {
+            return .webFetchTool20250910(value)
+        }
+        if let value = try? container.decode(WebSearchTool20260209.self) {
+            return .webSearchTool20260209(value)
+        }
+        if let value = try? container.decode(WebFetchTool20260209.self) {
+            return .webFetchTool20260209(value)
+        }
+        if let value = try? container.decode(WebFetchTool20260309.self) {
+            return .webFetchTool20260309(value)
+        }
+        if let value = try? container.decode(WebSearchTool20260318.self) {
+            return .webSearchTool20260318(value)
+        }
+        if let value = try? container.decode(WebFetchTool20260318.self) {
+            return .webFetchTool20260318(value)
+        }
+        if let value = try? container
+            .decode(ToolSearchToolBM2520251119.self) {
+            return .toolSearchToolBm2520251119(value)
+        }
+        if let value = try? container
+            .decode(ToolSearchToolRegex20251119.self) {
+            return .toolSearchToolRegex20251119(value)
+        }
         return nil
     }
 }
@@ -207,22 +271,32 @@ public indirect enum CreateMessageParamsWithoutStreamSystem {
 }
 
 extension CreateMessageParamsWithoutStreamSystem: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for CreateMessageParamsWithoutStreamSystem")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for CreateMessageParamsWithoutStreamSystem"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension CreateMessageParamsWithoutStreamSystem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(String.self) { return .stringValue(value) }
-        if let value = try? container.decode([RequestTextBlock].self) { return .requestTextBlockList(value) }
+        if let value = try? container.decode(String.self) {
+            return .stringValue(value)
+        }
+        if let value = try? container.decode([RequestTextBlock].self) {
+            return .requestTextBlockList(value)
+        }
         return nil
     }
 }
@@ -321,73 +395,169 @@ public struct CreateMessageParamsWithoutStream: Codable {
         case topP = "top_p"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CreateMessageParamsWithoutStream {
-    public init(from decoder: Decoder) throws {
+public extension CreateMessageParamsWithoutStream {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
         }
         guard container.contains(.messages) else {
-            throw SdkValidationError(field: "messages", code: "required", message: "Validation failed for 'messages': value is required")
+            throw SdkValidationError(
+                field: "messages",
+                code: "required",
+                message: "Validation failed for 'messages': value is required"
+            )
         }
         guard container.contains(.maxTokens) else {
-            throw SdkValidationError(field: "max_tokens", code: "required", message: "Validation failed for 'max_tokens': value is required")
+            throw SdkValidationError(
+                field: "max_tokens",
+                code: "required",
+                message: "Validation failed for 'max_tokens': value is required"
+            )
         }
-        self.model = try container.sdkDecodeRequired(.model)
-        self.messages = try container.sdkDecodeRequired(.messages)
-        self.maxTokens = try container.sdkDecodeRequired(.maxTokens)
-        self.cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
+        model = try container.sdkDecodeRequired(.model)
+        messages = try container.sdkDecodeRequired(.messages)
+        maxTokens = try container.sdkDecodeRequired(.maxTokens)
+        cacheControl = try container.sdkDecodeIfPresent(.cacheControl)
         self.container = try container.sdkDecodeIfPresent(.container)
-        self.inferenceGeo = try container.sdkDecodeIfPresent(.inferenceGeo)
-        self.metadata = try container.sdkDecodeIfPresent(.metadata)
-        self.outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
-        self.serviceTier = try container.sdkDecodeIfPresent(.serviceTier)
-        self.stopSequences = try container.sdkDecodeIfPresent(.stopSequences)
-        self.system = try container.sdkDecodeIfPresent(.system)
-        self.temperature = try container.sdkDecodeIfPresent(.temperature)
-        self.thinking = try container.sdkDecodeIfPresent(.thinking)
-        self.toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
-        self.tools = try container.sdkDecodeIfPresent(.tools)
-        self.topK = try container.sdkDecodeIfPresent(.topK)
-        self.topP = try container.sdkDecodeIfPresent(.topP)
-            try validateLength("model", self.model, min: 1, max: 256)
-            try validateRange("max_tokens", Double(self.maxTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-        if let value = self.temperature {
-            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        inferenceGeo = try container.sdkDecodeIfPresent(.inferenceGeo)
+        metadata = try container.sdkDecodeIfPresent(.metadata)
+        outputConfig = try container.sdkDecodeIfPresent(.outputConfig)
+        serviceTier = try container.sdkDecodeIfPresent(.serviceTier)
+        stopSequences = try container.sdkDecodeIfPresent(.stopSequences)
+        system = try container.sdkDecodeIfPresent(.system)
+        temperature = try container.sdkDecodeIfPresent(.temperature)
+        thinking = try container.sdkDecodeIfPresent(.thinking)
+        toolChoice = try container.sdkDecodeIfPresent(.toolChoice)
+        tools = try container.sdkDecodeIfPresent(.tools)
+        topK = try container.sdkDecodeIfPresent(.topK)
+        topP = try container.sdkDecodeIfPresent(.topP)
+        try validateLength("model", model, min: 1, max: 256)
+        try validateRange(
+            "max_tokens",
+            Double(maxTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        if let value = temperature {
+            try validateRange(
+                "temperature",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
-        if let value = self.topK {
-            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = topK {
+            try validateRange(
+                "top_k",
+                Double(value),
+                min: 0,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
-        if let value = self.topP {
-            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = topP {
+            try validateRange(
+                "top_p",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CreateMessageParamsWithoutStream {
-    public init(model: String, messages: [InputMessage], maxTokens: Int, cacheControl: CreateMessageParamsWithoutStreamCacheControl? = nil, container containerValue: CreateMessageParamsWithoutStreamContainer? = nil, inferenceGeo: String? = nil, metadata: Metadata? = nil, outputConfig: OutputConfig? = nil, serviceTier: CreateMessageParamsWithoutStreamServiceTier? = nil, stopSequences: [String]? = nil, system: CreateMessageParamsWithoutStreamSystem? = nil, temperature: Double? = nil, thinking: ThinkingConfigParam? = nil, toolChoice: ToolChoice? = nil, tools: [CreateMessageParamsWithoutStreamToolsItem]? = nil, topK: Int? = nil, topP: Double? = nil) throws {
+public extension CreateMessageParamsWithoutStream {
+    init(
+        model: String,
+        messages: [InputMessage],
+        maxTokens: Int,
+        cacheControl: CreateMessageParamsWithoutStreamCacheControl? = nil,
+        container containerValue: CreateMessageParamsWithoutStreamContainer? = nil,
+        inferenceGeo: String? = nil,
+        metadata: Metadata? = nil,
+        outputConfig: OutputConfig? = nil,
+        serviceTier: CreateMessageParamsWithoutStreamServiceTier? = nil,
+        stopSequences: [String]? = nil,
+        system: CreateMessageParamsWithoutStreamSystem? = nil,
+        temperature: Double? = nil,
+        thinking: ThinkingConfigParam? = nil,
+        toolChoice: ToolChoice? = nil,
+        tools: [CreateMessageParamsWithoutStreamToolsItem]? = nil,
+        topK: Int? = nil,
+        topP: Double? = nil
+    ) throws {
         (self.model, self.messages) = (model, messages)
         (self.maxTokens, self.cacheControl) = (maxTokens, cacheControl)
-        (self.container, self.inferenceGeo) = (containerValue, inferenceGeo)
+        (container, self.inferenceGeo) = (containerValue, inferenceGeo)
         (self.metadata, self.outputConfig) = (metadata, outputConfig)
         (self.serviceTier, self.stopSequences) = (serviceTier, stopSequences)
         (self.system, self.temperature) = (system, temperature)
         (self.thinking, self.toolChoice) = (thinking, toolChoice)
         (self.tools, self.topK) = (tools, topK)
         self.topP = topP
-            try validateLength("model", self.model, min: 1, max: 256)
-            try validateRange("max_tokens", Double(self.maxTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateLength("model", self.model, min: 1, max: 256)
+        try validateRange(
+            "max_tokens",
+            Double(self.maxTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
         if let value = self.temperature {
-            try validateRange("temperature", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "temperature",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
         if let value = self.topK {
-            try validateRange("top_k", Double(value), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "top_k",
+                Double(value),
+                min: 0,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
         if let value = self.topP {
-            try validateRange("top_p", Double(value), min: 0, max: 1, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "top_p",
+                Double(value),
+                min: 0,
+                max: 1,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -399,7 +569,6 @@ public indirect enum CreateMessageParamsWithoutStreamCacheControl {
 }
 
 extension CreateMessageParamsWithoutStreamCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -407,12 +576,16 @@ extension CreateMessageParamsWithoutStreamCacheControl: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -423,8 +596,8 @@ extension CreateMessageParamsWithoutStreamCacheControl: Codable {
 extension CreateMessageParamsWithoutStreamCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .cacheControlEphemeral(try CacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .cacheControlEphemeral(CacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }

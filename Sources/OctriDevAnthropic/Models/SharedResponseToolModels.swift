@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedResponseTool domain models
+/// SharedResponseTool domain models
 public indirect enum ResponseToolSearchToolResultBlockContent {
     case responseToolSearchToolResultError(ResponseToolSearchToolResultError)
     case responseToolSearchToolSearchResultBlock(ResponseToolSearchToolSearchResultBlock)
@@ -12,7 +12,6 @@ public indirect enum ResponseToolSearchToolResultBlockContent {
 }
 
 extension ResponseToolSearchToolResultBlockContent: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension ResponseToolSearchToolResultBlockContent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension ResponseToolSearchToolResultBlockContent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "tool_search_tool_result_error":
-        return .responseToolSearchToolResultError(try ResponseToolSearchToolResultError(from: decoder))
+            try .responseToolSearchToolResultError(ResponseToolSearchToolResultError(from: decoder))
         case "tool_search_tool_search_result":
-        return .responseToolSearchToolSearchResultBlock(try ResponseToolSearchToolSearchResultBlock(from: decoder))
-        default: return nil
+            try .responseToolSearchToolSearchResultBlock(ResponseToolSearchToolSearchResultBlock(from: decoder))
+        default: nil
         }
     }
 }
@@ -65,7 +68,6 @@ public indirect enum ResponseToolUseBlockCaller {
 }
 
 extension ResponseToolUseBlockCaller: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -73,12 +75,16 @@ extension ResponseToolUseBlockCaller: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -89,10 +95,10 @@ extension ResponseToolUseBlockCaller: Codable {
 extension ResponseToolUseBlockCaller {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "direct": return .directCaller(try DirectCaller(from: decoder))
-        case "code_execution_20250825": return .serverToolCaller(try ServerToolCaller(from: decoder))
-        case "code_execution_20260120": return .serverToolCaller20260120(try ServerToolCaller20260120(from: decoder))
-        default: return nil
+        case "direct": try .directCaller(DirectCaller(from: decoder))
+        case "code_execution_20250825": try .serverToolCaller(ServerToolCaller(from: decoder))
+        case "code_execution_20260120": try .serverToolCaller20260120(ServerToolCaller20260120(from: decoder))
+        default: nil
         }
     }
 }
@@ -124,33 +130,51 @@ public struct ResponseToolSearchToolResultError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseToolSearchToolResultError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.errorCode) else {
-            throw SdkValidationError(field: "error_code", code: "required", message: "Validation failed for 'error_code': value is required")
-        }
-        guard container.contains(.errorMessage) else {
-            throw SdkValidationError(field: "error_message", code: "required", message: "Validation failed for 'error_message': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.errorCode = try container.sdkDecodeRequired(.errorCode)
-        self.errorMessage = try container.sdkDecodeNullable(.errorMessage)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolResultErrorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseToolSearchToolResultError {
-    public init(errorCode: ToolSearchToolResultErrorCode, errorMessage: String?, type: ResponseToolSearchToolResultErrorType) throws {
+public extension ResponseToolSearchToolResultError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.errorCode) else {
+            throw SdkValidationError(
+                field: "error_code",
+                code: "required",
+                message: "Validation failed for 'error_code': value is required"
+            )
+        }
+        guard container.contains(.errorMessage) else {
+            throw SdkValidationError(
+                field: "error_message",
+                code: "required",
+                message: "Validation failed for 'error_message': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        errorCode = try container.sdkDecodeRequired(.errorCode)
+        errorMessage = try container.sdkDecodeNullable(.errorMessage)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, ResponseToolSearchToolResultErrorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseToolSearchToolResultError {
+    init(
+        errorCode: ToolSearchToolResultErrorCode,
+        errorMessage: String?,
+        type: ResponseToolSearchToolResultErrorType
+    ) throws {
         (self.errorCode, self.errorMessage) = (errorCode, errorMessage)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolResultErrorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -166,28 +190,38 @@ public struct ResponseToolSearchToolSearchResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseToolSearchToolSearchResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.toolReferences) else {
-            throw SdkValidationError(field: "tool_references", code: "required", message: "Validation failed for 'tool_references': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.toolReferences = try container.sdkDecodeRequired(.toolReferences)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseToolSearchToolSearchResultBlock {
-    public init(toolReferences: [ResponseToolReferenceBlock], type: ResponseToolSearchToolSearchResultBlockType) throws {
+public extension ResponseToolSearchToolSearchResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.toolReferences) else {
+            throw SdkValidationError(
+                field: "tool_references",
+                code: "required",
+                message: "Validation failed for 'tool_references': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        toolReferences = try container.sdkDecodeRequired(.toolReferences)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, ResponseToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseToolSearchToolSearchResultBlock {
+    init(toolReferences: [ResponseToolReferenceBlock], type: ResponseToolSearchToolSearchResultBlockType) throws {
         (self.toolReferences, self.type) = (toolReferences, type)
-            try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolSearchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -215,47 +249,76 @@ public struct ResponseToolUseBlock: Codable {
         case toolsetName = "toolset_name"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseToolUseBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.caller) else {
-            throw SdkValidationError(field: "caller", code: "required", message: "Validation failed for 'caller': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.input) else {
-            throw SdkValidationError(field: "input", code: "required", message: "Validation failed for 'input': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.caller = try container.sdkDecodeRequired(.caller)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.input = try container.sdkDecodeRequired(.input)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
-            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-            try validateLength("name", self.name, min: 1, max: nil)
-            try sdkValidateRawEnum("type", self.type, ResponseToolUseBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseToolUseBlock {
-    public init(caller: ResponseToolUseBlockCaller, id: String, input: [String: JSONValue], name: String, type: ResponseToolUseBlockType, toolsetName: String? = nil) throws {
+public extension ResponseToolUseBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.caller) else {
+            throw SdkValidationError(
+                field: "caller",
+                code: "required",
+                message: "Validation failed for 'caller': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.input) else {
+            throw SdkValidationError(
+                field: "input",
+                code: "required",
+                message: "Validation failed for 'input': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        caller = try container.sdkDecodeRequired(.caller)
+        id = try container.sdkDecodeRequired(.id)
+        input = try container.sdkDecodeRequired(.input)
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        toolsetName = try container.sdkDecodeIfPresent(.toolsetName)
+        try sdkValidatePattern("id", id, sdkPatterna828669d9fe5)
+        try validateLength("name", name, min: 1, max: nil)
+        try sdkValidateRawEnum("type", type, ResponseToolUseBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseToolUseBlock {
+    init(
+        caller: ResponseToolUseBlockCaller,
+        id: String,
+        input: [String: JSONValue],
+        name: String,
+        type: ResponseToolUseBlockType,
+        toolsetName: String? = nil
+    ) throws {
         (self.caller, self.id) = (caller, id)
         (self.input, self.name) = (input, name)
         (self.type, self.toolsetName) = (type, toolsetName)
-            try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
-            try validateLength("name", self.name, min: 1, max: nil)
-            try sdkValidateRawEnum("type", self.type, ResponseToolUseBlockType.allCases.map(\.rawValue))
+        try sdkValidatePattern("id", self.id, sdkPatterna828669d9fe5)
+        try validateLength("name", self.name, min: 1, max: nil)
+        try sdkValidateRawEnum("type", self.type, ResponseToolUseBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -271,32 +334,42 @@ public struct ResponseToolReferenceBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseToolReferenceBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.toolName) else {
-            throw SdkValidationError(field: "tool_name", code: "required", message: "Validation failed for 'tool_name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.toolName = try container.sdkDecodeRequired(.toolName)
-        self.type = try container.sdkDecodeRequired(.type)
-            try validateLength("tool_name", self.toolName, min: 1, max: 256)
-            try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
-            try sdkValidateRawEnum("type", self.type, ResponseToolReferenceBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseToolReferenceBlock {
-    public init(toolName: String, type: ResponseToolReferenceBlockType) throws {
+public extension ResponseToolReferenceBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.toolName) else {
+            throw SdkValidationError(
+                field: "tool_name",
+                code: "required",
+                message: "Validation failed for 'tool_name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        toolName = try container.sdkDecodeRequired(.toolName)
+        type = try container.sdkDecodeRequired(.type)
+        try validateLength("tool_name", toolName, min: 1, max: 256)
+        try sdkValidatePattern("tool_name", toolName, sdkPatterndc4e11698f9a)
+        try sdkValidateRawEnum("type", type, ResponseToolReferenceBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseToolReferenceBlock {
+    init(toolName: String, type: ResponseToolReferenceBlockType) throws {
         (self.toolName, self.type) = (toolName, type)
-            try validateLength("tool_name", self.toolName, min: 1, max: 256)
-            try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
-            try sdkValidateRawEnum("type", self.type, ResponseToolReferenceBlockType.allCases.map(\.rawValue))
+        try validateLength("tool_name", self.toolName, min: 1, max: 256)
+        try sdkValidatePattern("tool_name", self.toolName, sdkPatterndc4e11698f9a)
+        try sdkValidateRawEnum("type", self.type, ResponseToolReferenceBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -315,35 +388,53 @@ public struct ResponseToolSearchToolResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseToolSearchToolResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.toolUseId) else {
-            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.content = try container.sdkDecodeRequired(.content)
-        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-            try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseToolSearchToolResultBlock {
-    public init(content: ResponseToolSearchToolResultBlockContent, toolUseId: String, type: ResponseToolSearchToolResultBlockType) throws {
+public extension ResponseToolSearchToolResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.toolUseId) else {
+            throw SdkValidationError(
+                field: "tool_use_id",
+                code: "required",
+                message: "Validation failed for 'tool_use_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        content = try container.sdkDecodeRequired(.content)
+        toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidatePattern("tool_use_id", toolUseId, sdkPattern047e2f7d5639)
+        try sdkValidateRawEnum("type", type, ResponseToolSearchToolResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseToolSearchToolResultBlock {
+    init(
+        content: ResponseToolSearchToolResultBlockContent,
+        toolUseId: String,
+        type: ResponseToolSearchToolResultBlockType
+    ) throws {
         (self.content, self.toolUseId) = (content, toolUseId)
         self.type = type
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-            try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolResultBlockType.allCases.map(\.rawValue))
+        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+        try sdkValidateRawEnum("type", self.type, ResponseToolSearchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 

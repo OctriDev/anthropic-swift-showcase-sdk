@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaManagedAgents domain models
+/// SharedBetaManagedAgents domain models
 /// Optional `string` value serialized in the `type` wire field.
 public enum BetaManagedAgentsWebFetchToolConfigParamsType: String, CaseIterable, Codable {
     case webFetch = "web_fetch"
@@ -26,12 +26,15 @@ public enum BetaManagedAgentsWebFetchToolConfigParamsType: String, CaseIterable,
 public struct BetaManagedAgentsDeploymentRunType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let deploymentRun = BetaManagedAgentsDeploymentRunType(rawValue: "deployment_run")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -296,12 +299,15 @@ public enum BetaManagedAgentsRetryStatusRetryingType: String, CaseIterable, Coda
 public struct BetaManagedAgentsMemoryVersionType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let memoryVersion = BetaManagedAgentsMemoryVersionType(rawValue: "memory_version")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -350,12 +356,15 @@ public enum BetaManagedAgentsAgentReferenceType: String, CaseIterable, Codable {
 public struct BetaManagedAgentsSessionThreadType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let sessionThread = BetaManagedAgentsSessionThreadType(rawValue: "session_thread")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -383,17 +392,21 @@ public enum BetaManagedAgentsEnvironmentArchivedRunErrorType: String, CaseIterab
 }
 
 /// AgentEvaluatedPermission enum
-public struct BetaManagedAgentsAgentEvaluatedPermission: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsAgentEvaluatedPermission: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let allow = BetaManagedAgentsAgentEvaluatedPermission(rawValue: "allow")
     public static let ask = BetaManagedAgentsAgentEvaluatedPermission(rawValue: "ask")
     public static let deny = BetaManagedAgentsAgentEvaluatedPermission(rawValue: "deny")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

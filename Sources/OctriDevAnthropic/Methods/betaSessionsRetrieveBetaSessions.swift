@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSessionsMethods {
-    /// Retrieves a session by its identifier, including its status, agent snapshot, resources, usage, and timing statistics. Use `session_id` to select the session you need to inspect. The response includes the session's archive timestamp when it has been archived.
+public extension BetaSessionsMethods {
+    /// Retrieves a session by its identifier, including its status, agent snapshot, resources, usage, and timing
+    /// statistics. Use `session_id` to select the session you need to inspect. The response includes the session's
+    /// archive timestamp when it has been archived.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -16,10 +18,41 @@ extension BetaSessionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func retrieveBetaSessions(config: ClientConfig, sessionId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
-        return try (await sdkRequest("GET", ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaSessions", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+    static func retrieveBetaSessions(
+        config: ClientConfig,
+        sessionId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSession {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaSessions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

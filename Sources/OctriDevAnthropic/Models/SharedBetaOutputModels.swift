@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaOutput domain models
+/// SharedBetaOutput domain models
 public indirect enum BetaOutputBehavior {
     case betaOutputBehaviorCreateNew(BetaOutputBehaviorCreateNew)
     case betaOutputBehaviorUpdateExisting(BetaOutputBehaviorUpdateExisting)
@@ -12,7 +12,6 @@ public indirect enum BetaOutputBehavior {
 }
 
 extension BetaOutputBehavior: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaOutputBehavior: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension BetaOutputBehavior: Codable {
 extension BetaOutputBehavior {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "create_new": return .betaOutputBehaviorCreateNew(try BetaOutputBehaviorCreateNew(from: decoder))
-        case "update_existing": return .betaOutputBehaviorUpdateExisting(try BetaOutputBehaviorUpdateExisting(from: decoder))
-        default: return nil
+        case "create_new": try .betaOutputBehaviorCreateNew(BetaOutputBehaviorCreateNew(from: decoder))
+        case "update_existing": try .betaOutputBehaviorUpdateExisting(BetaOutputBehaviorUpdateExisting(from: decoder))
+        default: nil
         }
     }
 }
@@ -64,24 +67,30 @@ public struct BetaOutputBehaviorCreateNew: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaOutputBehaviorCreateNew {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaOutputBehaviorCreateNewType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaOutputBehaviorCreateNew {
-    public init(type: BetaOutputBehaviorCreateNewType) throws {
+public extension BetaOutputBehaviorCreateNew {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaOutputBehaviorCreateNewType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaOutputBehaviorCreateNew {
+    init(type: BetaOutputBehaviorCreateNewType) throws {
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaOutputBehaviorCreateNewType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaOutputBehaviorCreateNewType.allCases.map(\.rawValue))
     }
 }
 
@@ -98,30 +107,40 @@ public struct BetaOutputBehaviorUpdateExisting: Codable {
         case memoryStoreId = "memory_store_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaOutputBehaviorUpdateExisting {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.memoryStoreId) else {
-            throw SdkValidationError(field: "memory_store_id", code: "required", message: "Validation failed for 'memory_store_id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.memoryStoreId = try container.sdkDecodeRequired(.memoryStoreId)
-            try sdkValidateRawEnum("type", self.type, BetaOutputBehaviorUpdateExistingType.allCases.map(\.rawValue))
-            try validateLength("memory_store_id", self.memoryStoreId, min: 1, max: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaOutputBehaviorUpdateExisting {
-    public init(type: BetaOutputBehaviorUpdateExistingType, memoryStoreId: String) throws {
+public extension BetaOutputBehaviorUpdateExisting {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.memoryStoreId) else {
+            throw SdkValidationError(
+                field: "memory_store_id",
+                code: "required",
+                message: "Validation failed for 'memory_store_id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        memoryStoreId = try container.sdkDecodeRequired(.memoryStoreId)
+        try sdkValidateRawEnum("type", type, BetaOutputBehaviorUpdateExistingType.allCases.map(\.rawValue))
+        try validateLength("memory_store_id", memoryStoreId, min: 1, max: nil)
+    }
+}
+
+public extension BetaOutputBehaviorUpdateExisting {
+    init(type: BetaOutputBehaviorUpdateExistingType, memoryStoreId: String) throws {
         (self.type, self.memoryStoreId) = (type, memoryStoreId)
-            try sdkValidateRawEnum("type", self.type, BetaOutputBehaviorUpdateExistingType.allCases.map(\.rawValue))
-            try validateLength("memory_store_id", self.memoryStoreId, min: 1, max: nil)
+        try sdkValidateRawEnum("type", self.type, BetaOutputBehaviorUpdateExistingType.allCases.map(\.rawValue))
+        try validateLength("memory_store_id", self.memoryStoreId, min: 1, max: nil)
     }
 }
 
@@ -142,21 +161,21 @@ public struct BetaOutputConfig: Codable {
     }
 
     init() {
-        (self.effort, self.format, self.taskBudget) = (nil, nil, nil)
+        (effort, format, taskBudget) = (nil, nil, nil)
     }
 }
 
-extension BetaOutputConfig {
-    public init(from decoder: Decoder) throws {
+public extension BetaOutputConfig {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.effort = try container.sdkDecodeIfPresent(.effort)
-        self.format = try container.sdkDecodeIfPresent(.format)
-        self.taskBudget = try container.sdkDecodeIfPresent(.taskBudget)
+        effort = try container.sdkDecodeIfPresent(.effort)
+        format = try container.sdkDecodeIfPresent(.format)
+        taskBudget = try container.sdkDecodeIfPresent(.taskBudget)
     }
 }
 
-extension BetaOutputConfig {
-    public init(effort: BetaEffortLevel? = nil, format: BetaJsonOutputFormat? = nil, taskBudget: BetaTokenTaskBudget? = nil) {
+public extension BetaOutputConfig {
+    init(effort: BetaEffortLevel? = nil, format: BetaJsonOutputFormat? = nil, taskBudget: BetaTokenTaskBudget? = nil) {
         self.init()
         (self.effort, self.format) = (effort, format)
         self.taskBudget = taskBudget
@@ -176,24 +195,46 @@ public struct BetaOutputTokensDetails: Codable {
         case thinkingTokens = "thinking_tokens"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaOutputTokensDetails {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.thinkingTokens) else {
-            throw SdkValidationError(field: "thinking_tokens", code: "required", message: "Validation failed for 'thinking_tokens': value is required")
-        }
-        self.thinkingTokens = try container.sdkDecodeRequired(.thinkingTokens)
-            try validateRange("thinking_tokens", Double(self.thinkingTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaOutputTokensDetails {
-    public init(thinkingTokens: Int) throws {
+public extension BetaOutputTokensDetails {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.thinkingTokens) else {
+            throw SdkValidationError(
+                field: "thinking_tokens",
+                code: "required",
+                message: "Validation failed for 'thinking_tokens': value is required"
+            )
+        }
+        thinkingTokens = try container.sdkDecodeRequired(.thinkingTokens)
+        try validateRange(
+            "thinking_tokens",
+            Double(thinkingTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension BetaOutputTokensDetails {
+    init(thinkingTokens: Int) throws {
         self.thinkingTokens = thinkingTokens
-            try validateRange("thinking_tokens", Double(self.thinkingTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateRange(
+            "thinking_tokens",
+            Double(self.thinkingTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 

@@ -17,12 +17,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.agents.versions.list(
-            agentId: decoded("\"agent_011CZkYpogX7uDKUyvBTophP\""),
-            limit: decoded("1"),
-            page: decoded("\"page\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                agentId: decoded("\"agent_011CZkYpogX7uDKUyvBTophP\""),
+                limit: decoded("1"),
+                page: decoded("\"page\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -91,8 +91,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.deploymentRuns.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -157,8 +157,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.deployments.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -221,8 +221,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.dreams.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -271,12 +271,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.list(
-            limit: decoded("20"),
-            page: decoded("\"page\""),
-            includeArchived: decoded("false"),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                limit: decoded("20"),
+                page: decoded("\"page\""),
+                includeArchived: decoded("false"),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -325,12 +325,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.work.list(
-            environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
-            limit: decoded("20"),
-            page: decoded("\"page\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            authorization: decoded("\"authorization\"")
-        )
+                environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
+                limit: decoded("20"),
+                page: decoded("\"page\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                authorization: decoded("\"authorization\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -380,13 +380,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.files.list(
-            page: decoded("\"page\""),
-            ids: decoded("[\"ids[]\"]"),
-            limit: decoded("20"),
-            scopeId: decoded("\"scope-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                page: decoded("\"page\""),
+                ids: decoded("[\"ids[]\"]"),
+                limit: decoded("20"),
+                scopeId: decoded("\"scope-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -437,14 +437,14 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.list(
-            limit: decoded("1"),
-            page: decoded("\"page\""),
-            includeArchived: decoded("false"),
-            createdAtGte: decoded("\"2024-01-01T00:00:00Z\""),
-            createdAtLte: decoded("\"2024-01-01T00:00:00Z\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                limit: decoded("1"),
+                page: decoded("\"page\""),
+                includeArchived: decoded("false"),
+                createdAtGte: decoded("\"2024-01-01T00:00:00Z\""),
+                createdAtLte: decoded("\"2024-01-01T00:00:00Z\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -465,7 +465,8 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoriesMethods
+            .ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.pathPrefix = try decoded("\"path_prefix\"")
         options.depth = try decoded("1")
         options.limit = try decoded("1")
@@ -491,7 +492,8 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoriesMethods
+            .ListBetaMemoryStoresMemoriesOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.pathPrefix = try decoded("\"path_prefix\"")
         options.depth = try decoded("1")
         options.limit = try decoded("1")
@@ -505,8 +507,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.memories.list(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -522,12 +524,14 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testListBetaMemoryStoresMemoryVersionsListBetaMemoryStoresMemoryVersionsReachesMockAndDecodesResponse() async throws {
+    func testListBetaMemoryStoresMemoryVersionsListBetaMemoryStoresMemoryVersionsReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
         _ = client
-        var options = try BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions(memoryStoreId: decoded("\"memory_store-1\""))
+        var options = try BetaMemoryStoresMemoryVersionsMethods
+            .ListBetaMemoryStoresMemoryVersionsOptions(memoryStoreId: decoded("\"memory_store-1\""))
         options.memoryId = try decoded("\"memory-1\"")
         options.sessionId = try decoded("\"session-1\"")
         options.apiKeyId = try decoded("\"api_key-1\"")

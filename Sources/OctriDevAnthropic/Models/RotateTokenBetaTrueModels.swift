@@ -3,7 +3,7 @@
 
 import Foundation
 
-// RotateTokenBetaTrue domain models
+/// RotateTokenBetaTrue domain models
 /// Typed representation of the `BetaRotateTunnelTokenRequestBody` API schema.
 public struct BetaRotateTunnelTokenRequestBody: Codable {
     /// Optional free-text reason for the rotation, recorded for audit.
@@ -14,19 +14,19 @@ public struct BetaRotateTunnelTokenRequestBody: Codable {
     }
 
     init() {
-        self.reason = nil
+        reason = nil
     }
 }
 
-extension BetaRotateTunnelTokenRequestBody {
-    public init(from decoder: Decoder) throws {
+public extension BetaRotateTunnelTokenRequestBody {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.reason = try container.sdkDecodeIfPresent(.reason)
+        reason = try container.sdkDecodeIfPresent(.reason)
     }
 }
 
-extension BetaRotateTunnelTokenRequestBody {
-    public init(reason: String? = nil) {
+public extension BetaRotateTunnelTokenRequestBody {
+    init(reason: String? = nil) {
         self.init()
         self.reason = reason
     }
@@ -42,19 +42,19 @@ public struct BetaRotateTunnelTokenParams: Codable {
     }
 
     init() {
-        self.reason = nil
+        reason = nil
     }
 }
 
-extension BetaRotateTunnelTokenParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaRotateTunnelTokenParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.reason = try container.sdkDecodeIfPresent(.reason)
+        reason = try container.sdkDecodeIfPresent(.reason)
     }
 }
 
-extension BetaRotateTunnelTokenParams {
-    public init(reason: String? = nil) {
+public extension BetaRotateTunnelTokenParams {
+    init(reason: String? = nil) {
         self.init()
         self.reason = reason
     }

@@ -6,10 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaEnvironmentsWorkMethods {
-    /// Stops a work item in a self-hosted environment, initiating a graceful shutdown or an immediate stop. The SDK and CLI environment workers call this operation automatically; set `force` to true only when you want to skip graceful shutdown.
+public extension BetaEnvironmentsWorkMethods {
+    /// Stops a work item in a self-hosted environment, initiating a graceful shutdown or an immediate stop. The SDK and
+    /// CLI environment workers call this operation automatically; set `force` to true only when you want to skip
+    /// graceful shutdown.
     ///
-    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do not need to invoke them directly. Stop a work item, initiating graceful or forced shutdown.
+    /// Note: these endpoints are called automatically by the pre-built environment worker provided in the SDKs and CLI,
+    /// for orchestrating sessions with self-hosted sandbox environments. They are included here as a reference; you do
+    /// not need to invoke them directly. Stop a work item, initiating graceful or forced shutdown.
     ///
     /// - Parameters:
     /// - anthropicBeta: Optional header to specify the beta version(s) you want to
@@ -21,13 +25,55 @@ extension BetaEnvironmentsWorkMethods {
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
     /// - force: If true, immediately stop work without graceful shutdown
-    public static func stopBetaEnvironmentsWork(config: ClientConfig, environmentId: String, workId: String, anthropicBeta: [AnthropicBeta]? = nil, authorization: String? = nil, anthropicWorkspaceId: String? = nil, force: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaSelfHostedWork {
+    static func stopBetaEnvironmentsWork(
+        config: ClientConfig,
+        environmentId: String,
+        workId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        authorization: String? = nil,
+        anthropicWorkspaceId: String? = nil,
+        force: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaSelfHostedWork {
         let requestBody = StopBetaEnvironmentsWorkRequestBody(force: force)
 
-        return try (await sdkRequest("POST", ["/v1/environments/", sdkEncodePathSegment(sdkWireString(environmentId)), "/work/", sdkEncodePathSegment(sdkWireString(workId)), "/stop?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "stopBetaEnvironmentsWork", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("authorization", sdkHeaderValue(authorization)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            [
+                "/v1/environments/",
+                sdkEncodePathSegment(sdkWireString(environmentId)),
+                "/work/",
+                sdkEncodePathSegment(sdkWireString(workId)),
+                "/stop?beta=true",
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "stopBetaEnvironmentsWork",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("authorization", sdkHeaderValue(authorization)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

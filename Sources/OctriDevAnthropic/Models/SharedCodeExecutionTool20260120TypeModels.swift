@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedCode domain models
+/// SharedCode domain models
 /// Required `string` value serialized in the `type` wire field.
 public enum CodeExecutionTool20260120Type: String, CaseIterable, Codable {
     case codeExecution20260120 = "code_execution_20260120"
@@ -44,7 +44,10 @@ public enum CodeExecutionTool20250522Type: String, CaseIterable, Codable {
 public struct CodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let invalidToolInput = CodeExecutionToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = CodeExecutionToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = CodeExecutionToolResultErrorCode(rawValue: "too_many_requests")
@@ -52,7 +55,7 @@ public struct CodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Coda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

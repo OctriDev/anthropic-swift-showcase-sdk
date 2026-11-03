@@ -8,12 +8,42 @@ import Foundation
 #endif
 public enum BetaOrganizationsWorkspacesMethods {}
 
-extension BetaOrganizationsWorkspacesMethods {
-    /// Retrieves a workspace by its identifier. Use `workspace_id` to select the workspace whose configuration and metadata you need. The response includes the workspace's data residency settings, tags, and archive state.
+public extension BetaOrganizationsWorkspacesMethods {
+    /// Retrieves a workspace by its identifier. Use `workspace_id` to select the workspace whose configuration and
+    /// metadata you need. The response includes the workspace's data residency settings, tags, and archive state.
     ///
     /// - Parameters:
     /// - workspaceId: ID of the Workspace.
-    public static func retrieveBetaOrganizationsWorkspaces(config: ClientConfig, workspaceId: String, requestOptions: RequestOptions? = nil) async throws -> BetaWorkspace {
-        return try (await sdkRequest("GET", ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaOrganizationsWorkspaces", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+    static func retrieveBetaOrganizationsWorkspaces(
+        config: ClientConfig,
+        workspaceId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaWorkspace {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/organizations/workspaces/", sdkEncodePathSegment(sdkWireString(workspaceId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsWorkspaces",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

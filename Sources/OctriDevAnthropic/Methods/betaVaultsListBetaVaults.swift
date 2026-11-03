@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaVaultsMethods {
-    /// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault records and a next-page token when more results are available.
+public extension BetaVaultsMethods {
+    /// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include
+    /// archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault
+    /// records and a next-page token when more results are available.
     ///
     /// - Parameters:
     /// - limit: Maximum number of vaults to return per page. Defaults to 20,
@@ -19,18 +21,54 @@ extension BetaVaultsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaVaults(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListVaultsResponse {
-        return try (await sdkRequest("GET", "/v1/vaults?beta=true", config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("include_archived", value: includeArchived),
-        ], decoder: .json, operationId: "listBetaVaults", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+    static func listBetaVaults(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListVaultsResponse {
+        try await (sdkRequest(
+            "GET",
+            "/v1/vaults?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("include_archived", value: includeArchived),
+            ],
+            decoder: .json,
+            operationId: "listBetaVaults",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 
-    /// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault records and a next-page token when more results are available.
+    /// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include
+    /// archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault
+    /// records and a next-page token when more results are available.
     ///
     /// - Parameters:
     /// - limit: Maximum number of vaults to return per page. Defaults to 20,
@@ -42,17 +80,42 @@ extension BetaVaultsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaVaultsPaginated(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error> {
-        return AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error>.Continuation) in
+    static func listBetaVaultsPaginated(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error> {
+        AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaManagedAgentsVault,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaVaults(config: config, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaVaults(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = (pageResponse.data ?? [])
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -65,25 +128,54 @@ extension BetaVaultsMethods {
         }
     }
 
-    public struct ListBetaVaultsPage {
+    struct ListBetaVaultsPage {
         public let data: BetaManagedAgentsListVaultsResponse
         public let items: [BetaManagedAgentsVault]
         public let hasMore: Bool
     }
 
-    public static func listBetaVaultsPages(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaVaultsPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaVaultsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaVaultsPage, Swift.Error>.Continuation) in
+    static func listBetaVaultsPages(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaVaultsPage, Swift.Error> {
+        AsyncThrowingStream<ListBetaVaultsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaVaultsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaVaults(config: config, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaVaults(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = (pageResponse.data ?? [])
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaVaultsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaVaultsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

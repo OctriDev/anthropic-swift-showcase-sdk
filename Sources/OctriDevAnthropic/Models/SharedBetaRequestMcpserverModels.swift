@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaRequestMcpserver domain models
+/// SharedBetaRequestMcpserver domain models
 /// Typed representation of the `BetaRequestMCPServerToolConfiguration` API schema.
 public struct BetaRequestMCPServerToolConfiguration: Codable {
     /// Optional array value serialized in the `allowed_tools` wire field.
@@ -17,20 +17,20 @@ public struct BetaRequestMCPServerToolConfiguration: Codable {
     }
 
     init() {
-        (self.allowedTools, self.enabled) = (nil, nil)
+        (allowedTools, enabled) = (nil, nil)
     }
 }
 
-extension BetaRequestMCPServerToolConfiguration {
-    public init(from decoder: Decoder) throws {
+public extension BetaRequestMCPServerToolConfiguration {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.allowedTools = try container.sdkDecodeIfPresent(.allowedTools)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
+        allowedTools = try container.sdkDecodeIfPresent(.allowedTools)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
     }
 }
 
-extension BetaRequestMCPServerToolConfiguration {
-    public init(allowedTools: [String]? = nil, enabled: Bool? = nil) {
+public extension BetaRequestMCPServerToolConfiguration {
+    init(allowedTools: [String]? = nil, enabled: Bool? = nil) {
         self.init()
         (self.allowedTools, self.enabled) = (allowedTools, enabled)
     }
@@ -57,36 +57,56 @@ public struct BetaRequestMCPServerURLDefinition: Codable {
         case toolConfiguration = "tool_configuration"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestMCPServerURLDefinition {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.url) else {
-            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.url = try container.sdkDecodeRequired(.url)
-        self.authorizationToken = try container.sdkDecodeIfPresent(.authorizationToken)
-        self.toolConfiguration = try container.sdkDecodeIfPresent(.toolConfiguration)
-            try sdkValidateRawEnum("type", self.type, BetaRequestMCPServerURLDefinitionType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestMCPServerURLDefinition {
-    public init(name: String, type: BetaRequestMCPServerURLDefinitionType, url: String, authorizationToken: String? = nil, toolConfiguration: BetaRequestMCPServerToolConfiguration? = nil) throws {
+public extension BetaRequestMCPServerURLDefinition {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.url) else {
+            throw SdkValidationError(
+                field: "url",
+                code: "required",
+                message: "Validation failed for 'url': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        type = try container.sdkDecodeRequired(.type)
+        url = try container.sdkDecodeRequired(.url)
+        authorizationToken = try container.sdkDecodeIfPresent(.authorizationToken)
+        toolConfiguration = try container.sdkDecodeIfPresent(.toolConfiguration)
+        try sdkValidateRawEnum("type", type, BetaRequestMCPServerURLDefinitionType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRequestMCPServerURLDefinition {
+    init(
+        name: String,
+        type: BetaRequestMCPServerURLDefinitionType,
+        url: String,
+        authorizationToken: String? = nil,
+        toolConfiguration: BetaRequestMCPServerToolConfiguration? = nil
+    ) throws {
         (self.name, self.type) = (name, type)
         (self.url, self.authorizationToken) = (url, authorizationToken)
         self.toolConfiguration = toolConfiguration
-            try sdkValidateRawEnum("type", self.type, BetaRequestMCPServerURLDefinitionType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRequestMCPServerURLDefinitionType.allCases.map(\.rawValue))
     }
 }
 

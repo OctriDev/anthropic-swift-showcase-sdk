@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaEnvironmentsMethods {
-    /// Lists environments using cursor-based pagination. Set `include_archived` to include archived environments, and pass the previous response's `next_page` value in `page` to retrieve the next page.
+public extension BetaEnvironmentsMethods {
+    /// Lists environments using cursor-based pagination. Set `include_archived` to include archived environments, and
+    /// pass the previous response's `next_page` value in `page` to retrieve the next page.
     ///
     /// List environments with pagination support.
     ///
@@ -24,22 +25,58 @@ extension BetaEnvironmentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaEnvironments(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironmentListResponse {
-        if let limit = limit {
+    static func listBetaEnvironments(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironmentListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", "/v1/environments?beta=true", config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("include_archived", value: includeArchived),
-        ], decoder: .json, operationId: "listBetaEnvironments", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "GET",
+            "/v1/environments?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("include_archived", value: includeArchived),
+            ],
+            decoder: .json,
+            operationId: "listBetaEnvironments",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 
-    /// Lists environments using cursor-based pagination. Set `include_archived` to include archived environments, and pass the previous response's `next_page` value in `page` to retrieve the next page.
+    /// Lists environments using cursor-based pagination. Set `include_archived` to include archived environments, and
+    /// pass the previous response's `next_page` value in `page` to retrieve the next page.
     ///
     /// List environments with pagination support.
     ///
@@ -56,17 +93,42 @@ extension BetaEnvironmentsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaEnvironmentsPaginated(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaEnvironment, Swift.Error> {
-        return AsyncThrowingStream<BetaEnvironment, Swift.Error> { (continuation: AsyncThrowingStream<BetaEnvironment, Swift.Error>.Continuation) in
+    static func listBetaEnvironmentsPaginated(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaEnvironment, Swift.Error> {
+        AsyncThrowingStream<BetaEnvironment, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaEnvironment,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaEnvironments(config: config, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaEnvironments(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -79,25 +141,54 @@ extension BetaEnvironmentsMethods {
         }
     }
 
-    public struct ListBetaEnvironmentsPage {
+    struct ListBetaEnvironmentsPage {
         public let data: BetaEnvironmentListResponse
         public let items: [BetaEnvironment]
         public let hasMore: Bool
     }
 
-    public static func listBetaEnvironmentsPages(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaEnvironmentsPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaEnvironmentsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaEnvironmentsPage, Swift.Error>.Continuation) in
+    static func listBetaEnvironmentsPages(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaEnvironmentsPage, Swift.Error> {
+        AsyncThrowingStream<ListBetaEnvironmentsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<
+            ListBetaEnvironmentsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaEnvironments(config: config, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaEnvironments(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            anthropicWorkspaceId: anthropicWorkspaceId,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaEnvironmentsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaEnvironmentsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

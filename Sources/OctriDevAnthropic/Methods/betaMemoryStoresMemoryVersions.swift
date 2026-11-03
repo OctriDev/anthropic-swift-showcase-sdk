@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaMemoryStoresMemoryVersionsMethods {}
 
-extension BetaMemoryStoresMemoryVersionsMethods {
-    public struct ListBetaMemoryStoresMemoryVersionsOptions: Codable {
+public extension BetaMemoryStoresMemoryVersionsMethods {
+    struct ListBetaMemoryStoresMemoryVersionsOptions: Codable {
         public var memoryStoreId: String
         public var memoryId: String?
         public var sessionId: String?
@@ -29,7 +29,9 @@ extension BetaMemoryStoresMemoryVersionsMethods {
         }
     }
 
-    /// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time. Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the history. Set `view` to choose whether version content is populated.
+    /// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time.
+    /// Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the
+    /// history. Set `view` to choose whether version content is populated.
     ///
     /// - Parameters:
     /// - memoryStoreId: Path parameter memory_store_id
@@ -48,7 +50,11 @@ extension BetaMemoryStoresMemoryVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaMemoryStoresMemoryVersions(config: ClientConfig, options: ListBetaMemoryStoresMemoryVersionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListMemoryVersionsResult {
+    static func listBetaMemoryStoresMemoryVersions(
+        config: ClientConfig,
+        options: ListBetaMemoryStoresMemoryVersionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListMemoryVersionsResult {
         if let createdAtGte = options.createdAtGte {
             try sdkValidateDateTime("created_at[gte]", createdAtGte)
         }
@@ -57,24 +63,56 @@ extension BetaMemoryStoresMemoryVersionsMethods {
             try sdkValidateDateTime("created_at[lte]", createdAtLte)
         }
 
-        return try (await sdkRequest("GET", ["/v1/memory_stores/", sdkEncodePathSegment(sdkWireString(options.memoryStoreId)), "/memory_versions?beta=true"].joined(), config: config, query: [
-            SdkQueryParameter("memory_id", value: options.memoryId),
-            SdkQueryParameter("session_id", value: options.sessionId),
-            SdkQueryParameter("api_key_id", value: options.apiKeyId),
-            SdkQueryParameter("service_account_id", value: options.serviceAccountId),
-            SdkQueryParameter("operation", value: options.operation),
-            SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
-            SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
-            SdkQueryParameter("limit", value: options.limit),
-            SdkQueryParameter("page", value: options.page),
-            SdkQueryParameter("view", value: options.view),
-        ], decoder: .json, operationId: "listBetaMemoryStoresMemoryVersions", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaManagedAgentsErrorResponse.self, "401": BetaManagedAgentsErrorResponse.self, "403": BetaManagedAgentsErrorResponse.self, "404": BetaManagedAgentsErrorResponse.self, "408": BetaManagedAgentsErrorResponse.self, "409": BetaManagedAgentsErrorResponse.self, "412": BetaManagedAgentsErrorResponse.self, "413": BetaManagedAgentsErrorResponse.self, "429": BetaManagedAgentsErrorResponse.self, "431": BetaManagedAgentsErrorResponse.self, "499": BetaManagedAgentsErrorResponse.self, "500": BetaManagedAgentsErrorResponse.self, "501": BetaManagedAgentsErrorResponse.self, "503": BetaManagedAgentsErrorResponse.self, "504": BetaManagedAgentsErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "GET",
+            [
+                "/v1/memory_stores/",
+                sdkEncodePathSegment(sdkWireString(options.memoryStoreId)),
+                "/memory_versions?beta=true",
+            ].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("memory_id", value: options.memoryId),
+                SdkQueryParameter("session_id", value: options.sessionId),
+                SdkQueryParameter("api_key_id", value: options.apiKeyId),
+                SdkQueryParameter("service_account_id", value: options.serviceAccountId),
+                SdkQueryParameter("operation", value: options.operation),
+                SdkQueryParameter("created_at[gte]", value: options.createdAtGte),
+                SdkQueryParameter("created_at[lte]", value: options.createdAtLte),
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("page", value: options.page),
+                SdkQueryParameter("view", value: options.view),
+            ],
+            decoder: .json,
+            operationId: "listBetaMemoryStoresMemoryVersions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaManagedAgentsErrorResponse.self,
+                "401": BetaManagedAgentsErrorResponse.self,
+                "403": BetaManagedAgentsErrorResponse.self,
+                "404": BetaManagedAgentsErrorResponse.self,
+                "408": BetaManagedAgentsErrorResponse.self,
+                "409": BetaManagedAgentsErrorResponse.self,
+                "412": BetaManagedAgentsErrorResponse.self,
+                "413": BetaManagedAgentsErrorResponse.self,
+                "429": BetaManagedAgentsErrorResponse.self,
+                "431": BetaManagedAgentsErrorResponse.self,
+                "499": BetaManagedAgentsErrorResponse.self,
+                "500": BetaManagedAgentsErrorResponse.self,
+                "501": BetaManagedAgentsErrorResponse.self,
+                "503": BetaManagedAgentsErrorResponse.self,
+                "504": BetaManagedAgentsErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 
-    /// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time. Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the history. Set `view` to choose whether version content is populated.
+    /// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time.
+    /// Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the
+    /// history. Set `view` to choose whether version content is populated.
     ///
     /// - Parameters:
     /// - memoryStoreId: Path parameter memory_store_id
@@ -93,20 +131,37 @@ extension BetaMemoryStoresMemoryVersionsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func listBetaMemoryStoresMemoryVersionsPaginated(config: ClientConfig, options: ListBetaMemoryStoresMemoryVersionsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error> {
+    static func listBetaMemoryStoresMemoryVersionsPaginated(
+        config: ClientConfig,
+        options: ListBetaMemoryStoresMemoryVersionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error> { (continuation: AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaManagedAgentsMemoryVersion,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaMemoryStoresMemoryVersions(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaMemoryStoresMemoryVersions(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = (pageResponse.data ?? [])
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -119,28 +174,52 @@ extension BetaMemoryStoresMemoryVersionsMethods {
         }
     }
 
-    public struct ListBetaMemoryStoresMemoryVersionsPage {
+    struct ListBetaMemoryStoresMemoryVersionsPage {
         public let data: BetaManagedAgentsListMemoryVersionsResult
         public let items: [BetaManagedAgentsMemoryVersion]
         public let hasMore: Bool
     }
 
-    public static func listBetaMemoryStoresMemoryVersionsPages(config: ClientConfig, options: ListBetaMemoryStoresMemoryVersionsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaMemoryStoresMemoryVersionsPage, Swift.Error> {
+    static func listBetaMemoryStoresMemoryVersionsPages(
+        config: ClientConfig,
+        options: ListBetaMemoryStoresMemoryVersionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaMemoryStoresMemoryVersionsPage, Swift.Error> {
         let page = options.page
-        return AsyncThrowingStream<ListBetaMemoryStoresMemoryVersionsPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaMemoryStoresMemoryVersionsPage, Swift.Error>.Continuation) in
+        return AsyncThrowingStream<
+            ListBetaMemoryStoresMemoryVersionsPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaMemoryStoresMemoryVersionsPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
                         var nextOptions = options
                         nextOptions.page = pageCursor
-                        let pageResponse = try await listBetaMemoryStoresMemoryVersions(config: config, options: nextOptions, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaMemoryStoresMemoryVersions(
+                            config: config,
+                            options: nextOptions,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = (pageResponse.data ?? [])
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaMemoryStoresMemoryVersionsPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaMemoryStoresMemoryVersionsPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

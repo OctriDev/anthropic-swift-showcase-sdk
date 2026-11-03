@@ -8,10 +8,17 @@ import Foundation
 #endif
 public enum BetaTunnelsCertificatesMethods {}
 
-extension BetaTunnelsCertificatesMethods {
-    /// Creates a tunnel certificate by registering a public CA certificate that Anthropic uses to verify the gateway's server certificate during the inner TLS session. Supply one PEM-encoded X.509 CA certificate without private-key material; each tunnel can have at most two non-archived certificates. Send the `anthropic-beta` header with the research-preview value to use this operation.
+public extension BetaTunnelsCertificatesMethods {
+    /// Creates a tunnel certificate by registering a public CA certificate that Anthropic uses to verify the gateway's
+    /// server certificate during the inner TLS session. Supply one PEM-encoded X.509 CA certificate without private-key
+    /// material; each tunnel can have at most two non-archived certificates. Send the `anthropic-beta` header with the
+    /// research-preview value to use this operation.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's server certificate against this CA when it terminates the inner TLS session. A tunnel holds at most two non-archived certificates.
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Registers a public CA certificate on a tunnel. Anthropic verifies
+    /// the gateway's server certificate against this CA when it terminates the inner TLS session. A tunnel holds at
+    /// most two non-archived certificates.
     ///
     /// - Parameters:
     /// - tunnelId: Path parameter tunnel_id
@@ -22,14 +29,47 @@ extension BetaTunnelsCertificatesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func createBetaTunnelsCertificates(config: ClientConfig, tunnelId: String, caCertificatePem: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelCertificate {
+    static func createBetaTunnelsCertificates(
+        config: ClientConfig,
+        tunnelId: String,
+        caCertificatePem: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnelCertificate {
         try validateLength("ca_certificate_pem", caCertificatePem, max: 8192)
 
         let requestBody = CreateBetaTunnelsCertificatesRequestBody(caCertificatePem: caCertificatePem)
 
-        return try (await sdkRequest("POST", ["/v1/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/certificates?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "createBetaTunnelsCertificates", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/tunnels/", sdkEncodePathSegment(sdkWireString(tunnelId)), "/certificates?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaTunnelsCertificates",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

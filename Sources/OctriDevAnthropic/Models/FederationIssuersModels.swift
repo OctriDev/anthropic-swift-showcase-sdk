@@ -3,7 +3,7 @@
 
 import Foundation
 
-// FederationIssuers domain models
+/// FederationIssuers domain models
 public indirect enum BetaFederationIssuerUpdateParamsJwks {
     case betaJwksDiscovery(BetaJwksDiscovery)
     case betaJwksExplicitUrl(BetaJwksExplicitUrl)
@@ -13,7 +13,6 @@ public indirect enum BetaFederationIssuerUpdateParamsJwks {
 }
 
 extension BetaFederationIssuerUpdateParamsJwks: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension BetaFederationIssuerUpdateParamsJwks: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension BetaFederationIssuerUpdateParamsJwks: Codable {
 extension BetaFederationIssuerUpdateParamsJwks {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "discovery": return .betaJwksDiscovery(try BetaJwksDiscovery(from: decoder))
-        case "explicit_url": return .betaJwksExplicitUrl(try BetaJwksExplicitUrl(from: decoder))
-        case "inline": return .betaJwksInline(try BetaJwksInline(from: decoder))
-        default: return nil
+        case "discovery": try .betaJwksDiscovery(BetaJwksDiscovery(from: decoder))
+        case "explicit_url": try .betaJwksExplicitUrl(BetaJwksExplicitUrl(from: decoder))
+        case "inline": try .betaJwksInline(BetaJwksInline(from: decoder))
+        default: nil
         }
     }
 }
@@ -91,25 +94,32 @@ public struct BetaFederationIssuerUpdateParams: Codable {
     }
 
     init() {
-        (self.checkJti, self.issuerUrl, self.jwks, self.jwksPollingDisabled, self.maxJwtLifetimeSeconds) = (nil, nil, nil, nil, nil)
-        self.name = nil
+        (checkJti, issuerUrl, jwks, jwksPollingDisabled, maxJwtLifetimeSeconds) = (nil, nil, nil, nil, nil)
+        name = nil
     }
 }
 
-extension BetaFederationIssuerUpdateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaFederationIssuerUpdateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.checkJti = try container.sdkDecodeIfPresent(.checkJti)
-        self.issuerUrl = try container.sdkDecodeIfPresent(.issuerUrl)
-        self.jwks = try container.sdkDecodeIfPresent(.jwks)
-        self.jwksPollingDisabled = try container.sdkDecodeIfPresent(.jwksPollingDisabled)
-        self.maxJwtLifetimeSeconds = try container.sdkDecodeIfPresent(.maxJwtLifetimeSeconds)
-        self.name = try container.sdkDecodeIfPresent(.name)
+        checkJti = try container.sdkDecodeIfPresent(.checkJti)
+        issuerUrl = try container.sdkDecodeIfPresent(.issuerUrl)
+        jwks = try container.sdkDecodeIfPresent(.jwks)
+        jwksPollingDisabled = try container.sdkDecodeIfPresent(.jwksPollingDisabled)
+        maxJwtLifetimeSeconds = try container.sdkDecodeIfPresent(.maxJwtLifetimeSeconds)
+        name = try container.sdkDecodeIfPresent(.name)
     }
 }
 
-extension BetaFederationIssuerUpdateParams {
-    public init(checkJti: Bool? = nil, issuerUrl: String? = nil, jwks: BetaFederationIssuerUpdateParamsJwks? = nil, jwksPollingDisabled: Bool? = nil, maxJwtLifetimeSeconds: Int? = nil, name: String? = nil) {
+public extension BetaFederationIssuerUpdateParams {
+    init(
+        checkJti: Bool? = nil,
+        issuerUrl: String? = nil,
+        jwks: BetaFederationIssuerUpdateParamsJwks? = nil,
+        jwksPollingDisabled: Bool? = nil,
+        maxJwtLifetimeSeconds: Int? = nil,
+        name: String? = nil
+    ) {
         self.init()
         (self.checkJti, self.issuerUrl) = (checkJti, issuerUrl)
         (self.jwks, self.jwksPollingDisabled) = (jwks, jwksPollingDisabled)

@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaAgentsMethods {}
 
-extension BetaAgentsMethods {
-    public struct CreateBetaAgentsOptions: Codable {
+public extension BetaAgentsMethods {
+    struct CreateBetaAgentsOptions: Codable {
         public var name: String
         public var model: BetaManagedAgentsModelParams
         public var anthropicBeta: [AnthropicBeta]?
@@ -28,7 +28,9 @@ extension BetaAgentsMethods {
         }
     }
 
-    /// Creates an agent with a name, model, and optional configuration for its instructions, tools, skills, and connected MCP servers. Supply `name` and `model` at minimum; configure `tools` and `mcp_servers` together when connecting an MCP server.
+    /// Creates an agent with a name, model, and optional configuration for its instructions, tools, skills, and
+    /// connected MCP servers. Supply `name` and `model` at minimum; configure `tools` and `mcp_servers` together when
+    /// connecting an MCP server.
     ///
     /// - Parameters:
     /// - name: Human-readable name for the agent.
@@ -54,14 +56,44 @@ extension BetaAgentsMethods {
     ///   chars, values up to 512 chars.
     /// - multiagent: Multiagent orchestration configuration. Currently supports the
     ///   `coordinator` topology with a roster of 1-20 agents.
-    public static func createBetaAgents(config: ClientConfig, options: CreateBetaAgentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAgent {
+    static func createBetaAgents(
+        config: ClientConfig,
+        options: CreateBetaAgentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAgent {
         try validateLength("name", options.name, min: 1, max: 256)
 
         let requestBody = CreateBetaAgentsRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/v1/agents?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaAgents", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            "/v1/agents?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaAgents",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

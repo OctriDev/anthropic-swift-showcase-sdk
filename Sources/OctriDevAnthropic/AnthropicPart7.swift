@@ -13,39 +13,153 @@ public class BetaMemoryStoresNamespace {
         memoryVersions = BetaMemoryStoresMemoryVersionsNamespace(config: config)
     }
 
-/// Creates a memory store, a named container for memories scoped to a Workspace. Supply a `name`; you can also add a description and metadata for your own bookkeeping. Attach the created store to a session through its resources to make it available to an agent.
-    public func create(name: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, description: String? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCreateMemoryStoreResponse {
-        return try await BetaMemoryStoresMethods.createBetaMemoryStores(config: config, name: name, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, description: description, metadata: metadata, requestOptions: requestOptions)
+    /// Creates a memory store, a named container for memories scoped to a Workspace. Supply a `name`; you can also add
+    /// a description and metadata for your own bookkeeping. Attach the created store to a session through its resources
+    /// to make it available to an agent.
+    public func create(
+        name: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        description: String? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCreateMemoryStoreResponse {
+        try await BetaMemoryStoresMethods.createBetaMemoryStores(
+            config: config,
+            name: name,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            description: description,
+            metadata: metadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists memory stores, ordered from newest to oldest. Use the creation-time filters to narrow the results, and set `include_archived` to include archived stores. Pass `next_page` from the response as `page` to retrieve subsequent results.
-    public func list(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, createdAtGte: BetaTimestamp? = nil, createdAtLte: BetaTimestamp? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListMemoryStoresResponse {
-        return try await BetaMemoryStoresMethods.listBetaMemoryStores(config: config, limit: limit, page: page, includeArchived: includeArchived, createdAtGte: createdAtGte, createdAtLte: createdAtLte, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists memory stores, ordered from newest to oldest. Use the creation-time filters to narrow the results, and set
+    /// `include_archived` to include archived stores. Pass `next_page` from the response as `page` to retrieve
+    /// subsequent results.
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        createdAtGte: BetaTimestamp? = nil,
+        createdAtLte: BetaTimestamp? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListMemoryStoresResponse {
+        try await BetaMemoryStoresMethods.listBetaMemoryStores(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            createdAtGte: createdAtGte,
+            createdAtLte: createdAtLte,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists memory stores, ordered from newest to oldest. Use the creation-time filters to narrow the results, and set `include_archived` to include archived stores. Pass `next_page` from the response as `page` to retrieve subsequent results.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, createdAtGte: BetaTimestamp? = nil, createdAtLte: BetaTimestamp? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsMemoryStore, Swift.Error> {
-        return BetaMemoryStoresMethods.listBetaMemoryStoresPaginated(config: config, limit: limit, page: page, includeArchived: includeArchived, createdAtGte: createdAtGte, createdAtLte: createdAtLte, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists memory stores, ordered from newest to oldest. Use the creation-time filters to narrow the results, and set
+    /// `include_archived` to include archived stores. Pass `next_page` from the response as `page` to retrieve
+    /// subsequent results.
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        createdAtGte: BetaTimestamp? = nil,
+        createdAtLte: BetaTimestamp? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsMemoryStore, Swift.Error> {
+        BetaMemoryStoresMethods.listBetaMemoryStoresPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            createdAtGte: createdAtGte,
+            createdAtLte: createdAtLte,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a memory store, including stores that have been archived. Use `memory_store_id` to identify the store and, when your credential can access multiple Workspaces, send `anthropic-workspace-id` to select the matching Workspace.
-    public func retrieve(memoryStoreId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsGetMemoryStoreResponse {
-        return try await BetaMemoryStoresMethods.retrieveBetaMemoryStores(config: config, memoryStoreId: memoryStoreId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a memory store, including stores that have been archived. Use `memory_store_id` to identify the store
+    /// and, when your credential can access multiple Workspaces, send `anthropic-workspace-id` to select the matching
+    /// Workspace.
+    public func retrieve(
+        memoryStoreId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsGetMemoryStoreResponse {
+        try await BetaMemoryStoresMethods.retrieveBetaMemoryStores(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates a memory store's name, description, or metadata. Include only the fields you want to change; use `null` for `name` or `description` to clear them, and use `null` metadata values to delete individual keys.
-    public func update(memoryStoreId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, name: SdkOptional<String>? = nil, description: SdkOptional<String>? = nil, metadata: SdkOptional<[String: String?]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsUpdateMemoryStoreResponse {
-        return try await BetaMemoryStoresMethods.updateBetaMemoryStores(config: config, memoryStoreId: memoryStoreId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, name: name, description: description, metadata: metadata, requestOptions: requestOptions)
+    /// Updates a memory store's name, description, or metadata. Include only the fields you want to change; use `null`
+    /// for `name` or `description` to clear them, and use `null` metadata values to delete individual keys.
+    public func update(
+        memoryStoreId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        name: SdkOptional<String>? = nil,
+        description: SdkOptional<String>? = nil,
+        metadata: SdkOptional<[String: String?]>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsUpdateMemoryStoreResponse {
+        try await BetaMemoryStoresMethods.updateBetaMemoryStores(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            name: name,
+            description: description,
+            metadata: metadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a memory store. Use `memory_store_id` to identify the store you want to remove, then use the confirmation response to verify which store was deleted.
-    public func delete(memoryStoreId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeleteMemoryStoreResponse {
-        return try await BetaMemoryStoresMethods.deleteBetaMemoryStores(config: config, memoryStoreId: memoryStoreId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a memory store. Use `memory_store_id` to identify the store you want to remove, then use the
+    /// confirmation response to verify which store was deleted.
+    public func delete(
+        memoryStoreId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeleteMemoryStoreResponse {
+        try await BetaMemoryStoresMethods.deleteBetaMemoryStores(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a memory store by setting its `archived_at` timestamp. Use `memory_store_id` to select the store; archiving is distinct from deleting it, and the archived store remains retrievable.
-    public func archive(memoryStoreId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsArchiveMemoryStoreResponse {
-        return try await BetaMemoryStoresMethods.archiveBetaMemoryStores(config: config, memoryStoreId: memoryStoreId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives a memory store by setting its `archived_at` timestamp. Use `memory_store_id` to select the store;
+    /// archiving is distinct from deleting it, and the archived store remains retrievable.
+    public func archive(
+        memoryStoreId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsArchiveMemoryStoreResponse {
+        try await BetaMemoryStoresMethods.archiveBetaMemoryStores(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -55,34 +169,126 @@ public class BetaUserProfilesNamespace {
         self.config = config
     }
 
-/// Creates a user profile representing an individual end user or a company the platform resells API access to. Set `access_type` to `application` or `passthrough` to identify how the platform uses the API; it defaults to `application`.
-    public func create(anthropicBeta: [AnthropicBeta]? = nil, externalId: SdkOptional<String>? = nil, name: SdkOptional<String>? = nil, accessType: BetaUserProfileAccessType? = nil, externalUserOnboardedAt: BetaTimestamp? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
-        return try await BetaUserProfilesMethods.createBetaUserProfiles(config: config, anthropicBeta: anthropicBeta, externalId: externalId, name: name, accessType: accessType, externalUserOnboardedAt: externalUserOnboardedAt, metadata: metadata, requestOptions: requestOptions)
+    /// Creates a user profile representing an individual end user or a company the platform resells API access to. Set
+    /// `access_type` to `application` or `passthrough` to identify how the platform uses the API; it defaults to
+    /// `application`.
+    public func create(
+        anthropicBeta: [AnthropicBeta]? = nil,
+        externalId: SdkOptional<String>? = nil,
+        name: SdkOptional<String>? = nil,
+        accessType: BetaUserProfileAccessType? = nil,
+        externalUserOnboardedAt: BetaTimestamp? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
+        try await BetaUserProfilesMethods.createBetaUserProfiles(
+            config: config,
+            anthropicBeta: anthropicBeta,
+            externalId: externalId,
+            name: name,
+            accessType: accessType,
+            externalUserOnboardedAt: externalUserOnboardedAt,
+            metadata: metadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists user profiles with cursor-based pagination. Use `order` and `order_by` to control result ordering, and pass the returned `next_page` value as `page` to retrieve the next page.
-    public func list(limit: Int? = nil, page: String? = nil, order: BetaUserProfileListOrder? = nil, orderBy: BetaUserProfileListOrderBy? = nil, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListUserProfilesResponse {
-        return try await BetaUserProfilesMethods.listBetaUserProfiles(config: config, limit: limit, page: page, order: order, orderBy: orderBy, anthropicBeta: anthropicBeta, requestOptions: requestOptions)
+    /// Lists user profiles with cursor-based pagination. Use `order` and `order_by` to control result ordering, and
+    /// pass the returned `next_page` value as `page` to retrieve the next page.
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        order: BetaUserProfileListOrder? = nil,
+        orderBy: BetaUserProfileListOrderBy? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListUserProfilesResponse {
+        try await BetaUserProfilesMethods.listBetaUserProfiles(
+            config: config,
+            limit: limit,
+            page: page,
+            order: order,
+            orderBy: orderBy,
+            anthropicBeta: anthropicBeta,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists user profiles with cursor-based pagination. Use `order` and `order_by` to control result ordering, and pass the returned `next_page` value as `page` to retrieve the next page.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, order: BetaUserProfileListOrder? = nil, orderBy: BetaUserProfileListOrderBy? = nil, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaUserProfile, Swift.Error> {
-        return BetaUserProfilesMethods.listBetaUserProfilesPaginated(config: config, limit: limit, page: page, order: order, orderBy: orderBy, anthropicBeta: anthropicBeta, requestOptions: requestOptions)
+    /// Lists user profiles with cursor-based pagination. Use `order` and `order_by` to control result ordering, and
+    /// pass the returned `next_page` value as `page` to retrieve the next page.
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        order: BetaUserProfileListOrder? = nil,
+        orderBy: BetaUserProfileListOrderBy? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaUserProfile, Swift.Error> {
+        BetaUserProfilesMethods.listBetaUserProfilesPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            order: order,
+            orderBy: orderBy,
+            anthropicBeta: anthropicBeta,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a user profile by its identifier. Use `user_profile_id` to select the profile and inspect its represented entity, metadata, trust grants, and timestamps.
-    public func retrieve(userProfileId: String, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
-        return try await BetaUserProfilesMethods.retrieveBetaUserProfiles(config: config, userProfileId: userProfileId, anthropicBeta: anthropicBeta, requestOptions: requestOptions)
+    /// Retrieves a user profile by its identifier. Use `user_profile_id` to select the profile and inspect its
+    /// represented entity, metadata, trust grants, and timestamps.
+    public func retrieve(
+        userProfileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
+        try await BetaUserProfilesMethods.retrieveBetaUserProfiles(
+            config: config,
+            userProfileId: userProfileId,
+            anthropicBeta: anthropicBeta,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates the supplied attributes of a user profile while leaving omitted attributes unchanged. Use `metadata` to merge key-value updates, and provide a complete RFC 3339 timestamp when setting `external_user_onboarded_at`; once set, that timestamp cannot be cleared.
-    public func update(userProfileId: String, anthropicBeta: [AnthropicBeta]? = nil, externalId: SdkOptional<String>? = nil, metadata: [String: String]? = nil, name: SdkOptional<String>? = nil, accessType: SdkOptional<BetaUserProfileAccessType>? = nil, externalUserOnboardedAt: BetaTimestamp? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
-        return try await BetaUserProfilesMethods.updateBetaUserProfiles(config: config, userProfileId: userProfileId, anthropicBeta: anthropicBeta, externalId: externalId, metadata: metadata, name: name, accessType: accessType, externalUserOnboardedAt: externalUserOnboardedAt, requestOptions: requestOptions)
+    /// Updates the supplied attributes of a user profile while leaving omitted attributes unchanged. Use `metadata` to
+    /// merge key-value updates, and provide a complete RFC 3339 timestamp when setting `external_user_onboarded_at`;
+    /// once set, that timestamp cannot be cleared.
+    public func update(
+        userProfileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        externalId: SdkOptional<String>? = nil,
+        metadata: [String: String]? = nil,
+        name: SdkOptional<String>? = nil,
+        accessType: SdkOptional<BetaUserProfileAccessType>? = nil,
+        externalUserOnboardedAt: BetaTimestamp? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
+        try await BetaUserProfilesMethods.updateBetaUserProfiles(
+            config: config,
+            userProfileId: userProfileId,
+            anthropicBeta: anthropicBeta,
+            externalId: externalId,
+            metadata: metadata,
+            name: name,
+            accessType: accessType,
+            externalUserOnboardedAt: externalUserOnboardedAt,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates an enrollment URL for a user profile so you can send it to the represented end user. Use `user_profile_id` to choose the profile, and provide the returned URL before its `expires_at` time.
-    public func createEnrollmentUrl(userProfileId: String, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnrollmentUrl {
-        return try await BetaUserProfilesMethods.createBetaUserProfilesEnrollmentUrl(config: config, userProfileId: userProfileId, anthropicBeta: anthropicBeta, requestOptions: requestOptions)
+    /// Creates an enrollment URL for a user profile so you can send it to the represented end user. Use
+    /// `user_profile_id` to choose the profile, and provide the returned URL before its `expires_at` time.
+    public func createEnrollmentUrl(
+        userProfileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnrollmentUrl {
+        try await BetaUserProfilesMethods.createBetaUserProfilesEnrollmentUrl(
+            config: config,
+            userProfileId: userProfileId,
+            anthropicBeta: anthropicBeta,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -92,39 +298,139 @@ public class BetaTunnelsCertificatesNamespace {
         self.config = config
     }
 
-/// Creates a tunnel certificate by registering a public CA certificate that Anthropic uses to verify the gateway's server certificate during the inner TLS session. Supply one PEM-encoded X.509 CA certificate without private-key material; each tunnel can have at most two non-archived certificates. Send the `anthropic-beta` header with the research-preview value to use this operation.
+    /// Creates a tunnel certificate by registering a public CA certificate that Anthropic uses to verify the gateway's
+    /// server certificate during the inner TLS session. Supply one PEM-encoded X.509 CA certificate without private-key
+    /// material; each tunnel can have at most two non-archived certificates. Send the `anthropic-beta` header with the
+    /// research-preview value to use this operation.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's server certificate against this CA when it terminates the inner TLS session. A tunnel holds at most two non-archived certificates.
-    public func create(tunnelId: String, caCertificatePem: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelCertificate {
-        return try await BetaTunnelsCertificatesMethods.createBetaTunnelsCertificates(config: config, tunnelId: tunnelId, caCertificatePem: caCertificatePem, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Registers a public CA certificate on a tunnel. Anthropic verifies
+    /// the gateway's server certificate against this CA when it terminates the inner TLS session. A tunnel holds at
+    /// most two non-archived certificates.
+    public func create(
+        tunnelId: String,
+        caCertificatePem: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnelCertificate {
+        try await BetaTunnelsCertificatesMethods.createBetaTunnelsCertificates(
+            config: config,
+            tunnelId: tunnelId,
+            caCertificatePem: caCertificatePem,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists certificates registered on a tunnel, ordered from newest to oldest by creation time. Use `limit` and `page` to paginate the results; archived certificates are excluded unless `include_archived` is true. Send the `anthropic-beta` header with the research-preview value to use the Tunnels API.
+    /// Lists certificates registered on a tunnel, ordered from newest to oldest by creation time. Use `limit` and
+    /// `page` to paginate the results; archived certificates are excluded unless `include_archived` is true. Send the
+    /// `anthropic-beta` header with the research-preview value to use the Tunnels API.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates are excluded unless include_archived is set.
-    public func list(tunnelId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListTunnelCertificatesResponse {
-        return try await BetaTunnelsCertificatesMethods.listBetaTunnelsCertificates(config: config, tunnelId: tunnelId, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates
+    /// are excluded unless include_archived is set.
+    public func list(
+        tunnelId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListTunnelCertificatesResponse {
+        try await BetaTunnelsCertificatesMethods.listBetaTunnelsCertificates(
+            config: config,
+            tunnelId: tunnelId,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists certificates registered on a tunnel, ordered from newest to oldest by creation time. Use `limit` and `page` to paginate the results; archived certificates are excluded unless `include_archived` is true. Send the `anthropic-beta` header with the research-preview value to use the Tunnels API.
+    /// Lists certificates registered on a tunnel, ordered from newest to oldest by creation time. Use `limit` and
+    /// `page` to paginate the results; archived certificates are excluded unless `include_archived` is true. Send the
+    /// `anthropic-beta` header with the research-preview value to use the Tunnels API.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates are excluded unless include_archived is set.
-    public func listPaginated(tunnelId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaTunnelCertificate, Swift.Error> {
-        return BetaTunnelsCertificatesMethods.listBetaTunnelsCertificatesPaginated(config: config, tunnelId: tunnelId, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Lists the certificates registered on a tunnel. Archived certificates
+    /// are excluded unless include_archived is set.
+    public func listPaginated(
+        tunnelId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaTunnelCertificate, Swift.Error> {
+        BetaTunnelsCertificatesMethods.listBetaTunnelsCertificatesPaginated(
+            config: config,
+            tunnelId: tunnelId,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a certificate registered on a tunnel. Use `tunnel_id` and `certificate_id` to identify the certificate and its tunnel, and send the `anthropic-beta` header with the research-preview value. The returned record includes the certificate fingerprint and its creation, expiration, and archive times.
+    /// Retrieves a certificate registered on a tunnel. Use `tunnel_id` and `certificate_id` to identify the certificate
+    /// and its tunnel, and send the `anthropic-beta` header with the research-preview value. The returned record
+    /// includes the certificate fingerprint and its creation, expiration, and archive times.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Fetches a tunnel certificate by ID.
-    public func retrieve(tunnelId: String, certificateId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelCertificate {
-        return try await BetaTunnelsCertificatesMethods.retrieveBetaTunnelsCertificates(config: config, tunnelId: tunnelId, certificateId: certificateId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Fetches a tunnel certificate by ID.
+    public func retrieve(
+        tunnelId: String,
+        certificateId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnelCertificate {
+        try await BetaTunnelsCertificatesMethods.retrieveBetaTunnelsCertificates(
+            config: config,
+            tunnelId: tunnelId,
+            certificateId: certificateId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a tunnel certificate, removing it from the set of certificates trusted for the tunnel while retaining its record. You can archive the last active certificate, but the tunnel will reject MCP traffic until you add another certificate. Send the `anthropic-beta` header with the research-preview value to use this operation.
+    /// Archives a tunnel certificate, removing it from the set of certificates trusted for the tunnel while retaining
+    /// its record. You can archive the last active certificate, but the tunnel will reject MCP traffic until you add
+    /// another certificate. Send the `anthropic-beta` header with the research-preview value to use this operation.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Archives a tunnel certificate, removing it from the set Anthropic trusts for the tunnel. The certificate record is retained. Archiving the last non-archived certificate is permitted; the tunnel rejects MCP traffic until a new certificate is added.
-    public func archive(tunnelId: String, certificateId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelCertificate {
-        return try await BetaTunnelsCertificatesMethods.archiveBetaTunnelsCertificates(config: config, tunnelId: tunnelId, certificateId: certificateId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Archives a tunnel certificate, removing it from the set Anthropic
+    /// trusts for the tunnel. The certificate record is retained. Archiving the last non-archived certificate is
+    /// permitted; the tunnel rejects MCP traffic until a new certificate is added.
+    public func archive(
+        tunnelId: String,
+        certificateId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnelCertificate {
+        try await BetaTunnelsCertificatesMethods.archiveBetaTunnelsCertificates(
+            config: config,
+            tunnelId: tunnelId,
+            certificateId: certificateId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -136,52 +442,180 @@ public class BetaTunnelsNamespace {
         certificates = BetaTunnelsCertificatesNamespace(config: config)
     }
 
-/// Creates a tunnel with a fresh hostname and provisions it for routing MCP server traffic. Supply the `anthropic-beta` header value `mcp-tunnels-2026-06-22`; tunnel creation is not idempotent, and you must add at least one CA certificate before the tunnel accepts MCP traffic.
+    /// Creates a tunnel with a fresh hostname and provisions it for routing MCP server traffic. Supply the
+    /// `anthropic-beta` header value `mcp-tunnels-2026-06-22`; tunnel creation is not idempotent, and you must add at
+    /// least one CA certificate before the tunnel accepts MCP traffic.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel; it is not idempotent. The new tunnel rejects MCP traffic until at least one CA certificate is added.
-    public func create(anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnel {
-        return try await BetaTunnelsMethods.createBetaTunnels(config: config, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, displayName: displayName, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Creates a tunnel. Creation allocates a fresh hostname and provisions
+    /// the tunnel; it is not idempotent. The new tunnel rejects MCP traffic until at least one CA certificate is added.
+    public func create(
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnel {
+        try await BetaTunnelsMethods.createBetaTunnels(
+            config: config,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            displayName: displayName,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists tunnels in the selected Workspace, ordered from newest to oldest by creation time. Send the `anthropic-beta` header with the research-preview value and use `limit` and `page` to paginate; archived tunnels are excluded unless `include_archived` is true. The Tunnels API is in research preview and may change without a deprecation period.
+    /// Lists tunnels in the selected Workspace, ordered from newest to oldest by creation time. Send the
+    /// `anthropic-beta` header with the research-preview value and use `limit` and `page` to paginate; archived tunnels
+    /// are excluded unless `include_archived` is true. The Tunnels API is in research preview and may change without a
+    /// deprecation period.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Lists tunnels. Results are ordered by creation time, newest first; archived tunnels are excluded unless include_archived is set.
-    public func list(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListTunnelsResponse {
-        return try await BetaTunnelsMethods.listBetaTunnels(config: config, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Lists tunnels. Results are ordered by creation time, newest first;
+    /// archived tunnels are excluded unless include_archived is set.
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListTunnelsResponse {
+        try await BetaTunnelsMethods.listBetaTunnels(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists tunnels in the selected Workspace, ordered from newest to oldest by creation time. Send the `anthropic-beta` header with the research-preview value and use `limit` and `page` to paginate; archived tunnels are excluded unless `include_archived` is true. The Tunnels API is in research preview and may change without a deprecation period.
+    /// Lists tunnels in the selected Workspace, ordered from newest to oldest by creation time. Send the
+    /// `anthropic-beta` header with the research-preview value and use `limit` and `page` to paginate; archived tunnels
+    /// are excluded unless `include_archived` is true. The Tunnels API is in research preview and may change without a
+    /// deprecation period.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Lists tunnels. Results are ordered by creation time, newest first; archived tunnels are excluded unless include_archived is set.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaTunnel, Swift.Error> {
-        return BetaTunnelsMethods.listBetaTunnelsPaginated(config: config, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Lists tunnels. Results are ordered by creation time, newest first;
+    /// archived tunnels are excluded unless include_archived is set.
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaTunnel, Swift.Error> {
+        BetaTunnelsMethods.listBetaTunnelsPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a tunnel by its ID. Use `tunnel_id` to identify the tunnel and send the `anthropic-beta` header with the research-preview value. The Tunnels API is in research preview and may change without a deprecation period.
+    /// Retrieves a tunnel by its ID. Use `tunnel_id` to identify the tunnel and send the `anthropic-beta` header with
+    /// the research-preview value. The Tunnels API is in research preview and may change without a deprecation period.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Fetches a tunnel by ID.
-    public func retrieve(tunnelId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnel {
-        return try await BetaTunnelsMethods.retrieveBetaTunnels(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Fetches a tunnel by ID.
+    public func retrieve(
+        tunnelId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnel {
+        try await BetaTunnelsMethods.retrieveBetaTunnels(
+            config: config,
+            tunnelId: tunnelId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a tunnel and returns its updated record. Archiving is irreversible: it also archives every non-archived certificate, retires the hostname permanently, and invalidates the tunnel token; repeating the request for an archived tunnel leaves its record unchanged. Send the `anthropic-beta` header with the research-preview value to use this operation.
+    /// Archives a tunnel and returns its updated record. Archiving is irreversible: it also archives every non-archived
+    /// certificate, retires the hostname permanently, and invalidates the tunnel token; repeating the request for an
+    /// archived tunnel leaves its record unchanged. Send the `anthropic-beta` header with the research-preview value to
+    /// use this operation.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Archives a tunnel. Archival is irreversible: every non-archived certificate on the tunnel is archived in the same operation, the hostname is retired and never re-allocated, and the tunnel token is invalidated. Retrying against an already-archived tunnel returns the existing record unchanged.
-    public func archive(tunnelId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnel {
-        return try await BetaTunnelsMethods.archiveBetaTunnels(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Archives a tunnel. Archival is irreversible: every non-archived
+    /// certificate on the tunnel is archived in the same operation, the hostname is retired and never re-allocated, and
+    /// the tunnel token is invalidated. Retrying against an already-archived tunnel returns the existing record
+    /// unchanged.
+    public func archive(
+        tunnelId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnel {
+        try await BetaTunnelsMethods.archiveBetaTunnels(
+            config: config,
+            tunnelId: tunnelId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Reveals the connector token for a tunnel and returns its stable identifier and token value. Use this operation when a connector needs the token; repeated calls return the same value until you rotate it, so treat the returned token as a credential. Send the `anthropic-beta` header with the research-preview value to use the Tunnels API.
+    /// Reveals the connector token for a tunnel and returns its stable identifier and token value. Use this operation
+    /// when a connector needs the token; repeated calls return the same value until you rotate it, so treat the
+    /// returned token as a credential. Send the `anthropic-beta` header with the research-preview value to use the
+    /// Tunnels API.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Reveals a tunnel's connector token. The value is fetched live on each call; Anthropic does not store it. Repeated calls return the same value until the token is rotated. Exposed as POST so the token does not appear in intermediary access logs.
-    public func revealToken(tunnelId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelToken {
-        return try await BetaTunnelsMethods.revealBetaTunnelsToken(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Reveals a tunnel's connector token. The value is fetched live on
+    /// each call; Anthropic does not store it. Repeated calls return the same value until the token is rotated. Exposed
+    /// as POST so the token does not appear in intermediary access logs.
+    public func revealToken(
+        tunnelId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnelToken {
+        try await BetaTunnelsMethods.revealBetaTunnelsToken(
+            config: config,
+            tunnelId: tunnelId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Rotates a tunnel's connector token and returns the new token value. Rotation invalidates the previous token for new connections but does not sever established connections; restart connectors with the new value. Send an optional `reason` for the audit record and include the required research-preview beta header.
+    /// Rotates a tunnel's connector token and returns the new token value. Rotation invalidates the previous token for
+    /// new connections but does not sever established connections; restart connectors with the new value. Send an
+    /// optional `reason` for the audit record and include the required research-preview beta header.
     ///
-    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which remain available during a migration window. Rotates a tunnel's connector token. Rotation invalidates the current token for new connections and returns a fresh value; established connections are not severed. A connector restarted after rotation must use the new value.
-    public func rotateToken(tunnelId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, reason: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaTunnelToken {
-        return try await BetaTunnelsMethods.rotateBetaTunnelsToken(config: config, tunnelId: tunnelId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, reason: reason, requestOptions: requestOptions)
+    /// The Tunnels API is in research preview. It requires the `anthropic-beta: mcp-tunnels-2026-06-22` header and may
+    /// change without a deprecation period. It supersedes the Admin API endpoints at `/v1/organizations/tunnels`, which
+    /// remain available during a migration window. Rotates a tunnel's connector token. Rotation invalidates the current
+    /// token for new connections and returns a fresh value; established connections are not severed. A connector
+    /// restarted after rotation must use the new value.
+    public func rotateToken(
+        tunnelId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        reason: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaTunnelToken {
+        try await BetaTunnelsMethods.rotateBetaTunnelsToken(
+            config: config,
+            tunnelId: tunnelId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            reason: reason,
+            requestOptions: requestOptions
+        )
     }
 }

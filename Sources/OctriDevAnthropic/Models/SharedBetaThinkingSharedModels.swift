@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaThinking domain models
+/// SharedBetaThinking domain models
 public indirect enum BetaThinkingConfigParam {
     case betaThinkingConfigEnabled(BetaThinkingConfigEnabled)
     case betaThinkingConfigDisabled(BetaThinkingConfigDisabled)
@@ -13,7 +13,6 @@ public indirect enum BetaThinkingConfigParam {
 }
 
 extension BetaThinkingConfigParam: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension BetaThinkingConfigParam: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension BetaThinkingConfigParam: Codable {
 extension BetaThinkingConfigParam {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "enabled": return .betaThinkingConfigEnabled(try BetaThinkingConfigEnabled(from: decoder))
-        case "disabled": return .betaThinkingConfigDisabled(try BetaThinkingConfigDisabled(from: decoder))
-        case "adaptive": return .betaThinkingConfigAdaptive(try BetaThinkingConfigAdaptive(from: decoder))
-        default: return nil
+        case "enabled": try .betaThinkingConfigEnabled(BetaThinkingConfigEnabled(from: decoder))
+        case "disabled": try .betaThinkingConfigDisabled(BetaThinkingConfigDisabled(from: decoder))
+        case "adaptive": try .betaThinkingConfigAdaptive(BetaThinkingConfigAdaptive(from: decoder))
+        default: nil
         }
     }
 }
@@ -75,27 +78,37 @@ public struct BetaThinkingConfigAdaptive: Codable {
         case display
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingConfigAdaptive {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.blockBinding = try container.sdkDecodeIfPresent(.blockBinding)
-        self.display = try container.sdkDecodeIfPresent(.display)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingConfigAdaptiveType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingConfigAdaptive {
-    public init(type: BetaThinkingConfigAdaptiveType, blockBinding: BetaThinkingBlockBinding? = nil, display: BetaThinkingDisplayMode? = nil) throws {
+public extension BetaThinkingConfigAdaptive {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        blockBinding = try container.sdkDecodeIfPresent(.blockBinding)
+        display = try container.sdkDecodeIfPresent(.display)
+        try sdkValidateRawEnum("type", type, BetaThinkingConfigAdaptiveType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaThinkingConfigAdaptive {
+    init(
+        type: BetaThinkingConfigAdaptiveType,
+        blockBinding: BetaThinkingBlockBinding? = nil,
+        display: BetaThinkingDisplayMode? = nil
+    ) throws {
         (self.type, self.blockBinding) = (type, blockBinding)
         self.display = display
-            try sdkValidateRawEnum("type", self.type, BetaThinkingConfigAdaptiveType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaThinkingConfigAdaptiveType.allCases.map(\.rawValue))
     }
 }
 
@@ -113,19 +126,19 @@ public struct BetaThinkingBlockBinding: Codable {
     }
 
     init() {
-        self.prefixMismatchBehavior = nil
+        prefixMismatchBehavior = nil
     }
 }
 
-extension BetaThinkingBlockBinding {
-    public init(from decoder: Decoder) throws {
+public extension BetaThinkingBlockBinding {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.prefixMismatchBehavior = try container.sdkDecodeIfPresent(.prefixMismatchBehavior)
+        prefixMismatchBehavior = try container.sdkDecodeIfPresent(.prefixMismatchBehavior)
     }
 }
 
-extension BetaThinkingBlockBinding {
-    public init(prefixMismatchBehavior: BetaThinkingPrefixMismatchBehavior? = nil) {
+public extension BetaThinkingBlockBinding {
+    init(prefixMismatchBehavior: BetaThinkingPrefixMismatchBehavior? = nil) {
         self.init()
         self.prefixMismatchBehavior = prefixMismatchBehavior
     }
@@ -154,33 +167,64 @@ public struct BetaThinkingConfigEnabled: Codable {
         case display
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingConfigEnabled {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.budgetTokens) else {
-            throw SdkValidationError(field: "budget_tokens", code: "required", message: "Validation failed for 'budget_tokens': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.budgetTokens = try container.sdkDecodeRequired(.budgetTokens)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.blockBinding = try container.sdkDecodeIfPresent(.blockBinding)
-        self.display = try container.sdkDecodeIfPresent(.display)
-            try validateRange("budget_tokens", Double(self.budgetTokens), min: 1024, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingConfigEnabledType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingConfigEnabled {
-    public init(budgetTokens: Int, type: BetaThinkingConfigEnabledType, blockBinding: BetaThinkingBlockBinding? = nil, display: BetaThinkingDisplayMode? = nil) throws {
+public extension BetaThinkingConfigEnabled {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.budgetTokens) else {
+            throw SdkValidationError(
+                field: "budget_tokens",
+                code: "required",
+                message: "Validation failed for 'budget_tokens': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        budgetTokens = try container.sdkDecodeRequired(.budgetTokens)
+        type = try container.sdkDecodeRequired(.type)
+        blockBinding = try container.sdkDecodeIfPresent(.blockBinding)
+        display = try container.sdkDecodeIfPresent(.display)
+        try validateRange(
+            "budget_tokens",
+            Double(budgetTokens),
+            min: 1024,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", type, BetaThinkingConfigEnabledType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaThinkingConfigEnabled {
+    init(
+        budgetTokens: Int,
+        type: BetaThinkingConfigEnabledType,
+        blockBinding: BetaThinkingBlockBinding? = nil,
+        display: BetaThinkingDisplayMode? = nil
+    ) throws {
         (self.budgetTokens, self.type) = (budgetTokens, type)
         (self.blockBinding, self.display) = (blockBinding, display)
-            try validateRange("budget_tokens", Double(self.budgetTokens), min: 1024, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingConfigEnabledType.allCases.map(\.rawValue))
+        try validateRange(
+            "budget_tokens",
+            Double(self.budgetTokens),
+            min: 1024,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try sdkValidateRawEnum("type", self.type, BetaThinkingConfigEnabledType.allCases.map(\.rawValue))
     }
 }
 
@@ -196,25 +240,35 @@ public struct BetaThinkingTypes: Codable {
         case enabled
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingTypes {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.adaptive) else {
-            throw SdkValidationError(field: "adaptive", code: "required", message: "Validation failed for 'adaptive': value is required")
-        }
-        guard container.contains(.enabled) else {
-            throw SdkValidationError(field: "enabled", code: "required", message: "Validation failed for 'enabled': value is required")
-        }
-        self.adaptive = try container.sdkDecodeRequired(.adaptive)
-        self.enabled = try container.sdkDecodeRequired(.enabled)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingTypes {
-    public init(adaptive: BetaCapabilitySupport, enabled: BetaCapabilitySupport) {
+public extension BetaThinkingTypes {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.adaptive) else {
+            throw SdkValidationError(
+                field: "adaptive",
+                code: "required",
+                message: "Validation failed for 'adaptive': value is required"
+            )
+        }
+        guard container.contains(.enabled) else {
+            throw SdkValidationError(
+                field: "enabled",
+                code: "required",
+                message: "Validation failed for 'enabled': value is required"
+            )
+        }
+        adaptive = try container.sdkDecodeRequired(.adaptive)
+        enabled = try container.sdkDecodeRequired(.enabled)
+    }
+}
+
+public extension BetaThinkingTypes {
+    init(adaptive: BetaCapabilitySupport, enabled: BetaCapabilitySupport) {
         (self.adaptive, self.enabled) = (adaptive, enabled)
     }
 }
@@ -231,25 +285,35 @@ public struct BetaThinkingCapability: Codable {
         case types
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingCapability {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.supported) else {
-            throw SdkValidationError(field: "supported", code: "required", message: "Validation failed for 'supported': value is required")
-        }
-        guard container.contains(.types) else {
-            throw SdkValidationError(field: "types", code: "required", message: "Validation failed for 'types': value is required")
-        }
-        self.supported = try container.sdkDecodeRequired(.supported)
-        self.types = try container.sdkDecodeRequired(.types)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingCapability {
-    public init(supported: Bool, types: BetaThinkingTypes) {
+public extension BetaThinkingCapability {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.supported) else {
+            throw SdkValidationError(
+                field: "supported",
+                code: "required",
+                message: "Validation failed for 'supported': value is required"
+            )
+        }
+        guard container.contains(.types) else {
+            throw SdkValidationError(
+                field: "types",
+                code: "required",
+                message: "Validation failed for 'types': value is required"
+            )
+        }
+        supported = try container.sdkDecodeRequired(.supported)
+        types = try container.sdkDecodeRequired(.types)
+    }
+}
+
+public extension BetaThinkingCapability {
+    init(supported: Bool, types: BetaThinkingTypes) {
         (self.supported, self.types) = (supported, types)
     }
 }
@@ -266,30 +330,56 @@ public struct BetaThinkingTurns: Codable {
         case value
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingTurns {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.value = try container.sdkDecodeRequired(.value)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingTurnsType.allCases.map(\.rawValue))
-            try validateRange("value", Double(self.value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingTurns {
-    public init(type: BetaThinkingTurnsType, value: Int) throws {
+public extension BetaThinkingTurns {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        value = try container.sdkDecodeRequired(.value)
+        try sdkValidateRawEnum("type", type, BetaThinkingTurnsType.allCases.map(\.rawValue))
+        try validateRange(
+            "value",
+            Double(value),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension BetaThinkingTurns {
+    init(type: BetaThinkingTurnsType, value: Int) throws {
         (self.type, self.value) = (type, value)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingTurnsType.allCases.map(\.rawValue))
-            try validateRange("value", Double(self.value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try sdkValidateRawEnum("type", self.type, BetaThinkingTurnsType.allCases.map(\.rawValue))
+        try validateRange(
+            "value",
+            Double(self.value),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -313,33 +403,51 @@ public struct BetaThinkingDroppedInputTransformation: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingDroppedInputTransformation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.path) else {
-            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
-        }
-        guard container.contains(.reason) else {
-            throw SdkValidationError(field: "reason", code: "required", message: "Validation failed for 'reason': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.path = try container.sdkDecodeRequired(.path)
-        self.reason = try container.sdkDecodeRequired(.reason)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingDroppedInputTransformationType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingDroppedInputTransformation {
-    public init(path: String, reason: BetaThinkingDroppedInputTransformationReason, type: BetaThinkingDroppedInputTransformationType) throws {
+public extension BetaThinkingDroppedInputTransformation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.path) else {
+            throw SdkValidationError(
+                field: "path",
+                code: "required",
+                message: "Validation failed for 'path': value is required"
+            )
+        }
+        guard container.contains(.reason) else {
+            throw SdkValidationError(
+                field: "reason",
+                code: "required",
+                message: "Validation failed for 'reason': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        path = try container.sdkDecodeRequired(.path)
+        reason = try container.sdkDecodeRequired(.reason)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaThinkingDroppedInputTransformationType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaThinkingDroppedInputTransformation {
+    init(
+        path: String,
+        reason: BetaThinkingDroppedInputTransformationReason,
+        type: BetaThinkingDroppedInputTransformationType
+    ) throws {
         (self.path, self.reason) = (path, reason)
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaThinkingDroppedInputTransformationType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaThinkingDroppedInputTransformationType.allCases.map(\.rawValue))
     }
 }
 
@@ -352,24 +460,30 @@ public struct BetaThinkingConfigDisabled: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaThinkingConfigDisabled {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, BetaThinkingConfigDisabledType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaThinkingConfigDisabled {
-    public init(type: BetaThinkingConfigDisabledType) throws {
+public extension BetaThinkingConfigDisabled {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, BetaThinkingConfigDisabledType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaThinkingConfigDisabled {
+    init(type: BetaThinkingConfigDisabledType) throws {
         self.type = type
-            try sdkValidateRawEnum("type", self.type, BetaThinkingConfigDisabledType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaThinkingConfigDisabledType.allCases.map(\.rawValue))
     }
 }
 
@@ -414,18 +528,26 @@ public enum BetaThinkingConfigAdaptiveType: String, CaseIterable, Codable {
 /// conversation it was created in (the rest of that turn's consecutive thinking blocks are removed with it,
 /// each with this reason); `organization_binding_mismatch` — it was created under a different organization (an
 /// Anthropic organization, AWS account or Google Cloud…
-public struct BetaThinkingDroppedInputTransformationReason: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaThinkingDroppedInputTransformationReason: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let modelBindingMismatch = BetaThinkingDroppedInputTransformationReason(rawValue: "model_binding_mismatch")
-    public static let prefixBindingMismatch = BetaThinkingDroppedInputTransformationReason(rawValue: "prefix_binding_mismatch")
-    public static let organizationBindingMismatch = BetaThinkingDroppedInputTransformationReason(rawValue: "organization_binding_mismatch")
-    public static let endUserBindingMismatch = BetaThinkingDroppedInputTransformationReason(rawValue: "end_user_binding_mismatch")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let modelBindingMismatch =
+        BetaThinkingDroppedInputTransformationReason(rawValue: "model_binding_mismatch")
+    public static let prefixBindingMismatch =
+        BetaThinkingDroppedInputTransformationReason(rawValue: "prefix_binding_mismatch")
+    public static let organizationBindingMismatch =
+        BetaThinkingDroppedInputTransformationReason(rawValue: "organization_binding_mismatch")
+    public static let endUserBindingMismatch =
+        BetaThinkingDroppedInputTransformationReason(rawValue: "end_user_binding_mismatch")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -477,13 +599,16 @@ public enum BetaThinkingDroppedInputTransformationType: String, CaseIterable, Co
 public struct BetaThinkingPrefixMismatchBehavior: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let error = BetaThinkingPrefixMismatchBehavior(rawValue: "error")
     public static let dropBlock = BetaThinkingPrefixMismatchBehavior(rawValue: "drop_block")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

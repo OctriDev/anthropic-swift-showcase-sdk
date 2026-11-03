@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension FilesMethods {
-    /// Retrieves the file bytes for a specific file. Supply `file_id` for the file whose content you want to download. The response contains the file content as an octet stream.
+public extension FilesMethods {
+    /// Retrieves the file bytes for a specific file. Supply `file_id` for the file whose content you want to download.
+    /// The response contains the file content as an octet stream.
     ///
     /// - Parameters:
     /// - fileId: ID of the File.
@@ -16,9 +17,22 @@ extension FilesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func downloadFiles(config: ClientConfig, fileId: String, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Data {
-        return try (await sdkRequest("GET", ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId)), "/content"].joined(), config: config, decoder: .bytes, operationId: "downloadFiles", extraHeaders: sdkHeaders([
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions)).data
+    static func downloadFiles(
+        config: ClientConfig,
+        fileId: String,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Data {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId)), "/content"].joined(),
+            config: config,
+            decoder: .bytes,
+            operationId: "downloadFiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions
+        )).data
     }
 }

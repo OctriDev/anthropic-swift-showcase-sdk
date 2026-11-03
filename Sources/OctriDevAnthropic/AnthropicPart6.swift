@@ -9,19 +9,50 @@ public class BetaDeploymentRunsNamespace {
         self.config = config
     }
 
-/// Lists deployment runs in the selected Workspace, sorted with the most recent runs first. Filter by deployment, trigger type, error state, or creation time, and use `page` to continue through the results. The response includes a `next_page` cursor when another page is available.
-    public func list(options: BetaDeploymentRunsMethods.ListBetaDeploymentRunsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListDeploymentRunsData {
-        return try await BetaDeploymentRunsMethods.listBetaDeploymentRuns(config: config, options: options, requestOptions: requestOptions)
+    /// Lists deployment runs in the selected Workspace, sorted with the most recent runs first. Filter by deployment,
+    /// trigger type, error state, or creation time, and use `page` to continue through the results. The response
+    /// includes a `next_page` cursor when another page is available.
+    public func list(
+        options: BetaDeploymentRunsMethods.ListBetaDeploymentRunsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListDeploymentRunsData {
+        try await BetaDeploymentRunsMethods.listBetaDeploymentRuns(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists deployment runs in the selected Workspace, sorted with the most recent runs first. Filter by deployment, trigger type, error state, or creation time, and use `page` to continue through the results. The response includes a `next_page` cursor when another page is available.
-    public func listPaginated(options: BetaDeploymentRunsMethods.ListBetaDeploymentRunsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error> {
-        return BetaDeploymentRunsMethods.listBetaDeploymentRunsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists deployment runs in the selected Workspace, sorted with the most recent runs first. Filter by deployment,
+    /// trigger type, error state, or creation time, and use `page` to continue through the results. The response
+    /// includes a `next_page` cursor when another page is available.
+    public func listPaginated(
+        options: BetaDeploymentRunsMethods.ListBetaDeploymentRunsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsDeploymentRun, Swift.Error> {
+        BetaDeploymentRunsMethods.listBetaDeploymentRunsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the record for a specific deployment run. Use `deployment_run_id` to identify the run and inspect its trigger context, agent snapshot, and session-creation outcome. The run record is append-only and does not track the session lifecycle.
-    public func retrieve(deploymentRunId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeploymentRun {
-        return try await BetaDeploymentRunsMethods.retrieveBetaDeploymentRuns(config: config, deploymentRunId: deploymentRunId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves the record for a specific deployment run. Use `deployment_run_id` to identify the run and inspect its
+    /// trigger context, agent snapshot, and session-creation outcome. The run record is append-only and does not track
+    /// the session lifecycle.
+    public func retrieve(
+        deploymentRunId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeploymentRun {
+        try await BetaDeploymentRunsMethods.retrieveBetaDeploymentRuns(
+            config: config,
+            deploymentRunId: deploymentRunId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -31,44 +62,177 @@ public class BetaVaultsCredentialsNamespace {
         self.config = config
     }
 
-/// Creates a credential in a vault for use by agents during sessions. Provide the required `auth` configuration and optionally set a display name or metadata. The response includes the created credential record, but sensitive fields are not returned.
-    public func create(vaultId: String, auth: BetaManagedAgentsCredentialCreateAuth, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredential {
-        return try await BetaVaultsCredentialsMethods.createBetaVaultsCredentials(config: config, vaultId: vaultId, auth: auth, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, displayName: displayName, metadata: metadata, requestOptions: requestOptions)
+    /// Creates a credential in a vault for use by agents during sessions. Provide the required `auth` configuration and
+    /// optionally set a display name or metadata. The response includes the created credential record, but sensitive
+    /// fields are not returned.
+    public func create(
+        vaultId: String,
+        auth: BetaManagedAgentsCredentialCreateAuth,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredential {
+        try await BetaVaultsCredentialsMethods.createBetaVaultsCredentials(
+            config: config,
+            vaultId: vaultId,
+            auth: auth,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            displayName: displayName,
+            metadata: metadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit` to set the page size and pass the returned `next_page` value as `page` to retrieve another page.
-    public func list(vaultId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListCredentialsResponse {
-        return try await BetaVaultsCredentialsMethods.listBetaVaultsCredentials(config: config, vaultId: vaultId, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit`
+    /// to set the page size and pass the returned `next_page` value as `page` to retrieve another page.
+    public func list(
+        vaultId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListCredentialsResponse {
+        try await BetaVaultsCredentialsMethods.listBetaVaultsCredentials(
+            config: config,
+            vaultId: vaultId,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit` to set the page size and pass the returned `next_page` value as `page` to retrieve another page.
-    public func listPaginated(vaultId: String, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error> {
-        return BetaVaultsCredentialsMethods.listBetaVaultsCredentialsPaginated(config: config, vaultId: vaultId, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists credentials stored in a vault, with pagination and an option to include archived credentials. Use `limit`
+    /// to set the page size and pass the returned `next_page` value as `page` to retrieve another page.
+    public func listPaginated(
+        vaultId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsCredential, Swift.Error> {
+        BetaVaultsCredentialsMethods.listBetaVaultsCredentialsPaginated(
+            config: config,
+            vaultId: vaultId,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a credential stored in a vault. Use both identifiers to select the credential within its vault; the response includes its metadata and authentication configuration but not sensitive fields.
-    public func retrieve(vaultId: String, credentialId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredential {
-        return try await BetaVaultsCredentialsMethods.retrieveBetaVaultsCredentials(config: config, vaultId: vaultId, credentialId: credentialId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a credential stored in a vault. Use both identifiers to select the credential within its vault; the
+    /// response includes its metadata and authentication configuration but not sensitive fields.
+    public func retrieve(
+        vaultId: String,
+        credentialId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredential {
+        try await BetaVaultsCredentialsMethods.retrieveBetaVaultsCredentials(
+            config: config,
+            vaultId: vaultId,
+            credentialId: credentialId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates a credential's display name, metadata, or authentication configuration. Supply only the fields you want to change; when updating `auth`, its type must remain the same as the stored credential's type. The response returns the updated credential without sensitive fields.
-    public func update(vaultId: String, credentialId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, metadata: SdkOptional<[String: String?]>? = nil, auth: BetaManagedAgentsCredentialUpdateAuth? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredential {
-        return try await BetaVaultsCredentialsMethods.updateBetaVaultsCredentials(config: config, vaultId: vaultId, credentialId: credentialId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, displayName: displayName, metadata: metadata, auth: auth, requestOptions: requestOptions)
+    /// Updates a credential's display name, metadata, or authentication configuration. Supply only the fields you want
+    /// to change; when updating `auth`, its type must remain the same as the stored credential's type. The response
+    /// returns the updated credential without sensitive fields.
+    public func update(
+        vaultId: String,
+        credentialId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        metadata: SdkOptional<[String: String?]>? = nil,
+        auth: BetaManagedAgentsCredentialUpdateAuth? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredential {
+        try await BetaVaultsCredentialsMethods.updateBetaVaultsCredentials(
+            config: config,
+            vaultId: vaultId,
+            credentialId: credentialId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            displayName: displayName,
+            metadata: metadata,
+            auth: auth,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a credential from a vault. Use the vault and credential identifiers to select the credential to remove; a successful response confirms the deletion and includes the credential's identifier.
-    public func delete(vaultId: String, credentialId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeletedCredential {
-        return try await BetaVaultsCredentialsMethods.deleteBetaVaultsCredentials(config: config, vaultId: vaultId, credentialId: credentialId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a credential from a vault. Use the vault and credential identifiers to select the credential to remove;
+    /// a successful response confirms the deletion and includes the credential's identifier.
+    public func delete(
+        vaultId: String,
+        credentialId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeletedCredential {
+        try await BetaVaultsCredentialsMethods.deleteBetaVaultsCredentials(
+            config: config,
+            vaultId: vaultId,
+            credentialId: credentialId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a credential stored in a vault. Use the vault and credential identifiers to select the credential; the response returns the credential record with its archive state.
-    public func archive(vaultId: String, credentialId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredential {
-        return try await BetaVaultsCredentialsMethods.archiveBetaVaultsCredentials(config: config, vaultId: vaultId, credentialId: credentialId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives a credential stored in a vault. Use the vault and credential identifiers to select the credential; the
+    /// response returns the credential record with its archive state.
+    public func archive(
+        vaultId: String,
+        credentialId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredential {
+        try await BetaVaultsCredentialsMethods.archiveBetaVaultsCredentials(
+            config: config,
+            vaultId: vaultId,
+            credentialId: credentialId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Verifies a credential by probing its configured MCP server and reports the validation result. Use the vault and credential identifiers to select the credential; inspect the response's status and probe details to understand the outcome.
-    public func validateMcpOauth(vaultId: String, credentialId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCredentialValidation {
-        return try await BetaVaultsCredentialsMethods.validateBetaVaultsCredentialsMcpOauth(config: config, vaultId: vaultId, credentialId: credentialId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Verifies a credential by probing its configured MCP server and reports the validation result. Use the vault and
+    /// credential identifiers to select the credential; inspect the response's status and probe details to understand
+    /// the outcome.
+    public func validateMcpOauth(
+        vaultId: String,
+        credentialId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCredentialValidation {
+        try await BetaVaultsCredentialsMethods.validateBetaVaultsCredentialsMcpOauth(
+            config: config,
+            vaultId: vaultId,
+            credentialId: credentialId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -80,39 +244,141 @@ public class BetaVaultsNamespace {
         credentials = BetaVaultsCredentialsNamespace(config: config)
     }
 
-/// Creates a vault for storing credentials that agents can use during sessions. Supply a `display_name` and optionally attach metadata to describe the vault. The response contains the created vault and its generated identifier.
-    public func create(displayName: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsVault {
-        return try await BetaVaultsMethods.createBetaVaults(config: config, displayName: displayName, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, metadata: metadata, requestOptions: requestOptions)
+    /// Creates a vault for storing credentials that agents can use during sessions. Supply a `display_name` and
+    /// optionally attach metadata to describe the vault. The response contains the created vault and its generated
+    /// identifier.
+    public func create(
+        displayName: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsVault {
+        try await BetaVaultsMethods.createBetaVaults(
+            config: config,
+            displayName: displayName,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            metadata: metadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault records and a next-page token when more results are available.
-    public func list(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListVaultsResponse {
-        return try await BetaVaultsMethods.listBetaVaults(config: config, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include
+    /// archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault
+    /// records and a next-page token when more results are available.
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListVaultsResponse {
+        try await BetaVaultsMethods.listBetaVaults(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault records and a next-page token when more results are available.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error> {
-        return BetaVaultsMethods.listBetaVaultsPaginated(config: config, limit: limit, page: page, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists vaults in the selected Workspace, with pagination for large result sets. Use `include_archived` to include
+    /// archived vaults and pass the returned `next_page` token to retrieve another page. The response includes vault
+    /// records and a next-page token when more results are available.
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsVault, Swift.Error> {
+        BetaVaultsMethods.listBetaVaultsPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a vault by its identifier. Use `vault_id` to select the vault whose display name, metadata, and archive state you need. The response contains the vault record and its timestamps.
-    public func retrieve(vaultId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsVault {
-        return try await BetaVaultsMethods.retrieveBetaVaults(config: config, vaultId: vaultId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a vault by its identifier. Use `vault_id` to select the vault whose display name, metadata, and
+    /// archive state you need. The response contains the vault record and its timestamps.
+    public func retrieve(
+        vaultId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsVault {
+        try await BetaVaultsMethods.retrieveBetaVaults(
+            config: config,
+            vaultId: vaultId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates a vault's display name or metadata. Supply `display_name` to change the name, or use `metadata` to add, replace, or delete individual metadata keys; omitted keys are preserved. A 200 response returns the updated vault.
-    public func update(vaultId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, displayName: SdkOptional<String>? = nil, metadata: SdkOptional<[String: String?]>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsVault {
-        return try await BetaVaultsMethods.updateBetaVaults(config: config, vaultId: vaultId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, displayName: displayName, metadata: metadata, requestOptions: requestOptions)
+    /// Updates a vault's display name or metadata. Supply `display_name` to change the name, or use `metadata` to add,
+    /// replace, or delete individual metadata keys; omitted keys are preserved. A 200 response returns the updated
+    /// vault.
+    public func update(
+        vaultId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        displayName: SdkOptional<String>? = nil,
+        metadata: SdkOptional<[String: String?]>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsVault {
+        try await BetaVaultsMethods.updateBetaVaults(
+            config: config,
+            vaultId: vaultId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            displayName: displayName,
+            metadata: metadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a vault. Use the vault identifier to select the vault to remove; a successful response confirms the deletion and includes the deleted vault's identifier.
-    public func delete(vaultId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeletedVault {
-        return try await BetaVaultsMethods.deleteBetaVaults(config: config, vaultId: vaultId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a vault. Use the vault identifier to select the vault to remove; a successful response confirms the
+    /// deletion and includes the deleted vault's identifier.
+    public func delete(
+        vaultId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeletedVault {
+        try await BetaVaultsMethods.deleteBetaVaults(
+            config: config,
+            vaultId: vaultId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a vault that stores credentials for use by agents during sessions. Use the vault identifier to select the vault to archive; the response returns the vault record, including its archive timestamp.
-    public func archive(vaultId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsVault {
-        return try await BetaVaultsMethods.archiveBetaVaults(config: config, vaultId: vaultId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives a vault that stores credentials for use by agents during sessions. Use the vault identifier to select
+    /// the vault to archive; the response returns the vault record, including its archive timestamp.
+    public func archive(
+        vaultId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsVault {
+        try await BetaVaultsMethods.archiveBetaVaults(
+            config: config,
+            vaultId: vaultId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -122,34 +388,113 @@ public class BetaMemoryStoresMemoriesNamespace {
         self.config = config
     }
 
-/// Creates a memory at a hierarchical path in a memory store. Supply `path` and `content`; the path must be unoccupied, and content can be an empty string. Use `view` to choose whether the response includes the memory content.
-    public func create(memoryStoreId: String, path: String, content: String?, view: BetaManagedAgentsMemoryView? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemory {
-        return try await BetaMemoryStoresMemoriesMethods.createBetaMemoryStoresMemories(config: config, memoryStoreId: memoryStoreId, path: path, content: content, view: view, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Creates a memory at a hierarchical path in a memory store. Supply `path` and `content`; the path must be
+    /// unoccupied, and content can be an empty string. Use `view` to choose whether the response includes the memory
+    /// content.
+    public func create(
+        memoryStoreId: String,
+        path: String,
+        content: String?,
+        view: BetaManagedAgentsMemoryView? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsMemory {
+        try await BetaMemoryStoresMemoriesMethods.createBetaMemoryStoresMemories(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            path: path,
+            content: content,
+            view: view,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists memories in a memory store, with optional path filtering and hierarchical depth control. Use `path_prefix` to scope results and `depth` to choose recursive results or immediate children; `view` controls whether item content is populated. Pass the response's `next_page` value as `page` to fetch another page.
-    public func list(options: BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListMemoriesResult {
-        return try await BetaMemoryStoresMemoriesMethods.listBetaMemoryStoresMemories(config: config, options: options, requestOptions: requestOptions)
+    /// Lists memories in a memory store, with optional path filtering and hierarchical depth control. Use `path_prefix`
+    /// to scope results and `depth` to choose recursive results or immediate children; `view` controls whether item
+    /// content is populated. Pass the response's `next_page` value as `page` to fetch another page.
+    public func list(
+        options: BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListMemoriesResult {
+        try await BetaMemoryStoresMemoriesMethods.listBetaMemoryStoresMemories(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists memories in a memory store, with optional path filtering and hierarchical depth control. Use `path_prefix` to scope results and `depth` to choose recursive results or immediate children; `view` controls whether item content is populated. Pass the response's `next_page` value as `page` to fetch another page.
-    public func listPaginated(options: BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsMemoryListItem, Swift.Error> {
-        return BetaMemoryStoresMemoriesMethods.listBetaMemoryStoresMemoriesPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists memories in a memory store, with optional path filtering and hierarchical depth control. Use `path_prefix`
+    /// to scope results and `depth` to choose recursive results or immediate children; `view` controls whether item
+    /// content is populated. Pass the response's `next_page` value as `page` to fetch another page.
+    public func listPaginated(
+        options: BetaMemoryStoresMemoriesMethods.ListBetaMemoryStoresMemoriesOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsMemoryListItem, Swift.Error> {
+        BetaMemoryStoresMemoriesMethods.listBetaMemoryStoresMemoriesPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a specific memory from a memory store by its ID. Use `view` to choose whether the response includes the memory content; the response also includes content size and hash values regardless of that choice.
-    public func retrieve(memoryStoreId: String, memoryId: String, view: BetaManagedAgentsMemoryView? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemory {
-        return try await BetaMemoryStoresMemoriesMethods.retrieveBetaMemoryStoresMemories(config: config, memoryStoreId: memoryStoreId, memoryId: memoryId, view: view, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a specific memory from a memory store by its ID. Use `view` to choose whether the response includes
+    /// the memory content; the response also includes content size and hash values regardless of that choice.
+    public func retrieve(
+        memoryStoreId: String,
+        memoryId: String,
+        view: BetaManagedAgentsMemoryView? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsMemory {
+        try await BetaMemoryStoresMemoriesMethods.retrieveBetaMemoryStoresMemories(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            memoryId: memoryId,
+            view: view,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates a memory's content, path, or both within a memory store. Provide at least one of `content` or `path`; a path change renames the memory and does not overwrite another memory. Use `precondition` when you want the update to apply only if the memory's current state matches.
-    public func update(options: BetaMemoryStoresMemoriesMethods.UpdateBetaMemoryStoresMemoriesOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemory {
-        return try await BetaMemoryStoresMemoriesMethods.updateBetaMemoryStoresMemories(config: config, options: options, requestOptions: requestOptions)
+    /// Updates a memory's content, path, or both within a memory store. Provide at least one of `content` or `path`; a
+    /// path change renames the memory and does not overwrite another memory. Use `precondition` when you want the
+    /// update to apply only if the memory's current state matches.
+    public func update(
+        options: BetaMemoryStoresMemoriesMethods.UpdateBetaMemoryStoresMemoriesOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsMemory {
+        try await BetaMemoryStoresMemoriesMethods.updateBetaMemoryStoresMemories(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a memory from a memory store and returns a tombstone identifying the deleted memory. Supply `expected_content_sha256` when you want to guard against deleting content that has changed since you last read it; deleting the memory does not erase its retained version history.
-    public func delete(memoryStoreId: String, memoryId: String, expectedContentSha256: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeletedMemory {
-        return try await BetaMemoryStoresMemoriesMethods.deleteBetaMemoryStoresMemories(config: config, memoryStoreId: memoryStoreId, memoryId: memoryId, expectedContentSha256: expectedContentSha256, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a memory from a memory store and returns a tombstone identifying the deleted memory. Supply
+    /// `expected_content_sha256` when you want to guard against deleting content that has changed since you last read
+    /// it; deleting the memory does not erase its retained version history.
+    public func delete(
+        memoryStoreId: String,
+        memoryId: String,
+        expectedContentSha256: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeletedMemory {
+        try await BetaMemoryStoresMemoriesMethods.deleteBetaMemoryStoresMemories(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            memoryId: memoryId,
+            expectedContentSha256: expectedContentSha256,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -159,23 +504,73 @@ public class BetaMemoryStoresMemoryVersionsNamespace {
         self.config = config
     }
 
-/// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time. Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the history. Set `view` to choose whether version content is populated.
-    public func list(options: BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListMemoryVersionsResult {
-        return try await BetaMemoryStoresMemoryVersionsMethods.listBetaMemoryStoresMemoryVersions(config: config, options: options, requestOptions: requestOptions)
+    /// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time.
+    /// Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the
+    /// history. Set `view` to choose whether version content is populated.
+    public func list(
+        options: BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListMemoryVersionsResult {
+        try await BetaMemoryStoresMemoryVersionsMethods.listBetaMemoryStoresMemoryVersions(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time. Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the history. Set `view` to choose whether version content is populated.
-    public func listPaginated(options: BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error> {
-        return BetaMemoryStoresMemoryVersionsMethods.listBetaMemoryStoresMemoryVersionsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists a memory store's version history, with optional filters for memory, actor, operation, and creation time.
+    /// Results are ordered newest first; use `page` with the response's `next_page` cursor to continue through the
+    /// history. Set `view` to choose whether version content is populated.
+    public func listPaginated(
+        options: BetaMemoryStoresMemoryVersionsMethods.ListBetaMemoryStoresMemoryVersionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsMemoryVersion, Swift.Error> {
+        BetaMemoryStoresMemoryVersionsMethods.listBetaMemoryStoresMemoryVersionsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a specific immutable memory-version record from a memory store. Use `view` to choose whether the response includes the version's content; deleted or redacted versions can have content and related fields set to null.
-    public func retrieve(memoryStoreId: String, memoryVersionId: String, view: BetaManagedAgentsMemoryView? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemoryVersion {
-        return try await BetaMemoryStoresMemoryVersionsMethods.retrieveBetaMemoryStoresMemoryVersions(config: config, memoryStoreId: memoryStoreId, memoryVersionId: memoryVersionId, view: view, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a specific immutable memory-version record from a memory store. Use `view` to choose whether the
+    /// response includes the version's content; deleted or redacted versions can have content and related fields set to
+    /// null.
+    public func retrieve(
+        memoryStoreId: String,
+        memoryVersionId: String,
+        view: BetaManagedAgentsMemoryView? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsMemoryVersion {
+        try await BetaMemoryStoresMemoryVersionsMethods.retrieveBetaMemoryStoresMemoryVersions(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            memoryVersionId: memoryVersionId,
+            view: view,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Redacts a memory version in a memory store, removing its content and path-related data from the version record. Use this operation when you need to redact a specific historical version; the response returns the updated version record with redaction details.
-    public func redact(memoryStoreId: String, memoryVersionId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsMemoryVersion {
-        return try await BetaMemoryStoresMemoryVersionsMethods.redactBetaMemoryStoresMemoryVersions(config: config, memoryStoreId: memoryStoreId, memoryVersionId: memoryVersionId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Redacts a memory version in a memory store, removing its content and path-related data from the version record.
+    /// Use this operation when you need to redact a specific historical version; the response returns the updated
+    /// version record with redaction details.
+    public func redact(
+        memoryStoreId: String,
+        memoryVersionId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsMemoryVersion {
+        try await BetaMemoryStoresMemoryVersionsMethods.redactBetaMemoryStoresMemoryVersions(
+            config: config,
+            memoryStoreId: memoryStoreId,
+            memoryVersionId: memoryVersionId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }

@@ -3,12 +3,15 @@
 
 import Foundation
 
-// Misc domain models
+/// Misc domain models
 /// Typed representation of the `ErrorType` API schema.
 public struct ErrorType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let invalidRequestError = ErrorType(rawValue: "invalid_request_error")
     public static let authenticationError = ErrorType(rawValue: "authentication_error")
     public static let permissionError = ErrorType(rawValue: "permission_error")
@@ -21,7 +24,7 @@ public struct ErrorType: RawRepresentable, Hashable, Codable, Sendable, SdkWireC
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

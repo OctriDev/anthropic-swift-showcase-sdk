@@ -3,7 +3,7 @@
 
 import Foundation
 
-// ServiceAccounts domain models
+/// ServiceAccounts domain models
 /// Partial update. `name` is immutable.
 public struct BetaServiceAccountUpdateParams: Codable {
     /// Replaces the description. Omit to leave unchanged; send `null` to clear (the field is stored as an empty
@@ -18,20 +18,20 @@ public struct BetaServiceAccountUpdateParams: Codable {
     }
 
     init() {
-        (self.description, self.organizationRole) = (nil, nil)
+        (description, organizationRole) = (nil, nil)
     }
 }
 
-extension BetaServiceAccountUpdateParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaServiceAccountUpdateParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.description = try container.sdkDecodeIfPresent(.description)
-        self.organizationRole = try container.sdkDecodeIfPresent(.organizationRole)
+        description = try container.sdkDecodeIfPresent(.description)
+        organizationRole = try container.sdkDecodeIfPresent(.organizationRole)
     }
 }
 
-extension BetaServiceAccountUpdateParams {
-    public init(description: String? = nil, organizationRole: BetaServiceAccountUpdateParamsOrganizationRoleVariant0? = nil) {
+public extension BetaServiceAccountUpdateParams {
+    init(description: String? = nil, organizationRole: BetaServiceAccountUpdateParamsOrganizationRoleVariant0? = nil) {
         self.init()
         (self.description, self.organizationRole) = (description, organizationRole)
     }
@@ -46,36 +46,46 @@ public struct BetaServiceAccountWorkspaceMemberUpdateParams: Codable {
         case workspaceRole = "workspace_role"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaServiceAccountWorkspaceMemberUpdateParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.workspaceRole) else {
-            throw SdkValidationError(field: "workspace_role", code: "required", message: "Validation failed for 'workspace_role': value is required")
-        }
-        self.workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaServiceAccountWorkspaceMemberUpdateParams {
-    public init(workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
+public extension BetaServiceAccountWorkspaceMemberUpdateParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.workspaceRole) else {
+            throw SdkValidationError(
+                field: "workspace_role",
+                code: "required",
+                message: "Validation failed for 'workspace_role': value is required"
+            )
+        }
+        workspaceRole = try container.sdkDecodeRequired(.workspaceRole)
+    }
+}
+
+public extension BetaServiceAccountWorkspaceMemberUpdateParams {
+    init(workspaceRole: BetaNoBillingWorkspaceRoleSchema) {
         self.workspaceRole = workspaceRole
     }
 }
 
 /// Optional enumerated value serialized in the `organization_role` wire field.
-public struct BetaServiceAccountUpdateParamsOrganizationRoleVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaServiceAccountUpdateParamsOrganizationRoleVariant0: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let admin = BetaServiceAccountUpdateParamsOrganizationRoleVariant0(rawValue: "admin")
     public static let developer = BetaServiceAccountUpdateParamsOrganizationRoleVariant0(rawValue: "developer")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

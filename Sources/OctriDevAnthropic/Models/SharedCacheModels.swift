@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedCache domain models
+/// SharedCache domain models
 /// Typed representation of the `CacheControlEphemeral` API schema.
 public struct CacheControlEphemeral: Codable {
     /// Required `string` value serialized in the `type` wire field.
@@ -17,25 +17,31 @@ public struct CacheControlEphemeral: Codable {
         case ttl
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CacheControlEphemeral {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.ttl = try container.sdkDecodeIfPresent(.ttl)
-            try sdkValidateRawEnum("type", self.type, CacheControlEphemeralType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CacheControlEphemeral {
-    public init(type: CacheControlEphemeralType, ttl: CacheControlEphemeralTtl? = nil) throws {
+public extension CacheControlEphemeral {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        ttl = try container.sdkDecodeIfPresent(.ttl)
+        try sdkValidateRawEnum("type", type, CacheControlEphemeralType.allCases.map(\.rawValue))
+    }
+}
+
+public extension CacheControlEphemeral {
+    init(type: CacheControlEphemeralType, ttl: CacheControlEphemeralTtl? = nil) throws {
         (self.type, self.ttl) = (type, ttl)
-            try sdkValidateRawEnum("type", self.type, CacheControlEphemeralType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, CacheControlEphemeralType.allCases.map(\.rawValue))
     }
 }
 
@@ -51,31 +57,73 @@ public struct CacheCreation: Codable {
         case ephemeral5mInputTokens = "ephemeral_5m_input_tokens"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CacheCreation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.ephemeral1hInputTokens) else {
-            throw SdkValidationError(field: "ephemeral_1h_input_tokens", code: "required", message: "Validation failed for 'ephemeral_1h_input_tokens': value is required")
-        }
-        guard container.contains(.ephemeral5mInputTokens) else {
-            throw SdkValidationError(field: "ephemeral_5m_input_tokens", code: "required", message: "Validation failed for 'ephemeral_5m_input_tokens': value is required")
-        }
-        self.ephemeral1hInputTokens = try container.sdkDecodeRequired(.ephemeral1hInputTokens)
-        self.ephemeral5mInputTokens = try container.sdkDecodeRequired(.ephemeral5mInputTokens)
-            try validateRange("ephemeral_1h_input_tokens", Double(self.ephemeral1hInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("ephemeral_5m_input_tokens", Double(self.ephemeral5mInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CacheCreation {
-    public init(ephemeral1hInputTokens: Int, ephemeral5mInputTokens: Int) throws {
+public extension CacheCreation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.ephemeral1hInputTokens) else {
+            throw SdkValidationError(
+                field: "ephemeral_1h_input_tokens",
+                code: "required",
+                message: "Validation failed for 'ephemeral_1h_input_tokens': value is required"
+            )
+        }
+        guard container.contains(.ephemeral5mInputTokens) else {
+            throw SdkValidationError(
+                field: "ephemeral_5m_input_tokens",
+                code: "required",
+                message: "Validation failed for 'ephemeral_5m_input_tokens': value is required"
+            )
+        }
+        ephemeral1hInputTokens = try container.sdkDecodeRequired(.ephemeral1hInputTokens)
+        ephemeral5mInputTokens = try container.sdkDecodeRequired(.ephemeral5mInputTokens)
+        try validateRange(
+            "ephemeral_1h_input_tokens",
+            Double(ephemeral1hInputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "ephemeral_5m_input_tokens",
+            Double(ephemeral5mInputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension CacheCreation {
+    init(ephemeral1hInputTokens: Int, ephemeral5mInputTokens: Int) throws {
         self.ephemeral1hInputTokens = ephemeral1hInputTokens
         self.ephemeral5mInputTokens = ephemeral5mInputTokens
-            try validateRange("ephemeral_1h_input_tokens", Double(self.ephemeral1hInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("ephemeral_5m_input_tokens", Double(self.ephemeral5mInputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateRange(
+            "ephemeral_1h_input_tokens",
+            Double(self.ephemeral1hInputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "ephemeral_5m_input_tokens",
+            Double(self.ephemeral5mInputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -84,13 +132,16 @@ extension CacheCreation {
 public struct CacheControlEphemeralTtl: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let value5m = CacheControlEphemeralTtl(rawValue: "5m")
     public static let value1h = CacheControlEphemeralTtl(rawValue: "1h")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

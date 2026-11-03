@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaRequestFallback domain models
+/// SharedBetaRequestFallback domain models
 /// Identifies one hop of a fallback transition.
 public struct BetaRequestFallbackHopInfo: Codable {
     /// The model that will complete your prompt. See models for additional details and options.
@@ -13,21 +13,27 @@ public struct BetaRequestFallbackHopInfo: Codable {
         case model
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestFallbackHopInfo {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.model) else {
-            throw SdkValidationError(field: "model", code: "required", message: "Validation failed for 'model': value is required")
-        }
-        self.model = try container.sdkDecodeRequired(.model)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestFallbackHopInfo {
-    public init(model: Model) {
+public extension BetaRequestFallbackHopInfo {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.model) else {
+            throw SdkValidationError(
+                field: "model",
+                code: "required",
+                message: "Validation failed for 'model': value is required"
+            )
+        }
+        model = try container.sdkDecodeRequired(.model)
+    }
+}
+
+public extension BetaRequestFallbackHopInfo {
+    init(model: Model) {
         self.model = model
     }
 }
@@ -55,34 +61,53 @@ public struct BetaRequestFallbackBlock: Codable {
         case trigger
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaRequestFallbackBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.from) else {
-            throw SdkValidationError(field: "from", code: "required", message: "Validation failed for 'from': value is required")
-        }
-        guard container.contains(.to) else {
-            throw SdkValidationError(field: "to", code: "required", message: "Validation failed for 'to': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.from = try container.sdkDecodeRequired(.from)
-        self.to = try container.sdkDecodeRequired(.to)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.trigger = try container.sdkDecodeIfPresent(.trigger)
-            try sdkValidateRawEnum("type", self.type, BetaRequestFallbackBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaRequestFallbackBlock {
-    public init(from: BetaRequestFallbackHopInfo, to: BetaRequestFallbackHopInfo, type: BetaRequestFallbackBlockType, trigger: JSONValue? = nil) throws {
+public extension BetaRequestFallbackBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.from) else {
+            throw SdkValidationError(
+                field: "from",
+                code: "required",
+                message: "Validation failed for 'from': value is required"
+            )
+        }
+        guard container.contains(.to) else {
+            throw SdkValidationError(
+                field: "to",
+                code: "required",
+                message: "Validation failed for 'to': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        from = try container.sdkDecodeRequired(.from)
+        to = try container.sdkDecodeRequired(.to)
+        type = try container.sdkDecodeRequired(.type)
+        trigger = try container.sdkDecodeIfPresent(.trigger)
+        try sdkValidateRawEnum("type", type, BetaRequestFallbackBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaRequestFallbackBlock {
+    init(
+        from: BetaRequestFallbackHopInfo,
+        to: BetaRequestFallbackHopInfo,
+        type: BetaRequestFallbackBlockType,
+        trigger: JSONValue? = nil
+    ) throws {
         (self.from, self.to) = (from, to)
         (self.type, self.trigger) = (type, trigger)
-            try sdkValidateRawEnum("type", self.type, BetaRequestFallbackBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaRequestFallbackBlockType.allCases.map(\.rawValue))
     }
 }
 

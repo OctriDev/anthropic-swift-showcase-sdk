@@ -3,7 +3,7 @@
 
 import Foundation
 
-// DenyBetaTrue domain models
+/// DenyBetaTrue domain models
 /// Typed representation of the `BetaDenySpendLimitIncreaseRequestParams` API schema.
 public struct BetaDenySpendLimitIncreaseRequestParams: Codable {
     /// Optional `boolean` value serialized in the `suppress_notification` wire field.
@@ -14,19 +14,19 @@ public struct BetaDenySpendLimitIncreaseRequestParams: Codable {
     }
 
     init() {
-        self.suppressNotification = nil
+        suppressNotification = nil
     }
 }
 
-extension BetaDenySpendLimitIncreaseRequestParams {
-    public init(from decoder: Decoder) throws {
+public extension BetaDenySpendLimitIncreaseRequestParams {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.suppressNotification = try container.sdkDecodeIfPresent(.suppressNotification)
+        suppressNotification = try container.sdkDecodeIfPresent(.suppressNotification)
     }
 }
 
-extension BetaDenySpendLimitIncreaseRequestParams {
-    public init(suppressNotification: Bool? = nil) {
+public extension BetaDenySpendLimitIncreaseRequestParams {
+    init(suppressNotification: Bool? = nil) {
         self.init()
         self.suppressNotification = suppressNotification
     }

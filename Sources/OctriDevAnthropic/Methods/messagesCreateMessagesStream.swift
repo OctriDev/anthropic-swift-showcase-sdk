@@ -6,27 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension MessagesMethods {
-    public struct CreateMessagesStreamOptions {
+public extension MessagesMethods {
+    struct CreateMessagesStreamOptions {
         public var model: Model
         public var messages: [InputMessage]
         public var maxTokens: Int
-        public var anthropicUserProfileId: String? = nil
-        public var anthropicWorkspaceId: String? = nil
-        public var cacheControl: SdkOptional<CreateMessageParamsCacheControl>? = nil
-        public var container: SdkOptional<CreateMessageParamsContainer>? = nil
-        public var inferenceGeo: SdkOptional<String>? = nil
-        public var metadata: Metadata? = nil
-        public var outputConfig: OutputConfig? = nil
-        public var serviceTier: CreateMessageParamsServiceTier? = nil
-        public var stopSequences: [String]? = nil
-        public var system: CreateMessageParamsSystem? = nil
-        public var temperature: Double? = nil
-        public var thinking: ThinkingConfigParam? = nil
-        public var toolChoice: ToolChoice? = nil
-        public var tools: [CreateMessageParamsToolsItem]? = nil
-        public var topK: Int? = nil
-        public var topP: Double? = nil
+        public var anthropicUserProfileId: String?
+        public var anthropicWorkspaceId: String?
+        public var cacheControl: SdkOptional<CreateMessageParamsCacheControl>?
+        public var container: SdkOptional<CreateMessageParamsContainer>?
+        public var inferenceGeo: SdkOptional<String>?
+        public var metadata: Metadata?
+        public var outputConfig: OutputConfig?
+        public var serviceTier: CreateMessageParamsServiceTier?
+        public var stopSequences: [String]?
+        public var system: CreateMessageParamsSystem?
+        public var temperature: Double?
+        public var thinking: ThinkingConfigParam?
+        public var toolChoice: ToolChoice?
+        public var tools: [CreateMessageParamsToolsItem]?
+        public var topK: Int?
+        public var topP: Double?
 
         public init(model: Model, messages: [InputMessage], maxTokens: Int) {
             self.model = model
@@ -35,7 +35,10 @@ extension MessagesMethods {
         }
     }
 
-    /// Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation. The Messages API can be used for either single queries or stateless multi-turn conversations. Learn more about the Messages API in our [user guide](https://platform.claude.com/docs/en/get-started)
+    /// Send a structured list of input messages with text and/or image content, and the model will generate the next
+    /// message in the conversation. The Messages API can be used for either single queries or stateless multi-turn
+    /// conversations. Learn more about the Messages API in our [user
+    /// guide](https://platform.claude.com/docs/en/get-started)
     ///
     /// - Parameters:
     /// - model: The model that will complete your prompt. See
@@ -163,9 +166,12 @@ extension MessagesMethods {
     ///   distribution over all the options for each subsequent token in decreasing
     ///   probability order and cut it off once it reaches a particular probability
     ///   specified by `top_p`. Recommended for advanced use cases only.
-    public static func createMessagesStream(config: ClientConfig, options: CreateMessagesStreamOptions, requestOptions: RequestOptions? = nil) async throws -> AsyncThrowingStream<MessageStreamEvent, Swift.Error> {
+    static func createMessagesStream(
+        config: ClientConfig,
+        options: CreateMessagesStreamOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AsyncThrowingStream<MessageStreamEvent, Swift.Error> {
         let requestBody = CreateMessagesStreamStreamRequestBody(options: options)
-
 
         let upstream = try await sdkStream(
             "POST",
@@ -176,9 +182,29 @@ extension MessagesMethods {
             streamFormat: "sse",
             streamMediaType: "text/event-stream",
             chunkDomain: "bytes",
-            extraHeaders: sdkHeaders([("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)), ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId))]),
+            extraHeaders: sdkHeaders([
+                ("anthropic-user-profile-id", sdkHeaderValue(options.anthropicUserProfileId)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
             options: requestOptions,
-            errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self]
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
         )
         return AsyncThrowingStream { continuation in
             let streamTask = _Concurrency.Task {
@@ -188,8 +214,11 @@ extension MessagesMethods {
                             continuation.finish()
                             return
                         }
-                        let payload = try sdkDecodeBody(Data(event.data.utf8)) { try sdkJsonDecoder().decode(MessageStreamEvent.self, from: Data(event.data.utf8)) }
-                        
+                        let payload = try sdkDecodeBody(Data(event.data.utf8)) { try sdkJsonDecoder().decode(
+                            MessageStreamEvent.self,
+                            from: Data(event.data.utf8)
+                        ) }
+
                         continuation.yield(payload)
                     }
                     continuation.finish()

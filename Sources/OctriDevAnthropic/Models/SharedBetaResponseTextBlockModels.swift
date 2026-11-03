@@ -3,13 +3,13 @@
 
 import Foundation
 
-// SharedBetaResponseText domain models
-extension BetaResponseTextBlock {
-    public init(citations: [BetaResponseTextBlockCitationsItem]?, text: String, type: BetaResponseTextBlockType) throws {
+/// SharedBetaResponseText domain models
+public extension BetaResponseTextBlock {
+    init(citations: [BetaResponseTextBlockCitationsItem]?, text: String, type: BetaResponseTextBlockType) throws {
         (self.citations, self.text) = (citations, text)
         self.type = type
-            try validateLength("text", self.text, min: 0, max: 5000000)
-            try sdkValidateRawEnum("type", self.type, BetaResponseTextBlockType.allCases.map(\.rawValue))
+        try validateLength("text", self.text, min: 0, max: 5_000_000)
+        try sdkValidateRawEnum("type", self.type, BetaResponseTextBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -68,17 +68,21 @@ public enum BetaResponseTextEditorCodeExecutionCreateResultBlockType: String, Ca
 }
 
 /// Required enumerated value serialized in the `file_type` wire field.
-public struct BetaResponseTextEditorCodeExecutionViewResultBlockFileType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaResponseTextEditorCodeExecutionViewResultBlockFileType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let text = BetaResponseTextEditorCodeExecutionViewResultBlockFileType(rawValue: "text")
     public static let image = BetaResponseTextEditorCodeExecutionViewResultBlockFileType(rawValue: "image")
     public static let pdf = BetaResponseTextEditorCodeExecutionViewResultBlockFileType(rawValue: "pdf")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

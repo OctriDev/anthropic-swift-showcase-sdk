@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaAzure domain models
+/// SharedBetaAzure domain models
 /// Typed representation of the `BetaAzureExternalKeyConfig` API schema.
 public struct BetaAzureExternalKeyConfig: Codable {
     /// Name of the key within the vault.
@@ -26,39 +26,63 @@ public struct BetaAzureExternalKeyConfig: Codable {
         case clientId = "client_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAzureExternalKeyConfig {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.keyName) else {
-            throw SdkValidationError(field: "key_name", code: "required", message: "Validation failed for 'key_name': value is required")
-        }
-        guard container.contains(.tenantId) else {
-            throw SdkValidationError(field: "tenant_id", code: "required", message: "Validation failed for 'tenant_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.vaultUri) else {
-            throw SdkValidationError(field: "vault_uri", code: "required", message: "Validation failed for 'vault_uri': value is required")
-        }
-        self.keyName = try container.sdkDecodeRequired(.keyName)
-        self.tenantId = try container.sdkDecodeRequired(.tenantId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.vaultUri = try container.sdkDecodeRequired(.vaultUri)
-        self.clientId = try container.sdkDecodeIfPresent(.clientId)
-            try sdkValidateRawEnum("type", self.type, BetaAzureExternalKeyConfigType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAzureExternalKeyConfig {
-    public init(keyName: String, tenantId: String, type: BetaAzureExternalKeyConfigType, vaultUri: String, clientId: String? = nil) throws {
+public extension BetaAzureExternalKeyConfig {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.keyName) else {
+            throw SdkValidationError(
+                field: "key_name",
+                code: "required",
+                message: "Validation failed for 'key_name': value is required"
+            )
+        }
+        guard container.contains(.tenantId) else {
+            throw SdkValidationError(
+                field: "tenant_id",
+                code: "required",
+                message: "Validation failed for 'tenant_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.vaultUri) else {
+            throw SdkValidationError(
+                field: "vault_uri",
+                code: "required",
+                message: "Validation failed for 'vault_uri': value is required"
+            )
+        }
+        keyName = try container.sdkDecodeRequired(.keyName)
+        tenantId = try container.sdkDecodeRequired(.tenantId)
+        type = try container.sdkDecodeRequired(.type)
+        vaultUri = try container.sdkDecodeRequired(.vaultUri)
+        clientId = try container.sdkDecodeIfPresent(.clientId)
+        try sdkValidateRawEnum("type", type, BetaAzureExternalKeyConfigType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaAzureExternalKeyConfig {
+    init(
+        keyName: String,
+        tenantId: String,
+        type: BetaAzureExternalKeyConfigType,
+        vaultUri: String,
+        clientId: String? = nil
+    ) throws {
         (self.keyName, self.tenantId) = (keyName, tenantId)
         (self.type, self.vaultUri) = (type, vaultUri)
         self.clientId = clientId
-            try sdkValidateRawEnum("type", self.type, BetaAzureExternalKeyConfigType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaAzureExternalKeyConfigType.allCases.map(\.rawValue))
     }
 }
 
@@ -84,39 +108,63 @@ public struct BetaAzureExternalKeyConfigParams: Codable {
         case clientId = "client_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaAzureExternalKeyConfigParams {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.keyName) else {
-            throw SdkValidationError(field: "key_name", code: "required", message: "Validation failed for 'key_name': value is required")
-        }
-        guard container.contains(.tenantId) else {
-            throw SdkValidationError(field: "tenant_id", code: "required", message: "Validation failed for 'tenant_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.vaultUri) else {
-            throw SdkValidationError(field: "vault_uri", code: "required", message: "Validation failed for 'vault_uri': value is required")
-        }
-        self.keyName = try container.sdkDecodeRequired(.keyName)
-        self.tenantId = try container.sdkDecodeRequired(.tenantId)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.vaultUri = try container.sdkDecodeRequired(.vaultUri)
-        self.clientId = try container.sdkDecodeIfPresent(.clientId)
-            try sdkValidateRawEnum("type", self.type, BetaAzureExternalKeyConfigParamsType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaAzureExternalKeyConfigParams {
-    public init(keyName: String, tenantId: String, type: BetaAzureExternalKeyConfigParamsType, vaultUri: String, clientId: String? = nil) throws {
+public extension BetaAzureExternalKeyConfigParams {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.keyName) else {
+            throw SdkValidationError(
+                field: "key_name",
+                code: "required",
+                message: "Validation failed for 'key_name': value is required"
+            )
+        }
+        guard container.contains(.tenantId) else {
+            throw SdkValidationError(
+                field: "tenant_id",
+                code: "required",
+                message: "Validation failed for 'tenant_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.vaultUri) else {
+            throw SdkValidationError(
+                field: "vault_uri",
+                code: "required",
+                message: "Validation failed for 'vault_uri': value is required"
+            )
+        }
+        keyName = try container.sdkDecodeRequired(.keyName)
+        tenantId = try container.sdkDecodeRequired(.tenantId)
+        type = try container.sdkDecodeRequired(.type)
+        vaultUri = try container.sdkDecodeRequired(.vaultUri)
+        clientId = try container.sdkDecodeIfPresent(.clientId)
+        try sdkValidateRawEnum("type", type, BetaAzureExternalKeyConfigParamsType.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaAzureExternalKeyConfigParams {
+    init(
+        keyName: String,
+        tenantId: String,
+        type: BetaAzureExternalKeyConfigParamsType,
+        vaultUri: String,
+        clientId: String? = nil
+    ) throws {
         (self.keyName, self.tenantId) = (keyName, tenantId)
         (self.type, self.vaultUri) = (type, vaultUri)
         self.clientId = clientId
-            try sdkValidateRawEnum("type", self.type, BetaAzureExternalKeyConfigParamsType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, BetaAzureExternalKeyConfigParamsType.allCases.map(\.rawValue))
     }
 }
 

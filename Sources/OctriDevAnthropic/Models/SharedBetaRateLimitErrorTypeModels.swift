@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBeta domain models
+/// SharedBeta domain models
 /// Required `string` value serialized in the `type` wire field.
 public enum BetaRateLimitErrorType: String, CaseIterable, Codable {
     case rateLimitError = "rate_limit_error"
@@ -278,13 +278,16 @@ public enum BetaTargetStoreHeldErrorType: String, CaseIterable, Codable {
 public struct BetaMessagesUsageReportContextWindow: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let value0200k = BetaMessagesUsageReportContextWindow(rawValue: "0-200k")
     public static let value200k1m = BetaMessagesUsageReportContextWindow(rawValue: "200k-1M")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

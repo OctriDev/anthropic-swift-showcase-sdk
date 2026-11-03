@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Shared domain models
+/// Shared domain models
 /// Required `string` value serialized in the `type` wire field.
 public enum MemoryTool20250818Type: String, CaseIterable, Codable {
     case memory20250818 = "memory_20250818"
@@ -62,14 +62,17 @@ public enum PlainTextSourceType: String, CaseIterable, Codable {
 public struct UsageServiceTierVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let standard = UsageServiceTierVariant0(rawValue: "standard")
     public static let priority = UsageServiceTierVariant0(rawValue: "priority")
     public static let batch = UsageServiceTierVariant0(rawValue: "batch")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -118,7 +121,10 @@ public enum BillingErrorType: String, CaseIterable, Codable {
 public struct EffortLevel: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let low = EffortLevel(rawValue: "low")
     public static let medium = EffortLevel(rawValue: "medium")
     public static let high = EffortLevel(rawValue: "high")
@@ -127,7 +133,7 @@ public struct EffortLevel: RawRepresentable, Hashable, Codable, Sendable, SdkWir
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

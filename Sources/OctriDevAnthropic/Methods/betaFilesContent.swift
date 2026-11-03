@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaFilesMethods {
-    /// Downloads the contents of a specific file. Supply `file_id` to identify which file's bytes to retrieve. The successful response contains the file data as an octet stream.
+public extension BetaFilesMethods {
+    /// Downloads the contents of a specific file. Supply `file_id` to identify which file's bytes to retrieve. The
+    /// successful response contains the file data as an octet stream.
     ///
     /// - Parameters:
     /// - fileId: ID of the File.
@@ -19,10 +20,24 @@ extension BetaFilesMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func downloadBetaFiles(config: ClientConfig, fileId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Data {
-        return try (await sdkRequest("GET", ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId)), "/content?beta=true"].joined(), config: config, decoder: .bytes, operationId: "downloadBetaFiles", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions)).data
+    static func downloadBetaFiles(
+        config: ClientConfig,
+        fileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Data {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/files/", sdkEncodePathSegment(sdkWireString(fileId)), "/content?beta=true"].joined(),
+            config: config,
+            decoder: .bytes,
+            operationId: "downloadBetaFiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions
+        )).data
     }
 }

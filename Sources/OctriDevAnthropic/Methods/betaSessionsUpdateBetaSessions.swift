@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSessionsMethods {
-    public struct UpdateBetaSessionsOptions: Codable {
+public extension BetaSessionsMethods {
+    struct UpdateBetaSessionsOptions: Codable {
         public var sessionId: String
         public var anthropicBeta: [AnthropicBeta]?
         public var anthropicWorkspaceId: String?
@@ -22,7 +22,9 @@ extension BetaSessionsMethods {
         }
     }
 
-    /// Updates selected properties of a session while preserving fields you omit. Use `title`, `metadata`, `agent`, or `budget` as needed; `vault_ids` is reserved and requests that set it are rejected. Mid-session agent updates can change only `tools` and `mcp_servers`, require a session that is not running, and replace those arrays in full.
+    /// Updates selected properties of a session while preserving fields you omit. Use `title`, `metadata`, `agent`, or
+    /// `budget` as needed; `vault_ids` is reserved and requests that set it are rejected. Mid-session agent updates can
+    /// change only `tools` and `mcp_servers`, require a session that is not running, and replace those arrays in full.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -47,12 +49,42 @@ extension BetaSessionsMethods {
     ///   at or below the session's consumed list cost is rejected with reason
     ///   `budget_not_raised`, and every model the session can run must have a public
     ///   list price or the request is rejected with reason `model_not_budgetable`.
-    public static func updateBetaSessions(config: ClientConfig, options: UpdateBetaSessionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
+    static func updateBetaSessions(
+        config: ClientConfig,
+        options: UpdateBetaSessionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSession {
         let requestBody = UpdateBetaSessionsRequestBody(options: options)
 
-        return try (await sdkRequest("POST", ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(options.sessionId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaSessions", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(options.sessionId)), "?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "updateBetaSessions",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

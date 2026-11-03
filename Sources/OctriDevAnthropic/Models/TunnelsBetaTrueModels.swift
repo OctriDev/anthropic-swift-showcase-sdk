@@ -3,7 +3,7 @@
 
 import Foundation
 
-// TunnelsBetaTrue domain models
+/// TunnelsBetaTrue domain models
 /// Typed representation of the `BetaTunnelListResponse` API schema.
 public struct BetaTunnelListResponse: Codable, SdkResource {
     /// Required array value serialized in the `data` wire field.
@@ -17,25 +17,35 @@ public struct BetaTunnelListResponse: Codable, SdkResource {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaTunnelListResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaTunnelListResponse {
-    public init(data: [BetaOrganizationTunnel], nextPage: String?) {
+public extension BetaTunnelListResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaTunnelListResponse {
+    init(data: [BetaOrganizationTunnel], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }
@@ -50,19 +60,19 @@ public struct BetaCreateTunnelRequest: Codable {
     }
 
     init() {
-        self.displayName = nil
+        displayName = nil
     }
 }
 
-extension BetaCreateTunnelRequest {
-    public init(from decoder: Decoder) throws {
+public extension BetaCreateTunnelRequest {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.displayName = try container.sdkDecodeIfPresent(.displayName)
+        displayName = try container.sdkDecodeIfPresent(.displayName)
     }
 }
 
-extension BetaCreateTunnelRequest {
-    public init(displayName: String? = nil) {
+public extension BetaCreateTunnelRequest {
+    init(displayName: String? = nil) {
         self.init()
         self.displayName = displayName
     }
@@ -81,25 +91,35 @@ public struct BetaListTunnelsResponse: Codable, SdkResource {
         case nextPage = "next_page"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaListTunnelsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.nextPage) else {
-            throw SdkValidationError(field: "next_page", code: "required", message: "Validation failed for 'next_page': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.nextPage = try container.sdkDecodeNullable(.nextPage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaListTunnelsResponse {
-    public init(data: [BetaTunnel], nextPage: String?) {
+public extension BetaListTunnelsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.nextPage) else {
+            throw SdkValidationError(
+                field: "next_page",
+                code: "required",
+                message: "Validation failed for 'next_page': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        nextPage = try container.sdkDecodeNullable(.nextPage)
+    }
+}
+
+public extension BetaListTunnelsResponse {
+    init(data: [BetaTunnel], nextPage: String?) {
         (self.data, self.nextPage) = (data, nextPage)
     }
 }

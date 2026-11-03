@@ -8,8 +8,10 @@ import Foundation
 #endif
 public enum BetaMemoryStoresMethods {}
 
-extension BetaMemoryStoresMethods {
-    /// Creates a memory store, a named container for memories scoped to a Workspace. Supply a `name`; you can also add a description and metadata for your own bookkeeping. Attach the created store to a session through its resources to make it available to an agent.
+public extension BetaMemoryStoresMethods {
+    /// Creates a memory store, a named container for memories scoped to a Workspace. Supply a `name`; you can also add
+    /// a description and metadata for your own bookkeeping. Attach the created store to a session through its resources
+    /// to make it available to an agent.
     ///
     /// - Parameters:
     /// - name: Human-readable name for the store. Required; 1–255 characters; no
@@ -27,18 +29,52 @@ extension BetaMemoryStoresMethods {
     /// - metadata: Arbitrary key-value tags for your own bookkeeping (such as the
     ///   end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values
     ///   up to 512 characters. Not visible to the agent.
-    public static func createBetaMemoryStores(config: ClientConfig, name: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, description: String? = nil, metadata: [String: String]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsCreateMemoryStoreResponse {
+    static func createBetaMemoryStores(
+        config: ClientConfig,
+        name: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        description: String? = nil,
+        metadata: [String: String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsCreateMemoryStoreResponse {
         try validateLength("name", name, min: 1, max: 255)
 
-        if let description = description {
+        if let description {
             try validateLength("description", description, max: 1024)
         }
 
         let requestBody = CreateBetaMemoryStoresRequestBody(name: name, description: description, metadata: metadata)
 
-        return try (await sdkRequest("POST", "/v1/memory_stores?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaMemoryStores", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/v1/memory_stores?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaMemoryStores",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).data
     }
 }

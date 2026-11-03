@@ -3,7 +3,7 @@
 
 import Foundation
 
-// BetaMemoryTool domain models
+/// BetaMemoryTool domain models
 public indirect enum BetaMemoryTool20250818Command {
     case betaMemoryTool20250818ViewCommand(BetaMemoryTool20250818ViewCommand)
     case betaMemoryTool20250818CreateCommand(BetaMemoryTool20250818CreateCommand)
@@ -16,7 +16,6 @@ public indirect enum BetaMemoryTool20250818Command {
 }
 
 extension BetaMemoryTool20250818Command: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "command"
     }
@@ -24,12 +23,16 @@ extension BetaMemoryTool20250818Command: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -40,13 +43,15 @@ extension BetaMemoryTool20250818Command: Codable {
 extension BetaMemoryTool20250818Command {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "view": return .betaMemoryTool20250818ViewCommand(try BetaMemoryTool20250818ViewCommand(from: decoder))
-        case "create": return .betaMemoryTool20250818CreateCommand(try BetaMemoryTool20250818CreateCommand(from: decoder))
-        case "str_replace": return .betaMemoryTool20250818StrReplaceCommand(try BetaMemoryTool20250818StrReplaceCommand(from: decoder))
-        case "insert": return .betaMemoryTool20250818InsertCommand(try BetaMemoryTool20250818InsertCommand(from: decoder))
-        case "delete": return .betaMemoryTool20250818DeleteCommand(try BetaMemoryTool20250818DeleteCommand(from: decoder))
-        case "rename": return .betaMemoryTool20250818RenameCommand(try BetaMemoryTool20250818RenameCommand(from: decoder))
-        default: return nil
+        case "view": try .betaMemoryTool20250818ViewCommand(BetaMemoryTool20250818ViewCommand(from: decoder))
+        case "create": try .betaMemoryTool20250818CreateCommand(BetaMemoryTool20250818CreateCommand(from: decoder))
+        case "str_replace": try .betaMemoryTool20250818StrReplaceCommand(
+                BetaMemoryTool20250818StrReplaceCommand(from: decoder)
+            )
+        case "insert": try .betaMemoryTool20250818InsertCommand(BetaMemoryTool20250818InsertCommand(from: decoder))
+        case "delete": try .betaMemoryTool20250818DeleteCommand(BetaMemoryTool20250818DeleteCommand(from: decoder))
+        case "rename": try .betaMemoryTool20250818RenameCommand(BetaMemoryTool20250818RenameCommand(from: decoder))
+        default: nil
         }
     }
 }
@@ -83,33 +88,47 @@ public struct BetaMemoryTool20250818ViewCommand: Codable {
         case viewRange = "view_range"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension BetaMemoryTool20250818ViewCommand {
-    public init(from decoder: Decoder) throws {
+public extension BetaMemoryTool20250818ViewCommand {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.command) else {
-            throw SdkValidationError(field: "command", code: "required", message: "Validation failed for 'command': value is required")
+            throw SdkValidationError(
+                field: "command",
+                code: "required",
+                message: "Validation failed for 'command': value is required"
+            )
         }
         guard container.contains(.path) else {
-            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
+            throw SdkValidationError(
+                field: "path",
+                code: "required",
+                message: "Validation failed for 'path': value is required"
+            )
         }
-        self.command = try container.sdkDecodeRequired(.command)
-        self.path = try container.sdkDecodeRequired(.path)
-        self.viewRange = try container.sdkDecodeIfPresent(.viewRange)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818ViewCommandCommand.allCases.map(\.rawValue))
-        if let value = self.viewRange {
+        command = try container.sdkDecodeRequired(.command)
+        path = try container.sdkDecodeRequired(.path)
+        viewRange = try container.sdkDecodeIfPresent(.viewRange)
+        try sdkValidateRawEnum("command", command, BetaMemoryTool20250818ViewCommandCommand.allCases.map(\.rawValue))
+        if let value = viewRange {
             try validateItems("view_range", value, min: 2, max: 2)
         }
     }
 }
 
-extension BetaMemoryTool20250818ViewCommand {
-    public init(command: BetaMemoryTool20250818ViewCommandCommand, path: String, viewRange: [Int]? = nil) throws {
+public extension BetaMemoryTool20250818ViewCommand {
+    init(command: BetaMemoryTool20250818ViewCommandCommand, path: String, viewRange: [Int]? = nil) throws {
         (self.command, self.path) = (command, path)
         self.viewRange = viewRange
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818ViewCommandCommand.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "command",
+            self.command,
+            BetaMemoryTool20250818ViewCommandCommand.allCases.map(\.rawValue)
+        )
         if let value = self.viewRange {
             try validateItems("view_range", value, min: 2, max: 2)
         }
@@ -137,37 +156,63 @@ public struct BetaMemoryTool20250818StrReplaceCommand: Codable {
         case newStr = "new_str"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMemoryTool20250818StrReplaceCommand {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.command) else {
-            throw SdkValidationError(field: "command", code: "required", message: "Validation failed for 'command': value is required")
-        }
-        guard container.contains(.path) else {
-            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
-        }
-        guard container.contains(.oldStr) else {
-            throw SdkValidationError(field: "old_str", code: "required", message: "Validation failed for 'old_str': value is required")
-        }
-        guard container.contains(.newStr) else {
-            throw SdkValidationError(field: "new_str", code: "required", message: "Validation failed for 'new_str': value is required")
-        }
-        self.command = try container.sdkDecodeRequired(.command)
-        self.path = try container.sdkDecodeRequired(.path)
-        self.oldStr = try container.sdkDecodeRequired(.oldStr)
-        self.newStr = try container.sdkDecodeRequired(.newStr)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818StrReplaceCommandCommand.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMemoryTool20250818StrReplaceCommand {
-    public init(command: BetaMemoryTool20250818StrReplaceCommandCommand, path: String, oldStr: String, newStr: String) throws {
+public extension BetaMemoryTool20250818StrReplaceCommand {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.command) else {
+            throw SdkValidationError(
+                field: "command",
+                code: "required",
+                message: "Validation failed for 'command': value is required"
+            )
+        }
+        guard container.contains(.path) else {
+            throw SdkValidationError(
+                field: "path",
+                code: "required",
+                message: "Validation failed for 'path': value is required"
+            )
+        }
+        guard container.contains(.oldStr) else {
+            throw SdkValidationError(
+                field: "old_str",
+                code: "required",
+                message: "Validation failed for 'old_str': value is required"
+            )
+        }
+        guard container.contains(.newStr) else {
+            throw SdkValidationError(
+                field: "new_str",
+                code: "required",
+                message: "Validation failed for 'new_str': value is required"
+            )
+        }
+        command = try container.sdkDecodeRequired(.command)
+        path = try container.sdkDecodeRequired(.path)
+        oldStr = try container.sdkDecodeRequired(.oldStr)
+        newStr = try container.sdkDecodeRequired(.newStr)
+        try sdkValidateRawEnum(
+            "command",
+            command,
+            BetaMemoryTool20250818StrReplaceCommandCommand.allCases.map(\.rawValue)
+        )
+    }
+}
+
+public extension BetaMemoryTool20250818StrReplaceCommand {
+    init(command: BetaMemoryTool20250818StrReplaceCommandCommand, path: String, oldStr: String, newStr: String) throws {
         (self.command, self.path) = (command, path)
         (self.oldStr, self.newStr) = (oldStr, newStr)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818StrReplaceCommandCommand.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "command",
+            self.command,
+            BetaMemoryTool20250818StrReplaceCommandCommand.allCases.map(\.rawValue)
+        )
     }
 }
 
@@ -184,28 +229,42 @@ public struct BetaMemoryTool20250818DeleteCommand: Codable {
         case path
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMemoryTool20250818DeleteCommand {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.command) else {
-            throw SdkValidationError(field: "command", code: "required", message: "Validation failed for 'command': value is required")
-        }
-        guard container.contains(.path) else {
-            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
-        }
-        self.command = try container.sdkDecodeRequired(.command)
-        self.path = try container.sdkDecodeRequired(.path)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818DeleteCommandCommand.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMemoryTool20250818DeleteCommand {
-    public init(command: BetaMemoryTool20250818DeleteCommandCommand, path: String) throws {
+public extension BetaMemoryTool20250818DeleteCommand {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.command) else {
+            throw SdkValidationError(
+                field: "command",
+                code: "required",
+                message: "Validation failed for 'command': value is required"
+            )
+        }
+        guard container.contains(.path) else {
+            throw SdkValidationError(
+                field: "path",
+                code: "required",
+                message: "Validation failed for 'path': value is required"
+            )
+        }
+        command = try container.sdkDecodeRequired(.command)
+        path = try container.sdkDecodeRequired(.path)
+        try sdkValidateRawEnum("command", command, BetaMemoryTool20250818DeleteCommandCommand.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaMemoryTool20250818DeleteCommand {
+    init(command: BetaMemoryTool20250818DeleteCommandCommand, path: String) throws {
         (self.command, self.path) = (command, path)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818DeleteCommandCommand.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "command",
+            self.command,
+            BetaMemoryTool20250818DeleteCommandCommand.allCases.map(\.rawValue)
+        )
     }
 }
 
@@ -230,39 +289,82 @@ public struct BetaMemoryTool20250818InsertCommand: Codable {
         case insertText = "insert_text"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMemoryTool20250818InsertCommand {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.command) else {
-            throw SdkValidationError(field: "command", code: "required", message: "Validation failed for 'command': value is required")
-        }
-        guard container.contains(.path) else {
-            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
-        }
-        guard container.contains(.insertLine) else {
-            throw SdkValidationError(field: "insert_line", code: "required", message: "Validation failed for 'insert_line': value is required")
-        }
-        guard container.contains(.insertText) else {
-            throw SdkValidationError(field: "insert_text", code: "required", message: "Validation failed for 'insert_text': value is required")
-        }
-        self.command = try container.sdkDecodeRequired(.command)
-        self.path = try container.sdkDecodeRequired(.path)
-        self.insertLine = try container.sdkDecodeRequired(.insertLine)
-        self.insertText = try container.sdkDecodeRequired(.insertText)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818InsertCommandCommand.allCases.map(\.rawValue))
-            try validateRange("insert_line", Double(self.insertLine), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMemoryTool20250818InsertCommand {
-    public init(command: BetaMemoryTool20250818InsertCommandCommand, path: String, insertLine: Int, insertText: String) throws {
+public extension BetaMemoryTool20250818InsertCommand {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.command) else {
+            throw SdkValidationError(
+                field: "command",
+                code: "required",
+                message: "Validation failed for 'command': value is required"
+            )
+        }
+        guard container.contains(.path) else {
+            throw SdkValidationError(
+                field: "path",
+                code: "required",
+                message: "Validation failed for 'path': value is required"
+            )
+        }
+        guard container.contains(.insertLine) else {
+            throw SdkValidationError(
+                field: "insert_line",
+                code: "required",
+                message: "Validation failed for 'insert_line': value is required"
+            )
+        }
+        guard container.contains(.insertText) else {
+            throw SdkValidationError(
+                field: "insert_text",
+                code: "required",
+                message: "Validation failed for 'insert_text': value is required"
+            )
+        }
+        command = try container.sdkDecodeRequired(.command)
+        path = try container.sdkDecodeRequired(.path)
+        insertLine = try container.sdkDecodeRequired(.insertLine)
+        insertText = try container.sdkDecodeRequired(.insertText)
+        try sdkValidateRawEnum("command", command, BetaMemoryTool20250818InsertCommandCommand.allCases.map(\.rawValue))
+        try validateRange(
+            "insert_line",
+            Double(insertLine),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension BetaMemoryTool20250818InsertCommand {
+    init(
+        command: BetaMemoryTool20250818InsertCommandCommand,
+        path: String,
+        insertLine: Int,
+        insertText: String
+    ) throws {
         (self.command, self.path) = (command, path)
         (self.insertLine, self.insertText) = (insertLine, insertText)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818InsertCommandCommand.allCases.map(\.rawValue))
-            try validateRange("insert_line", Double(self.insertLine), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try sdkValidateRawEnum(
+            "command",
+            self.command,
+            BetaMemoryTool20250818InsertCommandCommand.allCases.map(\.rawValue)
+        )
+        try validateRange(
+            "insert_line",
+            Double(self.insertLine),
+            min: 1,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -283,33 +385,51 @@ public struct BetaMemoryTool20250818CreateCommand: Codable {
         case fileText = "file_text"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMemoryTool20250818CreateCommand {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.command) else {
-            throw SdkValidationError(field: "command", code: "required", message: "Validation failed for 'command': value is required")
-        }
-        guard container.contains(.path) else {
-            throw SdkValidationError(field: "path", code: "required", message: "Validation failed for 'path': value is required")
-        }
-        guard container.contains(.fileText) else {
-            throw SdkValidationError(field: "file_text", code: "required", message: "Validation failed for 'file_text': value is required")
-        }
-        self.command = try container.sdkDecodeRequired(.command)
-        self.path = try container.sdkDecodeRequired(.path)
-        self.fileText = try container.sdkDecodeRequired(.fileText)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818CreateCommandCommand.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMemoryTool20250818CreateCommand {
-    public init(command: BetaMemoryTool20250818CreateCommandCommand, path: String, fileText: String) throws {
+public extension BetaMemoryTool20250818CreateCommand {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.command) else {
+            throw SdkValidationError(
+                field: "command",
+                code: "required",
+                message: "Validation failed for 'command': value is required"
+            )
+        }
+        guard container.contains(.path) else {
+            throw SdkValidationError(
+                field: "path",
+                code: "required",
+                message: "Validation failed for 'path': value is required"
+            )
+        }
+        guard container.contains(.fileText) else {
+            throw SdkValidationError(
+                field: "file_text",
+                code: "required",
+                message: "Validation failed for 'file_text': value is required"
+            )
+        }
+        command = try container.sdkDecodeRequired(.command)
+        path = try container.sdkDecodeRequired(.path)
+        fileText = try container.sdkDecodeRequired(.fileText)
+        try sdkValidateRawEnum("command", command, BetaMemoryTool20250818CreateCommandCommand.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaMemoryTool20250818CreateCommand {
+    init(command: BetaMemoryTool20250818CreateCommandCommand, path: String, fileText: String) throws {
         (self.command, self.path) = (command, path)
         self.fileText = fileText
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818CreateCommandCommand.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "command",
+            self.command,
+            BetaMemoryTool20250818CreateCommandCommand.allCases.map(\.rawValue)
+        )
     }
 }
 
@@ -330,33 +450,51 @@ public struct BetaMemoryTool20250818RenameCommand: Codable {
         case newPath = "new_path"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaMemoryTool20250818RenameCommand {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.command) else {
-            throw SdkValidationError(field: "command", code: "required", message: "Validation failed for 'command': value is required")
-        }
-        guard container.contains(.oldPath) else {
-            throw SdkValidationError(field: "old_path", code: "required", message: "Validation failed for 'old_path': value is required")
-        }
-        guard container.contains(.newPath) else {
-            throw SdkValidationError(field: "new_path", code: "required", message: "Validation failed for 'new_path': value is required")
-        }
-        self.command = try container.sdkDecodeRequired(.command)
-        self.oldPath = try container.sdkDecodeRequired(.oldPath)
-        self.newPath = try container.sdkDecodeRequired(.newPath)
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818RenameCommandCommand.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaMemoryTool20250818RenameCommand {
-    public init(command: BetaMemoryTool20250818RenameCommandCommand, oldPath: String, newPath: String) throws {
+public extension BetaMemoryTool20250818RenameCommand {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.command) else {
+            throw SdkValidationError(
+                field: "command",
+                code: "required",
+                message: "Validation failed for 'command': value is required"
+            )
+        }
+        guard container.contains(.oldPath) else {
+            throw SdkValidationError(
+                field: "old_path",
+                code: "required",
+                message: "Validation failed for 'old_path': value is required"
+            )
+        }
+        guard container.contains(.newPath) else {
+            throw SdkValidationError(
+                field: "new_path",
+                code: "required",
+                message: "Validation failed for 'new_path': value is required"
+            )
+        }
+        command = try container.sdkDecodeRequired(.command)
+        oldPath = try container.sdkDecodeRequired(.oldPath)
+        newPath = try container.sdkDecodeRequired(.newPath)
+        try sdkValidateRawEnum("command", command, BetaMemoryTool20250818RenameCommandCommand.allCases.map(\.rawValue))
+    }
+}
+
+public extension BetaMemoryTool20250818RenameCommand {
+    init(command: BetaMemoryTool20250818RenameCommandCommand, oldPath: String, newPath: String) throws {
         (self.command, self.oldPath) = (command, oldPath)
         self.newPath = newPath
-            try sdkValidateRawEnum("command", self.command, BetaMemoryTool20250818RenameCommandCommand.allCases.map(\.rawValue))
+        try sdkValidateRawEnum(
+            "command",
+            self.command,
+            BetaMemoryTool20250818RenameCommandCommand.allCases.map(\.rawValue)
+        )
     }
 }
 

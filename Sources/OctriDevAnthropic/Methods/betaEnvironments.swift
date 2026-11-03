@@ -8,7 +8,7 @@ import Foundation
 #endif
 public enum BetaEnvironmentsMethods {}
 
-extension BetaEnvironmentsMethods {
+public extension BetaEnvironmentsMethods {
     /// Create a new environment with the specified configuration.
     ///
     /// - Parameters:
@@ -28,14 +28,57 @@ extension BetaEnvironmentsMethods {
     ///   environment visible to all accounts. 'account' restricts visibility to the
     ///   owning account only. Only applicable for self-hosted environments. If not
     ///   specified, defaults based on organization type.
-    public static func createBetaEnvironments(config: ClientConfig, name: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, config2: SdkOptional<BetaPublicEnvironmentCreateRequestConfig>? = nil, description: SdkOptional<String>? = nil, metadata: [String: String]? = nil, scope: SdkOptional<BetaPublicEnvironmentCreateRequestScopeVariant0>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaEnvironment {
+    static func createBetaEnvironments(
+        config: ClientConfig,
+        name: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        config2: SdkOptional<BetaPublicEnvironmentCreateRequestConfig>? = nil,
+        description: SdkOptional<String>? = nil,
+        metadata: [String: String]? = nil,
+        scope: SdkOptional<BetaPublicEnvironmentCreateRequestScopeVariant0>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaEnvironment {
         try validateLength("name", name, min: 1, max: 256)
 
-        let requestBody = CreateBetaEnvironmentsRequestBody(name: name, config2: config2, description: description, metadata: metadata, scope: scope)
+        let requestBody = CreateBetaEnvironmentsRequestBody(
+            name: name,
+            config2: config2,
+            description: description,
+            metadata: metadata,
+            scope: scope
+        )
 
-        return try (await sdkRequest("POST", "/v1/environments?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaEnvironments", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            "/v1/environments?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaEnvironments",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

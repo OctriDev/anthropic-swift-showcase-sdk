@@ -6,7 +6,8 @@ import Foundation
 import XCTest
 
 extension SdkMethodTests {
-    func testValidateBetaVaultsCredentialsMcpOauthValidateBetaVaultsCredenX09b35c1b0aReachesMockAndDecodesResponse() async throws {
+    func testValidateBetaVaultsCredentialsMcpOauthValidateBetaVaultsCredenX09b35c1b0aReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -17,11 +18,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.vaults.credentials.validateMcpOauth(
-            vaultId: decoded("\"vlt_011CZkZDLs7fYzm1hXNPeRjv\""),
-            credentialId: decoded("\"vcrd_011CZkZEMt8gZan2iYOQfSkw\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                vaultId: decoded("\"vlt_011CZkZDLs7fYzm1hXNPeRjv\""),
+                credentialId: decoded("\"vcrd_011CZkZEMt8gZan2iYOQfSkw\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

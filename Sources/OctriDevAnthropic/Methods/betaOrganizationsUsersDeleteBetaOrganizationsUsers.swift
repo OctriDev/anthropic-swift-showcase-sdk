@@ -6,14 +6,44 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsUsersMethods {
-    /// Removes a user from the organization. Supply the user's `user_id` and authenticate with an Admin API key in the `x-api-key` header. The response identifies the deleted user.
+public extension BetaOrganizationsUsersMethods {
+    /// Removes a user from the organization. Supply the user's `user_id` and authenticate with an Admin API key in the
+    /// `x-api-key` header. The response identifies the deleted user.
     ///
     /// Remove a member from the organization.
     ///
     /// - Parameters:
     /// - userId: ID of the User.
-    public static func deleteBetaOrganizationsUsers(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> BetaDeleteUserResponse {
-        return try (await sdkRequest("DELETE", ["/v1/organizations/users/", sdkEncodePathSegment(sdkWireString(userId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "deleteBetaOrganizationsUsers", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+    static func deleteBetaOrganizationsUsers(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaDeleteUserResponse {
+        try await (sdkRequest(
+            "DELETE",
+            ["/v1/organizations/users/", sdkEncodePathSegment(sdkWireString(userId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "deleteBetaOrganizationsUsers",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

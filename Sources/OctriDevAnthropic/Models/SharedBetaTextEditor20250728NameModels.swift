@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaText domain models
+/// SharedBetaText domain models
 /// Name of the tool. This is how the tool will be called by the model and in `tool_use` blocks.
 public enum BetaTextEditor20250728Name: String, CaseIterable, Codable {
     case strReplaceBasedEditTool = "str_replace_based_edit_tool"
@@ -41,19 +41,24 @@ public enum BetaTextEditor20241022Type: String, CaseIterable, Codable {
 }
 
 /// Typed representation of the `BetaTextEditorCodeExecutionToolResultErrorCode` API schema.
-public struct BetaTextEditorCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaTextEditorCodeExecutionToolResultErrorCode: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let invalidToolInput = BetaTextEditorCodeExecutionToolResultErrorCode(rawValue: "invalid_tool_input")
     public static let unavailable = BetaTextEditorCodeExecutionToolResultErrorCode(rawValue: "unavailable")
     public static let tooManyRequests = BetaTextEditorCodeExecutionToolResultErrorCode(rawValue: "too_many_requests")
-    public static let executionTimeExceeded = BetaTextEditorCodeExecutionToolResultErrorCode(rawValue: "execution_time_exceeded")
+    public static let executionTimeExceeded =
+        BetaTextEditorCodeExecutionToolResultErrorCode(rawValue: "execution_time_exceeded")
     public static let fileNotFound = BetaTextEditorCodeExecutionToolResultErrorCode(rawValue: "file_not_found")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,16 +6,21 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItemX0b361d38: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItemX0b361d38: RawRepresentable, Hashable,
+    Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let fast = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItemX0b361d38(rawValue: "fast")
-    public static let standard = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItemX0b361d38(rawValue: "standard")
+    public static let standard =
+        RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItemX0b361d38(rawValue: "standard")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -24,17 +29,21 @@ public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterItemX0b3
     }
 }
 
-public struct ListBetaOrganizationsInvitesParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationsInvitesParameterItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let accepted = ListBetaOrganizationsInvitesParameterItem(rawValue: "accepted")
     public static let expired = ListBetaOrganizationsInvitesParameterItem(rawValue: "expired")
     public static let pending = ListBetaOrganizationsInvitesParameterItem(rawValue: "pending")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -43,17 +52,21 @@ public struct ListBetaOrganizationsInvitesParameterItem: RawRepresentable, Hasha
     }
 }
 
-public struct ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem: RawRepresentable, Hashable, Codable,
+    Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let approved = ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem(rawValue: "approved")
     public static let denied = ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem(rawValue: "denied")
     public static let pending = ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem(rawValue: "pending")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -62,17 +75,21 @@ public struct ListBetaOrganizationsSpendLimitIncreaseRequestsParameterItem: RawR
     }
 }
 
-public struct ListBetaOrganizationsAnalyticsConnectorsParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationsAnalyticsConnectorsParameterItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let product = ListBetaOrganizationsAnalyticsConnectorsParameterItem(rawValue: "product")
     public static let rbacGroupId = ListBetaOrganizationsAnalyticsConnectorsParameterItem(rawValue: "rbac_group_id")
     public static let userId = ListBetaOrganizationsAnalyticsConnectorsParameterItem(rawValue: "user_id")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -81,10 +98,14 @@ public struct ListBetaOrganizationsAnalyticsConnectorsParameterItem: RawRepresen
     }
 }
 
-public struct ListBetaOrganizationsApiKeysParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListBetaOrganizationsApiKeysParameterVariant0: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = ListBetaOrganizationsApiKeysParameterVariant0(rawValue: "active")
     public static let archived = ListBetaOrganizationsApiKeysParameterVariant0(rawValue: "archived")
     public static let expired = ListBetaOrganizationsApiKeysParameterVariant0(rawValue: "expired")
@@ -92,7 +113,7 @@ public struct ListBetaOrganizationsApiKeysParameterVariant0: RawRepresentable, H
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -101,17 +122,21 @@ public struct ListBetaOrganizationsApiKeysParameterVariant0: RawRepresentable, H
     }
 }
 
-public struct RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let daily = RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem(rawValue: "daily")
     public static let monthly = RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem(rawValue: "monthly")
     public static let weekly = RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem(rawValue: "weekly")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -120,23 +145,31 @@ public struct RetrieveBetaOrganizationsSpendLimitsEffectiveParameterItem: RawRep
     }
 }
 
-public struct RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem: RawRepresentable, Hashable, Codable,
+    Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let contextWindow = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "context_window")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let contextWindow =
+        RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "context_window")
     public static let costType = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "cost_type")
-    public static let inferenceGeo = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "inference_geo")
+    public static let inferenceGeo =
+        RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "inference_geo")
     public static let model = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "model")
     public static let product = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "product")
-    public static let rbacGroupId = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "rbac_group_id")
-    public static let slackChannelId = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "slack_channel_id")
+    public static let rbacGroupId =
+        RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "rbac_group_id")
+    public static let slackChannelId =
+        RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "slack_channel_id")
     public static let speed = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "speed")
     public static let tokenType = RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem(rawValue: "token_type")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -145,23 +178,30 @@ public struct RetrieveBetaOrganizationsAnalyticsUserCostReportParameterItem: Raw
     }
 }
 
-public struct RetrieveBetaOrganizationsAnalyticsCostReportParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsCostReportParameterItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let contextWindow = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "context_window")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let contextWindow =
+        RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "context_window")
     public static let costType = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "cost_type")
-    public static let inferenceGeo = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "inference_geo")
+    public static let inferenceGeo =
+        RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "inference_geo")
     public static let model = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "model")
     public static let product = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "product")
     public static let rbacGroupId = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "rbac_group_id")
-    public static let slackChannelId = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "slack_channel_id")
+    public static let slackChannelId =
+        RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "slack_channel_id")
     public static let speed = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "speed")
     public static let tokenType = RetrieveBetaOrganizationsAnalyticsCostReportParameterItem(rawValue: "token_type")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -170,17 +210,21 @@ public struct RetrieveBetaOrganizationsAnalyticsCostReportParameterItem: RawRepr
     }
 }
 
-public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterVariant0: RawRepresentable, Hashable, Codable,
+    Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let value1d = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterVariant0(rawValue: "1d")
     public static let value1h = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterVariant0(rawValue: "1h")
     public static let value1m = RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterVariant0(rawValue: "1m")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -190,17 +234,21 @@ public struct RetrieveBetaOrganizationsAnalyticsUserUsageReportParameterVariant0
 }
 
 /// Time bucket granularity.
-public struct RetrieveBetaOrganizationsAnalyticsCostReportParameterX504fba15: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RetrieveBetaOrganizationsAnalyticsCostReportParameterX504fba15: RawRepresentable, Hashable, Codable,
+    Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let value1d = RetrieveBetaOrganizationsAnalyticsCostReportParameterX504fba15(rawValue: "1d")
     public static let value1h = RetrieveBetaOrganizationsAnalyticsCostReportParameterX504fba15(rawValue: "1h")
     public static let value1m = RetrieveBetaOrganizationsAnalyticsCostReportParameterX504fba15(rawValue: "1m")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaManagedAgents domain models
+/// SharedBetaManagedAgents domain models
 /// Required enumerated value serialized in the `type` wire field.
 public enum BetaManagedAgentsFileNotFoundRunErrorType: String, CaseIterable, Codable {
     case fileNotFoundError = "file_not_found_error"
@@ -80,13 +80,16 @@ public enum BetaManagedAgentsWriteToolConfigName: String, CaseIterable, Codable 
 public struct BetaManagedAgentsMountMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let readWrite = BetaManagedAgentsMountMode(rawValue: "read_write")
     public static let readOnly = BetaManagedAgentsMountMode(rawValue: "read_only")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -546,16 +549,20 @@ public enum BetaManagedAgentsReadToolConfigType: String, CaseIterable, Codable {
 }
 
 /// UserToolConfirmationResult enum
-public struct BetaManagedAgentsUserToolConfirmationResult: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaManagedAgentsUserToolConfirmationResult: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let allow = BetaManagedAgentsUserToolConfirmationResult(rawValue: "allow")
     public static let deny = BetaManagedAgentsUserToolConfirmationResult(rawValue: "deny")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

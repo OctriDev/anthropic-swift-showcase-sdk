@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsFederationIssuersMethods {
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List federation issuers in your organization. Archived issuers are excluded unless `include_archived=true`.
+public extension BetaOrganizationsFederationIssuersMethods {
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List
+    /// federation issuers in your organization. Archived issuers are excluded unless `include_archived=true`.
     ///
     /// - Parameters:
     /// - limit: Number of results per page.
@@ -16,21 +18,57 @@ extension BetaOrganizationsFederationIssuersMethods {
     /// - anthropicBeta: Optional header to specify the beta version(s) you want to
     ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
     ///   specify the header multiple times for each beta.
-    public static func listBetaOrganizationsFederationIssuers(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaFederationIssuerListResponse {
-        if let limit = limit {
+    static func listBetaOrganizationsFederationIssuers(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaFederationIssuerListResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/federation_issuers?beta=true", config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("page", value: page),
-            SdkQueryParameter("include_archived", value: includeArchived),
-        ], decoder: .json, operationId: "listBetaOrganizationsFederationIssuers", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/federation_issuers?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("page", value: page),
+                SdkQueryParameter("include_archived", value: includeArchived),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsFederationIssuers",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 
-    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List federation issuers in your organization. Archived issuers are excluded unless `include_archived=true`.
+    /// **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a
+    /// workload identity federation rule; Admin API keys are not accepted. See Manage WIF with the Admin API. List
+    /// federation issuers in your organization. Archived issuers are excluded unless `include_archived=true`.
     ///
     /// - Parameters:
     /// - limit: Number of results per page.
@@ -39,17 +77,40 @@ extension BetaOrganizationsFederationIssuersMethods {
     /// - anthropicBeta: Optional header to specify the beta version(s) you want to
     ///   use. To use multiple betas, use a comma separated list like `beta1,beta2` or
     ///   specify the header multiple times for each beta.
-    public static func listBetaOrganizationsFederationIssuersPaginated(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaFederationIssuer, Swift.Error> {
-        return AsyncThrowingStream<BetaFederationIssuer, Swift.Error> { (continuation: AsyncThrowingStream<BetaFederationIssuer, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsFederationIssuersPaginated(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaFederationIssuer, Swift.Error> {
+        AsyncThrowingStream<BetaFederationIssuer, Swift.Error> { (continuation: AsyncThrowingStream<
+            BetaFederationIssuer,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsFederationIssuers(config: config, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicBeta: anthropicBeta, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsFederationIssuers(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
-                        for item in pageItems { continuation.yield(item) }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
+                        for item in pageItems {
+                            continuation.yield(item)
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {
@@ -62,25 +123,55 @@ extension BetaOrganizationsFederationIssuersMethods {
         }
     }
 
-    public struct ListBetaOrganizationsFederationIssuersPage {
+    struct ListBetaOrganizationsFederationIssuersPage {
         public let data: BetaFederationIssuerListResponse
         public let items: [BetaFederationIssuer]
         public let hasMore: Bool
     }
 
-    public static func listBetaOrganizationsFederationIssuersPages(config: ClientConfig, limit: Int? = nil, page: String? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<ListBetaOrganizationsFederationIssuersPage, Swift.Error> {
-        return AsyncThrowingStream<ListBetaOrganizationsFederationIssuersPage, Swift.Error> { (pageContinuation: AsyncThrowingStream<ListBetaOrganizationsFederationIssuersPage, Swift.Error>.Continuation) in
+    static func listBetaOrganizationsFederationIssuersPages(
+        config: ClientConfig,
+        limit: Int? = nil,
+        page: String? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<ListBetaOrganizationsFederationIssuersPage, Swift.Error> {
+        AsyncThrowingStream<
+            ListBetaOrganizationsFederationIssuersPage,
+            Swift.Error
+        > { (pageContinuation: AsyncThrowingStream<
+            ListBetaOrganizationsFederationIssuersPage,
+            Swift.Error
+        >.Continuation) in
             let task = _Concurrency.Task {
                 do {
                     var pageCursor = page
                     while true {
-                        let pageResponse = try await listBetaOrganizationsFederationIssuers(config: config, limit: limit, page: pageCursor, includeArchived: includeArchived, anthropicBeta: anthropicBeta, requestOptions: requestOptions)
+                        let pageResponse = try await listBetaOrganizationsFederationIssuers(
+                            config: config,
+                            limit: limit,
+                            page: pageCursor,
+                            includeArchived: includeArchived,
+                            anthropicBeta: anthropicBeta,
+                            requestOptions: requestOptions
+                        )
                         let pageItems = pageResponse.data
-                        if pageItems.isEmpty { break }
+                        if pageItems.isEmpty {
+                            break
+                        }
                         let hasMore = pageResponse.nextPage != nil
-                        pageContinuation.yield(ListBetaOrganizationsFederationIssuersPage(data: pageResponse, items: pageItems, hasMore: hasMore))
-                        if !hasMore { break }
-                        guard let nextCursor = pageResponse.nextPage else { break }
+                        pageContinuation.yield(ListBetaOrganizationsFederationIssuersPage(
+                            data: pageResponse,
+                            items: pageItems,
+                            hasMore: hasMore
+                        ))
+                        if !hasMore {
+                            break
+                        }
+                        guard let nextCursor = pageResponse.nextPage else {
+                            break
+                        }
                         pageCursor = nextCursor
                     }
                 } catch {

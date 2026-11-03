@@ -9,34 +9,126 @@ public class BetaSessionsResourcesNamespace {
         self.config = config
     }
 
-/// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous response's cursor; omit `limit` to return all resources, or set it to request a bounded page of up to 1000 resources.
-    public func list(sessionId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListSessionResources {
-        return try await BetaSessionsResourcesMethods.listBetaSessionsResources(config: config, sessionId: sessionId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous
+    /// response's cursor; omit `limit` to return all resources, or set it to request a bounded page of up to 1000
+    /// resources.
+    public func list(
+        sessionId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListSessionResources {
+        try await BetaSessionsResourcesMethods.listBetaSessionsResources(
+            config: config,
+            sessionId: sessionId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous response's cursor; omit `limit` to return all resources, or set it to request a bounded page of up to 1000 resources.
-    public func listPaginated(sessionId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error> {
-        return BetaSessionsResourcesMethods.listBetaSessionsResourcesPaginated(config: config, sessionId: sessionId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists resources attached to a session, ordered by creation time. Use `page` to continue from a previous
+    /// response's cursor; omit `limit` to return all resources, or set it to request a bounded page of up to 1000
+    /// resources.
+    public func listPaginated(
+        sessionId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsSessionResource, Swift.Error> {
+        BetaSessionsResourcesMethods.listBetaSessionsResourcesPaginated(
+            config: config,
+            sessionId: sessionId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Adds a previously uploaded file as a resource attached to a session. Provide the file's `file_id` and optionally set `mount_path`; if omitted, the file is mounted at `/mnt/session/uploads/<file_id>`.
-    public func create(sessionId: String, body: BetaManagedAgentsAddSessionResourceParams, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAddSessionResource {
-        return try await BetaSessionsResourcesMethods.createBetaSessionsResources(config: config, sessionId: sessionId, body: body, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Adds a previously uploaded file as a resource attached to a session. Provide the file's `file_id` and optionally
+    /// set `mount_path`; if omitted, the file is mounted at `/mnt/session/uploads/<file_id>`.
+    public func create(
+        sessionId: String,
+        body: BetaManagedAgentsAddSessionResourceParams,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAddSessionResource {
+        try await BetaSessionsResourcesMethods.createBetaSessionsResources(
+            config: config,
+            sessionId: sessionId,
+            body: body,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a specific resource attached to a session. Use `session_id` and `resource_id` to identify the resource; the response may describe a file, a URL-based resource, or an attached memory store.
-    public func retrieve(sessionId: String, resourceId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsGetSessionResource {
-        return try await BetaSessionsResourcesMethods.retrieveBetaSessionsResources(config: config, sessionId: sessionId, resourceId: resourceId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a specific resource attached to a session. Use `session_id` and `resource_id` to identify the
+    /// resource; the response may describe a file, a URL-based resource, or an attached memory store.
+    public func retrieve(
+        sessionId: String,
+        resourceId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsGetSessionResource {
+        try await BetaSessionsResourcesMethods.retrieveBetaSessionsResources(
+            config: config,
+            sessionId: sessionId,
+            resourceId: resourceId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a resource attached to a session. Use `session_id` and `resource_id` to identify the resource to remove; the response confirms deletion with the resource identifier.
-    public func delete(sessionId: String, resourceId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeleteSessionResource {
-        return try await BetaSessionsResourcesMethods.deleteBetaSessionsResources(config: config, sessionId: sessionId, resourceId: resourceId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a resource attached to a session. Use `session_id` and `resource_id` to identify the resource to remove;
+    /// the response confirms deletion with the resource identifier.
+    public func delete(
+        sessionId: String,
+        resourceId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeleteSessionResource {
+        try await BetaSessionsResourcesMethods.deleteBetaSessionsResources(
+            config: config,
+            sessionId: sessionId,
+            resourceId: resourceId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates the authorization token for a resource attached to an agent session. Supply the new `authorization_token`; token rotation is currently supported only for `github_repository` resources.
-    public func update(sessionId: String, resourceId: String, authorizationToken: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsUpdateSessionResource {
-        return try await BetaSessionsResourcesMethods.updateBetaSessionsResources(config: config, sessionId: sessionId, resourceId: resourceId, authorizationToken: authorizationToken, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Updates the authorization token for a resource attached to an agent session. Supply the new
+    /// `authorization_token`; token rotation is currently supported only for `github_repository` resources.
+    public func update(
+        sessionId: String,
+        resourceId: String,
+        authorizationToken: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsUpdateSessionResource {
+        try await BetaSessionsResourcesMethods.updateBetaSessionsResources(
+            config: config,
+            sessionId: sessionId,
+            resourceId: resourceId,
+            authorizationToken: authorizationToken,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -52,39 +144,106 @@ public class BetaSessionsNamespace {
         resources = BetaSessionsResourcesNamespace(config: config)
     }
 
-/// Creates a session using an agent and an environment, with optional resources, credentials, events, and a spend budget. Provide `agent` and `environment_id`; use `initial_events` to send events as the session is created, or omit it to create the session without initial events. The response contains the created session and its initial status.
-    public func create(options: BetaSessionsMethods.CreateBetaSessionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
-        return try await BetaSessionsMethods.createBetaSessions(config: config, options: options, requestOptions: requestOptions)
+    /// Creates a session using an agent and an environment, with optional resources, credentials, events, and a spend
+    /// budget. Provide `agent` and `environment_id`; use `initial_events` to send events as the session is created, or
+    /// omit it to create the session without initial events. The response contains the created session and its initial
+    /// status.
+    public func create(
+        options: BetaSessionsMethods.CreateBetaSessionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSession {
+        try await BetaSessionsMethods.createBetaSessions(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists sessions with cursor-based pagination and optional filters for creation time, agent, memory store, deployment, and status. Use `include_archived` to include archived sessions and `order` to choose the creation-time sort direction. Pass a returned cursor in `page` to navigate between pages.
-    public func list(options: BetaSessionsMethods.ListBetaSessionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListSessions {
-        return try await BetaSessionsMethods.listBetaSessions(config: config, options: options, requestOptions: requestOptions)
+    /// Lists sessions with cursor-based pagination and optional filters for creation time, agent, memory store,
+    /// deployment, and status. Use `include_archived` to include archived sessions and `order` to choose the
+    /// creation-time sort direction. Pass a returned cursor in `page` to navigate between pages.
+    public func list(
+        options: BetaSessionsMethods.ListBetaSessionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListSessions {
+        try await BetaSessionsMethods.listBetaSessions(config: config, options: options, requestOptions: requestOptions)
     }
 
-/// Lists sessions with cursor-based pagination and optional filters for creation time, agent, memory store, deployment, and status. Use `include_archived` to include archived sessions and `order` to choose the creation-time sort direction. Pass a returned cursor in `page` to navigate between pages.
-    public func listPaginated(options: BetaSessionsMethods.ListBetaSessionsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsSession, Swift.Error> {
-        return BetaSessionsMethods.listBetaSessionsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists sessions with cursor-based pagination and optional filters for creation time, agent, memory store,
+    /// deployment, and status. Use `include_archived` to include archived sessions and `order` to choose the
+    /// creation-time sort direction. Pass a returned cursor in `page` to navigate between pages.
+    public func listPaginated(
+        options: BetaSessionsMethods.ListBetaSessionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsSession, Swift.Error> {
+        BetaSessionsMethods.listBetaSessionsPaginated(config: config, options: options, requestOptions: requestOptions)
     }
 
-/// Retrieves a session by its identifier, including its status, agent snapshot, resources, usage, and timing statistics. Use `session_id` to select the session you need to inspect. The response includes the session's archive timestamp when it has been archived.
-    public func retrieve(sessionId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
-        return try await BetaSessionsMethods.retrieveBetaSessions(config: config, sessionId: sessionId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a session by its identifier, including its status, agent snapshot, resources, usage, and timing
+    /// statistics. Use `session_id` to select the session you need to inspect. The response includes the session's
+    /// archive timestamp when it has been archived.
+    public func retrieve(
+        sessionId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSession {
+        try await BetaSessionsMethods.retrieveBetaSessions(
+            config: config,
+            sessionId: sessionId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates selected properties of a session while preserving fields you omit. Use `title`, `metadata`, `agent`, or `budget` as needed; `vault_ids` is reserved and requests that set it are rejected. Mid-session agent updates can change only `tools` and `mcp_servers`, require a session that is not running, and replace those arrays in full.
-    public func update(options: BetaSessionsMethods.UpdateBetaSessionsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
-        return try await BetaSessionsMethods.updateBetaSessions(config: config, options: options, requestOptions: requestOptions)
+    /// Updates selected properties of a session while preserving fields you omit. Use `title`, `metadata`, `agent`, or
+    /// `budget` as needed; `vault_ids` is reserved and requests that set it are rejected. Mid-session agent updates can
+    /// change only `tools` and `mcp_servers`, require a session that is not running, and replace those arrays in full.
+    public func update(
+        options: BetaSessionsMethods.UpdateBetaSessionsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSession {
+        try await BetaSessionsMethods.updateBetaSessions(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a session permanently. Supply the session identifier for the session you want to remove. A successful response confirms deletion and includes the deleted session's identifier.
-    public func delete(sessionId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeletedSession {
-        return try await BetaSessionsMethods.deleteBetaSessions(config: config, sessionId: sessionId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Deletes a session permanently. Supply the session identifier for the session you want to remove. A successful
+    /// response confirms deletion and includes the deleted session's identifier.
+    public func delete(
+        sessionId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeletedSession {
+        try await BetaSessionsMethods.deleteBetaSessions(
+            config: config,
+            sessionId: sessionId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a session, marking it as archived while retaining its session record. Use this operation when the session should no longer be active; the response includes the session's `archived_at` value and other session details.
-    public func archive(sessionId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSession {
-        return try await BetaSessionsMethods.archiveBetaSessions(config: config, sessionId: sessionId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives a session, marking it as archived while retaining its session record. Use this operation when the
+    /// session should no longer be active; the response includes the session's `archived_at` value and other session
+    /// details.
+    public func archive(
+        sessionId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSession {
+        try await BetaSessionsMethods.archiveBetaSessions(
+            config: config,
+            sessionId: sessionId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -94,14 +253,46 @@ public class BetaAgentsVersionsNamespace {
         self.config = config
     }
 
-/// Lists the versions recorded for a specific agent. Use `page` to continue from a previous response and `limit` to control the page size; the response provides a `next_page` cursor when more versions are available.
-    public func list(agentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListAgentVersions {
-        return try await BetaAgentsVersionsMethods.listBetaAgentsVersions(config: config, agentId: agentId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists the versions recorded for a specific agent. Use `page` to continue from a previous response and `limit` to
+    /// control the page size; the response provides a `next_page` cursor when more versions are available.
+    public func list(
+        agentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListAgentVersions {
+        try await BetaAgentsVersionsMethods.listBetaAgentsVersions(
+            config: config,
+            agentId: agentId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists the versions recorded for a specific agent. Use `page` to continue from a previous response and `limit` to control the page size; the response provides a `next_page` cursor when more versions are available.
-    public func listPaginated(agentId: String, limit: Int? = nil, page: String? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> {
-        return BetaAgentsVersionsMethods.listBetaAgentsVersionsPaginated(config: config, agentId: agentId, limit: limit, page: page, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists the versions recorded for a specific agent. Use `page` to continue from a previous response and `limit` to
+    /// control the page size; the response provides a `next_page` cursor when more versions are available.
+    public func listPaginated(
+        agentId: String,
+        limit: Int? = nil,
+        page: String? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> {
+        BetaAgentsVersionsMethods.listBetaAgentsVersionsPaginated(
+            config: config,
+            agentId: agentId,
+            limit: limit,
+            page: page,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -113,34 +304,110 @@ public class BetaAgentsNamespace {
         versions = BetaAgentsVersionsNamespace(config: config)
     }
 
-/// Creates an agent with a name, model, and optional configuration for its instructions, tools, skills, and connected MCP servers. Supply `name` and `model` at minimum; configure `tools` and `mcp_servers` together when connecting an MCP server.
-    public func create(options: BetaAgentsMethods.CreateBetaAgentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAgent {
-        return try await BetaAgentsMethods.createBetaAgents(config: config, options: options, requestOptions: requestOptions)
+    /// Creates an agent with a name, model, and optional configuration for its instructions, tools, skills, and
+    /// connected MCP servers. Supply `name` and `model` at minimum; configure `tools` and `mcp_servers` together when
+    /// connecting an MCP server.
+    public func create(
+        options: BetaAgentsMethods.CreateBetaAgentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAgent {
+        try await BetaAgentsMethods.createBetaAgents(config: config, options: options, requestOptions: requestOptions)
     }
 
-/// Lists agents in the selected Workspace, with optional filters for creation time and archived status. Use `page` to continue from a previous response and `limit` to set the page size; archived agents are excluded by default.
-    public func list(limit: Int? = nil, page: String? = nil, createdAtGte: BetaTimestamp? = nil, createdAtLte: BetaTimestamp? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListAgents {
-        return try await BetaAgentsMethods.listBetaAgents(config: config, limit: limit, page: page, createdAtGte: createdAtGte, createdAtLte: createdAtLte, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists agents in the selected Workspace, with optional filters for creation time and archived status. Use `page`
+    /// to continue from a previous response and `limit` to set the page size; archived agents are excluded by default.
+    public func list(
+        limit: Int? = nil,
+        page: String? = nil,
+        createdAtGte: BetaTimestamp? = nil,
+        createdAtLte: BetaTimestamp? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListAgents {
+        try await BetaAgentsMethods.listBetaAgents(
+            config: config,
+            limit: limit,
+            page: page,
+            createdAtGte: createdAtGte,
+            createdAtLte: createdAtLte,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists agents in the selected Workspace, with optional filters for creation time and archived status. Use `page` to continue from a previous response and `limit` to set the page size; archived agents are excluded by default.
-    public func listPaginated(limit: Int? = nil, page: String? = nil, createdAtGte: BetaTimestamp? = nil, createdAtLte: BetaTimestamp? = nil, includeArchived: Bool? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> {
-        return BetaAgentsMethods.listBetaAgentsPaginated(config: config, limit: limit, page: page, createdAtGte: createdAtGte, createdAtLte: createdAtLte, includeArchived: includeArchived, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Lists agents in the selected Workspace, with optional filters for creation time and archived status. Use `page`
+    /// to continue from a previous response and `limit` to set the page size; archived agents are excluded by default.
+    public func listPaginated(
+        limit: Int? = nil,
+        page: String? = nil,
+        createdAtGte: BetaTimestamp? = nil,
+        createdAtLte: BetaTimestamp? = nil,
+        includeArchived: Bool? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsAgent, Swift.Error> {
+        BetaAgentsMethods.listBetaAgentsPaginated(
+            config: config,
+            limit: limit,
+            page: page,
+            createdAtGte: createdAtGte,
+            createdAtLte: createdAtLte,
+            includeArchived: includeArchived,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves an agent by its identifier, with the option to retrieve a specific version. Omit `version` to retrieve the most recent version; provide a value of at least 1 to select a version.
-    public func retrieve(agentId: String, version: Int? = nil, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAgent {
-        return try await BetaAgentsMethods.retrieveBetaAgents(config: config, agentId: agentId, version: version, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves an agent by its identifier, with the option to retrieve a specific version. Omit `version` to retrieve
+    /// the most recent version; provide a value of at least 1 to select a version.
+    public func retrieve(
+        agentId: String,
+        version: Int? = nil,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAgent {
+        try await BetaAgentsMethods.retrieveBetaAgents(
+            config: config,
+            agentId: agentId,
+            version: version,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates an agent by replacing only the configuration fields you include in the request. Omitted fields retain their current values; use an empty value or `null` to clear fields where supported, and send the current `version` to guard against concurrent changes.
-    public func update(options: BetaAgentsMethods.UpdateBetaAgentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAgent {
-        return try await BetaAgentsMethods.updateBetaAgents(config: config, options: options, requestOptions: requestOptions)
+    /// Updates an agent by replacing only the configuration fields you include in the request. Omitted fields retain
+    /// their current values; use an empty value or `null` to clear fields where supported, and send the current
+    /// `version` to guard against concurrent changes.
+    public func update(
+        options: BetaAgentsMethods.UpdateBetaAgentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAgent {
+        try await BetaAgentsMethods.updateBetaAgents(config: config, options: options, requestOptions: requestOptions)
     }
 
-/// Archives an agent so it is marked as archived rather than removed from the API. Use the agent identifier to select the agent; the response contains the agent record with its archived state.
-    public func archive(agentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsAgent {
-        return try await BetaAgentsMethods.archiveBetaAgents(config: config, agentId: agentId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives an agent so it is marked as archived rather than removed from the API. Use the agent identifier to
+    /// select the agent; the response contains the agent record with its archived state.
+    public func archive(
+        agentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsAgent {
+        try await BetaAgentsMethods.archiveBetaAgents(
+            config: config,
+            agentId: agentId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -150,50 +417,150 @@ public class BetaDeploymentsNamespace {
         self.config = config
     }
 
-/// Creates a deployment that binds an agent to an environment, initial events, and optional resources or a recurring schedule. Provide `name`, `agent`, `environment_id`, and at least one `initial_event`; the agent and environment must exist and the agent must not be archived.
-    public func create(options: BetaDeploymentsMethods.CreateBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try await BetaDeploymentsMethods.createBetaDeployments(config: config, options: options, requestOptions: requestOptions)
+    /// Creates a deployment that binds an agent to an environment, initial events, and optional resources or a
+    /// recurring schedule. Provide `name`, `agent`, `environment_id`, and at least one `initial_event`; the agent and
+    /// environment must exist and the agent must not be archived.
+    public func create(
+        options: BetaDeploymentsMethods.CreateBetaDeploymentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await BetaDeploymentsMethods.createBetaDeployments(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists deployments in the selected Workspace, with optional filters for agent, lifecycle status, creation time, and archived status. Use `page` to paginate and `limit` to control page size; do not combine `status` with `include_archived`.
-    public func list(options: BetaDeploymentsMethods.ListBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsListDeploymentsData {
-        return try await BetaDeploymentsMethods.listBetaDeployments(config: config, options: options, requestOptions: requestOptions)
+    /// Lists deployments in the selected Workspace, with optional filters for agent, lifecycle status, creation time,
+    /// and archived status. Use `page` to paginate and `limit` to control page size; do not combine `status` with
+    /// `include_archived`.
+    public func list(
+        options: BetaDeploymentsMethods.ListBetaDeploymentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsListDeploymentsData {
+        try await BetaDeploymentsMethods.listBetaDeployments(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Lists deployments in the selected Workspace, with optional filters for agent, lifecycle status, creation time, and archived status. Use `page` to paginate and `limit` to control page size; do not combine `status` with `include_archived`.
-    public func listPaginated(options: BetaDeploymentsMethods.ListBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) -> AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error> {
-        return BetaDeploymentsMethods.listBetaDeploymentsPaginated(config: config, options: options, requestOptions: requestOptions)
+    /// Lists deployments in the selected Workspace, with optional filters for agent, lifecycle status, creation time,
+    /// and archived status. Use `page` to paginate and `limit` to control page size; do not combine `status` with
+    /// `include_archived`.
+    public func listPaginated(
+        options: BetaDeploymentsMethods.ListBetaDeploymentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) -> AsyncThrowingStream<BetaManagedAgentsDeployment, Swift.Error> {
+        BetaDeploymentsMethods.listBetaDeploymentsPaginated(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a deployment by its identifier, including its agent and environment references, configuration, schedule, and current status. Use this operation to inspect a deployment's settings and whether it is active or paused.
-    public func retrieve(deploymentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try await BetaDeploymentsMethods.retrieveBetaDeployments(config: config, deploymentId: deploymentId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Retrieves a deployment by its identifier, including its agent and environment references, configuration,
+    /// schedule, and current status. Use this operation to inspect a deployment's settings and whether it is active or
+    /// paused.
+    public func retrieve(
+        deploymentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await BetaDeploymentsMethods.retrieveBetaDeployments(
+            config: config,
+            deploymentId: deploymentId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates a deployment's configuration while preserving any fields you omit. Use the body to change the agent, environment, events, resources, metadata, schedule, or budget; fields such as `vault_ids` and `initial_events` are replaced as a whole when supplied. The response contains the deployment's updated configuration and status.
-    public func update(options: BetaDeploymentsMethods.UpdateBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try await BetaDeploymentsMethods.updateBetaDeployments(config: config, options: options, requestOptions: requestOptions)
+    /// Updates a deployment's configuration while preserving any fields you omit. Use the body to change the agent,
+    /// environment, events, resources, metadata, schedule, or budget; fields such as `vault_ids` and `initial_events`
+    /// are replaced as a whole when supplied. The response contains the deployment's updated configuration and status.
+    public func update(
+        options: BetaDeploymentsMethods.UpdateBetaDeploymentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await BetaDeploymentsMethods.updateBetaDeployments(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Archives a deployment so you can remove it from active management while retaining its record. Use `deployment_id` to select the deployment to archive. The response returns the deployment object, whose archived state is indicated by `archived_at`.
-    public func archive(deploymentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try await BetaDeploymentsMethods.archiveBetaDeployments(config: config, deploymentId: deploymentId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Archives a deployment so you can remove it from active management while retaining its record. Use
+    /// `deployment_id` to select the deployment to archive. The response returns the deployment object, whose archived
+    /// state is indicated by `archived_at`.
+    public func archive(
+        deploymentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await BetaDeploymentsMethods.archiveBetaDeployments(
+            config: config,
+            deploymentId: deploymentId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Pauses a deployment to stop it from running until it is unpaused. Use `deployment_id` to select the deployment whose execution you want to pause. The response returns the deployment object with its computed status and pause reason.
-    public func pause(deploymentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try await BetaDeploymentsMethods.pauseBetaDeployments(config: config, deploymentId: deploymentId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Pauses a deployment to stop it from running until it is unpaused. Use `deployment_id` to select the deployment
+    /// whose execution you want to pause. The response returns the deployment object with its computed status and pause
+    /// reason.
+    public func pause(
+        deploymentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await BetaDeploymentsMethods.pauseBetaDeployments(
+            config: config,
+            deploymentId: deploymentId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Unpauses a deployment so it can run again. Use `deployment_id` to select the deployment whose execution you want to resume. The response returns the deployment object with its computed status.
-    public func unpause(deploymentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
-        return try await BetaDeploymentsMethods.unpauseBetaDeployments(config: config, deploymentId: deploymentId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+    /// Unpauses a deployment so it can run again. Use `deployment_id` to select the deployment whose execution you want
+    /// to resume. The response returns the deployment object with its computed status.
+    public func unpause(
+        deploymentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
+        try await BetaDeploymentsMethods.unpauseBetaDeployments(
+            config: config,
+            deploymentId: deploymentId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }
 
-extension BetaDeploymentsNamespace {
-/// Triggers an immediate run of a deployment and records the attempt as an append-only deployment run. Use `deployment_id` to choose which deployment to run; the response records whether session creation succeeded or failed. Use the returned run record's `session_id` or `error` to inspect the outcome.
-    public func run(deploymentId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeploymentRun {
-        return try await BetaDeploymentsMethods.runBetaDeployments(config: config, deploymentId: deploymentId, anthropicBeta: anthropicBeta, anthropicWorkspaceId: anthropicWorkspaceId, requestOptions: requestOptions)
+public extension BetaDeploymentsNamespace {
+    /// Triggers an immediate run of a deployment and records the attempt as an append-only deployment run. Use
+    /// `deployment_id` to choose which deployment to run; the response records whether session creation succeeded or
+    /// failed. Use the returned run record's `session_id` or `error` to inspect the outcome.
+    func run(
+        deploymentId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeploymentRun {
+        try await BetaDeploymentsMethods.runBetaDeployments(
+            config: config,
+            deploymentId: deploymentId,
+            anthropicBeta: anthropicBeta,
+            anthropicWorkspaceId: anthropicWorkspaceId,
+            requestOptions: requestOptions
+        )
     }
 }

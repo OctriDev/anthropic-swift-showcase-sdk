@@ -8,24 +8,88 @@ import Foundation
 #endif
 public enum BetaOrganizationsApiKeysMethods {}
 
-extension BetaOrganizationsApiKeysMethods {
-    /// Retrieves a specific API key by its ID. Use `api_key_id` to identify the key whose metadata you need. The response includes its status, scope, creation and expiration details, and a partially redacted key hint.
+public extension BetaOrganizationsApiKeysMethods {
+    /// Retrieves a specific API key by its ID. Use `api_key_id` to identify the key whose metadata you need. The
+    /// response includes its status, scope, creation and expiration details, and a partially redacted key hint.
     ///
     /// - Parameters:
     /// - apiKeyId: ID of the API key.
-    public static func retrieveBetaOrganizationsApiKeys(config: ClientConfig, apiKeyId: String, requestOptions: RequestOptions? = nil) async throws -> BetaApiKey {
-        return try (await sdkRequest("GET", ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaOrganizationsApiKeys", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+    static func retrieveBetaOrganizationsApiKeys(
+        config: ClientConfig,
+        apiKeyId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaApiKey {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsApiKeys",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 
-    /// Updates an API key's name, status, or both. Include the fields you want to change; `name` can be a string or `null`, and `status` can be active, archived, inactive, or `null`. The response returns the API key object with its current metadata.
+    /// Updates an API key's name, status, or both. Include the fields you want to change; `name` can be a string or
+    /// `null`, and `status` can be active, archived, inactive, or `null`. The response returns the API key object with
+    /// its current metadata.
     ///
     /// - Parameters:
     /// - apiKeyId: ID of the API key.
     /// - name: Name of the API key.
     /// - status: Status of the API key.
-    public static func updateBetaOrganizationsApiKeys(config: ClientConfig, apiKeyId: String, name: SdkOptional<String>? = nil, status: SdkOptional<BetaApiKeyUpdateParamsStatusVariant0>? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaApiKey {
+    static func updateBetaOrganizationsApiKeys(
+        config: ClientConfig,
+        apiKeyId: String,
+        name: SdkOptional<String>? = nil,
+        status: SdkOptional<BetaApiKeyUpdateParamsStatusVariant0>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaApiKey {
         let requestBody = UpdateBetaOrganizationsApiKeysRequestBody(name: name, status: status)
 
-        return try (await sdkRequest("POST", ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaOrganizationsApiKeys", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/organizations/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "updateBetaOrganizationsApiKeys",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

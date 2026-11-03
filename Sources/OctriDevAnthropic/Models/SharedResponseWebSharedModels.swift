@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedResponseWeb domain models
+/// SharedResponseWeb domain models
 public indirect enum ResponseWebFetchToolResultBlockCaller {
     case directCaller(DirectCaller)
     case serverToolCaller(ServerToolCaller)
@@ -13,7 +13,6 @@ public indirect enum ResponseWebFetchToolResultBlockCaller {
 }
 
 extension ResponseWebFetchToolResultBlockCaller: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -21,12 +20,16 @@ extension ResponseWebFetchToolResultBlockCaller: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension ResponseWebFetchToolResultBlockCaller: Codable {
 extension ResponseWebFetchToolResultBlockCaller {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "direct": return .directCaller(try DirectCaller(from: decoder))
-        case "code_execution_20250825": return .serverToolCaller(try ServerToolCaller(from: decoder))
-        case "code_execution_20260120": return .serverToolCaller20260120(try ServerToolCaller20260120(from: decoder))
-        default: return nil
+        case "direct": try .directCaller(DirectCaller(from: decoder))
+        case "code_execution_20250825": try .serverToolCaller(ServerToolCaller(from: decoder))
+        case "code_execution_20260120": try .serverToolCaller20260120(ServerToolCaller20260120(from: decoder))
+        default: nil
         }
     }
 }
@@ -65,7 +68,6 @@ public indirect enum ResponseWebFetchToolResultBlockContent {
 }
 
 extension ResponseWebFetchToolResultBlockContent: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -73,12 +75,16 @@ extension ResponseWebFetchToolResultBlockContent: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -89,9 +95,11 @@ extension ResponseWebFetchToolResultBlockContent: Codable {
 extension ResponseWebFetchToolResultBlockContent {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "web_fetch_tool_result_error": return .responseWebFetchToolResultError(try ResponseWebFetchToolResultError(from: decoder))
-        case "web_fetch_result": return .responseWebFetchResultBlock(try ResponseWebFetchResultBlock(from: decoder))
-        default: return nil
+        case "web_fetch_tool_result_error": try .responseWebFetchToolResultError(
+                ResponseWebFetchToolResultError(from: decoder)
+            )
+        case "web_fetch_result": try .responseWebFetchResultBlock(ResponseWebFetchResultBlock(from: decoder))
+        default: nil
         }
     }
 }
@@ -116,7 +124,6 @@ public indirect enum ResponseWebSearchToolResultBlockCaller {
 }
 
 extension ResponseWebSearchToolResultBlockCaller: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -124,12 +131,16 @@ extension ResponseWebSearchToolResultBlockCaller: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -140,10 +151,10 @@ extension ResponseWebSearchToolResultBlockCaller: Codable {
 extension ResponseWebSearchToolResultBlockCaller {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "direct": return .directCaller(try DirectCaller(from: decoder))
-        case "code_execution_20250825": return .serverToolCaller(try ServerToolCaller(from: decoder))
-        case "code_execution_20260120": return .serverToolCaller20260120(try ServerToolCaller20260120(from: decoder))
-        default: return nil
+        case "direct": try .directCaller(DirectCaller(from: decoder))
+        case "code_execution_20250825": try .serverToolCaller(ServerToolCaller(from: decoder))
+        case "code_execution_20260120": try .serverToolCaller20260120(ServerToolCaller20260120(from: decoder))
+        default: nil
         }
     }
 }
@@ -181,42 +192,70 @@ public struct ResponseWebSearchResultLocationCitation: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseWebSearchResultLocationCitation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.citedText) else {
-            throw SdkValidationError(field: "cited_text", code: "required", message: "Validation failed for 'cited_text': value is required")
-        }
-        guard container.contains(.encryptedIndex) else {
-            throw SdkValidationError(field: "encrypted_index", code: "required", message: "Validation failed for 'encrypted_index': value is required")
-        }
-        guard container.contains(.title) else {
-            throw SdkValidationError(field: "title", code: "required", message: "Validation failed for 'title': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.url) else {
-            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
-        }
-        self.citedText = try container.sdkDecodeRequired(.citedText)
-        self.encryptedIndex = try container.sdkDecodeRequired(.encryptedIndex)
-        self.title = try container.sdkDecodeNullable(.title)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.url = try container.sdkDecodeRequired(.url)
-            try sdkValidateRawEnum("type", self.type, ResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseWebSearchResultLocationCitation {
-    public init(citedText: String, encryptedIndex: String, title: String?, type: ResponseWebSearchResultLocationCitationType, url: String) throws {
+public extension ResponseWebSearchResultLocationCitation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.citedText) else {
+            throw SdkValidationError(
+                field: "cited_text",
+                code: "required",
+                message: "Validation failed for 'cited_text': value is required"
+            )
+        }
+        guard container.contains(.encryptedIndex) else {
+            throw SdkValidationError(
+                field: "encrypted_index",
+                code: "required",
+                message: "Validation failed for 'encrypted_index': value is required"
+            )
+        }
+        guard container.contains(.title) else {
+            throw SdkValidationError(
+                field: "title",
+                code: "required",
+                message: "Validation failed for 'title': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.url) else {
+            throw SdkValidationError(
+                field: "url",
+                code: "required",
+                message: "Validation failed for 'url': value is required"
+            )
+        }
+        citedText = try container.sdkDecodeRequired(.citedText)
+        encryptedIndex = try container.sdkDecodeRequired(.encryptedIndex)
+        title = try container.sdkDecodeNullable(.title)
+        type = try container.sdkDecodeRequired(.type)
+        url = try container.sdkDecodeRequired(.url)
+        try sdkValidateRawEnum("type", type, ResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseWebSearchResultLocationCitation {
+    init(
+        citedText: String,
+        encryptedIndex: String,
+        title: String?,
+        type: ResponseWebSearchResultLocationCitationType,
+        url: String
+    ) throws {
         (self.citedText, self.encryptedIndex) = (citedText, encryptedIndex)
         (self.title, self.type) = (title, type)
         self.url = url
-            try sdkValidateRawEnum("type", self.type, ResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, ResponseWebSearchResultLocationCitationType.allCases.map(\.rawValue))
     }
 }
 
@@ -232,28 +271,38 @@ public struct ResponseWebSearchToolResultError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseWebSearchToolResultError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.errorCode) else {
-            throw SdkValidationError(field: "error_code", code: "required", message: "Validation failed for 'error_code': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.errorCode = try container.sdkDecodeRequired(.errorCode)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, ResponseWebSearchToolResultErrorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseWebSearchToolResultError {
-    public init(errorCode: WebSearchToolResultErrorCode, type: ResponseWebSearchToolResultErrorType) throws {
+public extension ResponseWebSearchToolResultError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.errorCode) else {
+            throw SdkValidationError(
+                field: "error_code",
+                code: "required",
+                message: "Validation failed for 'error_code': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        errorCode = try container.sdkDecodeRequired(.errorCode)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, ResponseWebSearchToolResultErrorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseWebSearchToolResultError {
+    init(errorCode: WebSearchToolResultErrorCode, type: ResponseWebSearchToolResultErrorType) throws {
         (self.errorCode, self.type) = (errorCode, type)
-            try sdkValidateRawEnum("type", self.type, ResponseWebSearchToolResultErrorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, ResponseWebSearchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -275,39 +324,62 @@ public struct ResponseWebSearchToolResultBlock: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseWebSearchToolResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.caller) else {
-            throw SdkValidationError(field: "caller", code: "required", message: "Validation failed for 'caller': value is required")
-        }
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.toolUseId) else {
-            throw SdkValidationError(field: "tool_use_id", code: "required", message: "Validation failed for 'tool_use_id': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.caller = try container.sdkDecodeRequired(.caller)
-        self.content = try container.sdkDecodeRequired(.content)
-        self.toolUseId = try container.sdkDecodeRequired(.toolUseId)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-            try sdkValidateRawEnum("type", self.type, ResponseWebSearchToolResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseWebSearchToolResultBlock {
-    public init(caller: ResponseWebSearchToolResultBlockCaller, content: ResponseWebSearchToolResultBlockContent, toolUseId: String, type: ResponseWebSearchToolResultBlockType) throws {
+public extension ResponseWebSearchToolResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.caller) else {
+            throw SdkValidationError(
+                field: "caller",
+                code: "required",
+                message: "Validation failed for 'caller': value is required"
+            )
+        }
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.toolUseId) else {
+            throw SdkValidationError(
+                field: "tool_use_id",
+                code: "required",
+                message: "Validation failed for 'tool_use_id': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        caller = try container.sdkDecodeRequired(.caller)
+        content = try container.sdkDecodeRequired(.content)
+        toolUseId = try container.sdkDecodeRequired(.toolUseId)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidatePattern("tool_use_id", toolUseId, sdkPattern047e2f7d5639)
+        try sdkValidateRawEnum("type", type, ResponseWebSearchToolResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseWebSearchToolResultBlock {
+    init(
+        caller: ResponseWebSearchToolResultBlockCaller,
+        content: ResponseWebSearchToolResultBlockContent,
+        toolUseId: String,
+        type: ResponseWebSearchToolResultBlockType
+    ) throws {
         (self.caller, self.content) = (caller, content)
         (self.toolUseId, self.type) = (toolUseId, type)
-            try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
-            try sdkValidateRawEnum("type", self.type, ResponseWebSearchToolResultBlockType.allCases.map(\.rawValue))
+        try sdkValidatePattern("tool_use_id", self.toolUseId, sdkPattern047e2f7d5639)
+        try sdkValidateRawEnum("type", self.type, ResponseWebSearchToolResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -329,37 +401,60 @@ public struct ResponseWebFetchResultBlock: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseWebFetchResultBlock {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.content) else {
-            throw SdkValidationError(field: "content", code: "required", message: "Validation failed for 'content': value is required")
-        }
-        guard container.contains(.retrievedAt) else {
-            throw SdkValidationError(field: "retrieved_at", code: "required", message: "Validation failed for 'retrieved_at': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.url) else {
-            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
-        }
-        self.content = try container.sdkDecodeRequired(.content)
-        self.retrievedAt = try container.sdkDecodeNullable(.retrievedAt)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.url = try container.sdkDecodeRequired(.url)
-            try sdkValidateRawEnum("type", self.type, ResponseWebFetchResultBlockType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseWebFetchResultBlock {
-    public init(content: ResponseDocumentBlock, retrievedAt: String?, type: ResponseWebFetchResultBlockType, url: String) throws {
+public extension ResponseWebFetchResultBlock {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.content) else {
+            throw SdkValidationError(
+                field: "content",
+                code: "required",
+                message: "Validation failed for 'content': value is required"
+            )
+        }
+        guard container.contains(.retrievedAt) else {
+            throw SdkValidationError(
+                field: "retrieved_at",
+                code: "required",
+                message: "Validation failed for 'retrieved_at': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.url) else {
+            throw SdkValidationError(
+                field: "url",
+                code: "required",
+                message: "Validation failed for 'url': value is required"
+            )
+        }
+        content = try container.sdkDecodeRequired(.content)
+        retrievedAt = try container.sdkDecodeNullable(.retrievedAt)
+        type = try container.sdkDecodeRequired(.type)
+        url = try container.sdkDecodeRequired(.url)
+        try sdkValidateRawEnum("type", type, ResponseWebFetchResultBlockType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseWebFetchResultBlock {
+    init(
+        content: ResponseDocumentBlock,
+        retrievedAt: String?,
+        type: ResponseWebFetchResultBlockType,
+        url: String
+    ) throws {
         (self.content, self.retrievedAt) = (content, retrievedAt)
         (self.type, self.url) = (type, url)
-            try sdkValidateRawEnum("type", self.type, ResponseWebFetchResultBlockType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, ResponseWebFetchResultBlockType.allCases.map(\.rawValue))
     }
 }
 
@@ -369,22 +464,34 @@ public indirect enum ResponseWebSearchToolResultBlockContent {
 }
 
 extension ResponseWebSearchToolResultBlockContent: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for ResponseWebSearchToolResultBlockContent")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for ResponseWebSearchToolResultBlockContent"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension ResponseWebSearchToolResultBlockContent {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(ResponseWebSearchToolResultError.self) { return .responseWebSearchToolResultError(value) }
-        if let value = try? container.decode([ResponseWebSearchResultBlock].self) { return .responseWebSearchResultBlockList(value) }
+        if let value = try? container
+            .decode(ResponseWebSearchToolResultError.self) {
+            return .responseWebSearchToolResultError(value)
+        }
+        if let value = try? container
+            .decode([ResponseWebSearchResultBlock].self) {
+            return .responseWebSearchResultBlockList(value)
+        }
         return nil
     }
 }
@@ -411,28 +518,38 @@ public struct ResponseWebFetchToolResultError: Codable {
         case type
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ResponseWebFetchToolResultError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.errorCode) else {
-            throw SdkValidationError(field: "error_code", code: "required", message: "Validation failed for 'error_code': value is required")
-        }
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        self.errorCode = try container.sdkDecodeRequired(.errorCode)
-        self.type = try container.sdkDecodeRequired(.type)
-            try sdkValidateRawEnum("type", self.type, ResponseWebFetchToolResultErrorType.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ResponseWebFetchToolResultError {
-    public init(errorCode: WebFetchToolResultErrorCode, type: ResponseWebFetchToolResultErrorType) throws {
+public extension ResponseWebFetchToolResultError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.errorCode) else {
+            throw SdkValidationError(
+                field: "error_code",
+                code: "required",
+                message: "Validation failed for 'error_code': value is required"
+            )
+        }
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        errorCode = try container.sdkDecodeRequired(.errorCode)
+        type = try container.sdkDecodeRequired(.type)
+        try sdkValidateRawEnum("type", type, ResponseWebFetchToolResultErrorType.allCases.map(\.rawValue))
+    }
+}
+
+public extension ResponseWebFetchToolResultError {
+    init(errorCode: WebFetchToolResultErrorCode, type: ResponseWebFetchToolResultErrorType) throws {
         (self.errorCode, self.type) = (errorCode, type)
-            try sdkValidateRawEnum("type", self.type, ResponseWebFetchToolResultErrorType.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("type", self.type, ResponseWebFetchToolResultErrorType.allCases.map(\.rawValue))
     }
 }
 
@@ -457,5 +574,7 @@ public struct ResponseWebSearchResultBlock: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }

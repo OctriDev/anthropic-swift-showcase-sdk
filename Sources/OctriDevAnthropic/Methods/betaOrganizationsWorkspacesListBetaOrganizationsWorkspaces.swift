@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaOrganizationsWorkspacesMethods {
-    /// Lists workspaces in the organization, with cursor-based pagination. Set `include_archived` to include archived workspaces, and use `before_id` or `after_id` to navigate pages. The response includes cursors and a `has_more` flag.
+public extension BetaOrganizationsWorkspacesMethods {
+    /// Lists workspaces in the organization, with cursor-based pagination. Set `include_archived` to include archived
+    /// workspaces, and use `before_id` or `after_id` to navigate pages. The response includes cursors and a `has_more`
+    /// flag.
     ///
     /// - Parameters:
     /// - includeArchived: Whether to include Workspaces that have been archived in
@@ -18,16 +20,49 @@ extension BetaOrganizationsWorkspacesMethods {
     ///   provided, returns the page of results immediately after this object.
     /// - limit: Number of items to return per page. Defaults to `20`. Ranges from
     ///   `1` to `1000`.
-    public static func listBetaOrganizationsWorkspaces(config: ClientConfig, includeArchived: Bool? = nil, beforeId: String? = nil, afterId: String? = nil, limit: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaListResponseWorkspace {
-        if let limit = limit {
+    static func listBetaOrganizationsWorkspaces(
+        config: ClientConfig,
+        includeArchived: Bool? = nil,
+        beforeId: String? = nil,
+        afterId: String? = nil,
+        limit: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaListResponseWorkspace {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 1000)
         }
 
-        return try (await sdkRequest("GET", "/v1/organizations/workspaces?beta=true", config: config, query: [
-            SdkQueryParameter("include_archived", value: includeArchived),
-            SdkQueryParameter("before_id", value: beforeId),
-            SdkQueryParameter("after_id", value: afterId),
-            SdkQueryParameter("limit", value: limit),
-        ], decoder: .json, operationId: "listBetaOrganizationsWorkspaces", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "GET",
+            "/v1/organizations/workspaces?beta=true",
+            config: config,
+            query: [
+                SdkQueryParameter("include_archived", value: includeArchived),
+                SdkQueryParameter("before_id", value: beforeId),
+                SdkQueryParameter("after_id", value: afterId),
+                SdkQueryParameter("limit", value: limit),
+            ],
+            decoder: .json,
+            operationId: "listBetaOrganizationsWorkspaces",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

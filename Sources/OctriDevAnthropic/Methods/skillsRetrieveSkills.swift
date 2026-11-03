@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension SkillsMethods {
-    /// Retrieves a skill by its unique identifier. Use `skill_id` to identify the skill and inspect its display name, source, timestamps, and latest version identifier. The identifier's format and length may change over time.
+public extension SkillsMethods {
+    /// Retrieves a skill by its unique identifier. Use `skill_id` to identify the skill and inspect its display name,
+    /// source, timestamps, and latest version identifier. The identifier's format and length may change over time.
     ///
     /// - Parameters:
     /// - skillId: Unique identifier for the skill. The format and length of IDs may
@@ -17,9 +18,40 @@ extension SkillsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func retrieveSkills(config: ClientConfig, skillId: String, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Skill {
-        return try (await sdkRequest("GET", ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId))].joined(), config: config, decoder: .json, operationId: "retrieveSkills", extraHeaders: sdkHeaders([
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": ErrorResponse.self, "401": ErrorResponse.self, "403": ErrorResponse.self, "404": ErrorResponse.self, "408": ErrorResponse.self, "409": ErrorResponse.self, "412": ErrorResponse.self, "413": ErrorResponse.self, "429": ErrorResponse.self, "431": ErrorResponse.self, "499": ErrorResponse.self, "500": ErrorResponse.self, "501": ErrorResponse.self, "503": ErrorResponse.self, "504": ErrorResponse.self, "529": ErrorResponse.self])).sdkResource()
+    static func retrieveSkills(
+        config: ClientConfig,
+        skillId: String,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Skill {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/skills/", sdkEncodePathSegment(sdkWireString(skillId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveSkills",
+            extraHeaders: sdkHeaders([
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": ErrorResponse.self,
+                "401": ErrorResponse.self,
+                "403": ErrorResponse.self,
+                "404": ErrorResponse.self,
+                "408": ErrorResponse.self,
+                "409": ErrorResponse.self,
+                "412": ErrorResponse.self,
+                "413": ErrorResponse.self,
+                "429": ErrorResponse.self,
+                "431": ErrorResponse.self,
+                "499": ErrorResponse.self,
+                "500": ErrorResponse.self,
+                "501": ErrorResponse.self,
+                "503": ErrorResponse.self,
+                "504": ErrorResponse.self,
+                "529": ErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

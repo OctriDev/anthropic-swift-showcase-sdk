@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaDeploymentRunsMethods {
-    /// Retrieves the record for a specific deployment run. Use `deployment_run_id` to identify the run and inspect its trigger context, agent snapshot, and session-creation outcome. The run record is append-only and does not track the session lifecycle.
+public extension BetaDeploymentRunsMethods {
+    /// Retrieves the record for a specific deployment run. Use `deployment_run_id` to identify the run and inspect its
+    /// trigger context, agent snapshot, and session-creation outcome. The run record is append-only and does not track
+    /// the session lifecycle.
     ///
     /// - Parameters:
     /// - deploymentRunId: Path parameter deployment_run_id
@@ -16,10 +18,41 @@ extension BetaDeploymentRunsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func retrieveBetaDeploymentRuns(config: ClientConfig, deploymentRunId: String, anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeploymentRun {
-        return try (await sdkRequest("GET", ["/v1/deployment_runs/", sdkEncodePathSegment(sdkWireString(deploymentRunId)), "?beta=true"].joined(), config: config, decoder: .json, operationId: "retrieveBetaDeploymentRuns", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+    static func retrieveBetaDeploymentRuns(
+        config: ClientConfig,
+        deploymentRunId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeploymentRun {
+        try await (sdkRequest(
+            "GET",
+            ["/v1/deployment_runs/", sdkEncodePathSegment(sdkWireString(deploymentRunId)), "?beta=true"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaDeploymentRuns",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

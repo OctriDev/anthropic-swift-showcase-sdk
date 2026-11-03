@@ -8,7 +8,35 @@ import Foundation
 #endif
 public enum BetaOrganizationsMeMethods {
     /// Retrieve information about the organization associated with the authenticated API key.
-    public static func retrieveBetaOrganizationsMe(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> BetaOrganizationSchema {
-        return try (await sdkRequest("GET", "/v1/organizations/me?beta=true", config: config, decoder: .json, operationId: "retrieveBetaOrganizationsMe", options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self, "529": BetaErrorResponse.self])).sdkResource()
+    public static func retrieveBetaOrganizationsMe(
+        config: ClientConfig,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaOrganizationSchema {
+        try await (sdkRequest(
+            "GET",
+            "/v1/organizations/me?beta=true",
+            config: config,
+            decoder: .json,
+            operationId: "retrieveBetaOrganizationsMe",
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+                "529": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

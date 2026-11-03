@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaSessionsEventsMethods {
-    /// Submits events to a session, including user messages, interrupts, and tool execution confirmations. Provide the required `events` array with the event payloads you want to send to the session. The response returns the events accepted for the session.
+public extension BetaSessionsEventsMethods {
+    /// Submits events to a session, including user messages, interrupts, and tool execution confirmations. Provide the
+    /// required `events` array with the event payloads you want to send to the session. The response returns the events
+    /// accepted for the session.
     ///
     /// - Parameters:
     /// - sessionId: Path parameter session_id
@@ -17,12 +19,45 @@ extension BetaSessionsEventsMethods {
     ///   `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act
     ///   on more than one Workspace. A credential that belongs to a specific
     ///   Workspace may omit it; if sent, it must match that Workspace.
-    public static func createBetaSessionsEvents(config: ClientConfig, sessionId: String, events: [BetaManagedAgentsEventParams], anthropicBeta: [AnthropicBeta]? = nil, anthropicWorkspaceId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsSendSessionEvents {
+    static func createBetaSessionsEvents(
+        config: ClientConfig,
+        sessionId: String,
+        events: [BetaManagedAgentsEventParams],
+        anthropicBeta: [AnthropicBeta]? = nil,
+        anthropicWorkspaceId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsSendSessionEvents {
         let requestBody = CreateBetaSessionsEventsRequestBody(events: events)
 
-        return try (await sdkRequest("POST", ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/events?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "createBetaSessionsEvents", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/events?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaSessionsEvents",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

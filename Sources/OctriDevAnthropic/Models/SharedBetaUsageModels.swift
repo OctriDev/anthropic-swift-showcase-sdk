@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaUsage domain models
+/// SharedBetaUsage domain models
 public indirect enum BetaUsageIterationsItem {
     case betaMessageIterationUsage(BetaMessageIterationUsage)
     case betaCompactionIterationUsage(BetaCompactionIterationUsage)
@@ -14,7 +14,6 @@ public indirect enum BetaUsageIterationsItem {
 }
 
 extension BetaUsageIterationsItem: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -22,12 +21,16 @@ extension BetaUsageIterationsItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -38,11 +41,13 @@ extension BetaUsageIterationsItem: Codable {
 extension BetaUsageIterationsItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "message": return .betaMessageIterationUsage(try BetaMessageIterationUsage(from: decoder))
-        case "compaction": return .betaCompactionIterationUsage(try BetaCompactionIterationUsage(from: decoder))
-        case "advisor_message": return .betaAdvisorMessageIterationUsage(try BetaAdvisorMessageIterationUsage(from: decoder))
-        case "fallback_message": return .betaFallbackMessageIterationUsage(try BetaFallbackMessageIterationUsage(from: decoder))
-        default: return nil
+        case "message": try .betaMessageIterationUsage(BetaMessageIterationUsage(from: decoder))
+        case "compaction": try .betaCompactionIterationUsage(BetaCompactionIterationUsage(from: decoder))
+        case "advisor_message": try .betaAdvisorMessageIterationUsage(BetaAdvisorMessageIterationUsage(from: decoder))
+        case "fallback_message": try .betaFallbackMessageIterationUsage(
+                BetaFallbackMessageIterationUsage(from: decoder)
+            )
+        default: nil
         }
     }
 }
@@ -111,39 +116,86 @@ public struct BetaUsage: Codable {
         case speed
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaUsage {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
-        self.cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
-        self.cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
-        self.fallbackCredit = try container.sdkDecodeNullable(.fallbackCredit)
-        self.inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
-        self.inputTokens = try container.sdkDecodeRequired(.inputTokens)
-        self.iterations = try container.sdkDecodeNullable(.iterations)
-        self.outputTokens = try container.sdkDecodeRequired(.outputTokens)
-        self.outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
-        self.serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
-        self.serviceTier = try container.sdkDecodeNullable(.serviceTier)
-        self.speed = try container.sdkDecodeNullable(.speed)
-            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaUsage {
-    public init(cacheCreation: BetaCacheCreation?, cacheCreationInputTokens: Int?, cacheReadInputTokens: Int?, fallbackCredit: BetaFallbackCreditUsage?, inferenceGeo: String?, inputTokens: Int, iterations: BetaIterationsUsage?, outputTokens: Int, outputTokensDetails: BetaOutputTokensDetails?, serverToolUse: BetaServerToolUsage?, serviceTier: BetaUsageServiceTierVariant0?, speed: BetaSpeed?) throws {
+public extension BetaUsage {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        cacheCreation = try container.sdkDecodeNullable(.cacheCreation)
+        cacheCreationInputTokens = try container.sdkDecodeNullable(.cacheCreationInputTokens)
+        cacheReadInputTokens = try container.sdkDecodeNullable(.cacheReadInputTokens)
+        fallbackCredit = try container.sdkDecodeNullable(.fallbackCredit)
+        inferenceGeo = try container.sdkDecodeNullable(.inferenceGeo)
+        inputTokens = try container.sdkDecodeRequired(.inputTokens)
+        iterations = try container.sdkDecodeNullable(.iterations)
+        outputTokens = try container.sdkDecodeRequired(.outputTokens)
+        outputTokensDetails = try container.sdkDecodeNullable(.outputTokensDetails)
+        serverToolUse = try container.sdkDecodeNullable(.serverToolUse)
+        serviceTier = try container.sdkDecodeNullable(.serviceTier)
+        speed = try container.sdkDecodeNullable(.speed)
+        try validateRange(
+            "input_tokens",
+            Double(inputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "output_tokens",
+            Double(outputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+    }
+}
+
+public extension BetaUsage {
+    init(
+        cacheCreation: BetaCacheCreation?,
+        cacheCreationInputTokens: Int?,
+        cacheReadInputTokens: Int?,
+        fallbackCredit: BetaFallbackCreditUsage?,
+        inferenceGeo: String?,
+        inputTokens: Int,
+        iterations: BetaIterationsUsage?,
+        outputTokens: Int,
+        outputTokensDetails: BetaOutputTokensDetails?,
+        serverToolUse: BetaServerToolUsage?,
+        serviceTier: BetaUsageServiceTierVariant0?,
+        speed: BetaSpeed?
+    ) throws {
         (self.cacheCreation, self.cacheCreationInputTokens) = (cacheCreation, cacheCreationInputTokens)
         (self.cacheReadInputTokens, self.fallbackCredit) = (cacheReadInputTokens, fallbackCredit)
         (self.inferenceGeo, self.inputTokens) = (inferenceGeo, inputTokens)
         (self.iterations, self.outputTokens) = (iterations, outputTokens)
         (self.outputTokensDetails, self.serverToolUse) = (outputTokensDetails, serverToolUse)
         (self.serviceTier, self.speed) = (serviceTier, speed)
-            try validateRange("input_tokens", Double(self.inputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
-            try validateRange("output_tokens", Double(self.outputTokens), min: 0, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        try validateRange(
+            "input_tokens",
+            Double(self.inputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
+        try validateRange(
+            "output_tokens",
+            Double(self.outputTokens),
+            min: 0,
+            max: nil,
+            exclusiveMin: nil,
+            exclusiveMax: nil,
+            multipleOf: nil
+        )
     }
 }
 
@@ -151,14 +203,17 @@ extension BetaUsage {
 public struct BetaUsageServiceTierVariant0: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let standard = BetaUsageServiceTierVariant0(rawValue: "standard")
     public static let priority = BetaUsageServiceTierVariant0(rawValue: "priority")
     public static let batch = BetaUsageServiceTierVariant0(rawValue: "batch")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

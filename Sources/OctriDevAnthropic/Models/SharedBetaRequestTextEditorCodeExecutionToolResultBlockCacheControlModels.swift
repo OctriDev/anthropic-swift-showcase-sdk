@@ -3,9 +3,8 @@
 
 import Foundation
 
-// SharedBetaRequestText domain models
+/// SharedBetaRequestText domain models
 extension BetaRequestTextEditorCodeExecutionToolResultBlockCacheControl: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -13,12 +12,16 @@ extension BetaRequestTextEditorCodeExecutionToolResultBlockCacheControl: Codable
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -29,8 +32,8 @@ extension BetaRequestTextEditorCodeExecutionToolResultBlockCacheControl: Codable
 extension BetaRequestTextEditorCodeExecutionToolResultBlockCacheControl {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "ephemeral": return .betaCacheControlEphemeral(try BetaCacheControlEphemeral(from: decoder))
-        default: return nil
+        case "ephemeral": try .betaCacheControlEphemeral(BetaCacheControlEphemeral(from: decoder))
+        default: nil
         }
     }
 }
@@ -46,17 +49,21 @@ extension BetaRequestTextEditorCodeExecutionToolResultBlockCacheControl {
 }
 
 /// Required enumerated value serialized in the `file_type` wire field.
-public struct BetaRequestTextEditorCodeExecutionViewResultBlockFileType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct BetaRequestTextEditorCodeExecutionViewResultBlockFileType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let text = BetaRequestTextEditorCodeExecutionViewResultBlockFileType(rawValue: "text")
     public static let image = BetaRequestTextEditorCodeExecutionViewResultBlockFileType(rawValue: "image")
     public static let pdf = BetaRequestTextEditorCodeExecutionViewResultBlockFileType(rawValue: "pdf")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

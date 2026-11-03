@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum BetaDeploymentsMethods {}
 
-extension BetaDeploymentsMethods {
-    public struct CreateBetaDeploymentsOptions: Codable {
+public extension BetaDeploymentsMethods {
+    struct CreateBetaDeploymentsOptions: Codable {
         public var name: String
         public var agent: BetaManagedAgentsAgentUnionParams
         public var environmentId: String
@@ -23,7 +23,12 @@ extension BetaDeploymentsMethods {
         public var schedule: SdkOptional<BetaManagedAgentsScheduleParams>?
         public var budget: SdkOptional<BetaManagedAgentsBudget>?
 
-        public init(name: String, agent: BetaManagedAgentsAgentUnionParams, environmentId: String, initialEvents: [BetaManagedAgentsDeploymentInitialEventParams]) {
+        public init(
+            name: String,
+            agent: BetaManagedAgentsAgentUnionParams,
+            environmentId: String,
+            initialEvents: [BetaManagedAgentsDeploymentInitialEventParams]
+        ) {
             self.name = name
             self.agent = agent
             self.environmentId = environmentId
@@ -31,7 +36,9 @@ extension BetaDeploymentsMethods {
         }
     }
 
-    /// Creates a deployment that binds an agent to an environment, initial events, and optional resources or a recurring schedule. Provide `name`, `agent`, `environment_id`, and at least one `initial_event`; the agent and environment must exist and the agent must not be archived.
+    /// Creates a deployment that binds an agent to an environment, initial events, and optional resources or a
+    /// recurring schedule. Provide `name`, `agent`, `environment_id`, and at least one `initial_event`; the agent and
+    /// environment must exist and the agent must not be archived.
     ///
     /// - Parameters:
     /// - name: Human-readable name for the deployment.
@@ -62,16 +69,46 @@ extension BetaDeploymentsMethods {
     ///   uncapped. The deployment agent's model must have a public list price, or the
     ///   request is rejected; a multiagent roster is re-validated in full when each
     ///   fire copies the cap, which fails closed the same way.
-    public static func createBetaDeployments(config: ClientConfig, options: CreateBetaDeploymentsOptions, requestOptions: RequestOptions? = nil) async throws -> BetaManagedAgentsDeployment {
+    static func createBetaDeployments(
+        config: ClientConfig,
+        options: CreateBetaDeploymentsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaManagedAgentsDeployment {
         try validateLength("name", options.name, min: 1, max: 256)
 
         try validateLength("environment_id", options.environmentId, min: 1, max: 128)
 
         let requestBody = CreateBetaDeploymentsRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/v1/deployments?beta=true", config: config, body: requestBody, decoder: .json, operationId: "createBetaDeployments", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
-            ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            "/v1/deployments?beta=true",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "createBetaDeployments",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(options.anthropicBeta)),
+                ("anthropic-workspace-id", sdkHeaderValue(options.anthropicWorkspaceId)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

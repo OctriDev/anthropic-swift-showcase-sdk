@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BetaUserProfilesMethods {
-    /// Updates the supplied attributes of a user profile while leaving omitted attributes unchanged. Use `metadata` to merge key-value updates, and provide a complete RFC 3339 timestamp when setting `external_user_onboarded_at`; once set, that timestamp cannot be cleared.
+public extension BetaUserProfilesMethods {
+    /// Updates the supplied attributes of a user profile while leaving omitted attributes unchanged. Use `metadata` to
+    /// merge key-value updates, and provide a complete RFC 3339 timestamp when setting `external_user_onboarded_at`;
+    /// once set, that timestamp cannot be cleared.
     ///
     /// - Parameters:
     /// - userProfileId: Path parameter user_profile_id
@@ -25,11 +27,53 @@ extension BetaUserProfilesMethods {
     ///   time. Omit to leave unchanged; once set, the value cannot be cleared and
     ///   `null` is rejected. Must be a complete RFC 3339 timestamp no more than 1
     ///   minute in the future.
-    public static func updateBetaUserProfiles(config: ClientConfig, userProfileId: String, anthropicBeta: [AnthropicBeta]? = nil, externalId: SdkOptional<String>? = nil, metadata: [String: String]? = nil, name: SdkOptional<String>? = nil, accessType: SdkOptional<BetaUserProfileAccessType>? = nil, externalUserOnboardedAt: BetaTimestamp? = nil, requestOptions: RequestOptions? = nil) async throws -> BetaUserProfile {
-        let requestBody = UpdateBetaUserProfilesRequestBody(externalId: externalId, metadata: metadata, name: name, accessType: accessType, externalUserOnboardedAt: externalUserOnboardedAt)
+    static func updateBetaUserProfiles(
+        config: ClientConfig,
+        userProfileId: String,
+        anthropicBeta: [AnthropicBeta]? = nil,
+        externalId: SdkOptional<String>? = nil,
+        metadata: [String: String]? = nil,
+        name: SdkOptional<String>? = nil,
+        accessType: SdkOptional<BetaUserProfileAccessType>? = nil,
+        externalUserOnboardedAt: BetaTimestamp? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BetaUserProfile {
+        let requestBody = UpdateBetaUserProfilesRequestBody(
+            externalId: externalId,
+            metadata: metadata,
+            name: name,
+            accessType: accessType,
+            externalUserOnboardedAt: externalUserOnboardedAt
+        )
 
-        return try (await sdkRequest("POST", ["/v1/user_profiles/", sdkEncodePathSegment(sdkWireString(userProfileId)), "?beta=true"].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateBetaUserProfiles", extraHeaders: sdkHeaders([
-            ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
-        ]), options: requestOptions, errors: ["400": BetaErrorResponse.self, "401": BetaErrorResponse.self, "403": BetaErrorResponse.self, "404": BetaErrorResponse.self, "408": BetaErrorResponse.self, "409": BetaErrorResponse.self, "412": BetaErrorResponse.self, "413": BetaErrorResponse.self, "429": BetaErrorResponse.self, "431": BetaErrorResponse.self, "499": BetaErrorResponse.self, "500": BetaErrorResponse.self, "501": BetaErrorResponse.self, "503": BetaErrorResponse.self, "504": BetaErrorResponse.self])).sdkResource()
+        return try await (sdkRequest(
+            "POST",
+            ["/v1/user_profiles/", sdkEncodePathSegment(sdkWireString(userProfileId)), "?beta=true"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "updateBetaUserProfiles",
+            extraHeaders: sdkHeaders([
+                ("anthropic-beta", sdkHeaderValue(anthropicBeta)),
+            ]),
+            options: requestOptions,
+            errors: [
+                "400": BetaErrorResponse.self,
+                "401": BetaErrorResponse.self,
+                "403": BetaErrorResponse.self,
+                "404": BetaErrorResponse.self,
+                "408": BetaErrorResponse.self,
+                "409": BetaErrorResponse.self,
+                "412": BetaErrorResponse.self,
+                "413": BetaErrorResponse.self,
+                "429": BetaErrorResponse.self,
+                "431": BetaErrorResponse.self,
+                "499": BetaErrorResponse.self,
+                "500": BetaErrorResponse.self,
+                "501": BetaErrorResponse.self,
+                "503": BetaErrorResponse.self,
+                "504": BetaErrorResponse.self,
+            ]
+        )).sdkResource()
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBetaResponseContext domain models
+/// SharedBetaResponseContext domain models
 public indirect enum BetaResponseContextManagementAppliedEditsItem {
     case betaResponseClearToolUses20250919Edit(BetaResponseClearToolUses20250919Edit)
     case betaResponseClearThinking20251015Edit(BetaResponseClearThinking20251015Edit)
@@ -12,7 +12,6 @@ public indirect enum BetaResponseContextManagementAppliedEditsItem {
 }
 
 extension BetaResponseContextManagementAppliedEditsItem: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "type"
     }
@@ -20,12 +19,16 @@ extension BetaResponseContextManagementAppliedEditsItem: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -37,10 +40,10 @@ extension BetaResponseContextManagementAppliedEditsItem {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
         case "clear_tool_uses_20250919":
-        return .betaResponseClearToolUses20250919Edit(try BetaResponseClearToolUses20250919Edit(from: decoder))
+            try .betaResponseClearToolUses20250919Edit(BetaResponseClearToolUses20250919Edit(from: decoder))
         case "clear_thinking_20251015":
-        return .betaResponseClearThinking20251015Edit(try BetaResponseClearThinking20251015Edit(from: decoder))
-        default: return nil
+            try .betaResponseClearThinking20251015Edit(BetaResponseClearThinking20251015Edit(from: decoder))
+        default: nil
         }
     }
 }
@@ -65,21 +68,27 @@ public struct BetaResponseContextManagement: Codable {
         case appliedEdits = "applied_edits"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BetaResponseContextManagement {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.appliedEdits) else {
-            throw SdkValidationError(field: "applied_edits", code: "required", message: "Validation failed for 'applied_edits': value is required")
-        }
-        self.appliedEdits = try container.sdkDecodeRequired(.appliedEdits)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BetaResponseContextManagement {
-    public init(appliedEdits: [BetaResponseContextManagementAppliedEditsItem]) {
+public extension BetaResponseContextManagement {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.appliedEdits) else {
+            throw SdkValidationError(
+                field: "applied_edits",
+                code: "required",
+                message: "Validation failed for 'applied_edits': value is required"
+            )
+        }
+        appliedEdits = try container.sdkDecodeRequired(.appliedEdits)
+    }
+}
+
+public extension BetaResponseContextManagement {
+    init(appliedEdits: [BetaResponseContextManagementAppliedEditsItem]) {
         self.appliedEdits = appliedEdits
     }
 }

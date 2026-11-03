@@ -37,10 +37,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.messages.batches.create(
-            requests: decoded(sdkMethodFixture122Value1),
-            anthropicUserProfileId: decoded("\"anthropic-user-profile-1\""),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                requests: decoded(sdkMethodFixture122Value1),
+                anthropicUserProfileId: decoded("\"anthropic-user-profile-1\""),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -62,7 +62,11 @@ extension SdkMethodTests {
         }
         _ = client
         let stream = try await client.messages.createStream(
-            options: MessagesMethods.CreateMessagesStreamOptions(model: decoded("\"claude-opus-5\""), messages: decoded("[{\"content\":\"Hello, world\",\"role\":\"user\"}]"), maxTokens: decoded("1024"))
+            options: MessagesMethods.CreateMessagesStreamOptions(
+                model: decoded("\"claude-opus-5\""),
+                messages: decoded("[{\"content\":\"Hello, world\",\"role\":\"user\"}]"),
+                maxTokens: decoded("1024")
+            )
         )
         var events = stream.makeAsyncIterator()
         guard let actual = try await events.next() else {
@@ -110,10 +114,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.skills.create(
-            files: [SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")],
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\""),
-            displayName: decoded("\"Example Name\"")
-        )
+                files: [SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")],
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\""),
+                displayName: decoded("\"Example Name\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -160,10 +164,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.skills.versions.create(
-            skillId: decoded("\"skill-1\""),
-            files: [SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")],
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                skillId: decoded("\"skill-1\""),
+                files: [SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")],
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -210,10 +214,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.environments.delete(
-            environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                environmentId: decoded("\"env_011CZkZ9X2dpNyB7HsEFoRfW\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -260,10 +264,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.files.delete(
-            fileId: decoded("\"file-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                fileId: decoded("\"file-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -310,10 +314,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.delete(
-            memoryStoreId: decoded("\"memory_store-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                memoryStoreId: decoded("\"memory_store-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -351,7 +355,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testDeleteBetaMemoryStoresMemoriesDeleteBetaMemoryStoresMemories400ReachesMockAndDecodesResponse() async throws {
+    func testDeleteBetaMemoryStoresMemoriesDeleteBetaMemoryStoresMemories400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -362,12 +367,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.memoryStores.memories.delete(
-            memoryStoreId: decoded("\"memory_store-1\""),
-            memoryId: decoded("\"memory-1\""),
-            expectedContentSha256: decoded("\"expected_content_sha256\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                memoryStoreId: decoded("\"memory_store-1\""),
+                memoryId: decoded("\"memory-1\""),
+                expectedContentSha256: decoded("\"expected_content_sha256\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -414,10 +419,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.messages.batches.delete(
-            messageBatchId: decoded("\"message_batch-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]"),
-            anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
-        )
+                messageBatchId: decoded("\"message_batch-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]"),
+                anthropicWorkspaceId: decoded("\"wrkspc_011CZkZaBF1tNoB5wlCeusgy\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -433,7 +438,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testDeleteBetaOrganizationsExternalKeysDeleteBetaOrganizationsExternalKeysReachesMockAndDecodesResponse() async throws {
+    func testDeleteBetaOrganizationsExternalKeysDeleteBetaOrganizationsExternalKeysReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -451,7 +457,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testDeleteBetaOrganizationsExternalKeysDeleteBetaOrganizationsExtX44a262d5f7ReachesMockAndDecodesResponse() async throws {
+    func testDeleteBetaOrganizationsExternalKeysDeleteBetaOrganizationsExtX44a262d5f7ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -462,8 +469,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.externalKeys.delete(
-            externalKeyId: decoded("\"external_key-1\"")
-        )
+                externalKeyId: decoded("\"external_key-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -479,7 +486,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testDeleteBetaOrganizationsFederationRulesWorkspacesDeleteBetaOrgX2bfe196435ReachesMockAndDecodesResponse() async throws {
+    func testDeleteBetaOrganizationsFederationRulesWorkspacesDeleteBetaOrgX2bfe196435ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -499,7 +507,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testDeleteBetaOrganizationsFederationRulesWorkspacesDeleteBetaOrgXfba4e90a40ReachesMockAndDecodesResponse() async throws {
+    func testDeleteBetaOrganizationsFederationRulesWorkspacesDeleteBetaOrgXfba4e90a40ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -510,10 +519,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.beta.organizations.federationRules.workspaces.delete(
-            federationRuleId: decoded("\"federation_rule-1\""),
-            workspaceId: decoded("\"workspace-1\""),
-            anthropicBeta: decoded("[\"anthropic-beta\"]")
-        )
+                federationRuleId: decoded("\"federation_rule-1\""),
+                workspaceId: decoded("\"workspace-1\""),
+                anthropicBeta: decoded("[\"anthropic-beta\"]")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
